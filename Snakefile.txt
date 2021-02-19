@@ -1,5 +1,8 @@
+SAMPLES=["INPUT SAMPLE NUMBERS HERE", "ANOTHER SAMPLE FOR EXAMPLE"]
+
 rule all:
-    input: "{sample}.bw"
+    input: 
+        expand("{sample}.bw", sample=SAMPLES)
 
 rule download_data:
     conda: ############### SRA_toolkit
