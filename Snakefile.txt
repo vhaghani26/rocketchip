@@ -8,7 +8,6 @@ rule all:
 
 rule download_data:
     message: "Downloading raw data files"
-    input: {sample}
     output: protected("{sample}.sra")
     shell: "prefetch {sample}"
 
