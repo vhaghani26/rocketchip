@@ -1,17 +1,18 @@
-SAMPLES=["INPUT SAMPLE NUMBERS HERE", "ANOTHER SAMPLE FOR EXAMPLE"]
+# List of SRA numbers for samples of interest
+# Modify SAMPLES for personal use
+SAMPLES=["SRR5785190"]
 
 rule all:
     input: 
         expand("{sample}.bw", sample=SAMPLES)
 
 rule download_data:
-    conda: ############### SRA_toolkit
+    message: "Downloading raw data files"
     input: ############### list of desired SRAs
-    output: "{sample}.sra"
+    output: protected("{sample}.sra")
     shell: "prefetch {input}"
 
 rule split_paired_reads:
-    conda: ###### SRA_toolkit
     input: "{sample}.sra"
     output:
     shell: ##### "fastq-dump ~/Code/Rotation_2_Project/SRA_Toolkit/sra/{SRA Code}.sra --split-files --outdir ../files"
@@ -41,13 +42,11 @@ rule delete_chromosome_files:
     shell: "rm chr*.fa   " ###### 
     
 rule set_alignment_reference:
-    conda: ############ BWA
     input: "mm39.fa"
     output:
     shell: "bwa index -p mm39 -a bwtsw {input}" 
 
 rule align_reads:
-    conda: ###### BWA
     input:
         r1 = "{sample}_1.fastq.gz",
         r2 = "{sample}_2.fastq.gz"
@@ -55,37 +54,31 @@ rule align_reads:
     shell: "bwa mem mm39 {sample}_1.fastq.gz {sample}_2.fastq.gz > {sample}.sam"
     
 rule sam_to_bam:
-    conda: ############samtools
     input: "{sample}.sam"
     output: "{sample}.bam"
     shell: "samtools view -b {input} > {output}"
 
 rule sam_fixmate:
-    conda:############samtools
     input: "{sample}.bam"
     output: "{sample}.namesorted.fixmate.bam"
     shell: "samtools fixmate -rcm -O bam {input} {output}"
 
 rule sam_sort:
-    conda:############samtools
     input: "{sample}.namesorted.fixmate.bam"
     output: "{sample}.coorsorted.fixmate.bam "
     shell: "samtools sort -o {output} {input}"
 
 rule sam_markdup:
-    conda:############samtools
     input: "{sample}.coorsorted.fixmate.bam"
     output: "{sample}.coorsorted.dedup.bam"
     shell: "samtools markdup -r --mode s {input} {output}"
 
 rule sam_index:
-    conda:############samtools
     input: "{sample}.coorsorted.dedup.bam"
     output: "{sample}.indexed.dedup.bam"
     shell: "samtools index {input}"
 
 rule bam_to_bigwig:
-    conda: ##########deeptools
     input: "{sample}.indexed.dedup.bam"
     output: "{sample}.bw"
     shell: "bamCoverage -b {input} -o {output}"
