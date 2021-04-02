@@ -6,15 +6,19 @@ rule all:
     input: 
         expand("{sample}.bw", sample=SAMPLES)
 
+# This rule currently works in dry run, but I need the code to actually work - figure out for loop stuff
 rule download_data:
     message: "Downloading raw data files"
     output: protected("{sample}.sra")
-    shell: "prefetch {sample}"
+    shell: """
+        for sample in SAMPLES:
+            print {wildcards.sample}
+    """
 
 rule split_paired_reads:
     input: "{sample}.sra"
     output:
-    shell: ##### "fastq-dump ~/Code/Rotation_2_Project/SRA_Toolkit/sra/{SRA Code}.sra --split-files --outdir ../files"
+    shell: ### "fastq-dump {sample}.sra --split-files --outdir ../files"
 
 rule gzip_data:
     input: 
