@@ -1,0 +1,2 @@
+SyntaxError in line 14 of /share/korflab/home/viki/mechip2/Snakefile:
+Unexpected keyword SRA_code in rule definition (Snakefile, line 14)
