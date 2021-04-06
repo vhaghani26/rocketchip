@@ -1,85 +1,86 @@
 # Modify SAMPLES for personal use by changing or adding SRA number of interest
-# You MUST add the SRA code into the SAMPLES list below as well as into the rule download_data
 SAMPLES=["SRR5785190"]
+
+wildcard_constraints:
+    sra = '\w+'
 
 rule all:
     input: 
-        expand("{sample}.bw", sample=SAMPLES)
+        expand("{sample}.sra", sample=SAMPLES)
 
 rule download_data:
     message: "Downloading raw data files"
+    input: "{wildcard.sra}
     output: protected("{sample}.sra")
-    shell: """
-        prefetch SRR5785190
-    """
+    shell: "prefetch {input}"
 
-rule split_paired_reads:
-    input: "{sample}.sra"
-    output:
-    shell: "fastq-dump {sample}.sra --split-files --outdir ../files"
+#rule split_paired_reads:
+#    input: "{sample}.sra"
+#    output:
+#    shell: "fastq-dump {sample}.sra --split-files --outdir ../files"
 
-rule gzip_data:
-    input: 
-    output:
-    shell: "gzip files/SRR*"
+#rule gzip_data:
+#    input: 
+#    output:
+#    shell: "gzip files/SRR*"
 
-rule download_genome:
-    output: "mm39.chromFa.tar.gz"
-    shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz"
+#rule download_genome:
+#    output: "mm39.chromFa.tar.gz"
+#    shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz"
     
-rule decompress_genome:
-    input: "mm39.chromFa.tar.gz"
-    output: 
-    shell: "tar zvfx {input}"
+#rule decompress_genome:
+#    input: "mm39.chromFa.tar.gz"
+#    output: 
+#    shell: "tar zvfx {input}"
 
-rule concatenate_chromosomes:
-    input: 
-    output: protected("mm39.fa")
-    shell: "cat *.fa > {output}" 
+#rule concatenate_chromosomes:
+#    input: 
+#    output: protected("mm39.fa")
+#    shell: "cat *.fa > {output}" 
 
-rule delete_chromosome_files:
-    input:
-    output:
-    shell: "rm chr*.fa   "  
+#rule delete_chromosome_files:
+#    input:
+#    output:
+#    shell: "rm chr*.fa   "  
     
-rule set_alignment_reference:
-    input: "mm39.fa"
-    output:
-    shell: "bwa index -p mm39 -a bwtsw {input}" 
+#rule set_alignment_reference:
+#    input: "mm39.fa"
+#    output:
+#    shell: "bwa index -p mm39 -a bwtsw {input}" 
 
-rule align_reads:
-    input:
-        r1 = "{sample}_1.fastq.gz",
-        r2 = "{sample}_2.fastq.gz"
-    output: "{sample}.sam"
-    shell: "bwa mem mm39 {sample}_1.fastq.gz {sample}_2.fastq.gz > {sample}.sam"
+#rule align_reads:
+#    input:
+#        r1 = "{sample}_1.fastq.gz",
+#        r2 = "{sample}_2.fastq.gz"
+#    output: "{sample}.sam"
+#    shell: "bwa mem mm39 {sample}_1.fastq.gz {sample}_2.fastq.gz > {sample}.sam"
     
-rule sam_to_bam:
-    input: "{sample}.sam"
-    output: "{sample}.bam"
-    shell: "samtools view -b {input} > {output}"
+#rule sam_to_bam:
+#    input: "{sample}.sam"
+#    output: "{sample}.bam"
+#    shell: "samtools view -b {input} > {output}"
 
-rule sam_fixmate:
-    input: "{sample}.bam"
-    output: "{sample}.namesorted.fixmate.bam"
-    shell: "samtools fixmate -rcm -O bam {input} {output}"
+#rule sam_fixmate:
+#    input: "{sample}.bam"
+#    output: "{sample}.namesorted.fixmate.bam"
+#    shell: "samtools fixmate -rcm -O bam {input} {output}"
 
-rule sam_sort:
-    input: "{sample}.namesorted.fixmate.bam"
-    output: "{sample}.coorsorted.fixmate.bam "
-    shell: "samtools sort -o {output} {input}"
+#rule sam_sort:
+#    input: "{sample}.namesorted.fixmate.bam"
+#    output: "{sample}.coorsorted.fixmate.bam "
+#    shell: "samtools sort -o {output} {input}"
 
-rule sam_markdup:
-    input: "{sample}.coorsorted.fixmate.bam"
-    output: "{sample}.coorsorted.dedup.bam"
-    shell: "samtools markdup -r --mode s {input} {output}"
+#rule sam_markdup:
+#    input: "{sample}.coorsorted.fixmate.bam"
+#    output: "{sample}.coorsorted.dedup.bam"
+#    shell: "samtools markdup -r --mode s {input} {output}"
 
-rule sam_index:
-    input: "{sample}.coorsorted.dedup.bam"
-    output: "{sample}.indexed.dedup.bam"
-    shell: "samtools index {input}"
+#rule sam_index:
+#    input: "{sample}.coorsorted.dedup.bam"
+#    output: "{sample}.indexed.dedup.bam"
+#    shell: "samtools index {input}"
 
-rule bam_to_bigwig:
-    input: "{sample}.indexed.dedup.bam"
-    output: "{sample}.bw"
-    shell: "bamCoverage -b {input} -o {output}"
+#rule bam_to_bigwig:
+#    input: "{sample}.indexed.dedup.bam"
+#    output: "{sample}.bw"
+#    shell: "bamCoverage -b {input} -o {output}"
