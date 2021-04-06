@@ -1,4 +1,0 @@
-Building DAG of jobs...
-MissingInputException in line 11 of /share/korflab/home/viki/mechip2/Snakefile:
-Missing input files for rule download_data:
-{wildcard.sample}
