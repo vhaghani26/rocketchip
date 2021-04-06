@@ -1,0 +1,19 @@
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	download_genome
+	1
+Select jobs to execute...
+
+[Tue Apr  6 16:15:09 2021]
+Job 0: Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser
+
+wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz -O 01_raw_data/mm39.chromFa.tar.gz
+Write-protecting output file 01_raw_data/mm39.chromFa.tar.gz.
+[Tue Apr  6 16:15:19 2021]
+Finished job 0.
+1 of 1 steps (100%) done
+Complete log: /share/korflab/home/viki/mechip2/.snakemake/log/2021-04-06T161508.618242.snakemake.log

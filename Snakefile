@@ -1,18 +1,19 @@
 # Modify SAMPLES for personal use by changing or adding SRA number of interest
 SAMPLES=["SRR5785190"]
 
-wildcard_constraints:
-    sra = '\w+'
+#wildcard_constraints:
+#    sra = '\w+'
 
 rule all:
     input: 
         expand("{sample}.sra", sample=SAMPLES)
 
-rule download_data:
-    message: "Downloading raw data files"
-    input: "{wildcard.sra}"
-    output: protected("{sample}.sra")
-    shell: "prefetch {input}"
+# This rule is still the bane of my existence
+#rule download_data:
+#    message: "Downloading raw data files"
+#    input: "{wildcard.sra}"
+#    output: protected("{sample}.sra")
+#    shell: "prefetch {input}"
 
 #rule split_paired_reads:
 #    input: "{sample}.sra"
@@ -24,9 +25,10 @@ rule download_data:
 #    output:
 #    shell: "gzip files/SRR*"
 
-#rule download_genome:
-#    output: "mm39.chromFa.tar.gz"
-#    shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz"
+rule download_genome:
+    message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
+    output: protected("01_raw_data/mm39.chromFa.tar.gz")
+    shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz -O {output}"
     
 #rule decompress_genome:
 #    input: "mm39.chromFa.tar.gz"
