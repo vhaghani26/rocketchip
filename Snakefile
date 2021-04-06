@@ -11,17 +11,17 @@ rule all:
 rule download_data:
     message: "Downloading raw data files"
     output: protected("{wildcard.sample}.sra")
-    shell: "prefetch {wildcard.sample}"
+    shell: "prefetch {output}"
 
 rule split_paired_reads:
     input: "{sample}.sra"
     output:
-    shell: ### "fastq-dump {sample}.sra --split-files --outdir ../files"
+    shell: "fastq-dump {sample}.sra --split-files --outdir ../files"
 
 rule gzip_data:
     input: 
     output:
-    shell: #### "gzip files/SRR*"
+    shell: "gzip files/SRR*"
 
 rule download_genome:
     output: "mm39.chromFa.tar.gz"
@@ -29,18 +29,18 @@ rule download_genome:
     
 rule decompress_genome:
     input: "mm39.chromFa.tar.gz"
-    output: #######
+    output: 
     shell: "tar zvfx {input}"
 
 rule concatenate_chromosomes:
-    input: ######
+    input: 
     output: protected("mm39.fa")
-    shell: "cat *.fa > {output}" #######
+    shell: "cat *.fa > {output}" 
 
 rule delete_chromosome_files:
     input:
     output:
-    shell: "rm chr*.fa   " ###### 
+    shell: "rm chr*.fa   "  
     
 rule set_alignment_reference:
     input: "mm39.fa"
