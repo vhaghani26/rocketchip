@@ -27,13 +27,12 @@ rule all:
 
 rule download_genome:
     message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
-    output: protected("01_raw_data/mm39.chromFa.tar.gz")
+    output: "01_raw_data/mm39.chromFa.tar.gz"
     shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz -O {output}"
     
-#rule decompress_genome:
-#    input: "mm39.chromFa.tar.gz"
-#    output: 
-#    shell: "tar zvfx {input}"
+rule decompress_genome:
+    input: "01_raw_data/mm39.chromFa.tar.gz"
+    shell: "tar zvfx {input}"
 
 #rule concatenate_chromosomes:
 #    input: 
