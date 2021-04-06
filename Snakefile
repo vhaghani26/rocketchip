@@ -1,4 +1,5 @@
 # Modify SAMPLES for personal use by changing or adding SRA number of interest
+# You MUST add the SRA code into the SAMPLES list below as well as into the rule download_data
 SAMPLES=["SRR5785190"]
 
 rule all:
@@ -7,10 +8,10 @@ rule all:
 
 rule download_data:
     message: "Downloading raw data files"
-    params:
-        sra = "{sample}"
     output: protected("{sample}.sra")
-    shell: "prefetch {params.sra}"
+    shell: """
+        prefetch SRR5785190
+    """
 
 rule split_paired_reads:
     input: "{sample}.sra"
