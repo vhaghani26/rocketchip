@@ -1,18 +1,17 @@
-# List of SRA numbers for samples of interest
-# Modify SAMPLES for personal use
+# Modify SAMPLES for personal use by changing or adding SRA number of interest
 SAMPLES=["SRR5785190"]
+
+wildcard_constraints:
+    sample = '\w+'
 
 rule all:
     input: 
-        expand("{sample}.bw", sample=SAMPLES)
+        expand("{wildcard.sample}.bw", wildcard.sample=SAMPLES)
 
-# This rule currently works in dry run, but I need the code to actually work - figure out for loop stuff
 rule download_data:
     message: "Downloading raw data files"
-    output: protected("{sample}.sra")
-    params: 
-	SRA_code = "{sample}", sample=SAMPLES)"
-    shell: "prefetch {params.SRA_code}"
+    output: protected("{wildcard.sample}.sra")
+    shell: "prefetch {wildcard.sample}"
 
 rule split_paired_reads:
     input: "{sample}.sra"
