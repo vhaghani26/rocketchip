@@ -10,7 +10,7 @@ rule all:
 
 rule download_data:
     message: "Downloading raw data files"
-    input: "{wildcard.sra}
+    input: "{wildcard.sra}"
     output: protected("{sample}.sra")
     shell: "prefetch {input}"
 
