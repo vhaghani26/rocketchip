@@ -1,0 +1,2 @@
+SyntaxError in line 20 of /share/korflab/home/viki/mechip2/Snakefile:
+Command must be given as string after the shell keyword. (Snakefile, line 20)

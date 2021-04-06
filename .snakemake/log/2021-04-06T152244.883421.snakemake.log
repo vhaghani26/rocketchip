@@ -1,0 +1,2 @@
+SyntaxError in line 9 of /share/korflab/home/viki/mechip2/Snakefile:
+expression cannot contain assignment, perhaps you meant "=="?
