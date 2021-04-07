@@ -1,19 +1,15 @@
 # Modify SAMPLES for personal use by changing or adding SRA number of interest
 SAMPLES=["SRR5785190"]
 
-#wildcard_constraints:
-#    sra = '\w+'
-
 rule all:
     input: 
         expand("{sample}.sra", sample=SAMPLES)
 
-# This rule is still the bane of my existence
-#rule download_data:
-#    message: "Downloading raw data files"
-#    input: "{wildcard.sra}"
-#    output: protected("{sample}.sra")
-#    shell: "prefetch {input}"
+#  This rule is still the bane of my existence
+rule download_data:
+    message: "Downloading raw data files"
+    output: protected("{sample}.sra")
+    shell: "prefetch {output}"
 
 #rule split_paired_reads:
 #    input: "{sample}.sra"
