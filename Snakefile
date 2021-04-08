@@ -11,10 +11,11 @@ rule download_data:
             for line in a_file:
                 if not line.lstrip().startswith('#'):
                     os.system("mkdir 01_raw_data")
-                    os.system(f"prefetch {line} > 01_raw_data/{line}.sra")
+                    os.system(f"prefetch {line}")
+                    os.system(f"mv {line}/{line}.sra 01_raw_data/{line}.sra")
 
 #rule split_paired_reads:
-#    input: "{sample}.sra"
+#    input: "01_raw_data/{sample}.sra"
 #    output:
 #    shell: "fastq-dump {sample}.sra --split-files --outdir ../files"
 
