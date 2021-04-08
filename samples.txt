@@ -1,0 +1,3 @@
+# Input SRA IDs in this file
+# Place each SRA ID on its own line
+SRR5785190

@@ -1,15 +1,17 @@
-# Modify SAMPLES for personal use by changing or adding SRA number of interest
-SAMPLES=["SRR5785190"]
+import os
 
-rule all:
-    input: 
-        expand("{sample}.sra", sample=SAMPLES)
+#rule all:
+#    input: 
+#        expand("{sample}.sra", sample=SAMPLES)
 
-#  This rule is still the bane of my existence
 rule download_data:
     message: "Downloading raw data files"
-    output: protected("{sample}.sra")
-    shell: "prefetch {output}"
+    output: protected("01_raw_data/{sample}.sra")
+    run:
+        with open("samples.txt", "r") as a_file:
+            for line in a_file:
+                if not line.lstrip().startswith('#'):
+                    os.system(f"echo {line} > {output}")
 
 #rule split_paired_reads:
 #    input: "{sample}.sra"
