@@ -12,7 +12,10 @@ rule download_data:
                 if not line.lstrip().startswith('#'):
                     os.system("mkdir 01_raw_data")
                     os.system(f"prefetch {line}")
-                    os.system(f"mv {line}/{line}.sra 01_raw_data/{line}.sra")
+                    sra_ids = []
+                    sra_ids.append({line})
+                    print(sra_ids)
+                    #os.system(f"mv {line}/{line}.sra 01_raw_data/{line}/")
 
 #rule split_paired_reads:
 #    input: "01_raw_data/{sample}.sra"
