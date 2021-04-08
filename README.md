@@ -2,6 +2,20 @@
 
 # Reference Genome
 
+Ideas:
+Include a rule that generates the tracklines if possible to upload into UCSC GB - not sure if this can work or not, as I need a refresher on how to use track lines for bigwig files
+
+
+
+
+
+
+
+
+
+
+
+
 
 Notes below are stil scratch notes
 
