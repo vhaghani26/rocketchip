@@ -6,12 +6,12 @@ import os
 
 rule download_data:
     message: "Downloading raw data files"
-    output: protected("01_raw_data/{sample}.sra")
     run:
         with open("samples.txt", "r") as a_file:
             for line in a_file:
                 if not line.lstrip().startswith('#'):
-                    os.system(f"echo {line} > {output}")
+                    os.system("mkdir 01_raw_data")
+                    os.system(f"prefetch {line} > 01_raw_data/{line}.sra")
 
 #rule split_paired_reads:
 #    input: "{sample}.sra"
