@@ -16,10 +16,13 @@ rule download_data:
                     os.system(f"mv {line[:-1]}/{line[:-1]}.sra 01_raw_data/{line[:-1]}.sra")
                     os.system(f"rm -rf {line[:-1]}/")
 
-#rule split_paired_reads:
-#    input: "01_raw_data/{sample}.sra"
-#    output:
-#    shell: "fastq-dump {sample}.sra --split-files --outdir ../files"
+# Working on this rule now
+rule split_paired_reads:
+    input: "01_raw_data/{sample}.sra"
+    output: 
+	r1 = "01_raw_data/{sample}_1.fastq.gz",
+	r2 = "01_raw_data/{sample}_2.fastq.gz"
+    shell: "fastq-dump {input} --split-files"
 
 #rule gzip_data:
 #    input: 
