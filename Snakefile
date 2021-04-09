@@ -18,7 +18,7 @@ rule download_data:
                     os.system(f"mv {line[:-1]}/{line[:-1]}.sra 01_raw_data/{line[:-1]}.sra")
                     os.system(f"rm -rf {line[:-1]}/")
                     SAMPLES.append({line[:-1]})
-                    return SAMPLES                    
+            return SAMPLES                    
 
 # Working on this rule now
 rule split_paired_reads:
