@@ -19,10 +19,7 @@ rule download_data:
 # Working on this rule now
 rule split_paired_reads:
     input: "01_raw_data/{sample}.sra"
-    output: 
-	r1 = "01_raw_data/{sample}_1.fastq.gz",
-	r2 = "01_raw_data/{sample}_2.fastq.gz"
-    shell: "fastq-dump {input} --split-files"
+    shell: "fastq-dump {input} --split-files --gzip --outdir 01_raw_data"
 
 #rule gzip_data:
 #    input: 
