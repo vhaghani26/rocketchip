@@ -1,8 +1,10 @@
 import os
 
-#rule all:
-#    input: 
-#        expand("{sample}.sra", sample=SAMPLES)
+SAMPLES = []
+
+rule all:
+    input: 
+        expand("{sample}.sra", sample=SAMPLES)
 
 rule download_data:
     message: "Downloading raw data files"
@@ -15,11 +17,13 @@ rule download_data:
                     # Organizing data and cleaning up directories
                     os.system(f"mv {line[:-1]}/{line[:-1]}.sra 01_raw_data/{line[:-1]}.sra")
                     os.system(f"rm -rf {line[:-1]}/")
+                    SAMPLES.append({line[:-1]})
+                    return SAMPLES                    
 
 # Working on this rule now
 rule split_paired_reads:
-    input: "01_raw_data/{sample}.sra"
-    shell: "fastq-dump {input} --split-files --gzip --outdir 01_raw_data"
+    input: expand("01_raw_data/{sample}.sra", sample=SAMPLES)
+    shell: "echo 'fastq-dump {input} --split-files --gzip --outdir 01_raw_data'"
 
 #rule gzip_data:
 #    input: 
