@@ -1,7 +1,2 @@
 01_raw_data/
 .snakemake/
-mm39.amb
-mm39.ann
-mm39.bwt
-mm39.pac
-mm39.sa
