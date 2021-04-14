@@ -36,7 +36,7 @@ rule decompress_genome:
 
 rule concatenate_chromosomes:
     output: protected("01_raw_data/mm39.fa")
-    shell: "echo 'cat 01_raw_data/*.fa > {output}'" 
+    shell: "cat 01_raw_data/*.fa > {output}" 
 
 #rule delete_chromosome_files:
 #    input:
