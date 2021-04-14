@@ -20,10 +20,10 @@ rule download_data:
                     SAMPLES.append({line[:-1]})
             return SAMPLES                    
 
-# Working on this rule now
-rule split_paired_reads:
-    input: expand("01_raw_data/{sample}.sra", sample=SAMPLES)
-    shell: "echo 'fastq-dump {input} --split-files --gzip --outdir 01_raw_data'"
+# Need to get SRA IDs appended to SAMPLES - something wrong with it in download_data
+#rule split_paired_reads:
+#    input: expand("01_raw_data/{sample}.sra", sample=SAMPLES)
+#    shell: "echo 'fastq-dump {input} --split-files --gzip --outdir 01_raw_data'"
 
 rule download_genome:
     message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
@@ -41,10 +41,9 @@ rule concatenate_chromosomes:
 rule delete_chromosome_files:
     shell: "rm 01_raw_data/chr*.fa"  
     
-#rule set_alignment_reference:
-#    input: "mm39.fa"
-#    output:
-#    shell: "bwa index -p mm39 -a bwtsw {input}" 
+rule set_alignment_reference:
+    input: "01_raw_data/mm39.fa"
+    shell: "bwa index -p mm39 -a bwtsw {input}" 
 
 #rule align_reads:
 #    input:
