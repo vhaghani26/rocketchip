@@ -34,10 +34,10 @@ rule decompress_genome:
     input: "01_raw_data/mm39.chromFa.tar.gz"
     shell: "tar zvfx {input}"
 
-#rule concatenate_chromosomes:
-#    input: 
-#    output: protected("mm39.fa")
-#    shell: "cat *.fa > {output}" 
+rule concatenate_chromosomes:
+    input: "01_raw_data/*.fa"
+    output: protected("01_raw_data/mm39.fa")
+    shell: "echo 'cat {input}> {output}'" 
 
 #rule delete_chromosome_files:
 #    input:
