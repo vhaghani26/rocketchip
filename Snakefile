@@ -38,10 +38,8 @@ rule concatenate_chromosomes:
     output: protected("01_raw_data/mm39.fa")
     shell: "cat 01_raw_data/*.fa > {output}" 
 
-#rule delete_chromosome_files:
-#    input:
-#    output:
-#    shell: "rm chr*.fa   "  
+rule delete_chromosome_files:
+    shell: "rm 01_raw_data/chr*.fa"  
     
 #rule set_alignment_reference:
 #    input: "mm39.fa"
