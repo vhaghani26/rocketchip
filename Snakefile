@@ -2,9 +2,9 @@ import os
 
 SAMPLES = []
 
-rule all:
-    input: 
-        expand("{sample}.sra", sample=SAMPLES)
+#rule all:
+#    input: 
+#        expand("{sample}.sra", sample=SAMPLES)
 
 rule download_data:
     message: "Downloading raw data files"
@@ -24,11 +24,6 @@ rule download_data:
 rule split_paired_reads:
     input: expand("01_raw_data/{sample}.sra", sample=SAMPLES)
     shell: "echo 'fastq-dump {input} --split-files --gzip --outdir 01_raw_data'"
-
-#rule gzip_data:
-#    input: 
-#    output:
-#    shell: "gzip files/SRR*"
 
 rule download_genome:
     message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
