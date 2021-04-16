@@ -12,17 +12,36 @@ with open("samples.txt", "r") as a_file:
 #    input: 
 #        expand("{sample}.sra", sample=SAMPLES)
 
-rule download_data:
+rule download_data_test:
     message: "Downloading raw data files"
-    run:
-        with open("samples.txt", "r") as a_file:
-            for line in a_file:
-                if not line.lstrip().startswith('#'):
-                    os.system("mkdir 01_raw_data")
-                    os.system(f"prefetch {line}")
-                    # Organizing data and cleaning up directories
-                    os.system(f"mv {line[:-1]}/{line[:-1]}.sra 01_raw_data/{line[:-1]}.sra")
-                    os.system(f"rm -rf {line[:-1]}/")
+    output: 
+
+#rule download_data:
+#    message: "Downloading raw data files"
+#    run:
+#        with open("samples.txt", "r") as a_file:
+#            for line in a_file:
+#                if not line.lstrip().startswith('#'):
+#                    os.system("mkdir 01_raw_data")
+#                    os.system(f"prefetch {line}")
+#                    # Organizing data and cleaning up directories
+#                    os.system(f"mv {line[:-1]}/{line[:-1]}.sra 01_raw_data/{line[:-1]}.sra")
+#                    os.system(f"rm -rf {line[:-1]}/")
+#                    SAMPLES.append({line[:-1]})
+#            return SAMPLES    
+
+
+#rule download_data:
+#    message: "Downloading raw data files"
+#    run:
+#        with open("samples.txt", "r") as a_file:
+#            for line in a_file:
+#                if not line.lstrip().startswith('#'):
+#                    os.system("mkdir 01_raw_data")
+#                    os.system(f"prefetch {line}")
+#                    # Organizing data and cleaning up directories
+#                    os.system(f"mv {line[:-1]}/{line[:-1]}.sra 01_raw_data/{line[:-1]}.sra")
+#                    os.system(f"rm -rf {line[:-1]}/")
 
 # Need to get SRA IDs appended to SAMPLES - something wrong with it in download_data
 rule split_paired_reads:
