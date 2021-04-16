@@ -1,6 +1,12 @@
 import os
 
+
 SAMPLES = []
+
+with open("samples.txt", "r") as a_file:
+    for line in a_file:
+        if not line.lstrip().startswith('#'):
+            SAMPLES.append({line[:-1]})
 
 #rule all:
 #    input: 
@@ -17,13 +23,11 @@ rule download_data:
                     # Organizing data and cleaning up directories
                     os.system(f"mv {line[:-1]}/{line[:-1]}.sra 01_raw_data/{line[:-1]}.sra")
                     os.system(f"rm -rf {line[:-1]}/")
-                    SAMPLES.append({line[:-1]})
-            return SAMPLES                    
 
 # Need to get SRA IDs appended to SAMPLES - something wrong with it in download_data
-#rule split_paired_reads:
-#    input: expand("01_raw_data/{sample}.sra", sample=SAMPLES)
-#    shell: "echo 'fastq-dump {input} --split-files --gzip --outdir 01_raw_data'"
+rule split_paired_reads:
+    input: expand("01_raw_data/{sample}.sra", sample=SAMPLES)
+    shell: "echo 'fastq-dump {input} --split-files --gzip --outdir 01_raw_data'"
 
 rule download_genome:
     message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
