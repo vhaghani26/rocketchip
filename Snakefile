@@ -1,6 +1,5 @@
 import os
 
-
 SAMPLES = []
 
 with open("samples.txt", "r") as a_file:
@@ -14,7 +13,8 @@ with open("samples.txt", "r") as a_file:
 
 rule download_data_test:
     message: "Downloading raw data files"
-    output: 
+    output: directory("{sample}/")
+    shell: expand("echo 'prefetch {sample}'", sample=SAMPLES) 
 
 #rule download_data:
 #    message: "Downloading raw data files"
