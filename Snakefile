@@ -13,6 +13,7 @@ with open("samples.txt", "r") as a_file:
 
 rule download_data:
     message: "Downloading raw data files"
+    output: expand("01_raw_data/{sample}.sra", sample=SAMPLES)
     run:
         os.system("mkdir 01_raw_data")
         with open("samples.txt", "r") as a_file:
