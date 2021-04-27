@@ -14,12 +14,15 @@ with open("samples.txt", "r") as a_file:
 rule download_data:
     message: "Downloading raw data files"
     run:
-        with open("samples.txt", "r") as a_file:
-            for line in a_file:
-                if not line.lstrip().startswith('#'):
-                    os.system(f"prefetch {line}")
+        for sample in SAMPLES:
+                print(sample)
+        print(SAMPLES)
+        #with open("samples.txt", "r") as a_file:
+        #    for line in a_file:
+        #        if not line.lstrip().startswith('#'):
+        #            os.system(f"prefetch {line}")
 
-# Need to get SRA IDs appended to SAMPLES - something wrong with it in download_data
+# Need to get SRA ID isolated from list instead of [{'SRA'}] format from SAMPLES
 rule split_paired_reads:
     input: expand("{sample}/{sample}.sra", sample=SAMPLES)
     shell: "echo 'fastq-dump {input} --split-files --gzip --outdir 01_raw_data'"
@@ -37,7 +40,7 @@ rule decompress_genome:
 rule concatenate_chromosomes:
     message: "Concatenating individual chromosome files to create full assembly"
     output: protected("mm39.fa")
-    shell: "cat 01_raw_data/*.fa > {output}" 
+    shell: "cat *.fa > {output}" 
 
 rule delete_chromosome_files:
     message: "Removing chromosome sequence files"
