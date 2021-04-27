@@ -21,6 +21,7 @@ rule download_data:
 
 # Need to get SRA ID isolated from list instead of [{'SRA'}] format from SAMPLES
 rule split_paired_reads:
+    message: "Splitting paired end reads into separate files"
     input: expand("{sample}/{sample}.sra", sample=SAMPLES)
     output:
         protected(expand("{sample}_1.fastq.gz", sample=SAMPLES)),
@@ -57,12 +58,13 @@ rule set_alignment_reference:
         protected("mm39.sa")
     shell: "bwa index -p mm39 -a bwtsw {input}" 
 
-#rule align_reads:
-#    input:
-#        r1 = "{sample}_1.fastq.gz",
-#        r2 = "{sample}_2.fastq.gz"
-#    output: "{sample}.sam"
-#    shell: "bwa mem mm39 {sample}_1.fastq.gz {sample}_2.fastq.gz > {sample}.sam"
+rule align_reads:
+    message: "Aligned paired end reads to GRCm39/mm39 reference genome"
+    input:
+        r1 = expand("{sample}_1.fastq.gz", sample=SAMPLES),
+        r2 = expand("{sample}_2.fastq.gz", sample=SAMPLES)
+    output: expand("{sample}.sam", sample=SAMPLES)
+    shell: "bwa mem mm39 {sample}_1.fastq.gz {sample}_2.fastq.gz > {sample}.sam"
     
 #rule sam_to_bam:
 #    input: "{sample}.sam"
