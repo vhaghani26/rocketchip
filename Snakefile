@@ -5,7 +5,7 @@ SAMPLES = []
 with open("samples.txt", "r") as a_file:
     for line in a_file:
         if not line.lstrip().startswith('#'):
-            SAMPLES.append({line[:-1]})
+            SAMPLES.append(line[:-1])
 
 #rule all:
 #    input: 
@@ -13,14 +13,10 @@ with open("samples.txt", "r") as a_file:
 
 rule download_data:
     message: "Downloading raw data files"
+    output: expand("directory({sample}/)", sample=SAMPLES)
     run:
         for sample in SAMPLES:
-                print(sample)
-        print(SAMPLES)
-        #with open("samples.txt", "r") as a_file:
-        #    for line in a_file:
-        #        if not line.lstrip().startswith('#'):
-        #            os.system(f"prefetch {line}")
+                os.system(f"prefetch {sample}")
 
 # Need to get SRA ID isolated from list instead of [{'SRA'}] format from SAMPLES
 rule split_paired_reads:
@@ -50,11 +46,11 @@ rule set_alignment_reference:
     message: "Setting GRCm39/mm39 mouse genome assembly as reference genome for alignment" 
     input: "mm39.fa"
     output:
-        "mm39.amb",
-        "mm39.ann",
-        "mm39.bwt",
-        "mm39.pac",
-        "mm39.sa"
+        protected("mm39.amb"),
+        protected("mm39.ann"),
+        protected("mm39.bwt"),
+        protected("mm39.pac"),
+        protected("mm39.sa")
     shell: "bwa index -p mm39 -a bwtsw {input}" 
 
 #rule align_reads:
