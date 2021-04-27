@@ -19,7 +19,6 @@ rule download_data:
         for sample in SAMPLES:
                 os.system(f"prefetch {sample}")
 
-# Need to get SRA ID isolated from list instead of [{'SRA'}] format from SAMPLES
 rule split_paired_reads:
     message: "Splitting paired end reads into separate files"
     input: expand("{sample}/{sample}.sra", sample=SAMPLES)
