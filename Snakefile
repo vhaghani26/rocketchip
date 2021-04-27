@@ -63,7 +63,7 @@ rule align_reads:
         r1 = expand("{sample}_1.fastq.gz", sample=SAMPLES),
         r2 = expand("{sample}_2.fastq.gz", sample=SAMPLES)
     output: expand("{sample}.sam", sample=SAMPLES)
-    shell: "bwa mem mm39 {sample}_1.fastq.gz {sample}_2.fastq.gz > {sample}.sam"
+    shell: "bwa mem mm39 {input.r1} {input.r2} > {output}"
     
 #rule sam_to_bam:
 #    input: "{sample}.sam"
