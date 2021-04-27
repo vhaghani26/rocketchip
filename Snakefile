@@ -13,7 +13,7 @@ with open("samples.txt", "r") as a_file:
 
 rule download_data:
     message: "Downloading raw data files"
-    output: expand("directory({sample}/)", sample=SAMPLES)
+    output: expand("{sample}/{sample}.sra", sample=SAMPLES)
     run:
         for sample in SAMPLES:
                 os.system(f"prefetch {sample}")
