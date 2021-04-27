@@ -9,50 +9,49 @@ with open("samples.txt", "r") as a_file:
 
 #rule all:
 #    input: 
-#        expand("{sample}.sra", sample=SAMPLES)
+#        expand("{sample}.bw", sample=SAMPLES)
 
 rule download_data:
     message: "Downloading raw data files"
-    output: expand("01_raw_data/{sample}.sra", sample=SAMPLES)
     run:
-        os.system("mkdir 01_raw_data")
         with open("samples.txt", "r") as a_file:
             for line in a_file:
                 if not line.lstrip().startswith('#'):
                     os.system(f"prefetch {line}")
-                    # Organizing data and cleaning up directories
-                    os.system(f"mv {line[:-1]}/{line[:-1]}.sra 01_raw_data/{line[:-1]}.sra")
-                    os.system(f"rm -rf {line[:-1]}/")
 
 # Need to get SRA IDs appended to SAMPLES - something wrong with it in download_data
 rule split_paired_reads:
-    input: expand("01_raw_data/{sample}.sra", sample=SAMPLES)
+    input: expand("{sample}/{sample}.sra", sample=SAMPLES)
     shell: "echo 'fastq-dump {input} --split-files --gzip --outdir 01_raw_data'"
 
 rule download_genome:
     message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
-    output: "01_raw_data/mm39.chromFa.tar.gz"
+    output: "mm39.chromFa.tar.gz"
     shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz -O {output}"
     
 rule decompress_genome:
-    input: "01_raw_data/mm39.chromFa.tar.gz"
+    message: "Decompressing genome"
+    input: "mm39.chromFa.tar.gz"
     shell: "tar zvfx {input}"
 
 rule concatenate_chromosomes:
-    output: protected("01_raw_data/mm39.fa")
+    message: "Concatenating individual chromosome files to create full assembly"
+    output: protected("mm39.fa")
     shell: "cat 01_raw_data/*.fa > {output}" 
 
 rule delete_chromosome_files:
-    shell: "rm 01_raw_data/chr*.fa"  
+    message: "Removing chromosome sequence files"
+    shell: "rm chr*.fa"  
     
 rule set_alignment_reference:
-    input: "01_raw_data/mm39.fa"
+    message: "Setting GRCm39/mm39 mouse genome assembly as reference genome for alignment" 
+    input: "mm39.fa"
     output:
-        "01_raw_data/mm39.amb",
-        "01_raw_data/mm39.ann",
-        "01_raw_data/mm39.bwt",
-        "01_raw_data/mm39.pac",
-        "01_raw_data/mm39.sa"
+        "mm39.amb",
+        "mm39.ann",
+        "mm39.bwt",
+        "mm39.pac",
+        "mm39.sa"
     shell: "bwa index -p mm39 -a bwtsw {input}" 
 
 #rule align_reads:
@@ -91,3 +90,16 @@ rule set_alignment_reference:
 #    input: "{sample}.indexed.dedup.bam"
 #    output: "{sample}.bw"
 #    shell: "bamCoverage -b {input} -o {output}"
+
+rule organize_data:
+    message: "Organizing data and output files"
+    run:
+        # Make 01_raw_data directory
+        os.system("mkdir 01_raw_data")
+        with open("samples.txt", "r") as a_file:
+            for line in a_file:
+                if not line.lstrip().startswith('#'):
+                    # Moving .sra files out of SRA folders
+                    os.system(f"mv {line[:-1]}/{line[:-1]}.sra 01_raw_data/{line[:-1]}.sra")
+                    # Deleting empty SRA folder
+                    os.system(f"rm -rf {line[:-1]}/")
