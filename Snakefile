@@ -11,9 +11,10 @@ with open("samples.txt", "r") as a_file:
 #    input: 
 #        expand("{sample}.bw", sample=SAMPLES)
 
+# Having trouble with output formatting, but data gets downloaded
 rule download_data:
     message: "Downloading raw data files"
-    output: expand("{sample}/{sample}.sra", sample=SAMPLES)
+    #output: expand("{sample}/", sample=SAMPLES)
     run:
         for sample in SAMPLES:
                 os.system(f"prefetch {sample}")
@@ -21,7 +22,10 @@ rule download_data:
 # Need to get SRA ID isolated from list instead of [{'SRA'}] format from SAMPLES
 rule split_paired_reads:
     input: expand("{sample}/{sample}.sra", sample=SAMPLES)
-    shell: "echo 'fastq-dump {input} --split-files --gzip --outdir 01_raw_data'"
+    output:
+        protected(expand("{sample}_1.fastq.gz", sample=SAMPLES)),
+        protected(expand("{sample}_2.fastq.gz", sample=SAMPLES))
+    shell: "fastq-dump {input} --split-files --gzip"
 
 rule download_genome:
     message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
