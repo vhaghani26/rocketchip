@@ -71,10 +71,11 @@ rule sam_to_bam:
     output: expand("{sample}.bam", sample=SAMPLES)
     shell: "samtools view -b {input} > {output}"
 
-#rule sam_fixmate:
-#    input: "{sample}.bam"
-#    output: "{sample}.namesorted.fixmate.bam"
-#    shell: "samtools fixmate -rcm -O bam {input} {output}"
+rule sam_fixmate:
+    message: "Removing secondary and unmapped reads. Adding tags to reads for deduplication"
+    input: expand("{sample}.bam", sample = SAMPLES)
+    output: expand("{sample}.namesorted.fixmate.bam", sample=SAMPLES)
+    shell: "samtools fixmate -rcm -O bam {input} {output}"
 
 #rule sam_sort:
 #    input: "{sample}.namesorted.fixmate.bam"
