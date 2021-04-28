@@ -65,10 +65,11 @@ rule align_reads:
     output: expand("{sample}.sam", sample=SAMPLES)
     shell: "bwa mem mm39 {input.r1} {input.r2} > {output}"
     
-#rule sam_to_bam:
-#    input: "{sample}.sam"
-#    output: "{sample}.bam"
-#    shell: "samtools view -b {input} > {output}"
+rule sam_to_bam:
+    message: "Converting SAM to BAM file format"
+    input: expand("{sample}.sam", sample=SAMPLES)
+    output: expand("{sample}.bam", sample=SAMPLES)
+    shell: "samtools view -b {input} > {output}"
 
 #rule sam_fixmate:
 #    input: "{sample}.bam"
