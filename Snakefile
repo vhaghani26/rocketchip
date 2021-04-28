@@ -77,11 +77,12 @@ rule sam_fixmate:
     output: expand("{sample}.namesorted.fixmate.bam", sample=SAMPLES)
     shell: "samtools fixmate -rcm -O bam {input} {output}"
 
+# Having issues with "missing output" error even though file gets generated, not sure what's wrong
 rule sam_sort:
     message: "Sorting reads by chromosome coordinates"
     input: expand("{sample}.namesorted.fixmate.bam", sample=SAMPLES)
     output: expand("{sample}.coorsorted.fixmate.bam ", sample=SAMPLES)
-    shell: "samtools sort -o {output} {input}"
+    shell: "samtools sort {input} -o {output}"
 
 #rule sam_markdup:
 #    input: "{sample}.coorsorted.fixmate.bam"
