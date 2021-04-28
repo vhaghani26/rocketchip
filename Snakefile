@@ -77,10 +77,11 @@ rule sam_fixmate:
     output: expand("{sample}.namesorted.fixmate.bam", sample=SAMPLES)
     shell: "samtools fixmate -rcm -O bam {input} {output}"
 
-#rule sam_sort:
-#    input: "{sample}.namesorted.fixmate.bam"
-#    output: "{sample}.coorsorted.fixmate.bam "
-#    shell: "samtools sort -o {output} {input}"
+rule sam_sort:
+    message: "Sorting reads by chromosome coordinates"
+    input: expand("{sample}.namesorted.fixmate.bam", sample=SAMPLES)
+    output: expand("{sample}.coorsorted.fixmate.bam ", sample=SAMPLES)
+    shell: "samtools sort -o {output} {input}"
 
 #rule sam_markdup:
 #    input: "{sample}.coorsorted.fixmate.bam"
