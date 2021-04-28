@@ -85,29 +85,49 @@ rule sam_sort:
     shell: "samtools sort {input} -o {output}"
 
 #rule sam_markdup:
-#    input: "{sample}.coorsorted.fixmate.bam"
-#    output: "{sample}.coorsorted.dedup.bam"
+#    input: expand("{sample}.coorsorted.fixmate.bam", sample=SAMPLES)
+#    output: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
 #    shell: "samtools markdup -r --mode s {input} {output}"
 
 #rule sam_index:
-#    input: "{sample}.coorsorted.dedup.bam"
-#    output: "{sample}.indexed.dedup.bam"
+#    input: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
+#    output: expand("{sample}.indexed.dedup.bam", sample=SAMPLES)
 #    shell: "samtools index {input}"
 
 #rule bam_to_bigwig:
-#    input: "{sample}.indexed.dedup.bam"
-#    output: "{sample}.bw"
+#    input: expand("{sample}.indexed.dedup.bam", sample=SAMPLES)
+#    output: expand("{sample}.bw", sample=SAMPLES)
 #    shell: "bamCoverage -b {input} -o {output}"
 
-rule organize_data:
-    message: "Organizing data and output files"
-    run:
-        # Make 01_raw_data directory
-        os.system("mkdir 01_raw_data")
-        with open("samples.txt", "r") as a_file:
-            for line in a_file:
-                if not line.lstrip().startswith('#'):
-                    # Moving .sra files out of SRA folders
-                    os.system(f"mv {line[:-1]}/{line[:-1]}.sra 01_raw_data/{line[:-1]}.sra")
-                    # Deleting empty SRA folder
-                    os.system(f"rm -rf {line[:-1]}/")
+#rule organize_data:
+#    message: "Organizing data and output files"
+#    run:
+#        # Make directories for output organization
+#        os.system("mkdir 01_raw_data")
+#        os.system("mkdir 02_sam_files")
+#        os.system("mkdir 03_bam_files")
+#        with open("samples.txt", "r") as a_file:
+#            for line in a_file:
+#                if not line.lstrip().startswith('#'):
+#                    # Moving .sra files out of SRA folders
+#                    os.system(f"mv {line[:-1]}/{line[:-1]}.sra 01_raw_data/{line[:-1]}.sra")
+#                    # Deleting empty SRA folder
+#                    os.system(f"rm -rf {line[:-1]}/")
+#                    # Moving reference genome files to 01_raw_data directory
+#                    os.system("mv mm39.amb 01_raw_data/mm39.amb")
+#                    os.system("mv mm39.bwt 01_raw_data/mm39.bwt")
+#                    os.system("mv mm39.fa 01_raw_data/mm39.fa")
+#                    os.system("mv mm39.sa 01_raw_data/mm39.sa")
+#                    os.system("mv mm39.ann 01_raw_data/mm39.ann")
+#                    os.system("mv mm39.pac 01_raw_data/mm39.pac")
+#                    # Deleting chromosome file folder for reference genome
+#                    os.system("rm mm39.chromFa.tar.gz")
+#                    # Moving fastq files to 01_raw_data directory
+#                    os.system(f"mv {line[:-1]}_1.fastq.gz 01_raw_data/{line[:-1]}_1.fastq.gz")
+#                    os.system(f"mv {line[:-1]}_2.fastq.gz 01_raw_data/{line[:-1]}_2.fastq.gz")
+#                    # Moving SAM files to 02_sam_files directory
+#                    os.system(f"mv {line[:-1]}.sam 02_sam_files/{line[:-1]}.sam)
+#                    # Moving BAM files to 03_bam_files directory
+#                    os.system(f"mv {line[:-1]}.bam 03_bam_files/{line[:-1]}.bam)
+#                    os.system(f"mv {line[:-1]}.namesorted.fixmate.bam 03_bam_files/{line[:-1]}.namesorted.fixmate.bam)
+#                    os.system(f"mv {line[:-1]}.coorsorted.fixmate.bam 03_bam_files/{line[:-1]}.coorsorted.fixmate.bam)
