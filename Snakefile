@@ -84,10 +84,10 @@ rule sam_sort:
     output: expand("{sample}.coorsorted.fixmate.bam ", sample=SAMPLES)
     shell: "samtools sort {input} -o {output}"
 
-#rule sam_markdup:
-#    input: expand("{sample}.coorsorted.fixmate.bam", sample=SAMPLES)
-#    output: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
-#    shell: "samtools markdup -r --mode s {input} {output}"
+rule sam_markdup:
+    input: expand("{sample}.coorsorted.fixmate.bam", sample=SAMPLES)
+    output: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
+    shell: "samtools markdup -r --mode s {input} {output}"
 
 #rule sam_index:
 #    input: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
