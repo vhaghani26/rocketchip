@@ -94,10 +94,10 @@ rule sam_index:
     output: expand("{sample}.coorsorted.dedup.bam.bai", sample=SAMPLES), 
     shell: "samtools index {input}"
 
-#rule bam_to_bigwig:
-#    input: expand("{sample}.indexed.dedup.bam", sample=SAMPLES)
-#    output: expand("{sample}.bw", sample=SAMPLES)
-#    shell: "bamCoverage -b {input} -o {output}"
+rule bam_to_bigwig:
+    input: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
+    output: expand("{sample}.bw", sample=SAMPLES)
+    shell: "bamCoverage -b {input} -o {output}"
 
 #rule organize_data:
 #    message: "Organizing data and output files"
@@ -106,6 +106,7 @@ rule sam_index:
 #        os.system("mkdir 01_raw_data")
 #        os.system("mkdir 02_sam_files")
 #        os.system("mkdir 03_bam_files")
+#        os.system("mkdir 04_bigwig_files")
 #        with open("samples.txt", "r") as a_file:
 #            for line in a_file:
 #                if not line.lstrip().startswith('#'):
