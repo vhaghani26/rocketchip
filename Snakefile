@@ -89,10 +89,9 @@ rule sam_markdup:
     output: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
     shell: "samtools markdup -r --mode s {input} {output}"
 
-# Showing MissingOutputException with SRR5785190.indexed.dedup.bam mixxing
 rule sam_index:
     input: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
-    output: expand("{sample}.indexed.dedup.bam", sample=SAMPLES)
+    output: expand("{sample}.coorsorted.dedup.bam.bai", sample=SAMPLES), 
     shell: "samtools index {input}"
 
 #rule bam_to_bigwig:
