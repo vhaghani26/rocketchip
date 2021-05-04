@@ -16,16 +16,21 @@ rule all:
         "01_raw_data/mm39.sa", 
         expand("03_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=SAMPLES),
         expand("04_bigwig_files/{sample}.bw", sample=SAMPLES)
-        
+
+# Error - conda environments are only allowed with shell        
 rule download_data:
+    priority: 14
     message: "Downloading raw data files"
+    conda: "chip_seq_environment.yml"
     output: directory(expand("{sample}/", sample=SAMPLES))
     run:
         for sample in SAMPLES:
                 os.system(f"prefetch {sample}")
 
 rule split_paired_reads:
+    priority: 13
     message: "Splitting paired end reads into separate files"
+    conda: "chip_seq_environment.yml"
     input: expand("{sample}/{sample}.sra", sample=SAMPLES)
     output:
         expand("{sample}_1.fastq.gz", sample=SAMPLES),
@@ -33,26 +38,32 @@ rule split_paired_reads:
     shell: "fastq-dump {input} --split-files --gzip"
 
 rule download_genome:
+    priority: 12
     message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
     output: "mm39.chromFa.tar.gz"
     shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz -O {output}"
     
 rule decompress_genome:
+    priority: 11
     message: "Decompressing genome"
     input: "mm39.chromFa.tar.gz"
     shell: "tar zvfx {input}"
 
 rule concatenate_chromosomes:
+    priority: 10
     message: "Concatenating individual chromosome files to create full assembly"
     output: "mm39.fa"
     shell: "cat *.fa > {output}" 
 
 rule delete_chromosome_files:
+    priority: 9
     message: "Removing chromosome sequence files"
     shell: "rm chr*.fa"  
     
 rule set_alignment_reference:
+    priority: 8
     message: "Setting GRCm39/mm39 mouse genome assembly as reference genome for alignment" 
+    conda: "chip_seq_environment.yml"
     input: "mm39.fa"
     output:
         "mm39.amb",
@@ -63,7 +74,9 @@ rule set_alignment_reference:
     shell: "bwa index -p mm39 -a bwtsw {input}" 
 
 rule align_reads:
+    priority: 7
     message: "Aligned paired end reads to GRCm39/mm39 reference genome"
+    conda: "chip_seq_environment.yml"
     input:
         r1 = expand("{sample}_1.fastq.gz", sample=SAMPLES),
         r2 = expand("{sample}_2.fastq.gz", sample=SAMPLES)
@@ -71,40 +84,55 @@ rule align_reads:
     shell: "bwa mem mm39 {input.r1} {input.r2} > {output}"
     
 rule sam_to_bam:
+    priority: 6
     message: "Converting SAM to BAM file format"
+    conda: "chip_seq_environment.yml"
     input: expand("{sample}.sam", sample=SAMPLES)
     output: expand("{sample}.bam", sample=SAMPLES)
     shell: "samtools view -b {input} > {output}"
 
 rule sam_fixmate:
+    priority: 5
     message: "Removing secondary and unmapped reads. Adding tags to reads for deduplication"
+    conda: "chip_seq_environment.yml"
     input: expand("{sample}.bam", sample = SAMPLES)
     output: expand("{sample}.namesorted.fixmate.bam", sample=SAMPLES)
     shell: "samtools fixmate -rcm -O bam {input} {output}"
 
 rule sam_sort:
+    priority: 4
     message: "Sorting reads by chromosome coordinates"
+    conda: "chip_seq_environment.yml"
     input: expand("{sample}.namesorted.fixmate.bam", sample=SAMPLES)
     output: expand("{sample}.coorsorted.fixmate.bam", sample=SAMPLES)
     shell: "samtools sort {input} -o {output}"
 
 rule sam_markdup:
+    priority: 3
     message: "Marking and removing duplicates"
+    conda: "chip_seq_environment.yml"
     input: expand("{sample}.coorsorted.fixmate.bam", sample=SAMPLES)
     output: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
     shell: "samtools markdup -r --mode s {input} {output}"
 
 rule sam_index:
+    priority: 2
+    message: "Indexing deduplicated BAM file"
+    conda: "chip_seq_environment.yml"
     input: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
     output: expand("{sample}.coorsorted.dedup.bam.bai", sample=SAMPLES), 
     shell: "samtools index {input}"
 
 rule bam_to_bigwig:
+    priority: 1
+    message: "Converting BAM file format to bigwig file format for visualization"
+    conda: "chip_seq_environment.yml"
     input: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
     output: expand("{sample}.bw", sample=SAMPLES)
     shell: "bamCoverage -b {input} -o {output}"
 
 rule organize_data:
+    priority: 0
     message: "Organizing data and output files"
     run:
         # Make directories for output organization
