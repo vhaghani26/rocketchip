@@ -77,11 +77,10 @@ rule sam_fixmate:
     output: expand("{sample}.namesorted.fixmate.bam", sample=SAMPLES)
     shell: "samtools fixmate -rcm -O bam {input} {output}"
 
-# Having issues with "missing output" error even though file gets generated, not sure what's wrong
 rule sam_sort:
     message: "Sorting reads by chromosome coordinates"
     input: expand("{sample}.namesorted.fixmate.bam", sample=SAMPLES)
-    output: expand("{sample}.coorsorted.fixmate.bam ", sample=SAMPLES)
+    output: expand("{sample}.coorsorted.fixmate.bam", sample=SAMPLES)
     shell: "samtools sort {input} -o {output}"
 
 rule sam_markdup:
@@ -89,10 +88,11 @@ rule sam_markdup:
     output: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
     shell: "samtools markdup -r --mode s {input} {output}"
 
-#rule sam_index:
-#    input: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
-#    output: expand("{sample}.indexed.dedup.bam", sample=SAMPLES)
-#    shell: "samtools index {input}"
+# Showing MissingOutputException with SRR5785190.indexed.dedup.bam mixxing
+rule sam_index:
+    input: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
+    output: expand("{sample}.indexed.dedup.bam", sample=SAMPLES)
+    shell: "samtools index {input}"
 
 #rule bam_to_bigwig:
 #    input: expand("{sample}.indexed.dedup.bam", sample=SAMPLES)
