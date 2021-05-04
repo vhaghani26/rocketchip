@@ -84,6 +84,7 @@ rule sam_sort:
     shell: "samtools sort {input} -o {output}"
 
 rule sam_markdup:
+    message: "Marking and removing duplicates"
     input: expand("{sample}.coorsorted.fixmate.bam", sample=SAMPLES)
     output: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
     shell: "samtools markdup -r --mode s {input} {output}"
