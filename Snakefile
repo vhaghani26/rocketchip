@@ -7,10 +7,16 @@ with open("samples.txt", "r") as a_file:
         if not line.lstrip().startswith('#'):
             SAMPLES.append(line[:-1])
 
-#rule all:
-#    input: 
-#        expand("{sample}.bw", sample=SAMPLES)
-
+rule all:
+    input: 
+        "mm39.amb",
+        "mm39.ann",
+        "mm39.bwt",
+        "mm39.pac",
+        "mm39.sa", 
+        expand("{sample}.coorsorted.dedup.bam.bai", sample=SAMPLES),
+        expand("{sample}.bw", sample=SAMPLES)
+        
 # Having trouble with output formatting, but data gets downloaded
 rule download_data:
     message: "Downloading raw data files"
@@ -127,8 +133,12 @@ rule bam_to_bigwig:
 #                    os.system(f"mv {line[:-1]}_1.fastq.gz 01_raw_data/{line[:-1]}_1.fastq.gz")
 #                    os.system(f"mv {line[:-1]}_2.fastq.gz 01_raw_data/{line[:-1]}_2.fastq.gz")
 #                    # Moving SAM files to 02_sam_files directory
-#                    os.system(f"mv {line[:-1]}.sam 02_sam_files/{line[:-1]}.sam)
+#                    os.system(f"mv {line[:-1]}.sam 02_sam_files/{line[:-1]}.sam")
 #                    # Moving BAM files to 03_bam_files directory
-#                    os.system(f"mv {line[:-1]}.bam 03_bam_files/{line[:-1]}.bam)
-#                    os.system(f"mv {line[:-1]}.namesorted.fixmate.bam 03_bam_files/{line[:-1]}.namesorted.fixmate.bam)
-#                    os.system(f"mv {line[:-1]}.coorsorted.fixmate.bam 03_bam_files/{line[:-1]}.coorsorted.fixmate.bam)
+#                    os.system(f"mv {line[:-1]}.bam 03_bam_files/{line[:-1]}.bam")
+#                    os.system(f"mv {line[:-1]}.namesorted.fixmate.bam 03_bam_files/{line[:-1]}.namesorted.fixmate.bam")
+#                    os.system(f"mv {line[:-1]}.coorsorted.fixmate.bam 03_bam_files/{line[:-1]}.coorsorted.fixmate.bam")
+#                    os.system(f"mv {line[:-1]}.coorsorted.dedup.bam 03_bam_files/{line[:-1]}.coorsorted.dedup.bam")
+#                    os.system(f"mv {line[:-1]}.coorsorted.dedup.bam.bai 03_bam_files/{line[:-1]}.coorsorted.dedup.bam.bai")
+#                    # Moving bigwig files to 04_bigwig_files directory
+#                    os.system(f"mv {line[:-1]}.bw 04_bigwig_files/{line[:-1]}.bw")
