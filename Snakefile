@@ -17,10 +17,9 @@ rule all:
         expand("{sample}.coorsorted.dedup.bam.bai", sample=SAMPLES),
         expand("{sample}.bw", sample=SAMPLES)
         
-# Having trouble with output formatting, but data gets downloaded
 rule download_data:
     message: "Downloading raw data files"
-    #output: expand("{sample}/", sample=SAMPLES)
+    output: directory(expand("{sample}/", sample=SAMPLES))
     run:
         for sample in SAMPLES:
                 os.system(f"prefetch {sample}")
