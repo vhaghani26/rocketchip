@@ -1,33 +1,8 @@
 # MeChIP2
 
-# Reference Genome
+## What is MeCHIP2?
+MeCHIP2 is an automatic bioinformatics pipeline that downloads raw paired-end sequence data from the National Center for Biotechnology Information (NCBI) Sequence Read Archive (SRA). Sequence data is downloaded directly from the SRA using the SRA Toolkit (sra-tools, v2.10.9). The raw sequence read file is then split into its respective paired-end read filres by the SRA Toolkit. 
 
-Ideas:
-Include a rule that generates the tracklines if possible to upload into UCSC GB - not sure if this can work or not, as I need a refresher on how to use track lines for bigwig files
+## Using the Pipeline
 
-
-
-
-
-
-
-
-
-
-
-
-
-Notes below are stil scratch notes
-
-
-```download_genome``` rule downloads generates the June 2020 GRCm39/mm39 (mouse) reference genome from the UCSC Genome Browser. The full code has been incuded below 
-
-
-
-
-```
-wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz
-tar zvfx chromFA.tar.gz 
-cat *.fa > mm10.fa
-rm chr*.fa
-```
+## Outputs
