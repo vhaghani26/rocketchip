@@ -6,7 +6,7 @@ with open("samples.txt", "r") as a_file:
     for line in a_file:
         if not line.lstrip().startswith('#'):
             SAMPLES.append(line[:-1])
-
+            
 rule all:
     input: 
         "01_raw_data/mm39.amb",
@@ -17,51 +17,60 @@ rule all:
         expand("03_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=SAMPLES),
         expand("04_bigwig_files/{sample}.bw", sample=SAMPLES)
 
-# Error - conda environments are only allowed with shell        
+rule organize_data:
+    message: "Making directories for data organization"
+    output:
+        directory("01_raw_data/"),
+        directory("02_sam_files/"),
+        directory("03_bam_files/"),
+        directory("04_bigwig_files/")
+    shell: """
+        mkdir 01_raw_data
+        mkdir 02_sam_files
+        mkdir 03_bam_files
+        mkdir 04_bigwig_files
+    """
+
 rule download_data:
-    priority: 14
     message: "Downloading raw data files"
     conda: "chip_seq_environment.yml"
-    output: directory(expand("{sample}/", sample=SAMPLES))
-    run:
-        for sample in SAMPLES:
-                os.system(f"prefetch {sample}")
+    output: directory(expand("01_raw_data/{sample}/", sample=SAMPLES))
+    shell: """
+        for i in $( grep -v "^#" samples.txt ); do
+            prefetch $i
+            mv $i/ 01_raw_data/$i/
+        done
+    """
 
 rule split_paired_reads:
-    priority: 13
     message: "Splitting paired end reads into separate files"
     conda: "chip_seq_environment.yml"
-    input: expand("{sample}/{sample}.sra", sample=SAMPLES)
+    input: expand("01_raw_data/{sample}/{sample}.sra", sample=SAMPLES)
     output:
         expand("{sample}_1.fastq.gz", sample=SAMPLES),
         expand("{sample}_2.fastq.gz", sample=SAMPLES)
     shell: "fastq-dump {input} --split-files --gzip"
 
 rule download_genome:
-    priority: 12
     message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
     output: "mm39.chromFa.tar.gz"
     shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz -O {output}"
     
 rule decompress_genome:
-    priority: 11
     message: "Decompressing genome"
     input: "mm39.chromFa.tar.gz"
     shell: "tar zvfx {input}"
 
 rule concatenate_chromosomes:
-    priority: 10
     message: "Concatenating individual chromosome files to create full assembly"
     output: "mm39.fa"
     shell: "cat *.fa > {output}" 
 
 rule delete_chromosome_files:
-    priority: 9
     message: "Removing chromosome sequence files"
     shell: "rm chr*.fa"  
     
 rule set_alignment_reference:
-    priority: 8
     message: "Setting GRCm39/mm39 mouse genome assembly as reference genome for alignment" 
     conda: "chip_seq_environment.yml"
     input: "mm39.fa"
@@ -74,17 +83,15 @@ rule set_alignment_reference:
     shell: "bwa index -p mm39 -a bwtsw {input}" 
 
 rule align_reads:
-    priority: 7
     message: "Aligned paired end reads to GRCm39/mm39 reference genome"
     conda: "chip_seq_environment.yml"
     input:
         r1 = expand("{sample}_1.fastq.gz", sample=SAMPLES),
-        r2 = expand("{sample}_2.fastq.gz", sample=SAMPLES)
+        r2 = expand("02_sam_files/{sample}_2.fastq.gz", sample=SAMPLES)
     output: expand("{sample}.sam", sample=SAMPLES)
     shell: "bwa mem mm39 {input.r1} {input.r2} > {output}"
     
 rule sam_to_bam:
-    priority: 6
     message: "Converting SAM to BAM file format"
     conda: "chip_seq_environment.yml"
     input: expand("{sample}.sam", sample=SAMPLES)
@@ -92,7 +99,6 @@ rule sam_to_bam:
     shell: "samtools view -b {input} > {output}"
 
 rule sam_fixmate:
-    priority: 5
     message: "Removing secondary and unmapped reads. Adding tags to reads for deduplication"
     conda: "chip_seq_environment.yml"
     input: expand("{sample}.bam", sample = SAMPLES)
@@ -100,7 +106,6 @@ rule sam_fixmate:
     shell: "samtools fixmate -rcm -O bam {input} {output}"
 
 rule sam_sort:
-    priority: 4
     message: "Sorting reads by chromosome coordinates"
     conda: "chip_seq_environment.yml"
     input: expand("{sample}.namesorted.fixmate.bam", sample=SAMPLES)
@@ -108,7 +113,6 @@ rule sam_sort:
     shell: "samtools sort {input} -o {output}"
 
 rule sam_markdup:
-    priority: 3
     message: "Marking and removing duplicates"
     conda: "chip_seq_environment.yml"
     input: expand("{sample}.coorsorted.fixmate.bam", sample=SAMPLES)
@@ -116,7 +120,6 @@ rule sam_markdup:
     shell: "samtools markdup -r --mode s {input} {output}"
 
 rule sam_index:
-    priority: 2
     message: "Indexing deduplicated BAM file"
     conda: "chip_seq_environment.yml"
     input: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
@@ -124,22 +127,15 @@ rule sam_index:
     shell: "samtools index {input}"
 
 rule bam_to_bigwig:
-    priority: 1
     message: "Converting BAM file format to bigwig file format for visualization"
     conda: "chip_seq_environment.yml"
     input: expand("{sample}.coorsorted.dedup.bam", sample=SAMPLES)
     output: expand("{sample}.bw", sample=SAMPLES)
     shell: "bamCoverage -b {input} -o {output}"
 
-rule organize_data:
-    priority: 0
+rule organize_data_1:
     message: "Organizing data and output files"
     run:
-        # Make directories for output organization
-        os.system("mkdir 01_raw_data")
-        os.system("mkdir 02_sam_files")
-        os.system("mkdir 03_bam_files")
-        os.system("mkdir 04_bigwig_files")
         with open("samples.txt", "r") as a_file:
             for line in a_file:
                 if not line.lstrip().startswith('#'):
