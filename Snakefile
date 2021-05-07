@@ -34,7 +34,7 @@ rule make_directories:
 rule download_data:
     message: "Downloading raw data files"
     conda: "chip_seq_environment.yml"
-    output: directory(expand("01_raw_data/{sample}/", sample=SAMPLES))
+    output: expand("01_raw_data/{sample}/{sample}.sra", sample=SAMPLES)
     shell: """
         for i in $( grep -v "^#" samples.txt ); do
             prefetch $i
