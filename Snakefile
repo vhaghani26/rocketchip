@@ -24,11 +24,13 @@ rule make_directories:
         directory("02_sam_files/"),
         directory("03_bam_files/"),
         directory("04_bigwig_files/")
+        directory("05_fastqc_analysis/"
     shell: """
         mkdir 01_raw_data
         mkdir 02_sam_files
         mkdir 03_bam_files
         mkdir 04_bigwig_files
+        mkdir 05_fastqc_analysis
     """
 
 rule download_data:
@@ -50,6 +52,24 @@ rule split_paired_reads:
         expand("01_raw_data/{sample}_1.fastq.gz", sample=SAMPLES),
         expand("01_raw_data/{sample}_2.fastq.gz", sample=SAMPLES)
     shell: "fastq-dump {input} --split-files --gzip"
+    
+rule fastqc_precheck_r1:
+    message: "Running quality control on samples pre-processing"
+    conda: "chip_seq_environment.yml"
+    input: expand("01_raw_data/{sample}_1.fastq.gz", sample=SAMPLES),
+    output:
+        expand("05_fastqc_analysis/{sample}_1.pre.fastqc.html", sample=SAMPLES),
+        expand("05_fastqc_analysis/{sample}_1.pre.fastqc.zip", sample=SAMPLES),
+    shell: "fastqc {input}"
+
+rule fastqc_precheck_r2:
+    message: "Running quality control on samples pre-processing"
+    conda: "chip_seq_environment.yml"
+    input: expand("01_raw_data/{sample}_2.fastq.gz", sample=SAMPLES),
+    output:
+        expand("05_fastqc_analysis/{sample}_2.pre.fastqc.html", sample=SAMPLES),
+        expand("05_fastqc_analysis/{sample}_2.pre.fastqc.zip", sample=SAMPLES),
+    shell: "fastqc {input}"   
 
 rule download_genome:
     message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
