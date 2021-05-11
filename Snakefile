@@ -40,7 +40,7 @@ rule download_data:
     shell: """
         for i in $( grep -v "^#" samples.txt ); do
             prefetch $i
-            mv $i/ 01_raw_data/$i/
+            mv $i/ 01_raw_data/
         done
     """
 
