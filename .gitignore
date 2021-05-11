@@ -1,5 +1,6 @@
 .snakemake/
 01_raw_data/
-02_sam_files/
-03_bam_files/
-04_bigwig_files/
+02_fastqc_analysis/
+03_sam_files/
+04_bam_files/
+05_bigwig_files/
