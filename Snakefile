@@ -54,21 +54,17 @@ rule split_paired_reads:
 rule download_genome:
     message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
     output: "01_raw_data/mm39.chromFa.tar.gz"
-    shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz -O 01_raw_data/{output}"
-    
-rule decompress_genome:
-    message: "Decompressing genome"
+    shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz -O {output}"
+
+rule process_genome:
+    message: "Decompressing genome. Concatenating individual chromosome files to create full assembly. Removing chromosome sequence files"
     input: "01_raw_data/mm39.chromFa.tar.gz"
-    shell: "tar zvfx {input}"
-
-rule concatenate_chromosomes:
-    message: "Concatenating individual chromosome files to create full assembly"
     output: "01_raw_data/mm39.fa"
-    shell: "cat 01_raw_data/*.fa > {output}" 
-
-rule delete_chromosome_files:
-    message: "Removing chromosome sequence files"
-    shell: "rm 01_raw_data/chr*.fa"  
+    shell: """
+    tar zvfx {input} --directory 01_raw_data/
+    cat 01_raw_data/*.fa > {output}
+    rm 01_raw_data/chr*.fa
+    """
     
 rule set_alignment_reference:
     message: "Setting GRCm39/mm39 mouse genome assembly as reference genome for alignment" 
