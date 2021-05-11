@@ -14,8 +14,12 @@ rule all:
         "01_raw_data/mm39.bwt",
         "01_raw_data/mm39.pac",
         "01_raw_data/mm39.sa", 
-        expand("03_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=SAMPLES),
-        expand("04_bigwig_files/{sample}.bw", sample=SAMPLES)
+        expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=SAMPLES),
+        expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=SAMPLES),
+        expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=SAMPLES),
+        expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=SAMPLES),
+        expand("04_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=SAMPLES),
+        expand("05_bigwig_files/{sample}.bw", sample=SAMPLES)
 
 rule make_directories:
     message: "Making directories for data organization"
