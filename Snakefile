@@ -101,7 +101,10 @@ rule set_alignment_reference:
         "01_raw_data/mm39.bwt",
         "01_raw_data/mm39.pac",
         "01_raw_data/mm39.sa"
-    shell: "bwa index -p mm39 -a bwtsw {input}" 
+    shell: """
+    bwa index -p mm39 -a bwtsw {input}
+    mv mm39* 01_raw_data/
+    """ 
 
 rule align_reads:
     message: "Aligned paired end reads to GRCm39/mm39 reference genome"
@@ -145,7 +148,10 @@ rule sam_index:
     conda: "chip_seq_environment.yml"
     input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=SAMPLES)
     output: expand("04_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=SAMPLES), 
-    shell: "samtools index {input}"
+    shell: """
+    samtools index {input}
+    mv *.bai 04_bam_files/
+    """
 
 rule bam_to_bigwig:
     message: "Converting BAM file format to bigwig file format for visualization"
