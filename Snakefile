@@ -150,7 +150,6 @@ rule sam_index:
     output: expand("04_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=SAMPLES), 
     shell: """
     samtools index {input}
-    mv *.bai 04_bam_files/
     """
 
 rule bam_to_bigwig:
