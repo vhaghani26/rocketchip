@@ -113,7 +113,7 @@ rule align_reads:
         r1 = expand("01_raw_data/{sample}_1.fastq.gz", sample=SAMPLES),
         r2 = expand("01_raw_data/{sample}_2.fastq.gz", sample=SAMPLES)
     output: expand("03_sam_files/{sample}.sam", sample=SAMPLES)
-    shell: "bwa mem mm39 {input.r1} {input.r2} > {output}"
+    shell: "bwa mem 01_raw_data/mm39 {input.r1} {input.r2} > {output}"
     
 rule sam_to_bam:
     message: "Converting SAM to BAM file format"
