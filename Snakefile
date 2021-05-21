@@ -24,6 +24,7 @@ rule all:
 rule make_directories:
     message: "Making directories for data organization"
     output:
+        directory("00_logs/")
         directory("01_raw_data/"),
         directory("02_fastqc_analysis/"),
         directory("03_sam_files/"),
@@ -31,6 +32,7 @@ rule make_directories:
         directory("05_bigwig_files/"),
 
     shell: """
+        mkdir 00_logs
         mkdir 01_raw_data
         mkdir 02_fastqc_analysis
         mkdir 03_sam_files
@@ -107,13 +109,14 @@ rule set_alignment_reference:
     """ 
 
 rule align_reads:
-    message: "Aligned paired end reads to GRCm39/mm39 reference genome"
+    message: "Aligning paired end reads to GRCm39/mm39 reference genome"
     conda: "chip_seq_environment.yml"
     input:
         r1 = expand("01_raw_data/{sample}_1.fastq.gz", sample=SAMPLES),
         r2 = expand("01_raw_data/{sample}_2.fastq.gz", sample=SAMPLES)
     output: expand("03_sam_files/{sample}.sam", sample=SAMPLES)
-    shell: "bwa mem 01_raw_data/mm39 {input.r1} {input.r2} > {output}"
+    log: expand("00_logs/{sample}_align_reads_err.log", sample=SAMPLES)
+    shell: "bwa mem 01_raw_data/mm39 {input.r1} {input.r2} > {output} 2> {log}"
     
 rule sam_to_bam:
     message: "Converting SAM to BAM file format"
