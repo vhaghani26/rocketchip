@@ -1,4 +1,5 @@
 .snakemake/
+00_logs/
 01_raw_data/
 02_fastqc_analysis/
 03_sam_files/
