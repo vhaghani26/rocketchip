@@ -97,12 +97,7 @@ rule set_alignment_reference:
     message: "Setting GRCm39/mm39 mouse genome assembly as reference genome for alignment" 
     conda: "chip_seq_environment.yml"
     input: "01_raw_data/mm39.fa"
-    output:
-        "01_raw_data/mm39.amb",
-        "01_raw_data/mm39.ann",
-        "01_raw_data/mm39.bwt",
-        "01_raw_data/mm39.pac",
-        "01_raw_data/mm39.sa"
+    output: multiext("01_raw_data/mm39", ".amb", ".ann", ".bwt", ".pac", ".sa")
     shell: """
     bwa index -p mm39 -a bwtsw {input}
     mv mm39* 01_raw_data/
