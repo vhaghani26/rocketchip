@@ -24,7 +24,7 @@ rule all:
 rule make_directories:
     message: "Making directories for data organization"
     output:
-        directory("00_logs/")
+        directory("00_logs/"),
         directory("01_raw_data/"),
         directory("02_fastqc_analysis/"),
         directory("03_sam_files/"),
