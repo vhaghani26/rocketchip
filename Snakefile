@@ -1,4 +1,6 @@
 configfile: "samples.yaml"
+
+print("Starting ChIP-seq data analysis workflow")
             
 rule all:
     input: 
@@ -35,16 +37,16 @@ rule make_directories:
 rule download_data:
     message: "Downloading raw data files"
     conda: "chip_seq_environment.yml"
-    output: expand("01_raw_data/{sample}/{sample}.sra", sample=config["sample"])
+    #output: expand("01_raw_data/{sample}/{sample}.sra", sample=config["sample"])
     shell: "prefetch {config[sample]}"
 
 rule split_paired_reads:
     message: "Splitting paired end reads into separate files"
     conda: "chip_seq_environment.yml"
     input: expand("01_raw_data/{sample}/{sample}.sra", sample=config["sample"])
-    output:
-        expand("01_raw_data/{sample}_1.fastq.gz", sample=config["sample"]),
-        expand("01_raw_data/{sample}_2.fastq.gz", sample=config["sample"])
+    #output:
+        #expand("01_raw_data/{sample}_1.fastq.gz", sample=config["sample"]),
+        #expand("01_raw_data/{sample}_2.fastq.gz", sample=config["sample"])
     shell: "fastq-dump {input} --split-files --gzip --outdir 01_raw_data/"
     
 rule fastqc_precheck_r1:
