@@ -29,8 +29,7 @@ rule make_directories:
         directory("02_fastqc_analysis/"),
         directory("03_sam_files/"),
         directory("04_bam_files/"),
-        directory("05_bigwig_files/"),
-
+        directory("05_bigwig_files/")
     shell: """
         mkdir 00_logs
         mkdir 01_raw_data
