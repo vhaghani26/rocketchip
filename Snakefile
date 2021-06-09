@@ -1,11 +1,6 @@
-import os
+configfile = "samples.yaml"
 
-SAMPLES = []
 
-with open("samples.txt", "r") as a_file:
-    for line in a_file:
-        if not line.lstrip().startswith('#'):
-            SAMPLES.append(line[:-1])
             
 rule all:
     input: 
