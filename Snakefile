@@ -1,6 +1,11 @@
 configfile: "samples.yaml"
 
 print(f'Starting ChIP-seq data analysis workflow for samples: {config["sample"]}')
+
+SAMPLES = config["sample"]
+
+wildcard_constraints:
+    sample='[a-zA-Z0-9._-]+' # Everything except /
         
 rule all:
     input: 
@@ -9,12 +14,12 @@ rule all:
         "01_raw_data/mm39.bwt",
         "01_raw_data/mm39.pac",
         "01_raw_data/mm39.sa", 
-        expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=config["sample"]),
-        expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=config["sample"]),
-        expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=config["sample"]),
-        expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=config["sample"]),
-        expand("04_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=config["sample"]),
-        expand("05_bigwig_files/{sample}.bw", sample=config["sample"])
+        expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=SAMPLES),
+        expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=SAMPLES),
+        expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=SAMPLES),
+        expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=SAMPLES),
+        expand("04_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=SAMPLES),
+        expand("05_bigwig_files/{sample}.bw", sample=SAMPLES)
 
 rule make_directories:
     message: "Making directories for data organization"
@@ -37,34 +42,40 @@ rule make_directories:
 rule download_data:
     message: "Downloading raw data files"
     conda: "chip_seq_environment.yml"
-    output: expand("01_raw_data/{sample}/{sample}.sra", sample=config["sample"])
-    shell: "prefetch {config[sample]}"
+    output: expand("01_raw_data/{sample}/{sample}.sra", sample=SAMPLES)
+    shell: "echo 'prefetch {wildcards.sample}'"
+    #shell: """
+    #    for i in $( grep -v "^#" samples.txt ); do
+    #        prefetch $i
+    #        mv $i/ 01_raw_data/
+    #    done
+    #"""
 
 rule split_paired_reads:
     message: "Splitting paired end reads into separate files"
     conda: "chip_seq_environment.yml"
-    input: expand("01_raw_data/{sample}/{sample}.sra", sample=config["sample"])
+    input: expand("01_raw_data/{sample}/{sample}.sra", sample=SAMPLES)
     output:
-        expand("01_raw_data/{sample}_1.fastq.gz", sample=config["sample"]),
-        expand("01_raw_data/{sample}_2.fastq.gz", sample=config["sample"])
+        expand("01_raw_data/{sample}_1.fastq.gz", sample=SAMPLES),
+        expand("01_raw_data/{sample}_2.fastq.gz", sample=SAMPLES)
     shell: "fastq-dump {input} --split-files --gzip --outdir 01_raw_data/"
     
 rule fastqc_precheck_r1:
     message: "Running quality control on samples pre-processing"
     conda: "chip_seq_environment.yml"
-    input: expand("01_raw_data/{sample}_1.fastq.gz", sample=config["sample"]),
+    input: expand("01_raw_data/{sample}_1.fastq.gz", sample=SAMPLES),
     output:
-        expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=config["sample"]),
-        expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=config["sample"]),
+        expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=SAMPLES),
+        expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=SAMPLES),
     shell: "fastqc {input} --outdir 02_fastqc_analysis/"
 
 rule fastqc_precheck_r2:
     message: "Running quality control on samples pre-processing"
     conda: "chip_seq_environment.yml"
-    input: expand("01_raw_data/{sample}_2.fastq.gz", sample=config["sample"]),
+    input: expand("01_raw_data/{sample}_2.fastq.gz", sample=SAMPLES),
     output:
-        expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=config["sample"]),
-        expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=config["sample"]),
+        expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=SAMPLES),
+        expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=SAMPLES),
     shell: "fastqc {input} --outdir 02_fastqc_analysis/"   
 
 rule download_genome:
@@ -96,45 +107,45 @@ rule align_reads:
     message: "Aligning paired end reads to GRCm39/mm39 reference genome"
     conda: "chip_seq_environment.yml"
     input:
-        r1 = expand("01_raw_data/{sample}_1.fastq.gz", sample=config["sample"]),
-        r2 = expand("01_raw_data/{sample}_2.fastq.gz", sample=config["sample"])
-    output: expand("03_sam_files/{sample}.sam", sample=config["sample"])
-    log: expand("00_logs/{sample}_align_reads_err.log", sample=config["sample"])
+        r1 = expand("01_raw_data/{sample}_1.fastq.gz", sample=SAMPLES),
+        r2 = expand("01_raw_data/{sample}_2.fastq.gz", sample=SAMPLES)
+    output: expand("03_sam_files/{sample}.sam", sample=SAMPLES)
+    log: expand("00_logs/{sample}_align_reads_err.log", sample=SAMPLES)
     shell: "bwa mem 01_raw_data/mm39 {input.r1} {input.r2} > {output} 2> {log}"
     
 rule sam_to_bam:
     message: "Converting SAM to BAM file format"
     conda: "chip_seq_environment.yml"
-    input: expand("03_sam_files/{sample}.sam", sample=config["sample"])
-    output: expand("04_bam_files/{sample}.bam", sample=config["sample"])
+    input: expand("03_sam_files/{sample}.sam", sample=SAMPLES)
+    output: expand("04_bam_files/{sample}.bam", sample=SAMPLES)
     shell: "samtools view -b {input} > {output}"
 
 rule sam_fixmate:
     message: "Removing secondary and unmapped reads. Adding tags to reads for deduplication"
     conda: "chip_seq_environment.yml"
-    input: expand("04_bam_files/{sample}.bam", sample=config["sample"])
-    output: expand("04_bam_files/{sample}.namesorted.fixmate.bam", sample=config["sample"])
+    input: expand("04_bam_files/{sample}.bam", sample=SAMPLES)
+    output: expand("04_bam_files/{sample}.namesorted.fixmate.bam", sample=SAMPLES)
     shell: "samtools fixmate -rcm -O bam {input} {output}"
 
 rule sam_sort:
     message: "Sorting reads by chromosome coordinates"
     conda: "chip_seq_environment.yml"
-    input: expand("04_bam_files/{sample}.namesorted.fixmate.bam", sample=config["sample"])
-    output: expand("04_bam_files/{sample}.coorsorted.fixmate.bam", sample=config["sample"])
+    input: expand("04_bam_files/{sample}.namesorted.fixmate.bam", sample=SAMPLES)
+    output: expand("04_bam_files/{sample}.coorsorted.fixmate.bam", sample=SAMPLES)
     shell: "samtools sort {input} -o {output}"
 
 rule sam_markdup:
     message: "Marking and removing duplicates"
     conda: "chip_seq_environment.yml"
-    input: expand("04_bam_files/{sample}.coorsorted.fixmate.bam", sample=config["sample"])
-    output: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=config["sample"])
+    input: expand("04_bam_files/{sample}.coorsorted.fixmate.bam", sample=SAMPLES)
+    output: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=SAMPLES)
     shell: "samtools markdup -r --mode s {input} {output}"
 
 rule sam_index:
     message: "Indexing deduplicated BAM file"
     conda: "chip_seq_environment.yml"
-    input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=config["sample"])
-    output: expand("04_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=config["sample"]), 
+    input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=SAMPLES)
+    output: expand("04_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=SAMPLES), 
     shell: """
     samtools index {input}
     """
@@ -142,6 +153,6 @@ rule sam_index:
 rule bam_to_bigwig:
     message: "Converting BAM file format to bigwig file format for visualization"
     conda: "chip_seq_environment.yml"
-    input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=config["sample"])
-    output: expand("05_bigwig_files/{sample}.bw", sample=config["sample"])
+    input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=SAMPLES)
+    output: expand("05_bigwig_files/{sample}.bw", sample=SAMPLES)
     shell: "bamCoverage -b {input} -o {output}"
