@@ -1,7 +1,7 @@
 configfile: "samples.yaml"
 
-print("Starting ChIP-seq data analysis workflow")
-            
+print(f'Starting ChIP-seq data analysis workflow for samples: {config["sample"]}')
+        
 rule all:
     input: 
         "01_raw_data/mm39.amb",
