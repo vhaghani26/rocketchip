@@ -2,10 +2,10 @@ configfile: "samples.yaml"
 
 print(f'Starting ChIP-seq data analysis workflow for samples: {config["sample"]}')
 
-SAMPLES = config["sample"]
-
 wildcard_constraints:
     sample='[a-zA-Z0-9._-]+' # Everything except /
+    
+SAMPLES = config["sample"]
         
 rule all:
     input: 
@@ -146,9 +146,7 @@ rule sam_index:
     conda: "chip_seq_environment.yml"
     input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=SAMPLES)
     output: expand("04_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=SAMPLES), 
-    shell: """
-    samtools index {input}
-    """
+    shell: "samtools index {input}"
 
 rule bam_to_bigwig:
     message: "Converting BAM file format to bigwig file format for visualization"
