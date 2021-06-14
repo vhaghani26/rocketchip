@@ -2,7 +2,6 @@ configfile: "samples.yaml"
 
 SAMPLES = config["sample"]
 
-# Still working on this
 #wildcard_constraints:
 #    sample='[a-zA-Z0-9._-]+' # Everything except /
 
@@ -48,12 +47,12 @@ rule make_directories:
 #    conda: "chip_seq_environment.yml"
 #    output: expand("01_raw_data/{sample}/{sample}.sra", sample=SAMPLES)
 #    shell: "echo 'prefetch'"
-    #shell: """
-    #    for i in $( grep -v "^#" samples.txt ); do
-    #        prefetch $i
-    #        mv $i/ 01_raw_data/
-    #    done
-    #"""
+#    shell: """
+#        for i in $( grep -v "^#" samples.txt ); do
+#            prefetch $i
+#            mv $i/ 01_raw_data/
+#        done
+#    """
 
 rule split_paired_reads:
     message: "Splitting paired end reads into separate files"
@@ -62,7 +61,8 @@ rule split_paired_reads:
     output:
         expand("01_raw_data/{sample}_1.fastq.gz", sample=SAMPLES),
         expand("01_raw_data/{sample}_2.fastq.gz", sample=SAMPLES)
-    shell: "fastq-dump {input} --split-files --gzip --outdir 01_raw_data/"
+    log: expand("00_logs/{sample}_split_paired_reads.log", sample=SAMPLES)
+    shell: "fastq-dump {input} --split-files --gzip --outdir 01_raw_data/ 2> 00_logs/{log}"
     
 rule fastqc_precheck_r1:
     message: "Running quality control on samples pre-processing"
@@ -71,7 +71,8 @@ rule fastqc_precheck_r1:
     output:
         expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=SAMPLES),
         expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=SAMPLES),
-    shell: "fastqc {input} --outdir 02_fastqc_analysis/"
+    log: expand("00_logs/{sample}_fastqc_precheck_r1.log", sample=SAMPLES)
+    shell: "fastqc {input} --outdir 02_fastqc_analysis/ 2> 00_logs/{log}"
 
 rule fastqc_precheck_r2:
     message: "Running quality control on samples pre-processing"
@@ -80,20 +81,23 @@ rule fastqc_precheck_r2:
     output:
         expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=SAMPLES),
         expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=SAMPLES),
-    shell: "fastqc {input} --outdir 02_fastqc_analysis/"   
+    log: expand("00_logs/{sample}_fastqc_precheck_r2.log", sample=SAMPLES)
+    shell: "fastqc {input} --outdir 02_fastqc_analysis/ 2> 00_logs/{log}"   
 
 rule download_genome:
     message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
     output: "01_raw_data/mm39.chromFa.tar.gz"
-    shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz -O {output}"
+    log: "00_logs/download_genome.log"
+    shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz -O {output} 2> 00_logs/{log}"
 
 rule process_genome:
     message: "Decompressing genome. Concatenating individual chromosome files to create full assembly. Removing chromosome sequence files"
     input: "01_raw_data/mm39.chromFa.tar.gz"
     output: "01_raw_data/mm39.fa"
+    log: "00_logs/process_genome.log"
     shell: """
     tar zvfx {input} --directory 01_raw_data/
-    cat 01_raw_data/*.fa > {output}
+    cat 01_raw_data/*.fa > {output} 2> 00_logs/{log}
     rm 01_raw_data/chr*.fa
     """
     
@@ -102,8 +106,9 @@ rule set_alignment_reference:
     conda: "chip_seq_environment.yml"
     input: "01_raw_data/mm39.fa"
     output: multiext("01_raw_data/mm39", ".amb", ".ann", ".bwt", ".pac", ".sa")
+    log: "00_logs/set_alignment_reference.log"
     shell: """
-    bwa index -p mm39 -a bwtsw {input}
+    bwa index -p mm39 -a bwtsw {input} 2> {log}
     mv mm39* 01_raw_data/
     """ 
 
@@ -122,49 +127,55 @@ rule sam_to_bam:
     conda: "chip_seq_environment.yml"
     input: expand("03_sam_files/{sample}.sam", sample=SAMPLES)
     output: expand("04_bam_files/{sample}.bam", sample=SAMPLES)
-    shell: "samtools view -b {input} > {output}"
+    log: expand("00_logs/{sample}_sam_to_bam.log", sample=SAMPLES)
+    shell: "samtools view -b {input} > {output} 2> 00_logs/{log}"
 
 rule sam_fixmate:
     message: "Removing secondary and unmapped reads. Adding tags to reads for deduplication"
     conda: "chip_seq_environment.yml"
     input: expand("04_bam_files/{sample}.bam", sample=SAMPLES)
     output: expand("04_bam_files/{sample}.namesorted.fixmate.bam", sample=SAMPLES)
-    shell: "samtools fixmate -rcm -O bam {input} {output}"
+    log: expand("00_logs/{sample}_sam_fixmate.log", sample=SAMPLES)
+    shell: "samtools fixmate -rcm -O bam {input} {output} 2> 00_logs/{log}"
 
 rule sam_sort:
     message: "Sorting reads by chromosome coordinates"
     conda: "chip_seq_environment.yml"
     input: expand("04_bam_files/{sample}.namesorted.fixmate.bam", sample=SAMPLES)
     output: expand("04_bam_files/{sample}.coorsorted.fixmate.bam", sample=SAMPLES)
-    shell: "samtools sort {input} -o {output}"
+    log: expand("00_logs/{sample}_sam_sort.log", sample=SAMPLES)
+    shell: "samtools sort {input} -o {output} 2> 00_logs/{log}"
 
 rule sam_markdup:
     message: "Marking and removing duplicates"
     conda: "chip_seq_environment.yml"
     input: expand("04_bam_files/{sample}.coorsorted.fixmate.bam", sample=SAMPLES)
     output: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=SAMPLES)
-    shell: "samtools markdup -r --mode s {input} {output}"
+    log: expand("00_logs/{sample}_sam_markdup.log", sample=SAMPLES)
+    shell: "samtools markdup -r --mode s {input} {output} 2> 00_logs/{log}"
 
 rule sam_index:
     message: "Indexing deduplicated BAM file"
     conda: "chip_seq_environment.yml"
     input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=SAMPLES)
     output: expand("04_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=SAMPLES), 
-    shell: "samtools index {input}"
+    log: expand("00_logs/{sample}_sam_index.log", sample=SAMPLES)
+    shell: "samtools index {input} 2> 00_logs/{log}"
 
 rule bam_to_bigwig:
     message: "Converting BAM file format to bigwig file format for visualization"
     conda: "chip_seq_environment.yml"
     input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=SAMPLES)
     output: expand("05_bigwig_files/{sample}.bw", sample=SAMPLES)
-    shell: "bamCoverage -b {input} -o {output}"
+    log: expand("00_logs/{sample}_bam_to_bigwig.log", sample=SAMPLES)
+    shell: "bamCoverage -b {input} -o {output} 2> 00_logs/{log}"
 
 # Need to add {wildcard.samples} or have {sample} string name for -n option
 # Need to run through with one sample to make sure outputs work
-rule call_peaks:
-    message: "Calling ChIP-seq peaks"
-    conda: "chip_seq_environment.yml"
-    input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=SAMPLES)
-    output: multiext(expand('"06_macs2_peaks/{sample}", "_peaks.narrowPeak", "_peaks.xls", "_summits.bed", "_model.R", "_control_lambda.bdg", "_treat_pileup.bdg"', sample=SAMPLES))
-    log: expand("00_logs/{sample}_macs2_peaks.log", sample=SAMPLES)
-    shell: "macs2 callpeak -t {input} -f BAM -n {wildcards.sample} --outdir 06_macs2_peaks/ 2> 00_logs/{log}"
+#rule call_peaks:
+#    message: "Calling ChIP-seq peaks"
+#    conda: "chip_seq_environment.yml"
+#    input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=SAMPLES)
+#    output: multiext(expand('"06_macs2_peaks/{sample}", "_peaks.narrowPeak", "_peaks.xls", "_summits.bed", "_model.R", "_control_lambda.bdg", "_treat_pileup.bdg"', sample=SAMPLES))
+#    log: expand("00_logs/{sample}_macs2_peaks.log", sample=SAMPLES)
+#    shell: "macs2 callpeak -t {input} -f BAM -n {wildcards.sample} --outdir 06_macs2_peaks/ 2> 00_logs/{log}"
