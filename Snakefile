@@ -158,11 +158,12 @@ rule bam_to_bigwig:
     output: expand("05_bigwig_files/{sample}.bw", sample=SAMPLES)
     shell: "bamCoverage -b {input} -o {output}"
 
-# Need to add {wildcard.samples} or 
+# Need to add {wildcard.samples} or have {sample} string name for -n option
+# Need to run through with one sample to make sure outputs work
 rule call_peaks:
     message: "Calling ChIP-seq peaks"
     conda: "chip_seq_environment.yml"
     input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=SAMPLES)
-    #output: expand(multiext("06_macs2_peaks/{sample}", "_peaks.narrowPeak", "_peaks.xls", "_summits.bed", "_model.R", "_control_lambda.bdg", "_treat_pileup.bdg"), sample=SAMPLES)
+    output: expand(multiext("06_macs2_peaks/{sample}", "_peaks.narrowPeak", "_peaks.xls", "_summits.bed", "_model.R", "_control_lambda.bdg", "_treat_pileup.bdg"), sample=SAMPLES)
     log: expand("00_logs/{sample}_macs2_peaks.log", sample=SAMPLES)
     shell: "macs2 callpeak -t {input} -f BAM -n {wildcards.sample} --outdir 06_macs2_peaks/ 2> 00_logs/{log}"
