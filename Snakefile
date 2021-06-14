@@ -1,10 +1,10 @@
 configfile: "samples.yaml"
 
-# Still working on this
-wildcard_constraints:
-    sample='[a-zA-Z0-9._-]+' # Everything except /
-    
 SAMPLES = config["sample"]
+
+# Still working on this
+#wildcard_constraints:
+#    sample='[a-zA-Z0-9._-]+' # Everything except /
 
 print(f'Starting ChIP-seq data analysis workflow for samples: {config["sample"]}')
         
@@ -15,6 +15,7 @@ rule all:
         "01_raw_data/mm39.bwt",
         "01_raw_data/mm39.pac",
         "01_raw_data/mm39.sa", 
+        expand("01_raw_data/{sample}/{sample}.sra", sample=SAMPLES),
         expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=SAMPLES),
         expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=SAMPLES),
         expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=SAMPLES),
@@ -42,17 +43,11 @@ rule make_directories:
         mkdir 06_macs2_peaks
     """
 
-# Figure out what to do with this
-def call_sra(sample):
-    for x in sample:
-        return(x)
-
-rule download_data:
-    message: "Downloading raw data files"
-    conda: "chip_seq_environment.yml"
-    input: call_sra(config["sample"])
-    output: expand("01_raw_data/{sample}/{sample}.sra", sample=SAMPLES)
-    shell: "echo 'prefetch {input}'"
+#rule download_data:
+#    message: "Downloading raw data files"
+#    conda: "chip_seq_environment.yml"
+#    output: expand("01_raw_data/{sample}/{sample}.sra", sample=SAMPLES)
+#    shell: "echo 'prefetch'"
     #shell: """
     #    for i in $( grep -v "^#" samples.txt ); do
     #        prefetch $i
@@ -170,6 +165,6 @@ rule call_peaks:
     message: "Calling ChIP-seq peaks"
     conda: "chip_seq_environment.yml"
     input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=SAMPLES)
-    #output: expand(multiext("06_macs2_peaks/{sample}", "_peaks.narrowPeak", "_peaks.xls", "_summits.bed", "_model.R", "_control_lambda.bdg", "_treat_pileup.bdg"), sample=SAMPLES)
+    output: multiext(expand('"06_macs2_peaks/{sample}", "_peaks.narrowPeak", "_peaks.xls", "_summits.bed", "_model.R", "_control_lambda.bdg", "_treat_pileup.bdg"', sample=SAMPLES))
     log: expand("00_logs/{sample}_macs2_peaks.log", sample=SAMPLES)
     shell: "macs2 callpeak -t {input} -f BAM -n {wildcards.sample} --outdir 06_macs2_peaks/ 2> 00_logs/{log}"
