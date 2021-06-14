@@ -29,7 +29,8 @@ rule make_directories:
         directory("02_fastqc_analysis/"),
         directory("03_sam_files/"),
         directory("04_bam_files/"),
-        directory("05_bigwig_files/")
+        directory("05_bigwig_files/"),
+        directory("06_macs2_peaks/")
     shell: """
         mkdir 00_logs
         mkdir 01_raw_data
@@ -37,13 +38,15 @@ rule make_directories:
         mkdir 03_sam_files
         mkdir 04_bam_files
         mkdir 05_bigwig_files
+        mkdir 06_macs2_peaks
     """
 
 rule download_data:
     message: "Downloading raw data files"
     conda: "chip_seq_environment.yml"
+    input: ["samples.yaml"]
     output: expand("01_raw_data/{sample}/{sample}.sra", sample=SAMPLES)
-    shell: "echo 'prefetch {wildcards.sample}'"
+    shell: "echo 'prefetch {input}'"
     #shell: """
     #    for i in $( grep -v "^#" samples.txt ); do
     #        prefetch $i
@@ -154,3 +157,12 @@ rule bam_to_bigwig:
     input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=SAMPLES)
     output: expand("05_bigwig_files/{sample}.bw", sample=SAMPLES)
     shell: "bamCoverage -b {input} -o {output}"
+
+# Need to add {wildcard.samples} or 
+rule call_peaks:
+    message: "Calling ChIP-seq peaks"
+    conda: "chip_seq_environment.yml"
+    input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=SAMPLES)
+    #output: expand(multiext("06_macs2_peaks/{sample}", "_peaks.narrowPeak", "_peaks.xls", "_summits.bed", "_model.R", "_control_lambda.bdg", "_treat_pileup.bdg"), sample=SAMPLES)
+    log: expand("00_logs/{sample}_macs2_peaks.log", sample=SAMPLES)
+    shell: "macs2 callpeak -t {input} -f BAM -n {wildcards.sample} --outdir 06_macs2_peaks/ 2> 00_logs/{log}"
