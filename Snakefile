@@ -2,8 +2,8 @@ configfile: "samples.yaml"
 
 SAMPLES = config["sample"]
 
-#wildcard_constraints:
-#    sample='[a-zA-Z0-9._-]+' # Everything except /
+wildcard_constraints:
+    sample = '[a-zA-Z0-9._-]+' # Everything except /
 
 print(f'Starting ChIP-seq data analysis workflow for samples: {config["sample"]}')
         
@@ -42,11 +42,18 @@ rule make_directories:
         mkdir 06_macs2_peaks
     """
 
-#rule download_data:
-#    message: "Downloading raw data files"
+rule download_data:
+    message: "Downloading raw data files"
 #    conda: "chip_seq_environment.yml"
 #    output: expand("01_raw_data/{sample}/{sample}.sra", sample=SAMPLES)
-#    shell: "echo 'prefetch'"
+    shell: """
+    source Snakefile
+    for i in $SAMPLES; do
+        prefetch $i
+        mv $i/ 01_raw_data/
+    done
+    """
+#    shell: "echo 'prefetch {SAMPLES}'"
 #    shell: """
 #        for i in $( grep -v "^#" samples.txt ); do
 #            prefetch $i
