@@ -7,7 +7,6 @@ def get_sra_ids(list):
         print(x)
     return x
     
-
 rule sample_issue:
     params:
         sample_ids = get_sra_ids(SAMPLES)
