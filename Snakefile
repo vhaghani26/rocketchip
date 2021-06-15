@@ -13,6 +13,8 @@ rule all:
         "01_raw_data/mm39.pac",
         "01_raw_data/mm39.sa", 
         expand("01_raw_data/{sample}/{sample}.sra", sample=config["sample"]),
+        expand("01_raw_data/{sample}_1.fastq.gz", sample=config["sample"]),
+        expand("01_raw_data/{sample}_2.fastq.gz", sample=config["sample"]),
         expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=config["sample"]),
         expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=config["sample"]),
         expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=config["sample"]),
@@ -40,14 +42,14 @@ rule make_directories:
         mkdir 06_macs2_peaks
     """
     
-#rule download_data:
-#    message: "Downloading raw data files"
-#    conda: "chip_seq_environment.yml"
-#    params:
-#        lambda wildcards: config["sample"][wildcards.sample]
-#    output: "01_raw_data/{sample}/{sample}.sra"
-#    log: "00_logs/{sample}_download_data.log"
-#    shell: "echo 'prefetch {params} 2> {log}'"
+rule download_data:
+    message: "Downloading raw data files"
+    conda: "chip_seq_environment.yml"
+    params:
+        sra_ids = config["sample"]
+    output: "01_raw_data/{sample}/{sample}.sra"
+    log: "00_logs/{sample}_download_data.log"
+    shell: "echo 'prefetch {params} 2> {log}'"
 
 rule split_paired_reads:
     message: "Splitting paired end reads into separate files"
@@ -57,7 +59,7 @@ rule split_paired_reads:
         "01_raw_data/{sample}_1.fastq.gz",
         "01_raw_data/{sample}_2.fastq.gz"
     log: "00_logs/{sample}_split_paired_reads.log"
-    shell: "echo 'fastq-dump {input} --split-files --gzip --outdir 01_raw_data/ 2> 00_logs/{log}'mv"
+    shell: "echo 'fastq-dump {input} --split-files --gzip --outdir 01_raw_data/ 2> 00_logs/{log}'"
     
 rule fastqc_precheck_r1:
     message: "Running quality control on samples pre-processing"
