@@ -2,6 +2,19 @@ configfile: "samples.yaml"
 
 SAMPLES = config["sample"]
 
+def get_sra_ids(list):
+    for x in list:
+        print(x)
+    return x
+    
+
+rule sample_issue:
+    params:
+        sample_ids = get_sra_ids(SAMPLES)
+    shell: """
+    echo {params.sample_ids}
+    """
+
 wildcard_constraints:
     sample = '[a-zA-Z0-9._-]+' # Everything except /
 
@@ -46,6 +59,9 @@ rule download_data:
     message: "Downloading raw data files"
 #    conda: "chip_seq_environment.yml"
 #    output: expand("01_raw_data/{sample}/{sample}.sra", sample=SAMPLES)
+    params:
+        samp_name = expand("{sample}", sample=SAMPLES)
+    shell: "echo 'prefetch {params.samp_name}'"
 #    shell: """
 #    sample=$(SAMPLES "$Snakefile")
 #    echo $SAMPLES
@@ -189,5 +205,7 @@ rule bam_to_bigwig:
 #    conda: "chip_seq_environment.yml"
 #    input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=SAMPLES)
 #    output: multiext(expand('"06_macs2_peaks/{sample}", "_peaks.narrowPeak", "_peaks.xls", "_summits.bed", "_model.R", "_control_lambda.bdg", "_treat_pileup.bdg"', sample=SAMPLES))
+#    params:
+#        samp_name = expand("{sample}", sample=SAMPLES)
 #    log: expand("00_logs/{sample}_macs2_peaks.log", sample=SAMPLES)
-#    shell: "macs2 callpeak -t {input} -f BAM -n {wildcards.sample} --outdir 06_macs2_peaks/ 2> 00_logs/{log}"
+#    shell: "macs2 callpeak -t {input} -f BAM -n {params.samp_name} --outdir 06_macs2_peaks/ 2> 00_logs/{log}"
