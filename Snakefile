@@ -46,13 +46,18 @@ rule download_data:
     message: "Downloading raw data files"
 #    conda: "chip_seq_environment.yml"
 #    output: expand("01_raw_data/{sample}/{sample}.sra", sample=SAMPLES)
-    shell: """
-    source Snakefile
-    for i in $SAMPLES; do
-        prefetch $i
-        mv $i/ 01_raw_data/
-    done
-    """
+#    shell: """
+#    sample=$(SAMPLES "$Snakefile")
+#    echo $SAMPLES
+#    """
+#    shell: """
+#    read -d $'\x04' SAMPLES < "$Snakefile"
+#    for i in $SAMPLES; do
+#        echo $SAMPLES
+#        prefetch $i
+#        mv $i/ 01_raw_data/
+#    done
+#    """
 #    shell: "echo 'prefetch {SAMPLES}'"
 #    shell: """
 #        for i in $( grep -v "^#" samples.txt ); do
