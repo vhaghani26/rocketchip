@@ -2,18 +2,6 @@ configfile: "samples.yaml"
 
 SAMPLES = config["sample"]
 
-def get_sra_ids(list):
-    for x in list:
-        print(x)
-    return x
-    
-rule sample_issue:
-    params:
-        sample_ids = get_sra_ids(SAMPLES)
-    shell: """
-    echo {params.sample_ids}
-    """
-
 wildcard_constraints:
     sample = '[a-zA-Z0-9._-]+' # Everything except /
 
@@ -56,30 +44,12 @@ rule make_directories:
 
 rule download_data:
     message: "Downloading raw data files"
-#    conda: "chip_seq_environment.yml"
-#    output: expand("01_raw_data/{sample}/{sample}.sra", sample=SAMPLES)
+    conda: "chip_seq_environment.yml"
+    #input: lambda wildcards: config["sample"]
+    output: expand("01_raw_data/{sample}/{sample}.sra", sample=SAMPLES)
     params:
-        samp_name = expand("{sample}", sample=SAMPLES)
-    shell: "echo 'prefetch {params.samp_name}'"
-#    shell: """
-#    sample=$(SAMPLES "$Snakefile")
-#    echo $SAMPLES
-#    """
-#    shell: """
-#    read -d $'\x04' SAMPLES < "$Snakefile"
-#    for i in $SAMPLES; do
-#        echo $SAMPLES
-#        prefetch $i
-#        mv $i/ 01_raw_data/
-#    done
-#    """
-#    shell: "echo 'prefetch {SAMPLES}'"
-#    shell: """
-#        for i in $( grep -v "^#" samples.txt ); do
-#            prefetch $i
-#            mv $i/ 01_raw_data/
-#        done
-#    """
+        samp_id = lambda wildcards: config["sample"]
+    shell: "echo 'prefetch {params.samp_id}'"
 
 rule split_paired_reads:
     message: "Splitting paired end reads into separate files"
