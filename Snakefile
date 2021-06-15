@@ -45,11 +45,10 @@ rule make_directories:
 rule download_data:
     message: "Downloading raw data files"
     conda: "chip_seq_environment.yml"
-    #input: lambda wildcards: config["sample"]
-    output: expand("01_raw_data/{sample}/{sample}.sra", sample=SAMPLES)
     params:
-        samp_id = lambda wildcards: config["sample"]
-    shell: "echo 'prefetch {params.samp_id}'"
+        lambda wildcards: config["sample"][wildcards.sample]
+    output: expand("01_raw_data/{sample}/{sample}.sra", sample=SAMPLES)
+    shell: "echo 'prefetch {params}'"
 
 rule split_paired_reads:
     message: "Splitting paired end reads into separate files"
