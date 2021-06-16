@@ -1,23 +1,42 @@
 configfile: "samples.yaml"
-   
 print(f'Starting ChIP-seq data analysis workflow for samples: {config["samples"]}')
-        
+print(config)
 rule all:
     input: 
-        "01_raw_data/mm39.amb",
-        "01_raw_data/mm39.ann",
-        "01_raw_data/mm39.bwt",
-        "01_raw_data/mm39.pac",
-        "01_raw_data/mm39.sa", 
         expand("01_raw_data/{sample}/{sample}.sra", sample=config["samples"]),
-        expand("01_raw_data/{sample}_1.fastq.gz", sample=config["samples"]),
-        expand("01_raw_data/{sample}_2.fastq.gz", sample=config["samples"]),
-        expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=config["samples"]),
-        expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=config["samples"]),
-        expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=config["samples"]),
-        expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=config["samples"]),
-        expand("04_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=config["samples"]),
-        expand("05_bigwig_files/{sample}.bw", sample=config["samples"])
+rule download_data:
+    message: "Downloading raw data files"
+    conda: "chip_seq_environment.yml"
+    params:
+        lambda wildcards: config["samples"][wildcards.sample]
+    output: "01_raw_data/{sample}/{sample}.sra"
+    log: "00_logs/{sample}_download_data.log"
+    shell: """
+    echo 'prefetch {params} 2> {log}'
+    echo 'mv {params}/ 01_raw_data/'
+    touch {output}
+    """
+#configfile: "samples.yaml"
+#   
+#print(f'Starting ChIP-seq data analysis workflow for samples: {config["samples"]}')
+#print(config)
+#        
+#rule all:
+#    input: 
+#        "01_raw_data/mm39.amb",
+#        "01_raw_data/mm39.ann",
+#        "01_raw_data/mm39.bwt",
+#        "01_raw_data/mm39.pac",
+#        "01_raw_data/mm39.sa", 
+#        expand("01_raw_data/{sample}/{sample}.sra", sample=config["samples"]),
+#        expand("01_raw_data/{sample}_1.fastq.gz", sample=config["samples"]),
+#        expand("01_raw_data/{sample}_2.fastq.gz", sample=config["samples"]),
+#        expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=config["samples"]),
+#        expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=config["samples"]),
+#        expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=config["samples"]),
+#        expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=config["samples"]),
+#        expand("04_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=config["samples"]),
+#        expand("05_bigwig_files/{sample}.bw", sample=config["samples"])
 
 rule make_directories:
     message: "Making directories for data organization"
@@ -39,18 +58,19 @@ rule make_directories:
         mkdir 06_macs2_peaks
     """
     
-rule download_data:
-    message: "Downloading raw data files"
-    conda: "chip_seq_environment.yml"
-    params:
-        lambda wildcards: config["samples"][wildcards.sample]
-    output: "01_raw_data/{sample}/{sample}.sra"
-    log: "00_logs/{sample}_download_data.log"
-    shell: """
-    echo 'prefetch {params} 2> {log}'
-    echo 'mv {params}/ 01_raw_data/'
-    """
-
+#rule download_data:
+#    message: "Downloading raw data files"
+#    conda: "chip_seq_environment.yml"
+#    params:
+#        lambda wildcards: config["samples"][wildcards.sample]
+#    output: "01_raw_data/{sample}/{sample}.sra"
+#   log: "00_logs/{sample}_download_data.log"
+#    shell: """
+#    echo 'prefetch {params} 2> {log}'
+#    echo 'mv {params}/ 01_raw_data/'
+#    touch {output}
+#    """
+    
 rule split_paired_reads:
     message: "Splitting paired end reads into separate files"
     conda: "chip_seq_environment.yml"
