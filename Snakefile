@@ -39,14 +39,11 @@ rule make_directories:
         mkdir 06_macs2_peaks
     """
 
-def get_sra_ids(wildcards):
-    return config["samples"][wildcards.sample]
-    
 rule download_data:
     message: "Downloading raw data files"
     conda: "chip_seq_environment.yml"
     params:
-        get_sra_ids
+        lambda wildcards: config["samples"]
     output: "01_raw_data/{sample}/{sample}.sra"
     log: "00_logs/{sample}_download_data.log"
     shell: """
