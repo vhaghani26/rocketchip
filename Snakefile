@@ -1,5 +1,5 @@
 configfile: "samples.yaml"
-   
+
 print(f'Starting ChIP-seq data analysis workflow for samples: {config["samples"]}')
    
 rule all:
@@ -38,12 +38,15 @@ rule make_directories:
         mkdir 05_bigwig_files
         mkdir 06_macs2_peaks
     """
+
+def get_sra_ids(wildcards):
+    return config["samples"][wildcards.sample]
     
 rule download_data:
     message: "Downloading raw data files"
     conda: "chip_seq_environment.yml"
     params:
-        lambda wildcards: config["sample"][wildcards.sample]
+        get_sra_ids
     output: "01_raw_data/{sample}/{sample}.sra"
     log: "00_logs/{sample}_download_data.log"
     shell: """
@@ -118,6 +121,7 @@ rule align_reads:
         r2 = "01_raw_data/{sample}_2.fastq.gz"
     output: "03_sam_files/{sample}.sam"
     log: "00_logs/{sample}_align_reads_err.log"
+    threads: 8
     shell: "bwa mem 01_raw_data/mm39 {input.r1} {input.r2} > {output} 2> {log}"
     
 rule sam_to_bam:
