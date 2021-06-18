@@ -43,12 +43,12 @@ rule download_data:
     message: "Downloading raw data files"
     conda: "chip_seq_environment.yml"
     params:
-        lambda wildcards: config["samples"]
+        id = f'{config["samples"]}'
     output: "01_raw_data/{sample}/{sample}.sra"
     log: "00_logs/{sample}_download_data.log"
     shell: """
-    echo 'prefetch {params} 2> {log}'
-    echo 'mv {params}/ 01_raw_data/'
+    echo 'prefetch {params.id} 2> {log}'
+    echo 'mv {params.id}/ 01_raw_data/'
     touch {output}
     """
     
