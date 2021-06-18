@@ -1,3 +1,5 @@
+import yaml
+
 configfile: "samples.yaml"
 
 print(f'Starting ChIP-seq data analysis workflow for samples: {config["samples"]}')
@@ -39,11 +41,16 @@ rule make_directories:
         mkdir 06_macs2_peaks
     """
 
+with open(r'samples.yaml') as file:
+    yaml_content = yaml.load(file, Loader=yaml.FullLoader)
+for key, value in yaml_content.items():
+    sra_ids = value
+    
 rule download_data:
     message: "Downloading raw data files"
     conda: "chip_seq_environment.yml"
     params:
-        lambda wildcards: config[wildcards.samples]
+        lambda wildcards: sra_ids
     output: "01_raw_data/{sample}/{sample}.sra"
     log: "00_logs/{sample}_download_data.log"
     shell: """
