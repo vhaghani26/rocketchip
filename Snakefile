@@ -1,5 +1,8 @@
 configfile: "samples.yaml"
 
+wildcard_constraints:
+    sample='[a-zA-Z0-9]+'
+
 print(f'Starting ChIP-seq data analysis workflow for samples: {config["samples"]}')
    
 rule all:
