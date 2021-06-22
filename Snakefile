@@ -49,7 +49,6 @@ rule download_data:
     shell: """
     echo 'prefetch {params} > {output} 2> {log}'
     echo 'mv {params}/ 01_raw_data/'
-    touch {output}
     """
     
 rule split_paired_reads:
