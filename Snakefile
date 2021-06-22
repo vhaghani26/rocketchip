@@ -177,7 +177,6 @@ rule bam_to_bigwig:
     log: "00_logs/{sample}_bam_to_bigwig.log"
     shell: "bamCoverage -b {input} -o {output} 2> {log}"
 
-# Need to add {wildcard.samples} or have {sample} string name for -n option
 # Need to run through with one sample to make sure outputs work
 #rule call_peaks:
 #    message: "Calling ChIP-seq peaks"
@@ -187,4 +186,4 @@ rule bam_to_bigwig:
 #    params:
 #        samp_name = "{sample}"
 #    log: "00_logs/{sample}_macs2_peaks.log"
-#    shell: "macs2 callpeak -t {input} -f BAM -n {params.samp_name} --outdir 06_macs2_peaks/ 2> {log}"
+#    shell: "macs2 callpeak -t {input} -f BAM -n {wildcards.sample} --outdir 06_macs2_peaks/ 2> {log}"
