@@ -47,7 +47,7 @@ rule download_data:
     output: "01_raw_data/{sample}/{sample}.sra"
     log: "00_logs/{sample}_download_data.log"
     shell: """
-    echo 'prefetch {params} 2> {log}'
+    echo 'prefetch {params} > {output} 2> {log}'
     echo 'mv {params}/ 01_raw_data/'
     touch {output}
     """
