@@ -8,8 +8,8 @@ rule all:
         "01_raw_data/mm39.ann",
         "01_raw_data/mm39.bwt",
         "01_raw_data/mm39.pac",
-        "01_raw_data/mm39.sa", 
-        expand("01_raw_data/{sample}/{sample}.sra", sample=config["samples"]),
+        "01_raw_data/mm39.sa",
+        expand("01_raw_data/{sample}/{sample}.sra", sample=config["samples"]),        
         expand("01_raw_data/{sample}_1.fastq.gz", sample=config["samples"]),
         expand("01_raw_data/{sample}_2.fastq.gz", sample=config["samples"]),
         expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=config["samples"]),
@@ -40,26 +40,32 @@ rule make_directories:
     """
 
 rule download_data:
+    input: expand("01_raw_data/{sample}/{sample}.sra", sample=config["samples"])
+
+rule download_data_wc:
     message: "Downloading raw data files"
-    conda: "chip_seq_environment.yml"
-    params:
-        lambda wildcards: config[wildcards.samples]
+    conda: "chipseq_sra.yml"
     output: "01_raw_data/{sample}/{sample}.sra"
     log: "00_logs/{sample}_download_data.log"
     shell: """
-    echo 'prefetch {params} > {output} 2> {log}'
-    echo 'mv {params}/ 01_raw_data/'
+    prefetch {wildcards.sample} > {log}
+    mv {wildcards.sample}/ 01_raw_data/
     """
-    
+
 rule split_paired_reads:
+    input:
+        expand("01_raw_data/{sample}_1.fastq.gz", sample=config["samples"]),
+        expand("01_raw_data/{sample}_2.fastq.gz", sample=config["samples"])
+   
+rule split_paired_reads_wc:
     message: "Splitting paired end reads into separate files"
-    conda: "chip_seq_environment.yml"
+    conda: "chipseq_sra.yml"
     input: "01_raw_data/{sample}/{sample}.sra"
     output:
         "01_raw_data/{sample}_1.fastq.gz",
         "01_raw_data/{sample}_2.fastq.gz"
     log: "00_logs/{sample}_split_paired_reads.log"
-    shell: "echo 'fastq-dump {input} --split-files --gzip --outdir 01_raw_data/ 2> 00_logs/{log}'"
+    shell: "fastq-dump {input} --split-files --gzip --outdir 01_raw_data/ 2> {log}"
     
 rule fastqc_precheck_r1:
     message: "Running quality control on samples pre-processing"
@@ -69,7 +75,7 @@ rule fastqc_precheck_r1:
         "02_fastqc_analysis/{sample}_1_fastqc.html",
         "02_fastqc_analysis/{sample}_1_fastqc.zip"
     log: "00_logs/{sample}_fastqc_precheck_r1.log"
-    shell: "fastqc {input} --outdir 02_fastqc_analysis/ 2> 00_logs/{log}"
+    shell: "fastqc {input} --outdir 02_fastqc_analysis/ 2> {log}"
 
 rule fastqc_precheck_r2:
     message: "Running quality control on samples pre-processing"
@@ -79,13 +85,13 @@ rule fastqc_precheck_r2:
         "02_fastqc_analysis/{sample}_2_fastqc.html",
         "02_fastqc_analysis/{sample}_2_fastqc.zip"
     log: "00_logs/{sample}_fastqc_precheck_r2.log"
-    shell: "fastqc {input} --outdir 02_fastqc_analysis/ 2> 00_logs/{log}"   
+    shell: "fastqc {input} --outdir 02_fastqc_analysis/ 2> {log}"   
 
 rule download_genome:
     message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
     output: "01_raw_data/mm39.chromFa.tar.gz"
     log: "00_logs/download_genome.log"
-    shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz -O {output} 2> 00_logs/{log}"
+    shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz -O {output} 2> {log}"
 
 rule process_genome:
     message: "Decompressing genome. Concatenating individual chromosome files to create full assembly. Removing chromosome sequence files"
@@ -94,7 +100,7 @@ rule process_genome:
     log: "00_logs/process_genome.log"
     shell: """
     tar zvfx {input} --directory 01_raw_data/
-    cat 01_raw_data/*.fa > {output} 2> 00_logs/{log}
+    cat 01_raw_data/*.fa > {output} 2> {log}
     rm 01_raw_data/chr*.fa
     """
     
@@ -126,7 +132,7 @@ rule sam_to_bam:
     input: "03_sam_files/{sample}.sam"
     output: "04_bam_files/{sample}.bam"
     log: "00_logs/{sample}_sam_to_bam.log"
-    shell: "samtools view -b {input} > {output} 2> 00_logs/{log}"
+    shell: "samtools view -b {input} > {output} 2> {log}"
 
 rule sam_fixmate:
     message: "Removing secondary and unmapped reads. Adding tags to reads for deduplication"
@@ -134,7 +140,7 @@ rule sam_fixmate:
     input: "04_bam_files/{sample}.bam"
     output: "04_bam_files/{sample}.namesorted.fixmate.bam"
     log: "00_logs/{sample}_sam_fixmate.log"
-    shell: "samtools fixmate -rcm -O bam {input} {output} 2> 00_logs/{log}"
+    shell: "samtools fixmate -rcm -O bam {input} {output} 2> {log}"
 
 rule sam_sort:
     message: "Sorting reads by chromosome coordinates"
@@ -142,7 +148,7 @@ rule sam_sort:
     input: "04_bam_files/{sample}.namesorted.fixmate.bam"
     output: "04_bam_files/{sample}.coorsorted.fixmate.bam"
     log: "00_logs/{sample}_sam_sort.log"
-    shell: "samtools sort {input} -o {output} 2> 00_logs/{log}"
+    shell: "samtools sort {input} -o {output} 2> {log}"
 
 rule sam_markdup:
     message: "Marking and removing duplicates"
@@ -150,7 +156,7 @@ rule sam_markdup:
     input: "04_bam_files/{sample}.coorsorted.fixmate.bam"
     output: "04_bam_files/{sample}.coorsorted.dedup.bam"
     log: "00_logs/{sample}_sam_markdup.log"
-    shell: "samtools markdup -r --mode s {input} {output} 2> 00_logs/{log}"
+    shell: "samtools markdup -r --mode s {input} {output} 2> {log}"
 
 rule sam_index:
     message: "Indexing deduplicated BAM file"
@@ -158,7 +164,7 @@ rule sam_index:
     input: "04_bam_files/{sample}.coorsorted.dedup.bam"
     output: "04_bam_files/{sample}.coorsorted.dedup.bam.bai", 
     log: "00_logs/{sample}_sam_index.log"
-    shell: "samtools index {input} 2> 00_logs/{log}"
+    shell: "samtools index {input} 2> {log}"
 
 rule bam_to_bigwig:
     message: "Converting BAM file format to bigwig file format for visualization"
@@ -166,7 +172,7 @@ rule bam_to_bigwig:
     input: "04_bam_files/{sample}.coorsorted.dedup.bam"
     output: "05_bigwig_files/{sample}.bw"
     log: "00_logs/{sample}_bam_to_bigwig.log"
-    shell: "bamCoverage -b {input} -o {output} 2> 00_logs/{log}"
+    shell: "bamCoverage -b {input} -o {output} 2> {log}"
 
 # Need to add {wildcard.samples} or have {sample} string name for -n option
 # Need to run through with one sample to make sure outputs work
@@ -178,4 +184,4 @@ rule bam_to_bigwig:
 #    params:
 #        samp_name = "{sample}"
 #    log: "00_logs/{sample}_macs2_peaks.log"
-#    shell: "macs2 callpeak -t {input} -f BAM -n {params.samp_name} --outdir 06_macs2_peaks/ 2> 00_logs/{log}"
+#    shell: "macs2 callpeak -t {input} -f BAM -n {params.samp_name} --outdir 06_macs2_peaks/ 2> {log}"
