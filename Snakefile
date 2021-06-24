@@ -6,15 +6,7 @@ wildcard_constraints:
 print(f'Starting ChIP-seq data analysis workflow for samples: {config["samples"]}')
    
 rule all:
-    input: 
-        "01_raw_data/mm39.amb",
-        "01_raw_data/mm39.ann",
-        "01_raw_data/mm39.bwt",
-        "01_raw_data/mm39.pac",
-        "01_raw_data/mm39.sa",
-        expand("01_raw_data/{sample}/{sample}.sra", sample=config["samples"]),        
-        expand("01_raw_data/{sample}_1.fastq.gz", sample=config["samples"]),
-        expand("01_raw_data/{sample}_2.fastq.gz", sample=config["samples"]),
+    input:     
         expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=config["samples"]),
         expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=config["samples"]),
         expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=config["samples"]),
@@ -42,10 +34,10 @@ rule make_directories:
         mkdir 06_macs2_peaks
     """
 
-rule download_data:
+rule download_data_wc:
     input: expand("01_raw_data/{sample}/{sample}.sra", sample=config["samples"])
 
-rule download_data_wc:
+rule download_data:
     message: "Downloading raw data files"
     conda: "chip_sra.yml"
     output: "01_raw_data/{sample}/{sample}.sra"
@@ -55,12 +47,12 @@ rule download_data_wc:
     mv {wildcards.sample}/ 01_raw_data/
     """
 
-rule split_paired_reads:
+rule split_paired_reads_wc:
     input:
         expand("01_raw_data/{sample}_1.fastq.gz", sample=config["samples"]),
         expand("01_raw_data/{sample}_2.fastq.gz", sample=config["samples"])
    
-rule split_paired_reads_wc:
+rule split_paired_reads:
     message: "Splitting paired end reads into separate files"
     conda: "chip_sra.yml"
     input: "01_raw_data/{sample}/{sample}.sra"
@@ -70,25 +62,24 @@ rule split_paired_reads_wc:
     log: "00_logs/{sample}_split_paired_reads.log"
     shell: "fastq-dump {input} --split-files --gzip --outdir 01_raw_data/ 2> {log}"
     
-rule fastqc_precheck_r1:
+rule fastqc_precheck:
     message: "Running quality control on samples pre-processing"
     conda: "chip_fastqc.yml"
-    input: "01_raw_data/{sample}_1.fastq.gz"
+    input:
+        r1 = "01_raw_data/{sample}_1.fastq.gz",
+        r2 = "01_raw_data/{sample}_2.fastq.gz"
     output:
         "02_fastqc_analysis/{sample}_1_fastqc.html",
-        "02_fastqc_analysis/{sample}_1_fastqc.zip"
-    log: "00_logs/{sample}_fastqc_precheck_r1.log"
-    shell: "fastqc {input} --outdir 02_fastqc_analysis/ 2> {log}"
-
-rule fastqc_precheck_r2:
-    message: "Running quality control on samples pre-processing"
-    conda: "chip_fastqc.yml"
-    input: "01_raw_data/{sample}_2.fastq.gz"
-    output:
+        "02_fastqc_analysis/{sample}_1_fastqc.zip",
         "02_fastqc_analysis/{sample}_2_fastqc.html",
         "02_fastqc_analysis/{sample}_2_fastqc.zip"
-    log: "00_logs/{sample}_fastqc_precheck_r2.log"
-    shell: "fastqc {input} --outdir 02_fastqc_analysis/ 2> {log}"   
+    log: 
+        r1 = "00_logs/{sample}_fastqc_precheck_r1.log",
+        r2 = "00_logs/{sample}_fastqc_precheck_r2.log"
+    shell: """
+    fastqc {input.r1} --outdir 02_fastqc_analysis/ 2> {log.r1}
+    fastqc {input.r2} --outdir 02_fastqc_analysis/ 2> {log.r2}
+    """  
 
 rule download_genome:
     message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
@@ -118,11 +109,11 @@ rule set_alignment_reference:
     mv mm39* 01_raw_data/
     """ 
     
-rule align_reads:
+rule align_reads_wc:
     input: 
         expand("03_sam_files/{sample}.sam", sample=config["samples"])
         
-rule align_reads_wc:
+rule align_reads:
     message: "Aligning paired end reads to GRCm39/mm39 reference genome"
     conda: "chip_bwa.yml"
     input:
