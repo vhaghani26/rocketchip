@@ -2,8 +2,6 @@ configfile: "samples.yaml"
 
 wildcard_constraints:
     sample='[a-zA-Z0-9]+'
-    
-ruleorder: set_alignment_reference > align_reads
 
 print(f'Starting ChIP-seq data analysis workflow for samples: {config["samples"]}')
    
