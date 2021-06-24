@@ -106,6 +106,8 @@ rule process_genome:
     cat 01_raw_data/*.fa > {output} 2> {log}
     rm 01_raw_data/chr*.fa
     """
+
+ruleorder: set_alignment_reference > align_reads
     
 rule set_alignment_reference:
     message: "Setting GRCm39/mm39 mouse genome assembly as reference genome for alignment" 
