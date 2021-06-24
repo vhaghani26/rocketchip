@@ -6,8 +6,8 @@
 #SBATCH -J mechip2                                             # Name for job
 #SBATCH -o mechip2_slurm.j%j.out                               # File to write STDOUT to
 #SBATCH -e mechip2_slurm.j%j.err                               # File to write error output to
-#SBATCH -N 1                                                   # Number of nodes/computers
-#SBATCH -n 32                                                  # Number of cores
+#SBATCH --nodes=1                                              # Number of nodes/computers
+#SBATCH --ntasks=32                                            # Number of cores
 #SBATCH -c 8                                                   # Eight cores per task
 #SBATCH -t 48:00:00                                            # Ask for no more than 48 hours
 #SBATCH --mem=16gb                                             # Ask for no more than 16 GB of memory
