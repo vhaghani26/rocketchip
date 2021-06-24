@@ -13,7 +13,7 @@
 #SBATCH --mem=16gb                                             # Ask for no more than 16 GB of memory
 #SBATCH --chdir=/share/korflab/home/viki/mechip2               # Directory I want the job to run in
 
-# Source .profile so conda can be used
+# Source profile so conda can be used
 source /share/korflab/home/viki/profile
 
 # Initialize conda
