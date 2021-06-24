@@ -117,13 +117,18 @@ rule set_alignment_reference:
     bwa index -p mm39 -a bwtsw {input} 2> {log}
     mv mm39* 01_raw_data/
     """ 
-
+    
 rule align_reads:
+    input: 
+        expand("03_sam_files/{sample}.sam", sample=config["samples"])
+        
+rule align_reads_wc:
     message: "Aligning paired end reads to GRCm39/mm39 reference genome"
     conda: "chip_bwa.yml"
     input:
         r1 = "01_raw_data/{sample}_1.fastq.gz",
-        r2 = "01_raw_data/{sample}_2.fastq.gz"
+        r2 = "01_raw_data/{sample}_2.fastq.gz",
+        genome = multiext("01_raw_data/mm39", ".amb", ".ann", ".bwt", ".pac", ".sa")
     output: "03_sam_files/{sample}.sam"
     log: "00_logs/{sample}_align_reads_err.log"
     shell: "bwa mem 01_raw_data/mm39 {input.r1} {input.r2} > {output} 2> {log}"
