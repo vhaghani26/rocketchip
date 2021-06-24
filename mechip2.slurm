@@ -14,10 +14,13 @@
 #SBATCH --chdir=/share/korflab/home/viki/mechip2               # Directory I want the job to run in
 
 # Source .profile so conda can be used
-source ~/.profile
+source /share/korflab/home/viki/profile
+
+# Initialize conda
+. /software/anaconda3/4.8.3/lssc0-linux/etc/profile.d/conda.sh
 
 # Activate your desired conda environment
-conda activate mechip2
+conda activate /home/vhaghani/.conda/envs/mechip2
 
 # Fail on weird errors
 set -o nounset
@@ -25,7 +28,7 @@ set -o errexit
 set -x
 
 # Run the snakemake!
-snakemake -j 8 -p --use-conda -n
+snakemake -j 8 -p --use-conda
 
 # Print out various information about the job
 env | grep SLURM                                               # Print out values of the current jobs SLURM environment variables
