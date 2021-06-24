@@ -39,7 +39,7 @@ rule download_data_wc:
 
 rule download_data:
     message: "Downloading raw data files"
-    conda: "chip_sra.yml"
+    conda: "00_conda_software/chip_sra.yml"
     output: "01_raw_data/{sample}/{sample}.sra"
     log: "00_logs/{sample}_download_data.log"
     shell: """
@@ -54,7 +54,7 @@ rule split_paired_reads_wc:
    
 rule split_paired_reads:
     message: "Splitting paired end reads into separate files"
-    conda: "chip_sra.yml"
+    conda: "00_conda_software/chip_sra.yml"
     input: "01_raw_data/{sample}/{sample}.sra"
     output:
         "01_raw_data/{sample}_1.fastq.gz",
@@ -64,7 +64,7 @@ rule split_paired_reads:
     
 rule fastqc_precheck:
     message: "Running quality control on samples pre-processing"
-    conda: "chip_fastqc.yml"
+    conda: "00_conda_software/chip_fastqc.yml"
     input:
         r1 = "01_raw_data/{sample}_1.fastq.gz",
         r2 = "01_raw_data/{sample}_2.fastq.gz"
@@ -100,7 +100,7 @@ rule process_genome:
     
 rule set_alignment_reference:
     message: "Setting GRCm39/mm39 mouse genome assembly as reference genome for alignment" 
-    conda: "chip_bwa.yml"
+    conda: "00_conda_software/chip_bwa.yml"
     input: "01_raw_data/mm39.fa"
     output: multiext("01_raw_data/mm39", ".amb", ".ann", ".bwt", ".pac", ".sa")
     log: "00_logs/set_alignment_reference.log"
@@ -115,7 +115,7 @@ rule align_reads_wc:
         
 rule align_reads:
     message: "Aligning paired end reads to GRCm39/mm39 reference genome"
-    conda: "chip_bwa.yml"
+    conda: "00_conda_software/chip_bwa.yml"
     input:
         r1 = "01_raw_data/{sample}_1.fastq.gz",
         r2 = "01_raw_data/{sample}_2.fastq.gz",
@@ -126,7 +126,7 @@ rule align_reads:
     
 rule sam_to_bam:
     message: "Converting SAM to BAM file format"
-    conda: "chip_samtools.yml"
+    conda: "00_conda_software/chip_samtools.yml"
     input: "03_sam_files/{sample}.sam"
     output: "04_bam_files/{sample}.bam"
     log: "00_logs/{sample}_sam_to_bam.log"
@@ -134,7 +134,7 @@ rule sam_to_bam:
 
 rule sam_fixmate:
     message: "Removing secondary and unmapped reads. Adding tags to reads for deduplication"
-    conda: "chip_samtools.yml"
+    conda: "00_conda_software/chip_samtools.yml"
     input: "04_bam_files/{sample}.bam"
     output: "04_bam_files/{sample}.namesorted.fixmate.bam"
     log: "00_logs/{sample}_sam_fixmate.log"
@@ -142,7 +142,7 @@ rule sam_fixmate:
 
 rule sam_sort:
     message: "Sorting reads by chromosome coordinates"
-    conda: "chip_samtools.yml"
+    conda: "00_conda_software/chip_samtools.yml"
     input: "04_bam_files/{sample}.namesorted.fixmate.bam"
     output: "04_bam_files/{sample}.coorsorted.fixmate.bam"
     log: "00_logs/{sample}_sam_sort.log"
@@ -150,7 +150,7 @@ rule sam_sort:
 
 rule sam_markdup:
     message: "Marking and removing duplicates"
-    conda: "chip_samtools.yml"
+    conda: "00_conda_software/chip_samtools.yml"
     input: "04_bam_files/{sample}.coorsorted.fixmate.bam"
     output: "04_bam_files/{sample}.coorsorted.dedup.bam"
     log: "00_logs/{sample}_sam_markdup.log"
@@ -158,7 +158,7 @@ rule sam_markdup:
 
 rule sam_index:
     message: "Indexing deduplicated BAM file"
-    conda: "chip_samtools.yml"
+    conda: "00_conda_software/chip_samtools.yml"
     input: "04_bam_files/{sample}.coorsorted.dedup.bam"
     output: "04_bam_files/{sample}.coorsorted.dedup.bam.bai", 
     log: "00_logs/{sample}_sam_index.log"
@@ -166,7 +166,7 @@ rule sam_index:
 
 rule bam_to_bigwig:
     message: "Converting BAM file format to bigwig file format for visualization"
-    conda: "chip_deeptools.yml"
+    conda: "00_conda_software/chip_deeptools.yml"
     input: "04_bam_files/{sample}.coorsorted.dedup.bam"
     output: "05_bigwig_files/{sample}.bw"
     log: "00_logs/{sample}_bam_to_bigwig.log"
@@ -175,7 +175,7 @@ rule bam_to_bigwig:
 # Need to run through with one sample to make sure outputs work
 #rule call_peaks:
 #    message: "Calling ChIP-seq peaks"
-#    conda: "chip_seq_environment.yml"
+#    conda: "00_conda_software/chip_seq_environment.yml"
 #    input: "04_bam_files/{sample}.coorsorted.dedup.bam"
 #    output: multiext('"06_macs2_peaks/{sample}", "_peaks.narrowPeak", "_peaks.xls", "_summits.bed", "_model.R", "_control_lambda.bdg", "_treat_pileup.bdg"')
 #    params:
