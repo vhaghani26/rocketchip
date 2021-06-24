@@ -20,7 +20,7 @@ source /share/korflab/home/viki/profile
 . /software/anaconda3/4.8.3/lssc0-linux/etc/profile.d/conda.sh
 
 # Activate your desired conda environment
-conda activate /home/vhaghani/.conda/envs/mechip2
+conda activate /share/korflab/home/viki/.conda/mechip2
 
 # Fail on weird errors
 set -o nounset
@@ -28,7 +28,7 @@ set -o errexit
 set -x
 
 # Run the snakemake!
-snakemake -j 8 -p --use-conda
+snakemake -j 4 -p --use-conda
 
 # Print out various information about the job
 env | grep SLURM                                               # Print out values of the current jobs SLURM environment variables
