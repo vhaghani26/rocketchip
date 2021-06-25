@@ -7,10 +7,13 @@
 #SBATCH -o mechip2_slurm.j%j.out                               # File to write STDOUT to
 #SBATCH -e mechip2_slurm.j%j.err                               # File to write error output to
 #SBATCH -N 1                                                   # Number of nodes/computers
-#SBATCH -n 32                                                  # Number of cores
+#SBATCH -n 16                                                  # Number of cores
 #SBATCH -t 48:00:00                                            # Ask for no more than 48 hours
 #SBATCH --mem=16gb                                             # Ask for no more than 16 GB of memory
 #SBATCH --chdir=/share/korflab/home/viki/mechip2               # Directory I want the job to run in
+
+# Run aklog to deal with SLURM bug
+aklog
 
 # Source profile so conda can be used
 source /share/korflab/home/viki/profile
