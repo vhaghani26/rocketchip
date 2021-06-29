@@ -164,10 +164,16 @@ rule sam_index:
     log: "00_logs/{sample}_sam_index.log"
     shell: "samtools index {input} 2> {log}"
 
+rule bam_to_bigwig_wc:
+    input:
+        expand("05_bigwig_files/{sample}.bw", sample=config["samples"])
+        
 rule bam_to_bigwig:
     message: "Converting BAM file format to bigwig file format for visualization"
     conda: "00_conda_software/chip_deeptools.yml"
-    input: "04_bam_files/{sample}.coorsorted.dedup.bam"
+    input:
+        index = "04_bam_files/{sample}.coorsorted.dedup.bam.bai",
+        bam = "04_bam_files/{sample}.coorsorted.dedup.bam"
     output: "05_bigwig_files/{sample}.bw"
     log: "00_logs/{sample}_bam_to_bigwig.log"
     shell: "bamCoverage -b {input} -o {output} 2> {log}"
