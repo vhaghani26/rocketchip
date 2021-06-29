@@ -11,7 +11,6 @@ rule all:
         expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=config["samples"]),
         expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=config["samples"]),
         expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=config["samples"]),
-        expand("04_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=config["samples"]),
         expand("05_bigwig_files/{sample}.bw", sample=config["samples"])
 
 rule make_directories:
