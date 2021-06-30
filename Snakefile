@@ -11,6 +11,13 @@ rule all:
         expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=config["samples"]),
         expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=config["samples"]),
         expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=config["samples"]),
+        expand("06_macs2_peaks/{sample}_peaks.narrowPeak", sample=config["samples"]),
+        expand("06_macs2_peaks/{sample}_peaks.xls", sample=config["samples"]),
+        expand("06_macs2_peaks/{sample}_summits.bed", sample=config["samples"]),
+        expand("06_macs2_peaks/{sample}_model.r", sample=config["samples"]),
+        expand("06_macs2_peaks/{sample}_treat_pileup.bdg", sample=config["samples"]),
+        expand("02_fastqc_analysis/{sample}_postprocessing_fastqc.html", sample=config["samples"]),
+        expand("02_fastqc_analysis/{sample}_postprocessing_fastqc.zip", sample=config["samples"]),
         expand("05_bigwig_files/{sample}.bw", sample=config["samples"])
 
 rule make_directories:
@@ -179,18 +186,36 @@ rule bam_to_bigwig:
 
 rule call_peaks_wc:
     input:
-        "06_macs2_peaks/{sample}_peaks.narrowPeak",
-        "06_macs2_peaks/{sample}_peaks.xls",
-        "06_macs2_peaks/{sample}_summits.bed",
-        "06_macs2_peaks/{sample}_model.R",
-        "06_macs2_peaks/{sample}_control_lambda.bdg",
-        "06_macs2_peaks/{sample}_treat_pileup.bdg"')
+        expand("06_macs2_peaks/{sample}_peaks.narrowPeak", sample=config["samples"]),
+        expand("06_macs2_peaks/{sample}_peaks.xls", sample=config["samples"]),
+        expand("06_macs2_peaks/{sample}_summits.bed", sample=config["samples"]),
+        expand("06_macs2_peaks/{sample}_model.r", sample=config["samples"]),
+        expand("06_macs2_peaks/{sample}_treat_pileup.bdg", sample=config["samples"])
 
-# Need to run through with one sample to make sure outputs work
 rule call_peaks:
     message: "Calling ChIP-seq peaks"
     conda: "00_conda_software/chip_macs2.yml"
     input: "04_bam_files/{sample}.coorsorted.dedup.bam"
-    output: multiext('"06_macs2_peaks/{sample}", "_peaks.narrowPeak", "_peaks.xls", "_summits.bed", "_model.R", "_control_lambda.bdg", "_treat_pileup.bdg"')
+    output: 
+        "06_macs2_peaks/{sample}_peaks.narrowPeak", 
+        "06_macs2_peaks/{sample}_peaks.xls",
+        "06_macs2_peaks/{sample}_summits.bed", 
+        "06_macs2_peaks/{sample}_model.r",
+        "06_macs2_peaks/{sample}_treat_pileup.bdg"
     log: "00_logs/{sample}_macs2_peaks.log"
-    shell: "macs2 callpeak -t {input} -f BAM -n {wildcards.sample} --outdir 06_macs2_peaks/ 2> {log}"
+    shell: "macs2 callpeak -t {input} -f BAM -n {wildcards.sample} --bdg --outdir 06_macs2_peaks/ 2> {log}"
+
+rule fastqc_postprocessing_wc:
+    input:
+        expand("02_fastqc_analysis/{sample}_postprocessing_fastqc.html", sample=config["samples"]),
+        expand("02_fastqc_analysis/{sample}_postprocessing_fastqc.zip", sample=config["samples"])
+
+rule fastqc_postprocessing:
+    message: "Running quality control on samples post-processing"
+    conda: "00_conda_software/chip_fastqc.yml"
+    input: "06_macs2_peaks/{sample}_summits.bed"
+    output:
+        "02_fastqc_analysis/{sample}_postprocessing_fastqc.html",
+        "02_fastqc_analysis/{sample}_postprocessing_fastqc.zip",
+    log: "00_logs/{sample}_fastqc_postprocessing_r1.log",
+    shell: "fastqc {input} --outdir 02_fastqc_analysis/ 2> {log}"  
