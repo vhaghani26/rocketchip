@@ -177,13 +177,20 @@ rule bam_to_bigwig:
     log: "00_logs/{sample}_bam_to_bigwig.log"
     shell: "bamCoverage -b {input} -o {output} 2> {log}"
 
+rule call_peaks_wc:
+    input:
+        "06_macs2_peaks/{sample}_peaks.narrowPeak",
+        "06_macs2_peaks/{sample}_peaks.xls",
+        "06_macs2_peaks/{sample}_summits.bed",
+        "06_macs2_peaks/{sample}_model.R",
+        "06_macs2_peaks/{sample}_control_lambda.bdg",
+        "06_macs2_peaks/{sample}_treat_pileup.bdg"')
+
 # Need to run through with one sample to make sure outputs work
-#rule call_peaks:
-#    message: "Calling ChIP-seq peaks"
-#    conda: "00_conda_software/chip_seq_environment.yml"
-#    input: "04_bam_files/{sample}.coorsorted.dedup.bam"
-#    output: multiext('"06_macs2_peaks/{sample}", "_peaks.narrowPeak", "_peaks.xls", "_summits.bed", "_model.R", "_control_lambda.bdg", "_treat_pileup.bdg"')
-#    params:
-#        samp_name = "{sample}"
-#    log: "00_logs/{sample}_macs2_peaks.log"
-#    shell: "macs2 callpeak -t {input} -f BAM -n {wildcards.sample} --outdir 06_macs2_peaks/ 2> {log}"
+rule call_peaks:
+    message: "Calling ChIP-seq peaks"
+    conda: "00_conda_software/chip_macs2.yml"
+    input: "04_bam_files/{sample}.coorsorted.dedup.bam"
+    output: multiext('"06_macs2_peaks/{sample}", "_peaks.narrowPeak", "_peaks.xls", "_summits.bed", "_model.R", "_control_lambda.bdg", "_treat_pileup.bdg"')
+    log: "00_logs/{sample}_macs2_peaks.log"
+    shell: "macs2 callpeak -t {input} -f BAM -n {wildcards.sample} --outdir 06_macs2_peaks/ 2> {log}"
