@@ -9,31 +9,24 @@ In order to use the pipeline, clone the [GitHub repository](https://github.com/v
 ### Repository Contents
 
 #### samples.yaml
-Open the `samples.yml` file and add each SRA ID you are interested in visualizing on its own line using the following format:
-```
----
-samples: 
-   - SRAID1
-   - SRAID2
-```
-This file will be used as a configuration file to pipe in the samples used in the analysis. The syntax in this file is important, so be aware that errors relating to `wildcards` are likely caused by the entries in this file.
+The `samples.yml` file will be used as a configuration file to pipe in the samples used in the analysis. 
 
 #### Snakefile
 The Snakefile contains the code required to execute the entire pipeline. Here, I will go through the basics of Snakemake usage for this program. For additional information, see the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html). For specifics regarding command-line interface, [this](https://snakemake.readthedocs.io/en/stable/executing/cli.html) may be helpful.
 
-Briefly, the whole program can be executed by running `snakemake -j 4 -p`, where the `-j` or `--jobs` option specifies the highest number of jobs (highest number of CPU) that can be run in parallel. The `-p` or `--prioritize` option tells the job scheduler to prioritize certain jobs given their dependencies. Without specifying anything else, the whole workflow will run.
+Briefly, the whole program can be executed by running `snakemake -j 4 -p --use-conda`, where the `-j` or `--jobs` option specifies the highest number of jobs (highest number of CPU) that can be run in parallel. The `-p` or `--prioritize` option tells the job scheduler to prioritize certain jobs given their dependencies. Without specifying anything else, the whole workflow will run.
 
-To run a rule in particular, you can use `snakemake -j 4 -p rulename_wc`. The `_wc` tag at the end of the rule name is required when running an individual rule to ensure that your `wildcards` (samples) are properly incorporated. If the whole workflow is being run, the `_wc` tag is not necessary.
+To run a rule in particular, you can use `snakemake -j 4 -p --use-conda rulename_wc`. The `_wc` tag at the end of the rule name is required when running an individual rule to ensure that your `wildcards` (samples) are properly incorporated unless otherwise specified. If the whole workflow is being run at once, the `_wc` tag is not necessary.
 
 The list of rules and their descriptions goes as follows:
 - `rule all`: runs the entire workflow
-- `rule make_directories`: makes directories for data organization. See "Outputs" section for more information.
+- `rule make_directories`: makes directories for data organization. See "Outputs" section for more information. `_wc` flag not required for this rule.
 - `rule download_data`: downloads raw sequence data files (from SRA IDs)
 - `rule split_paired_reads`: splits paired-end read data into separate files
 - `rule fastqc_precheck`: run quality control on samples pre-processing
-- `rule download_genome`: download the GRCm39/mm39 mouse genome from the UCSC Genome Browser
-- `rule process_genome`: decompress the genome and concatenate individual chromosome files to create the full assembly
-- `rule set_alignment_reference`: set the GRCm39/mm39 mouse genome assembly as the reference genome for alignment
+- `rule download_genome`: download the GRCm39/mm39 mouse genome from the UCSC Genome Browser. `_wc` flag not required for this rule.
+- `rule process_genome`: decompress the genome and concatenate individual chromosome files to create the full assembly. `_wc` flag not required for this rule.
+- `rule set_alignment_reference`: set the GRCm39/mm39 mouse genome assembly as the reference genome for alignment. `_wc` flag not required for this rule.
 - `rule align_reads`: align paired end reads to GRCm39/mm39 reference genome
 - `rule sam_to_bam`: convert SAM to BAM file format
 - `rule sam_fixmate`: remove secondary and unmapped reads and add tags to reads for deduplication
@@ -44,7 +37,7 @@ The list of rules and their descriptions goes as follows:
 - `rule call_peaks`: call ChIP-seq peaks
 - `rule fastqc_postprocessing`: run quality control on samples post-processing
 
-These rules are loosely written in the order they get executed. If you want to run the whole pipeline up to a certain point, using the `snakemake -j 4 -p rulename_wc` command will determine all the dependencies of that rule and generate the output required by the specified rule. This means everything needed beforehand will be run and their outputs saved, but anything beyond the specified rule will not be run.
+These rules are loosely written in the order they get executed. If you want to run the whole pipeline up to a certain point, using the `snakemake -j 4 -p --use-conda rulename_wc` command will determine all the dependencies of that rule and generate the output required by the specified rule. This means everything needed beforehand will be run and their outputs saved, but anything beyond the specified rule will not be run. It is also important to know that Snakemake knows when it can and should rerun things. For example, if you include a new sample, it will rerun the analysis for only that sample, not everything. It has a "memory" in that way based on the file outputs. If you try to rerun a rule that has already been run succesfully, it will tell you that there is nothing to be done. That's the magic that is Snakemake.
 
 #### 00_conda_software
 The repository contains a folder called `00_conda_software` that contains individual `yml` files with each specified software, including its version number, to be used for each rule in the pipeline. This ensures replicability and reproducibility of analysis results.
@@ -54,9 +47,6 @@ The `.gitignore` file contains the directories and consequently the data generat
  
 #### dag_mechip2.pdf
 `dag_mechip2.pdf` was generated using the command `snakemake --dag | dot -Tpdf > dag_mechip2.pdf`. The file is a visual depiction of the workflow that is generated based on the dependencies of each rule.
-
-#### mechip2.slurm
-The `mechip2.slurm` file is a sample SLURM file that can be used as a template for those wishing to run the workflow on the cluster/HPC.
 
 ## Outputs
 There are several output directories, each containing a component of the pipeline. These directories are automatically generated when the analysis is run and outputs are automatically sorted into each directory.
@@ -83,6 +73,185 @@ All BAM files are stored in this folder, including intermediates of samtools fla
 Bigwig files are used for visualization of ChIP-seq data and are the final product of the pipeline. Although bedGraphToBigWig can be used to convert the {sample}_treat_pileup.bdg files generated by MAS2 to bigwig format for visualization, deeptools was chosen to generate bigwig files because it allows for greater flexibility in the peak-calling software used if a user decides to change the peak-caller. 
 
 ### 06_macs2_peaks
+MACS2 is used to call peaks in the data. These peaks will be used in answering the biological question you are asking using the data. In many instances, the peaks correspond to the binding sites of a protein of interest.
 
 ## Tutorial
 
+For good practice, it is recommended to use conda. If you do not already have conda, please go through the steps of conda installation, initialization, and preparation. [This](https://github.com/ngs-docs/2021-GGG298/tree/latest/Week3-conda_for_software_installation) is a good resource that can guide you through most of these processes. Initialization varies based on whether you are working in local or remote directories (i.e. cluster). 
+
+### Conda Preparation
+If you already have conda or an environment manager, continue to the "Software Installation" section. If not, the following information may be helpful to you.
+
+Briefly, make sure conda is installed. Once conda is installed ,it needs to be initialized. To initialize conda, use
+```
+conda init
+```
+To clean up your shell settings for a cleaner prompt, you can also use
+```
+echo "PS1='\w $ '" >> .bashrc
+```
+
+Close your terminal and then open a new one to make sure initialization is fully carried out.
+
+Now you will set up your channels. Paste the following commands into your terminal.
+```
+conda config --add channels defaults
+conda config --add channels bioconda
+conda config --add channels conda-forge
+```
+
+### Software Installation
+The only software necessary for running this workflow is Snakemake. In this tutorial, we will create an environment called `chipseq`. To create the environment and install Snakemake, paste the following into your terminal. Click `y` if/when prompted.
+```
+conda create -y --name chipseq -c conda-forge -c bioconda fastqc
+conda activate chipseq
+conda install -c bioconda -c conda-forge snakemake-minimal
+```
+
+This completes the software installation stage. Note that **every time** you are using snakemake, you will need to activate your environment using `conda activate chipseq`. 
+
+### Download the Repository
+You will want to download the repository, as it contains the necessary software files and Snakefile needed for the pipeline. In this tutorial, we will call the directory we are working in `chipseq_tutorial`. To do so, run
+```
+git clone https://github.com/vhaghani26/MeChIP2.git chipseq_tutorial
+```
+This clones the repository and its contents into a directory called `chipseq_tutorial`. You should now see the contents outlined in the "Repository Contents" section outlined above.
+
+### Edit the YAML File
+Open the `samples.yml` file and add each SRA ID you are interested in visualizing on its own line using the following format:
+```
+---
+samples: 
+   - SRAID1
+   - SRAID2
+```
+This file will be used as a configuration file to pipe in the samples used in the analysis. The syntax in this file is important, so be aware that errors relating to `wildcards` are likely caused by the entries in this file.
+
+In this tutorial, we will use the following SRA IDs:
+```
+---
+samples: 
+   - SRR5785190
+   - SRR6760417
+```
+Now save and close the YAML file.
+
+### Running the Workflow Locally
+To run the workflow locally, all you need to do now is paste this command into your terminal:
+```
+snakemake -j 4 -p --use-conda
+```
+It is important to note that because we are working with "big data," this will take upwards of 24 hours to run from scratch. Although it can be done provided your internet connection allows, an alternative is to run it rule by rule or to use other methods, such as `screen` to ensure completion of the job. 
+
+To run it rule by rule, carry out the following commands in this order:
+```
+snakemake -j 4 -p --use-conda make_directories
+snakemake -j 4 -p --use-conda download_data_wc
+snakemake -j 4 -p --use-conda split_paired_reads_wc
+snakemake -j 4 -p --use-conda fastqc_precheck_wc
+snakemake -j 4 -p --use-conda download_genome
+snakemake -j 4 -p --use-conda process_genome
+snakemake -j 4 -p --use-conda set_alignment_reference
+snakemake -j 4 -p --use-conda align_reads_wc
+snakemake -j 4 -p --use-conda sam_to_bam_wc
+snakemake -j 4 -p --use-conda sam_fixmate_wc
+snakemake -j 4 -p --use-conda sam_sort_wc
+snakemake -j 4 -p --use-conda sam_markdup_wc
+snakemake -j 4 -p --use-conda sam_index_wc
+snakemake -j 4 -p --use-conda bam_to_bigwig_wc
+snakemake -j 4 -p --use-conda call_peaks_wc
+snakemake -j 4 -p --use-conda fastqc_postprocessing_wc
+```
+Some rules, such as `set_alignment_reference` and `align_reads_wc` take much longer to run than the rest of the workflow. The majority of the rules, however, will take no more than 20 minutes each to run using only the two samples provided in this tutorial. With each extra sample included, the time required increases. It may be helpful to keep the genome alignment reference files for future analysis since that's the most resource- and time-intensive step.
+
+### Running the Workflow on the Cluster or on an HPC
+It is most highly recommended to run the workflow through SLURM. Based on how conda was/is initialized and how/where your environment is set up, there will be things you should change in the SLURM script. However, the resource delineation can be preserved for the sake of this tutorial.
+
+If you are new to using conda or SLURM, it may be helpful to submit a test script that requests minimal resources to make sure conda works correctly. This is a SLURM template script you can use to make sure conda and SLURM are working for you before you submit a big resource- and time-intensive job like this pipeline. Make sure to change the information necessary, namely the information at the top preceeded by `#SBATCH` and the three conda-related lines.
+```
+#!/bin/bash
+#
+#SBATCH --mail-user=vhaghani@ucdavis.edu                       # User email to receive updates
+#SBATCH --mail-type=ALL                                        # Get an email when the job begins, ends, or if it fails
+#SBATCH -p production                                          # Partition, or queue, to assign to
+#SBATCH -J test                                                # Name for job
+#SBATCH -o test_slurm.j%j.out                                  # File to write STDOUT to
+#SBATCH -e test_slurm.j%j.err                                  # File to write error output to
+#SBATCH -N 1                                                   # Number of nodes/computers
+#SBATCH -n 1                                                   # Number of cores
+#SBATCH -c 1                                                   # Eight cores per task
+#SBATCH -t 00:05:00                                            # Ask for no more than 5 minutes
+#SBATCH --mem=1gb                                              # Ask for no more than 1 GB of memory
+#SBATCH --chdir=/home/vhaghani/chipseq_tutorial                # Directory I want the job to run in
+
+# Source .profile or .bashrc so conda can be used (file depends on where you have your conda stuff)
+source ~/.profile
+
+# Initialize conda
+. /software/anaconda3/4.8.3/lssc0-linux/etc/profile.d/conda.sh
+
+# Activate your desired conda environment
+conda activate chipseq
+
+# Fail on weird errors
+set -o nounset
+set -o errexit
+set -x
+
+# Sample job
+echo Hello World > helloworld.txt
+
+# Print out various information about the job
+env | grep SLURM                                               # Print out values of the current jobs SLURM environment variables
+  
+scontrol show job ${SLURM_JOB_ID}                              # Print out final statistics about resource uses before job exits
+
+sstat --format 'JobID,MaxRSS,AveCPU' -P ${SLURM_JOB_ID}.batch
+```
+
+To submit the script, use the command `sbatch example.slurm`. Note: Run `dos2unix {filename}` if you get an sbatch DOS line break error and resubmit.
+
+Once you ensure that your job is running correctly, you can switch the resources and commands to be submitted so that the file looks more like this. Note that there is a big differences in the resources and time being requested.
+```
+#!/bin/bash
+#
+#SBATCH --mail-user=vhaghani@ucdavis.edu                       # User email to receive updates
+#SBATCH --mail-type=ALL                                        # Get an email when the job begins, ends, or if it fails
+#SBATCH -p production                                          # Partition, or queue, to assign to
+#SBATCH -J chipseq                                             # Name for job
+#SBATCH -o chipseq_slurm.j%j.out                               # File to write STDOUT to
+#SBATCH -e chipseq_slurm.j%j.err                               # File to write error output to
+#SBATCH -N 1                                                   # Number of nodes/computers
+#SBATCH -n 16                                                  # Number of cores
+#SBATCH -t 48:00:00                                            # Ask for no more than 48 hours
+#SBATCH --mem=16gb                                             # Ask for no more than 16 GB of memory
+#SBATCH --chdir=/home/vhaghani/chipseq_tutorial                # Directory I want the job to run in
+
+# Source .profile or .bashrc so conda can be used (file depends on where you have your conda stuff)
+source ~/.profile
+
+# Initialize conda
+. /software/anaconda3/4.8.3/lssc0-linux/etc/profile.d/conda.sh
+
+# Activate your desired conda environment
+conda activate chipseq
+
+# Fail on weird errors
+set -o nounset
+set -o errexit
+set -x
+
+# Run the snakemake!
+snakemake -j 4 -p --use-conda
+
+# Print out various information about the job
+env | grep SLURM                                               # Print out values of the current jobs SLURM environment variables
+  
+scontrol show job ${SLURM_JOB_ID}                              # Print out final statistics about resource uses before job exits
+
+sstat --format 'JobID,MaxRSS,AveCPU' -P ${SLURM_JOB_ID}.batch
+```
+
+Once the job is complete, you should have all the directories and outputs generated by the workflow. Take some time to explore and see what there is. Congratulations and good luck!
+
+Feel free to contact me at [vhaghani@ucdavis.edu](vhaghani@ucdavis.edu) if you have any questions, comments, or concerns.
