@@ -20,6 +20,16 @@ rule all:
         expand("02_fastqc_analysis/{sample}.coorsorted.dedup_fastqc.zip", sample=config["samples"]),
         expand("05_bigwig_files/{sample}.bw", sample=config["samples"])
 
+rule make_directories_wc:
+    input:
+        directory("00_logs/"),
+        directory("01_raw_data/"),
+        directory("02_fastqc_analysis/"),
+        directory("03_sam_files/"),
+        directory("04_bam_files/"),
+        directory("05_bigwig_files/"),
+        directory("06_macs2_peaks/")
+
 rule make_directories:
     message: "Making directories for data organization"
     output:
