@@ -16,8 +16,8 @@ rule all:
         expand("06_macs2_peaks/{sample}_summits.bed", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_model.r", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_treat_pileup.bdg", sample=config["samples"]),
-        expand("02_fastqc_analysis/{sample}_postprocessing_fastqc.html", sample=config["samples"]),
-        expand("02_fastqc_analysis/{sample}_postprocessing_fastqc.zip", sample=config["samples"]),
+        expand("02_fastqc_analysis/{sample}.coorsorted.dedup_fastqc.html", sample=config["samples"]),
+        expand("02_fastqc_analysis/{sample}.coorsorted.dedup_fastqc.zip", sample=config["samples"]),
         expand("05_bigwig_files/{sample}.bw", sample=config["samples"])
 
 rule make_directories:
@@ -207,15 +207,15 @@ rule call_peaks:
 
 rule fastqc_postprocessing_wc:
     input:
-        expand("02_fastqc_analysis/{sample}_postprocessing_fastqc.html", sample=config["samples"]),
-        expand("02_fastqc_analysis/{sample}_postprocessing_fastqc.zip", sample=config["samples"])
+        expand("02_fastqc_analysis/{sample}.coorsorted.dedup_fastqc.html", sample=config["samples"]),
+        expand("02_fastqc_analysis/{sample}.coorsorted.dedup_fastqc.zip", sample=config["samples"])
 
 rule fastqc_postprocessing:
     message: "Running quality control on samples post-processing"
     conda: "00_conda_software/chip_fastqc.yml"
-    input: "06_macs2_peaks/{sample}_summits.bed"
+    input: "04_bam_files/{sample}.coorsorted.dedup.bam"
     output:
-        "02_fastqc_analysis/{sample}_postprocessing_fastqc.html",
-        "02_fastqc_analysis/{sample}_postprocessing_fastqc.zip",
-    log: "00_logs/{sample}_fastqc_postprocessing_r1.log",
+        "02_fastqc_analysis/{sample}.coorsorted.dedup_fastqc.html",
+        "02_fastqc_analysis/{sample}.coorsorted.dedup_fastqc.zip",
+    log: "00_logs/{sample}_fastqc_postprocessing.log",
     shell: "fastqc {input} --outdir 02_fastqc_analysis/ 2> {log}"  
