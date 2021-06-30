@@ -67,6 +67,13 @@ rule split_paired_reads:
         "01_raw_data/{sample}_2.fastq.gz"
     log: "00_logs/{sample}_split_paired_reads.log"
     shell: "fastq-dump {input} --split-files --gzip --outdir 01_raw_data/ 2> {log}"
+
+rule fastqc_precheck_wc:
+    input:
+        expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=config["samples"]),
+        expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=config["samples"]),
+        expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=config["samples"]),
+        expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=config["samples"])
     
 rule fastqc_precheck:
     message: "Running quality control on samples pre-processing"
@@ -87,11 +94,17 @@ rule fastqc_precheck:
     fastqc {input.r2} --outdir 02_fastqc_analysis/ 2> {log.r2}
     """  
 
+rule download_genome_wc:
+    input: "01_raw_data/mm39.chromFa.tar.gz"
+    
 rule download_genome:
     message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
     output: "01_raw_data/mm39.chromFa.tar.gz"
     log: "00_logs/download_genome.log"
     shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz -O {output} 2> {log}"
+
+rule process_genome_wc:
+    input: "01_raw_data/mm39.fa"
 
 rule process_genome:
     message: "Decompressing genome. Concatenating individual chromosome files to create full assembly. Removing chromosome sequence files"
@@ -103,6 +116,9 @@ rule process_genome:
     cat 01_raw_data/*.fa > {output} 2> {log}
     rm 01_raw_data/chr*.fa
     """
+
+rule set_alignment_reference_wc:
+    input: multiext("01_raw_data/mm39", ".amb", ".ann", ".bwt", ".pac", ".sa")
     
 rule set_alignment_reference:
     message: "Setting GRCm39/mm39 mouse genome assembly as reference genome for alignment" 
@@ -129,6 +145,9 @@ rule align_reads:
     output: "03_sam_files/{sample}.sam"
     log: "00_logs/{sample}_align_reads_err.log"
     shell: "bwa mem 01_raw_data/mm39 {input.r1} {input.r2} > {output} 2> {log}"
+
+rule sam_to_bam_wc:
+    input: expand("04_bam_files/{sample}.bam", sample=config["samples"])
     
 rule sam_to_bam:
     message: "Converting SAM to BAM file format"
@@ -138,6 +157,9 @@ rule sam_to_bam:
     log: "00_logs/{sample}_sam_to_bam.log"
     shell: "samtools view -b {input} > {output} 2> {log}"
 
+rule sam_fixmate_wc:
+    input: expand("04_bam_files/{sample}.namesorted.fixmate.bam", sample=config["samples"])
+
 rule sam_fixmate:
     message: "Removing secondary and unmapped reads. Adding tags to reads for deduplication"
     conda: "00_conda_software/chip_samtools.yml"
@@ -146,6 +168,9 @@ rule sam_fixmate:
     log: "00_logs/{sample}_sam_fixmate.log"
     shell: "samtools fixmate -rcm -O bam {input} {output} 2> {log}"
 
+rule sam_sort_wc:
+    input: expand("04_bam_files/{sample}.coorsorted.fixmate.bam", sample=config["samples"])
+    
 rule sam_sort:
     message: "Sorting reads by chromosome coordinates"
     conda: "00_conda_software/chip_samtools.yml"
@@ -154,6 +179,9 @@ rule sam_sort:
     log: "00_logs/{sample}_sam_sort.log"
     shell: "samtools sort {input} -o {output} 2> {log}"
 
+rule sam_markdup_wc:
+    input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=config["samples"])
+
 rule sam_markdup:
     message: "Marking and removing duplicates"
     conda: "00_conda_software/chip_samtools.yml"
@@ -161,6 +189,9 @@ rule sam_markdup:
     output: "04_bam_files/{sample}.coorsorted.dedup.bam"
     log: "00_logs/{sample}_sam_markdup.log"
     shell: "samtools markdup -r --mode s {input} {output} 2> {log}"
+
+rule sam_index_wc:
+    input: expand("04_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=config["samples"])
 
 rule sam_index:
     message: "Indexing deduplicated BAM file"
