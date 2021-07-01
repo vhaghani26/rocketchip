@@ -75,7 +75,9 @@ MACS2 is used to call peaks in the data. These peaks will be used in answering t
 
 ## Tutorial
 
-For good practice, it is recommended to use conda. If you do not already have conda, please go through the steps of conda installation, initialization, and preparation. [This](https://github.com/ngs-docs/2021-GGG298/tree/latest/Week3-conda_for_software_installation) is a good resource that can guide you through most of these processes. Initialization varies based on whether you are working in local or remote directories (i.e. cluster). 
+For good practice, it is recommended to use conda. If you do not already have conda, please go through the steps of conda installation, initialization, and preparation. [This](https://github.com/ngs-docs/2021-GGG298/tree/latest/Week3-conda_for_software_installation) is a good resource that can guide you through most of these processes. Initialization varies based on whether you are working in local or remote directories (i.e. cluster).
+
+If you do not have or use conda, then you may individually download the software required: SRA Toolkit (sra-tools, v2.10.9), Burrows-Wheeler Algorithm (bwa, v0.7.17), Samtools (samtools, v1.12), deeptools (deeptools, v3.5.1), MACS2 (macs2, v2.2.7.1), FastQC (fastqc, v0.11.9), and Snakemake (snakemake-minimal, v6.1.0). You will also need to exclude the `--use-conda` tag in all of the Snakemake commands when running them. Once you have installed the software, continue to the "Download the Repository" section below.
 
 ### Conda Preparation
 If you already have conda or an environment manager, continue to the "Software Installation" section. If not, the following information may be helpful to you.
