@@ -165,7 +165,7 @@ snakemake -j 4 -p --use-conda fastqc_postprocessing
 Some rules, such as `set_alignment_reference` and `align_reads` take much longer to run than the rest of the workflow. The majority of the rules, however, will take no more than 20 minutes each to run using only the two samples provided in this tutorial. With each extra sample included, the time required increases. It may be helpful to keep the genome alignment reference files for future analysis since that's the most resource- and time-intensive step.
 
 ### Running the Workflow on the Cluster or on an HPC
-It is most highly recommended to run the workflow through SLURM. Based on how conda was/is initialized and how/where your environment is set up, there will be things you should change in the SLURM script. However, the resource delineation can be preserved for the sake of this tutorial.
+It is most highly recommended to run the workflow through SLURM. Based on how conda was/is initialized and how/where your environment is set up, there will be things you should change in the SLURM script.
 
 If you are new to using conda or SLURM, it may be helpful to submit a test script that requests minimal resources to make sure conda works correctly. This is a SLURM template script you can use to make sure conda and SLURM are working for you before you submit a big resource- and time-intensive job like this pipeline. Make sure to change the information necessary, namely the information at the top preceeded by `#SBATCH` and the three conda-related lines.
 ```
