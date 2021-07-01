@@ -20,16 +20,6 @@ rule all:
         expand("02_fastqc_analysis/{sample}.coorsorted.dedup_fastqc.zip", sample=config["samples"]),
         expand("05_bigwig_files/{sample}.bw", sample=config["samples"])
 
-rule make_directories_wc:
-    input:
-        directory("00_logs/"),
-        directory("01_raw_data/"),
-        directory("02_fastqc_analysis/"),
-        directory("03_sam_files/"),
-        directory("04_bam_files/"),
-        directory("05_bigwig_files/"),
-        directory("06_macs2_peaks/")
-
 rule make_directories:
     message: "Making directories for data organization"
     output:
@@ -50,10 +40,10 @@ rule make_directories:
         mkdir 06_macs2_peaks
     """
 
-rule download_data_wc:
+rule download_data:
     input: expand("01_raw_data/{sample}/{sample}.sra", sample=config["samples"])
 
-rule download_data:
+rule download_data_wc:
     message: "Downloading raw data files"
     conda: "00_conda_software/chip_sra.yml"
     output: "01_raw_data/{sample}/{sample}.sra"
@@ -63,12 +53,12 @@ rule download_data:
     mv {wildcards.sample}/ 01_raw_data/
     """
 
-rule split_paired_reads_wc:
+rule split_paired_reads:
     input:
         expand("01_raw_data/{sample}_1.fastq.gz", sample=config["samples"]),
         expand("01_raw_data/{sample}_2.fastq.gz", sample=config["samples"])
    
-rule split_paired_reads:
+rule split_paired_reads_wc:
     message: "Splitting paired end reads into separate files"
     conda: "00_conda_software/chip_sra.yml"
     input: "01_raw_data/{sample}/{sample}.sra"
@@ -78,14 +68,14 @@ rule split_paired_reads:
     log: "00_logs/{sample}_split_paired_reads.log"
     shell: "fastq-dump {input} --split-files --gzip --outdir 01_raw_data/ 2> {log}"
 
-rule fastqc_precheck_wc:
+rule fastqc_precheck:
     input:
         expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=config["samples"]),
         expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=config["samples"]),
         expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=config["samples"]),
         expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=config["samples"])
     
-rule fastqc_precheck:
+rule fastqc_precheck_wc:
     message: "Running quality control on samples pre-processing"
     conda: "00_conda_software/chip_fastqc.yml"
     input:
@@ -104,19 +94,19 @@ rule fastqc_precheck:
     fastqc {input.r2} --outdir 02_fastqc_analysis/ 2> {log.r2}
     """  
 
-rule download_genome_wc:
+rule download_genome:
     input: "01_raw_data/mm39.chromFa.tar.gz"
     
-rule download_genome:
+rule download_genome_wc:
     message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
     output: "01_raw_data/mm39.chromFa.tar.gz"
     log: "00_logs/download_genome.log"
     shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz -O {output} 2> {log}"
 
-rule process_genome_wc:
+rule process_genome:
     input: "01_raw_data/mm39.fa"
 
-rule process_genome:
+rule process_genome_wc:
     message: "Decompressing genome. Concatenating individual chromosome files to create full assembly. Removing chromosome sequence files"
     input: "01_raw_data/mm39.chromFa.tar.gz"
     output: "01_raw_data/mm39.fa"
@@ -127,10 +117,10 @@ rule process_genome:
     rm 01_raw_data/chr*.fa
     """
 
-rule set_alignment_reference_wc:
+rule set_alignment_reference:
     input: multiext("01_raw_data/mm39", ".amb", ".ann", ".bwt", ".pac", ".sa")
     
-rule set_alignment_reference:
+rule set_alignment_reference_wc:
     message: "Setting GRCm39/mm39 mouse genome assembly as reference genome for alignment" 
     conda: "00_conda_software/chip_bwa.yml"
     input: "01_raw_data/mm39.fa"
@@ -141,11 +131,11 @@ rule set_alignment_reference:
     mv mm39* 01_raw_data/
     """ 
     
-rule align_reads_wc:
+rule align_reads:
     input: 
         expand("03_sam_files/{sample}.sam", sample=config["samples"])
         
-rule align_reads:
+rule align_reads_wc:
     message: "Aligning paired end reads to GRCm39/mm39 reference genome"
     conda: "00_conda_software/chip_bwa.yml"
     input:
@@ -156,10 +146,10 @@ rule align_reads:
     log: "00_logs/{sample}_align_reads_err.log"
     shell: "bwa mem 01_raw_data/mm39 {input.r1} {input.r2} > {output} 2> {log}"
 
-rule sam_to_bam_wc:
+rule sam_to_bam:
     input: expand("04_bam_files/{sample}.bam", sample=config["samples"])
     
-rule sam_to_bam:
+rule sam_to_bam_wc:
     message: "Converting SAM to BAM file format"
     conda: "00_conda_software/chip_samtools.yml"
     input: "03_sam_files/{sample}.sam"
@@ -167,10 +157,10 @@ rule sam_to_bam:
     log: "00_logs/{sample}_sam_to_bam.log"
     shell: "samtools view -b {input} > {output} 2> {log}"
 
-rule sam_fixmate_wc:
+rule sam_fixmate:
     input: expand("04_bam_files/{sample}.namesorted.fixmate.bam", sample=config["samples"])
 
-rule sam_fixmate:
+rule sam_fixmate_wc:
     message: "Removing secondary and unmapped reads. Adding tags to reads for deduplication"
     conda: "00_conda_software/chip_samtools.yml"
     input: "04_bam_files/{sample}.bam"
@@ -178,10 +168,10 @@ rule sam_fixmate:
     log: "00_logs/{sample}_sam_fixmate.log"
     shell: "samtools fixmate -rcm -O bam {input} {output} 2> {log}"
 
-rule sam_sort_wc:
+rule sam_sort:
     input: expand("04_bam_files/{sample}.coorsorted.fixmate.bam", sample=config["samples"])
     
-rule sam_sort:
+rule sam_sort_wc:
     message: "Sorting reads by chromosome coordinates"
     conda: "00_conda_software/chip_samtools.yml"
     input: "04_bam_files/{sample}.namesorted.fixmate.bam"
@@ -189,10 +179,10 @@ rule sam_sort:
     log: "00_logs/{sample}_sam_sort.log"
     shell: "samtools sort {input} -o {output} 2> {log}"
 
-rule sam_markdup_wc:
+rule sam_markdup:
     input: expand("04_bam_files/{sample}.coorsorted.dedup.bam", sample=config["samples"])
 
-rule sam_markdup:
+rule sam_markdup_wc:
     message: "Marking and removing duplicates"
     conda: "00_conda_software/chip_samtools.yml"
     input: "04_bam_files/{sample}.coorsorted.fixmate.bam"
@@ -200,10 +190,10 @@ rule sam_markdup:
     log: "00_logs/{sample}_sam_markdup.log"
     shell: "samtools markdup -r --mode s {input} {output} 2> {log}"
 
-rule sam_index_wc:
+rule sam_index:
     input: expand("04_bam_files/{sample}.coorsorted.dedup.bam.bai", sample=config["samples"])
 
-rule sam_index:
+rule sam_index_wc:
     message: "Indexing deduplicated BAM file"
     conda: "00_conda_software/chip_samtools.yml"
     input: "04_bam_files/{sample}.coorsorted.dedup.bam"
@@ -211,11 +201,11 @@ rule sam_index:
     log: "00_logs/{sample}_sam_index.log"
     shell: "samtools index {input} 2> {log}"
 
-rule bam_to_bigwig_wc:
+rule bam_to_bigwig:
     input:
         expand("05_bigwig_files/{sample}.bw", sample=config["samples"])
         
-rule bam_to_bigwig:
+rule bam_to_bigwig_wc:
     message: "Converting BAM file format to bigwig file format for visualization"
     conda: "00_conda_software/chip_deeptools.yml"
     input:
@@ -225,7 +215,7 @@ rule bam_to_bigwig:
     log: "00_logs/{sample}_bam_to_bigwig.log"
     shell: "bamCoverage -b {input} -o {output} 2> {log}"
 
-rule call_peaks_wc:
+rule call_peaks:
     input:
         expand("06_macs2_peaks/{sample}_peaks.narrowPeak", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_peaks.xls", sample=config["samples"]),
@@ -233,7 +223,7 @@ rule call_peaks_wc:
         expand("06_macs2_peaks/{sample}_model.r", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_treat_pileup.bdg", sample=config["samples"])
 
-rule call_peaks:
+rule call_peaks_wc:
     message: "Calling ChIP-seq peaks"
     conda: "00_conda_software/chip_macs2.yml"
     input: "04_bam_files/{sample}.coorsorted.dedup.bam"
@@ -246,12 +236,12 @@ rule call_peaks:
     log: "00_logs/{sample}_macs2_peaks.log"
     shell: "macs2 callpeak -t {input} -f BAM -n {wildcards.sample} --bdg --outdir 06_macs2_peaks/ 2> {log}"
 
-rule fastqc_postprocessing_wc:
+rule fastqc_postprocessing:
     input:
         expand("02_fastqc_analysis/{sample}.coorsorted.dedup_fastqc.html", sample=config["samples"]),
         expand("02_fastqc_analysis/{sample}.coorsorted.dedup_fastqc.zip", sample=config["samples"])
 
-rule fastqc_postprocessing:
+rule fastqc_postprocessing_wc:
     message: "Running quality control on samples post-processing"
     conda: "00_conda_software/chip_fastqc.yml"
     input: "04_bam_files/{sample}.coorsorted.dedup.bam"

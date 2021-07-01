@@ -14,19 +14,17 @@ The `samples.yml` file will be used as a configuration file to pipe in the sampl
 #### Snakefile
 The Snakefile contains the code required to execute the entire pipeline. Here, I will go through the basics of Snakemake usage for this program. For additional information, see the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html). For specifics regarding command-line interface, [this](https://snakemake.readthedocs.io/en/stable/executing/cli.html) may be helpful.
 
-Briefly, the whole program can be executed by running `snakemake -j 4 -p --use-conda`, where the `-j` or `--jobs` option specifies the highest number of jobs (highest number of CPU) that can be run in parallel. The `-p` or `--prioritize` option tells the job scheduler to prioritize certain jobs given their dependencies. Without specifying anything else, the whole workflow will run.
-
-To run a rule in particular, you can use `snakemake -j 4 -p --use-conda rulename_wc`. The `_wc` tag at the end of the rule name is required when running an individual rule to ensure that your `wildcards` (samples) are properly incorporated unless otherwise specified. If the whole workflow is being run at once, the `_wc` tag is not necessary.
+Briefly, the whole program can be executed by running `snakemake -j 4 -p --use-conda`, where the `-j` or `--jobs` option specifies the highest number of jobs (highest number of CPU) that can be run in parallel. The `-p` or `--prioritize` option tells the job scheduler to prioritize certain jobs given their dependencies. Without specifying anything else, the whole workflow will run. To run a rule in particular or individually, you can use `snakemake -j 4 -p --use-conda rulename`.
 
 The list of rules and their descriptions goes as follows:
 - `rule all`: runs the entire workflow
-- `rule make_directories`: makes directories for data organization. See "Outputs" section for more information. `_wc` flag not required for this rule.
+- `rule make_directories`: makes directories for data organization. See "Outputs" section for more information
 - `rule download_data`: downloads raw sequence data files (from SRA IDs)
 - `rule split_paired_reads`: splits paired-end read data into separate files
 - `rule fastqc_precheck`: run quality control on samples pre-processing
-- `rule download_genome`: download the GRCm39/mm39 mouse genome from the UCSC Genome Browser. `_wc` flag not required for this rule.
-- `rule process_genome`: decompress the genome and concatenate individual chromosome files to create the full assembly. `_wc` flag not required for this rule.
-- `rule set_alignment_reference`: set the GRCm39/mm39 mouse genome assembly as the reference genome for alignment. `_wc` flag not required for this rule.
+- `rule download_genome`: download the GRCm39/mm39 mouse genome from the UCSC Genome Browser
+- `rule process_genome`: decompress the genome and concatenate individual chromosome files to create the full assembly
+- `rule set_alignment_reference`: set the GRCm39/mm39 mouse genome assembly as the reference genome for alignment
 - `rule align_reads`: align paired end reads to GRCm39/mm39 reference genome
 - `rule sam_to_bam`: convert SAM to BAM file format
 - `rule sam_fixmate`: remove secondary and unmapped reads and add tags to reads for deduplication
@@ -37,7 +35,7 @@ The list of rules and their descriptions goes as follows:
 - `rule call_peaks`: call ChIP-seq peaks
 - `rule fastqc_postprocessing`: run quality control on samples post-processing
 
-These rules are loosely written in the order they get executed. If you want to run the whole pipeline up to a certain point, using the `snakemake -j 4 -p --use-conda rulename_wc` command will determine all the dependencies of that rule and generate the output required by the specified rule. This means everything needed beforehand will be run and their outputs saved, but anything beyond the specified rule will not be run. It is also important to know that Snakemake knows when it can and should rerun things. For example, if you include a new sample, it will rerun the analysis for only that sample, not everything. It has a "memory" in that way based on the file outputs. If you try to rerun a rule that has already been run succesfully, it will tell you that there is nothing to be done. That's the magic that is Snakemake.
+These rules are loosely written in the order they get executed. If you want to run the whole pipeline up to a certain point, using the `snakemake -j 4 -p --use-conda rulename` command will determine all the dependencies of that rule and generate the output required by the specified rule. This means everything needed beforehand will be run and their outputs saved, but anything beyond the specified rule will not be run. It is also important to know that Snakemake knows when it can and should rerun things. For example, if you include a new sample, it will rerun the analysis for only that sample, not everything. It has a "memory" in that way based on the file outputs. If you try to rerun a rule that has already been run succesfully, it will tell you that there is nothing to be done. That's the magic that is Snakemake.
 
 #### 00_conda_software
 The repository contains a folder called `00_conda_software` that contains individual `yml` files with each specified software, including its version number, to be used for each rule in the pipeline. This ensures replicability and reproducibility of analysis results. Version numbers can be changed in each yml file if an update is needed.
@@ -146,23 +144,23 @@ It is important to note that because we are working with "big data," this will t
 To run it rule by rule, carry out the following commands in this order:
 ```
 snakemake -j 4 -p --use-conda make_directories
-snakemake -j 4 -p --use-conda download_data_wc
-snakemake -j 4 -p --use-conda split_paired_reads_wc
-snakemake -j 4 -p --use-conda fastqc_precheck_wc
+snakemake -j 4 -p --use-conda download_data
+snakemake -j 4 -p --use-conda split_paired_reads
+snakemake -j 4 -p --use-conda fastqc_precheck
 snakemake -j 4 -p --use-conda download_genome
 snakemake -j 4 -p --use-conda process_genome
 snakemake -j 4 -p --use-conda set_alignment_reference
-snakemake -j 4 -p --use-conda align_reads_wc
-snakemake -j 4 -p --use-conda sam_to_bam_wc
-snakemake -j 4 -p --use-conda sam_fixmate_wc
-snakemake -j 4 -p --use-conda sam_sort_wc
-snakemake -j 4 -p --use-conda sam_markdup_wc
-snakemake -j 4 -p --use-conda sam_index_wc
-snakemake -j 4 -p --use-conda bam_to_bigwig_wc
-snakemake -j 4 -p --use-conda call_peaks_wc
-snakemake -j 4 -p --use-conda fastqc_postprocessing_wc
+snakemake -j 4 -p --use-conda align_reads
+snakemake -j 4 -p --use-conda sam_to_bam
+snakemake -j 4 -p --use-conda sam_fixmate
+snakemake -j 4 -p --use-conda sam_sort
+snakemake -j 4 -p --use-conda sam_markdup
+snakemake -j 4 -p --use-conda sam_index
+snakemake -j 4 -p --use-conda bam_to_bigwig
+snakemake -j 4 -p --use-conda call_peaks
+snakemake -j 4 -p --use-conda fastqc_postprocessing
 ```
-Some rules, such as `set_alignment_reference` and `align_reads_wc` take much longer to run than the rest of the workflow. The majority of the rules, however, will take no more than 20 minutes each to run using only the two samples provided in this tutorial. With each extra sample included, the time required increases. It may be helpful to keep the genome alignment reference files for future analysis since that's the most resource- and time-intensive step.
+Some rules, such as `set_alignment_reference` and `align_reads` take much longer to run than the rest of the workflow. The majority of the rules, however, will take no more than 20 minutes each to run using only the two samples provided in this tutorial. With each extra sample included, the time required increases. It may be helpful to keep the genome alignment reference files for future analysis since that's the most resource- and time-intensive step.
 
 ### Running the Workflow on the Cluster or on an HPC
 It is most highly recommended to run the workflow through SLURM. Based on how conda was/is initialized and how/where your environment is set up, there will be things you should change in the SLURM script. However, the resource delineation can be preserved for the sake of this tutorial.
