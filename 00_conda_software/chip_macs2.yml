@@ -3,4 +3,4 @@ channels:
   - bioconda
   - defaults
 dependencies:
-  - macs2=2.2.7.1=py39h38f01e4_2
+  - macs2=2.2.7.1
