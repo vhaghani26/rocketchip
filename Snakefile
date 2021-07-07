@@ -213,7 +213,7 @@ rule bam_to_bigwig_wc:
         bam = "04_bam_files/{sample}.coorsorted.dedup.bam"
     output: "05_bigwig_files/{sample}.bw"
     log: "00_logs/{sample}_bam_to_bigwig.log"
-    shell: "bamCoverage -b {input} -o {output} 2> {log}"
+    shell: "bamCoverage -b {input.bam} -o {output} 2> {log}"
 
 rule call_peaks:
     input:
