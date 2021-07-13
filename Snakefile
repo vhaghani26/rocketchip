@@ -4,6 +4,8 @@ wildcard_constraints:
     sample='[a-zA-Z0-9]+'
 
 print(f'Starting ChIP-seq data analysis workflow for samples: {config["samples"]}')
+
+
    
 rule all:
     input:     
@@ -49,8 +51,7 @@ rule download_data_wc:
     output: "01_raw_data/{sample}/{sample}.sra"
     log: "00_logs/{sample}_download_data.log"
     shell: """
-    prefetch {wildcards.sample} > {log}
-    mv {wildcards.sample}/ 01_raw_data/
+    prefetch {wildcards.sample} -O 01_raw_data/ > {log}
     """
 
 rule split_paired_reads:
