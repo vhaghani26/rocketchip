@@ -1,10 +1,12 @@
+import os
+from bs4 import BeautifulSoup
+
 configfile: "samples.yaml"
 
 wildcard_constraints:
     sample='[a-zA-Z0-9]+'
 
 print(f'Starting ChIP-seq data analysis workflow for samples: {config["samples"]}')
-
 
    
 rule all:
@@ -53,6 +55,47 @@ rule download_data_wc:
     shell: """
     prefetch {wildcards.sample} -O 01_raw_data/ > {log}
     """
+
+rule single_or_paired:
+    input: expand("01_raw_data/{sample}.html", sample=config["samples"])
+    
+    
+    
+    
+    
+    
+rule single_or_paired_wc:
+    message: "Determining if samples are single or paired-end reads"
+    #conda: add beautifulsoup here
+    #output: "01_raw_data/{sample}.html"
+    #run: 
+    
+paired_end = []
+single_end = []
+links = []
+for sample in config["samples"]:
+    links.append(f'https://trace.ncbi.nlm.nih.gov/Traces/sra/?run={sample}')
+for link, sample in zip(links, config["samples"]):
+    os.system(f'curl {link} > 01_raw_data/{sample}.html')
+    with open(f"01_raw_data/{sample}.html", "r") as fp:
+        soup = BeautifulSoup(fp, 'html.parser')
+        
+# Down the line, something like
+# if beautifulsoup_html_element == "PAIRED" or "Paired" or "paired" paired_end.append(element)
+# else single_end.append(element)
+# if element is in paired_end, follow these rules
+# else follow these rules
+# until rules converge
+        
+    
+# Run this rule to test the python code above
+rule placeholder:
+    shell: "echo hello"
+
+
+
+
+
 
 rule split_paired_reads:
     input:
