@@ -125,7 +125,7 @@ samples:
    - SRAID1
    - SRAID2
 ```
-This file will be used as a configuration file to pipe in the samples used in the analysis. The syntax in this file is important, so be aware that errors relating to `wildcards` are likely caused by the entries in this file.
+This file will be used as a configuration file to pipe in the samples used in the analysis. The syntax in this file is important, so be aware that errors relating to `wildcards` are likely caused by the entries in this file. Also note that the SRA ID is NOT the BioSample Accession Number, which starts with the "SAMN" prefix. The SRA ID begins with the "SRR" prefix.
 
 In this tutorial, we will use the following SRA IDs:
 ```
