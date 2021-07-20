@@ -55,7 +55,7 @@ rule single_or_paired:
     
 rule single_or_paired_wc:
     message: "Determining if samples are single or paired-end reads"
-    output: "01_raw_data/{sample}.html"
+#    output: "01_raw_data/{sample}.html"
     log: "00_logs/{sample}_single_or_paired.log"
     shell: "python3 single_or_paired.py > {output} 2> {log}"
     
