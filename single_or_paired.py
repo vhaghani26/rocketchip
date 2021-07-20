@@ -20,6 +20,3 @@ for link, sample in zip(links, config["samples"]):
             paired_end.append(f'{sample}')
         else:
             single_end.append(f'{sample}')
-            
-print(paired_end)
-print(single_end)
