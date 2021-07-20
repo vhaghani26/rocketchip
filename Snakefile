@@ -50,14 +50,14 @@ rule download_data_wc:
     log: "00_logs/{sample}_download_data.log"
     shell: "prefetch {wildcards.sample} -O 01_raw_data/ > {log}"
 
-rule single_or_paired:
-    input: expand("01_raw_data/{sample}.html", sample=config["samples"])
-    
-rule single_or_paired_wc:
-    message: "Determining if samples are single or paired-end reads"
+#rule single_or_paired:
+#    input: expand("01_raw_data/{sample}.html", sample=config["samples"])
+#    
+#rule single_or_paired_wc:
+#    message: "Determining if samples are single or paired-end reads"
 #    output: "01_raw_data/{sample}.html"
-    log: "00_logs/{sample}_single_or_paired.log"
-    shell: "python3 single_or_paired.py > {output} 2> {log}"
+#    log: "00_logs/{sample}_single_or_paired.log"
+#    shell: "python3 single_or_paired.py > {output} 2> {log}"
     
 rule split_paired_reads:
     input:
