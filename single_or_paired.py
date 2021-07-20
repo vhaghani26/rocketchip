@@ -20,3 +20,10 @@ for link, sample in zip(links, config["samples"]):
             paired_end.append(f'{sample}')
         else:
             single_end.append(f'{sample}')
+            
+for sample in config["samples"]:
+    if sample in paired_end:
+        os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/{sample}_paired.html')
+    else:
+        os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/{sample}_single.html')
+    
