@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 
 import os
+import yaml
 
 paired_end = []
 single_end = []
 links = []
+
+with open("samples.yaml", "r") as yamlfile:
+    config = yaml.load(yamlfile)
 
 for sample in config["samples"]:
     links.append(f'https://trace.ncbi.nlm.nih.gov/Traces/sra/?run={sample}')
