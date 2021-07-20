@@ -1,5 +1,3 @@
-import os
-
 configfile: "samples.yaml"
 
 wildcard_constraints:
@@ -50,39 +48,17 @@ rule download_data_wc:
     conda: "00_conda_software/chip_sra.yml"
     output: "01_raw_data/{sample}/{sample}.sra"
     log: "00_logs/{sample}_download_data.log"
-    shell: """
-    prefetch {wildcards.sample} -O 01_raw_data/ > {log}
-    """
-
-paired_end = []
-single_end = []
-links = []
+    shell: "prefetch {wildcards.sample} -O 01_raw_data/ > {log}"
 
 rule single_or_paired:
     input: expand("01_raw_data/{sample}.html", sample=config["samples"])
     
 rule single_or_paired_wc:
     message: "Determining if samples are single or paired-end reads"
-    #output: "01_raw_data/{sample}.html"
-    #run: 
+    output: "01_raw_data/{sample}.html"
+    log: "00_logs/{sample}_single_or_paired.log"
+    shell: "python3 single_or_paired.py > {output} 2> {log}
     
-for sample in config["samples"]:
-    links.append(f'https://trace.ncbi.nlm.nih.gov/Traces/sra/?run={sample}')
-for link, sample in zip(links, config["samples"]):
-    os.system(f'curl {link} > 01_raw_data/{sample}.html')
-    with open(f"01_raw_data/{sample}.html", "r") as fp:
-        readfile = fp.read()
-        if '<td>PAIRED</td>' in readfile:
-            paired_end.append(f'{sample}')
-        else:
-            single_end.append(f'{sample}')
-print(paired_end)
-print(single_end)
-
-# Run this rule to test the python code above
-rule placeholder:
-    shell: "echo hello"
-
 rule split_paired_reads:
     input:
         expand("01_raw_data/{sample}_1.fastq.gz", sample=config["samples"]),
