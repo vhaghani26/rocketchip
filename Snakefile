@@ -60,12 +60,12 @@ rule single_or_paired_wc:
     log: "00_logs/{sample}_single_or_paired.log"
     shell: "python3 single_or_paired.py 2> {log}"
     
-rule split_paired_reads:
+rule sra_to_fastq:
     input:
         expand("01_raw_data/{sample}_1.fastq.gz", sample=config["samples"]),
         expand("01_raw_data/{sample}_2.fastq.gz", sample=config["samples"])
    
-rule split_paired_reads_wc:
+rule sra_to_fastq_wc:
     message: "Splitting paired end reads into separate files"
     conda: "00_conda_software/chip_sra.yml"
     input: "01_raw_data/{sample}/{sample}.sra"
