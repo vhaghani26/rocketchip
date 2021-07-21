@@ -9,7 +9,7 @@ links = []
 
 # Load in sample data from configuration file
 with open("samples.yaml", "r") as yamlfile:
-    config = yaml.load(yamlfile)
+    config = yaml.load(yamlfile, Loader = yaml.FullLoader)
 
 # Generate links corresponding to each sample
 for sample in config["samples"]:
