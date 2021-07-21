@@ -32,3 +32,4 @@ for sample in config["samples"]:
         os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/{sample}_paired.html')
     else:
         os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/{sample}_single.html')
+    os.system(f'touch 01_raw_data/{sample}_placeholder.txt')
