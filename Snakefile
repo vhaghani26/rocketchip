@@ -114,7 +114,7 @@ for sample in config["samples"]:
             message: "Converting SRA file to FASTQ file format"
             conda: "00_conda_software/chip_sra.yml"
             input: 
-                sra_file = "01_raw_data/{sample}/{sample}.sra"
+                sra_file = "01_raw_data/{sample}/{sample}.sra",
                 dependency = "01_raw_data/{sample}_placeholder.txt"
             output:
                 "01_raw_data/{sample}_1.fastq.gz",
@@ -163,8 +163,7 @@ for sample in config["samples"]:
             log: "00_logs/{sample}_align_reads_err.log"
             shell: "bwa mem 01_raw_data/mm39 {input.r1} {input.r2} > {output} 2> {log}"            
     else:
-        print(f'{sample} is a single-end read. Only one FASTQ file will be generated')
-        
+        print(f'{sample} is a single-end read. Only one FASTQ file will be generated')        
         rule sra_to_fastq:
             input:
                 expand("01_raw_data/{sample}.fastq.gz", sample=config["samples"])
@@ -173,7 +172,7 @@ for sample in config["samples"]:
             message: "Converting SRA file to FASTQ file format"
             conda: "00_conda_software/chip_sra.yml"
             input:
-                sra_file = "01_raw_data/{sample}/{sample}.sra"
+                sra_file = "01_raw_data/{sample}/{sample}.sra",
                 dependency = "01_raw_data/{sample}_placeholder.txt"
             output:
                 "01_raw_data/{sample}.fastq.gz",
