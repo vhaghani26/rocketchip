@@ -1,3 +1,5 @@
+import os
+
 configfile: "samples.yaml"
 
 wildcard_constraints:
@@ -59,6 +61,15 @@ rule single_or_paired_wc:
     output: temp("01_raw_data/{sample}_placeholder.txt")
     log: "00_logs/{sample}_single_or_paired.log"
     shell: "python3 single_or_paired.py 2> {log}"
+
+# Need to try making a rule or timing it so it gets run after above rules    
+for sample in config["samples"]:
+    paired_sample = f'01_raw_data/{sample}_paired.html'
+    isExist = os.path.exists(paired_sample)
+    if isExist == True:
+        print(f'{sample} is a paired-end read')
+    else:
+        print(f'{sample} is a single-end read')
     
 rule sra_to_fastq:
     input:
