@@ -99,9 +99,6 @@ rule single_or_paired_wc:
     log: "00_logs/{sample}_single_or_paired.log"
     shell: "python3 single_or_paired.py 2> {log}"
 
-# Make a placeholder Boolean variable to allow conditional rules
-# Default is set to single-end reads
-isExist = False
 for sample in config["samples"]:
     paired_sample = f'01_raw_data/{sample}_paired.html'
     isExist = os.path.exists(paired_sample)
