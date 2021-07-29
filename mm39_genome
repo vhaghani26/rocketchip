@@ -1,0 +1,27 @@
+rule download_genome:
+    message: "Downloading GRCm39/mm39 mouse genome from the UCSC Genome Browser"
+    output: "01_raw_data/mm39.chromFa.tar.gz"
+    log: "00_logs/download_genome.log"
+    shell: "wget https://hgdownload.soe.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz -O {output} 2> {log}"
+
+rule process_genome:
+    message: "Decompressing genome. Concatenating individual chromosome files to create full assembly. Removing chromosome sequence files"
+    input: "01_raw_data/mm39.chromFa.tar.gz"
+    output: "01_raw_data/mm39.fa"
+    log: "00_logs/process_genome.log"
+    shell: """
+    tar zvfx {input} --directory 01_raw_data/
+    cat 01_raw_data/*.fa > {output} 2> {log}
+    rm 01_raw_data/chr*.fa
+    """
+    
+rule set_alignment_reference:
+    message: "Setting GRCm39/mm39 mouse genome assembly as reference genome for alignment" 
+    conda: "00_conda_software/chip_bwa.yml"
+    input: "01_raw_data/mm39.fa"
+    output: multiext("01_raw_data/mm39", ".amb", ".ann", ".bwt", ".pac", ".sa")
+    log: "00_logs/set_alignment_reference.log"
+    shell: """
+    bwa index -p mm39 -a bwtsw {input} 2> {log}
+    mv mm39* 01_raw_data/
+    """ 
