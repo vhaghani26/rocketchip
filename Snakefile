@@ -95,15 +95,12 @@ rule sra_to_fastq:
 rule sra_to_fastq_wc:
     message: "Converting SRA file to FASTQ file format"
     conda: "00_conda_software/chip_sra.yml"
-    input: 
-        sra_file = "01_raw_data/{sample}/{sample}.sra",
-        dependency1 = "01_raw_data/{sample}_placeholder.txt",
-        dependency2 = "01_raw_data/{sample}_paired.html"
+    input: "01_raw_data/{sample}/{sample}.sra"
     output:
         "01_raw_data/{sample}_1.fastq.gz",
         "01_raw_data/{sample}_2.fastq.gz"
     log: "00_logs/{sample}_sra_to_fastq.log"
-    shell: "fastq-dump {input.sra_file} --split-files --gzip --outdir 01_raw_data/ 2> {log}"
+    shell: "fastq-dump {input} --split-files --gzip --outdir 01_raw_data/ 2> {log}"
 
 rule fastqc_precheck:
     input:
@@ -118,7 +115,6 @@ rule fastqc_precheck_wc:
     input:
         r1 = "01_raw_data/{sample}_1.fastq.gz",
         r2 = "01_raw_data/{sample}_2.fastq.gz",
-        dependency = "01_raw_data/{sample}_paired.html"
     output:
         "02_fastqc_analysis/{sample}_1_fastqc.html",
         "02_fastqc_analysis/{sample}_1_fastqc.zip",
@@ -143,7 +139,6 @@ rule align_reads_wc:
         r1 = "01_raw_data/{sample}_1.fastq.gz",
         r2 = "01_raw_data/{sample}_2.fastq.gz",
         genome = multiext("01_raw_data/mm39", ".amb", ".ann", ".bwt", ".pac", ".sa"),
-        dependency = "01_raw_data/{sample}_paired.html"
     output: "03_sam_files/{sample}.sam"
     log: "00_logs/{sample}_align_reads_err.log"
     shell: "bwa mem 01_raw_data/mm39 {input.r1} {input.r2} > {output} 2> {log}"
