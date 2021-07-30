@@ -3,7 +3,7 @@
 import os
 
 reference_genomes = {
-    "vicPac2": ["Alpaca", "link", "output"]
+    "vicPac2": ["Alpaca", "download_link", "output"]
 }
 
 
