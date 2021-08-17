@@ -1,5 +1,3 @@
-import os
-
 configfile: "/share/korflab/home/viki/rocketchip/samples.yaml"
 
 wildcard_constraints:
@@ -95,6 +93,27 @@ rule single_or_paired:
     output: temp(expand("01_raw_data/{sample}_placeholder.txt", sample=config["samples"]))
     log: "00_logs/single_or_paired.log"
     shell: "python3 single_or_paired.py 2> {log}"
+
+if # the file name ends with "paired.html":
+    rule test:
+        input: expand("01_raw_data/{sample}_test.txt", sample=config["samples"])
+        
+    rule test_wc:
+        input: "01_raw_data/{sample}_placeholder.txt"
+        output: "01_raw_data/{sample}_test.txt"
+        shell: "echo 'This is a paired-end read' > {output}"
+elif # the file name ends with "single.html":
+    rule test:
+        input: expand("01_raw_data/{sample}_test.txt", sample=config["samples"])
+        
+    rule test_wc:
+        input: "01_raw_data/{sample}_placeholder.txt"
+        output: "01_raw_data/{sample}_test.txt"
+        shell: "echo 'This is a single-end read' > {output}"
+else:
+    rule test:
+        shell: "echo 'Could not determine single vs paired endedness'"
+        
 
 # Need some type of checkpoing for DAG evaluation    
     
