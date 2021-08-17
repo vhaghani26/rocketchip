@@ -7,8 +7,10 @@ paired_end = []
 single_end = []
 links = []
 
+# DIRECTORY IN FOLLOWING SEGMENT NEEDS TO BE CHANGED FOR SAMPLES.YAML FILE LOCATION
+
 # Load in sample data from configuration file
-with open("samples.yaml", "r") as yamlfile:
+with open("../samples.yaml", "r") as yamlfile:
     config = yaml.load(yamlfile, Loader = yaml.FullLoader)
 
 # Generate links corresponding to each sample
