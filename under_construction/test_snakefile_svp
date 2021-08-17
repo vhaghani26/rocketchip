@@ -90,13 +90,10 @@ rule download_data_wc:
     shell: "prefetch {wildcards.sample} -O 01_raw_data/ > {log}"
 
 rule single_or_paired:
-    input: expand("01_raw_data/{sample}_placeholder.txt", sample=config["samples"])
-    
-rule single_or_paired_wc:
     message: "Determining if samples are single or paired-end reads"
     input: expand("01_raw_data/{sample}/{sample}.sra", sample=config["samples"])
-    output: temp("01_raw_data/{sample}_placeholder.txt")
-    log: "00_logs/{sample}_single_or_paired.log"
+    output: temp(expand("01_raw_data/{sample}_placeholder.txt", sample=config["samples"]))
+    log: "00_logs/single_or_paired.log"
     shell: "python3 single_or_paired.py 2> {log}"
 
 # Need some type of checkpoing for DAG evaluation    
