@@ -1,6 +1,4 @@
-# Rocketchip: A Comprehensive Bioinformatics Workflow for ChIP-Seq Data Analysis (still under construction!)
-
-For a list of updates, please refer to the end of this document.
+# Rocketchip: A Comprehensive Bioinformatics Workflow for ChIP-Seq Data Analysis
 
 ## What is Rocketchip?
 Rocketchip is an automated bioinformatics workflow that downloads ChIP-seq data from the National Center for Biotechnology Information (NCBI) Sequence Read Archive (SRA) and uses it to generate the files required for data visualization and peak delineation. In this update, both single- and paired-end data can be used, but they must be run separately. A future update is currently under construction in an attempt to integrate single- and paired-end data into the same run. ChIP-seq data is downloaded directly from the SRA using the SRA Toolkit (sra-tools, v2.10.9). The raw sequence read file is then split into its respective paired-end read files by the SRA Toolkit (if the data is paired-end) and converted into FASTQ file format (sra-tools, v2.10.9). Reads are aligned to the GRCm39/mm39 mouse genome assembly using the Burrows-Wheeler Algorithm (BWA) Maximal Exact Match (MEM) software (bwa, v0.7.17). Samtools (samtools, v1.12) is used for file format conversion and deduplication of sequence data. Deeptools (deeptools, v3.5.1) is used to convert data to the bigwig file format, which can be used for visualization of ChIP-seq data in the UCSC Genome Browser or other visualization tools. Peaks are called using MACS2 (macs2, v2.2.7.1). FastQC (fastqc, v0.11.9) carries out a sequence quality control analysis pre-processing, on the raw sequence data, and post-processing, after sequence alignment takes place. Overall, this workflow carries out the major steps of ChIP-seq data analysis and generates output files to be used as figures and to be used in further analysis.
@@ -258,19 +256,26 @@ Once the job is complete, you should have all the directories and outputs genera
 
 ## Updates
 
-Current version: 1.0.0
+Current version: 2.0.0
 
-### Launch Phase (v1.0.0) - Available
+### Launch Phase (v1.0.0) - Deprecated 
 
-The current version allows for the analysis of paired-end ChIP-seq data specific to mouse experiments. Future updates are planned to include single and paired-end data as well as the addition of multiple genome types.
+This version allowed for the analysis of only paired-end ChIP-seq data specific to mouse experiments.
 
-### Cruise Phase (v1.1.0) - Under Construction
+### Cruise Phase (v2.0.0) - Available
+
+Version 2.0.0, the currently available version of Rocketchip, allows for the use of single- and paired-end ChIP-seq data analysis.
+
+### Encounter Phase (v2.1.0) - Under Construction
 This update features rocketchip's ability to simultaneously analyze both single and paired-end read data as opposed to only paired-end read data.
 
 Updated software description: 
 Rocketchip is an automated bioinformatics workflow that downloads ChIP-seq data from the National Center for Biotechnology Information (NCBI) Sequence Read Archive (SRA) and uses it to generate the files required for data visualization and peak delineation. Rocketchip is able to independently determine if read data is single or paired-end, thus allowing for the simultaneous analysis of both single and paired-end read data. The ChIP-seq data is downloaded directly from the SRA using the SRA Toolkit (sra-tools, v2.10.9). The raw sequence read file is then either split into its respective paired-end read files by the SRA Toolkit and converted into FASTQ file format or maintained as a single file and converted to a FASTQ file. Reads are aligned to the GRCm39/mm39 mouse genome assembly using the Burrows-Wheeler Algorithm (BWA) Maximal Exact Match (MEM) software (bwa, v0.7.17). Samtools (samtools, v1.12) is used for file format conversion and deduplication of sequence data. Deeptools (deeptools, v3.5.1) is used to convert data to the bigwig file format, which can be used for visualization of ChIP-seq data in the UCSC Genome Browser or other visualization tools. Peaks are called using MACS2 (macs2, v2.2.7.1). FastQC (fastqc, v0.11.9) carries out a sequence quality control analysis pre-processing, on the raw sequence data, and post-processing, after sequence alignment takes place. Overall, this analysis carries out the major steps of ChIP-seq data analysis and generates output files to be used as figures and to be used in further analysis.
 
-### Encounter Phase (v.1.2.0) - Under Construction
+### Extended Operations Phase - Planned
+
+#### v.3.0.0 
+
 This update features the expansion of the software to include various genome types. The limitation of this update is that all the data being used must correspond to the same genome per batch of samples run.
 
 Updated software description: 
@@ -278,7 +283,10 @@ Rocketchip is an automated bioinformatics workflow that downloads ChIP-seq data 
 
 In this update, I also plan on adding a list of genome options for users to reference.
 
-### Extended Operations Phase (v.1.2.1) - Planned
+
+#### v.3.1.0
+
 This is a planned update that may or may not be feasible, but the goal is to determine a way to automatically parse samples and align them to the appropriate genome so that samples from different experiments can be easily mixed in the same software run.
+
 
 Feel free to contact me at [vhaghani@ucdavis.edu](vhaghani@ucdavis.edu) if you have any questions, comments, or concerns.
