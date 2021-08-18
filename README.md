@@ -3,10 +3,10 @@
 For a list of updates, please refer to the end of this document.
 
 ## What is Rocketchip?
-Rocketchip is an automated bioinformatics workflow that downloads paired-end ChIP-seq data from the National Center for Biotechnology Information (NCBI) Sequence Read Archive (SRA) and uses it to generate the files required for data visualization and peak delineation. ChIP-seq data is downloaded directly from the SRA using the SRA Toolkit (sra-tools, v2.10.9). The raw sequence read file is then split into its respective paired-end read files by the SRA Toolkit and converted into FASTQ file format (sra-tools, v2.10.9). Reads are aligned to the GRCm39/mm39 mouse genome assembly using the Burrows-Wheeler Algorithm (BWA) Maximal Exact Match (MEM) software (bwa, v0.7.17). Samtools (samtools, v1.12) is used for file format conversion and deduplication of sequence data. Deeptools (deeptools, v3.5.1) is used to convert data to the bigwig file format, which can be used for visualization of ChIP-seq data in the UCSC Genome Browser or other visualization tools. Peaks are called using MACS2 (macs2, v2.2.7.1). FastQC (fastqc, v0.11.9) carries out a sequence quality control analysis pre-processing, on the raw sequence data, and post-processing, after sequence alignment takes place. Overall, this workflow carries out the major steps of ChIP-seq data analysis and generates output files to be used as figures and to be used in further analysis.
+Rocketchip is an automated bioinformatics workflow that downloads ChIP-seq data from the National Center for Biotechnology Information (NCBI) Sequence Read Archive (SRA) and uses it to generate the files required for data visualization and peak delineation. In this update, both single- and paired-end data can be used, but they must be run separately. A future update is currently under construction in an attempt to integrate single- and paired-end data into the same run. ChIP-seq data is downloaded directly from the SRA using the SRA Toolkit (sra-tools, v2.10.9). The raw sequence read file is then split into its respective paired-end read files by the SRA Toolkit (if the data is paired-end) and converted into FASTQ file format (sra-tools, v2.10.9). Reads are aligned to the GRCm39/mm39 mouse genome assembly using the Burrows-Wheeler Algorithm (BWA) Maximal Exact Match (MEM) software (bwa, v0.7.17). Samtools (samtools, v1.12) is used for file format conversion and deduplication of sequence data. Deeptools (deeptools, v3.5.1) is used to convert data to the bigwig file format, which can be used for visualization of ChIP-seq data in the UCSC Genome Browser or other visualization tools. Peaks are called using MACS2 (macs2, v2.2.7.1). FastQC (fastqc, v0.11.9) carries out a sequence quality control analysis pre-processing, on the raw sequence data, and post-processing, after sequence alignment takes place. Overall, this workflow carries out the major steps of ChIP-seq data analysis and generates output files to be used as figures and to be used in further analysis.
 
 ## Using the Workflow
-In order to use the Rocketchip, clone the [GitHub repository](https://github.com/vhaghani26/rocketchip.git) into the directory of your choice. The contents of the repository are broken down below for your reference. See the "Snakefile" section under "Repository Contents" for more specifics on file execution. It is  recommended to try the tutorial outlined at the end of this document to better understand specific usage of the program. Additionally, Snakemake should be installed in order to run Rocketchip. See [here](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) for instructions on Snakemake installation.
+In order to use the Rocketchip, clone the [GitHub repository](https://github.com/vhaghani26/rocketchip.git) into the directory of your choice. The contents of the repository are broken down below for your reference. See the "Snakefile" section under "Repository Contents" for more specifics on file execution. It is  recommended to try the tutorial outlined towards the end of this document to better understand specific usage of the program. Additionally, Snakemake should be installed in order to run Rocketchip. See [here](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) for instructions on Snakemake installation.
 
 ### Repository Contents
 
@@ -16,7 +16,7 @@ The `samples.yml` file will be used as a configuration file to pipe in the sampl
 #### Snakefile
 The Snakefile contains the code required to execute the entire workflow. Here, I will go through the basics of Snakemake usage for this program. For additional information, see the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html). For specifics regarding command-line interface, [this](https://snakemake.readthedocs.io/en/stable/executing/cli.html) may be helpful.
 
-Briefly, the whole program can be executed by running `snakemake -j 4 -p --use-conda`, where the `-j` or `--jobs` option specifies the highest number of jobs (highest number of CPU) that can be run in parallel. The `-p` or `--prioritize` option tells the job scheduler to prioritize certain jobs given their dependencies. Without specifying anything else, the whole workflow will run. To run a rule in particular or individually, you can use `snakemake -j 4 -p --use-conda rulename`.
+Briefly, the whole program can be executed by running `snakemake -j 4 -p --use-conda -s [endedness]`, where the `-j` or `--jobs` option specifies the highest number of jobs (highest number of CPU) that can be run in parallel. The `-p` or `--prioritize` option tells the job scheduler to prioritize certain jobs given their dependencies. The `-s` option for `[endedness]` is a required parameter, and it refers to whether single- or paired-end data is used. If you are using single-end data, please use `-s single_end_snakefile` and if you are using paired-end data, please use `-s paired_end_snakefile`. Without specifying anything else, the whole workflow will run. To run a rule in particular or individually, you can use `snakemake -j 4 -p --use-conda -s [endedness] rulename`.
 
 The list of rules and their descriptions goes as follows:
 - `rule all`: runs the entire workflow
@@ -37,7 +37,7 @@ The list of rules and their descriptions goes as follows:
 - `rule call_peaks`: call ChIP-seq peaks
 - `rule fastqc_postprocessing`: run quality control on samples post-processing
 
-These rules are loosely written in the order they get executed. If you want to run the whole workflow up to a certain point, using the `snakemake -j 4 -p --use-conda rulename` command will determine all the dependencies of that rule and generate the output required by the specified rule. This means everything needed beforehand will be run and their outputs saved, but anything beyond the specified rule will not be run. It is also important to know that Snakemake knows when it can and should rerun things. For example, if you include a new sample, it will rerun the analysis for only that sample, not everything. It has a "memory" in that way based on the file outputs. If you try to rerun a rule that has already been run succesfully, it will tell you that there is nothing to be done. That's the magic that is Snakemake.
+These rules are loosely written in the order they get executed. If you want to run the whole workflow up to a certain point, using the `snakemake -j 4 -p --use-conda -s [endedness] rulename` command will determine all the dependencies of that rule and generate the output required by the specified rule. This means everything needed beforehand will be run and their outputs saved, but anything beyond the specified rule will not be run. It is also important to know that Snakemake knows when it can and should rerun things. For example, if you include a new sample, it will rerun the analysis for only that sample, not everything. It has a "memory" in that way based on the file outputs. If you try to rerun a rule that has already been run succesfully, it will tell you that there is nothing to be done. That's the magic that is Snakemake.
 
 #### 00_conda_software
 The repository contains a folder called `00_conda_software` that contains individual `yml` files with each specified software, including its version number, to be used for each rule in the analysis. This ensures replicability and reproducibility of analysis results. Version numbers can be changed in each yml file if an update is needed.
@@ -129,7 +129,7 @@ samples:
 ```
 This file will be used as a configuration file to pipe in the samples used in the analysis. The syntax in this file is important, so be aware that errors relating to `wildcards` are likely caused by the entries in this file. Also note that the SRA ID is NOT the BioSample Accession Number, which starts with the "SAMN" prefix. The SRA ID begins with the "SRR" prefix.
 
-In this tutorial, we will use the following SRA IDs:
+In this tutorial, we will use the following SRA IDs (paired-end data):
 ```
 ---
 samples: 
@@ -141,28 +141,28 @@ Now save and close the YAML file.
 ### Running the Workflow Locally
 To run the workflow locally, all you need to do now is paste this command into your terminal:
 ```
-snakemake -j 4 -p --use-conda
+snakemake -j 4 -p --use-conda -s paired_end_snakefile
 ```
-It is important to note that because we are working with "big data," this will take upwards of 24 hours to run from scratch. Although it can be done provided your internet connection allows, an alternative is to run it rule by rule or to use other methods, such as `screen` to ensure completion of the job. 
+It is important to note that because we are working with "big data," this will take upwards of 24 hours to run from scratch. Although it can be done provided your internet connection allows, an alternative is to run it rule by rule or to use other methods, such as `screen` to ensure completion of the job. Furthermore, we are working with paired-end data in this tutorial. If you are working with single-end data (which can be verified by viewing the data entry on the SRA database), please use `-s single_end_snakefile` instead.
 
 To run it rule by rule, carry out the following commands in this order:
 ```
-snakemake -j 4 -p --use-conda make_directories
-snakemake -j 4 -p --use-conda download_data
-snakemake -j 4 -p --use-conda sra_to_fastq
-snakemake -j 4 -p --use-conda fastqc_precheck
-snakemake -j 4 -p --use-conda download_genome
-snakemake -j 4 -p --use-conda process_genome
-snakemake -j 4 -p --use-conda set_alignment_reference
-snakemake -j 4 -p --use-conda align_reads
-snakemake -j 4 -p --use-conda sam_to_bam
-snakemake -j 4 -p --use-conda sam_fixmate
-snakemake -j 4 -p --use-conda sam_sort
-snakemake -j 4 -p --use-conda sam_markdup
-snakemake -j 4 -p --use-conda sam_index
-snakemake -j 4 -p --use-conda bam_to_bigwig
-snakemake -j 4 -p --use-conda call_peaks
-snakemake -j 4 -p --use-conda fastqc_postprocessing
+snakemake -j 4 -p --use-conda -s paired_end_snakefile make_directories
+snakemake -j 4 -p --use-conda -s paired_end_snakefile download_data
+snakemake -j 4 -p --use-conda -s paired_end_snakefile sra_to_fastq
+snakemake -j 4 -p --use-conda -s paired_end_snakefile fastqc_precheck
+snakemake -j 4 -p --use-conda -s paired_end_snakefile download_genome
+snakemake -j 4 -p --use-conda -s paired_end_snakefile process_genome
+snakemake -j 4 -p --use-conda -s paired_end_snakefile set_alignment_reference
+snakemake -j 4 -p --use-conda -s paired_end_snakefile align_reads
+snakemake -j 4 -p --use-conda -s paired_end_snakefile sam_to_bam
+snakemake -j 4 -p --use-conda -s paired_end_snakefile sam_fixmate
+snakemake -j 4 -p --use-conda -s paired_end_snakefile sam_sort
+snakemake -j 4 -p --use-conda -s paired_end_snakefile sam_markdup
+snakemake -j 4 -p --use-conda -s paired_end_snakefile sam_index
+snakemake -j 4 -p --use-conda -s paired_end_snakefile bam_to_bigwig
+snakemake -j 4 -p --use-conda -s paired_end_snakefile call_peaks
+snakemake -j 4 -p --use-conda -s paired_end_snakefile fastqc_postprocessing
 ```
 Some rules, such as `set_alignment_reference` and `align_reads` take much longer to run than the rest of the workflow. The majority of the rules, however, will take no more than 20 minutes each to run using only the two samples provided in this tutorial. With each extra sample included, the time required increases. It may be helpful to keep the genome alignment reference files for future analysis since that's the most resource- and time-intensive step.
 
@@ -244,7 +244,7 @@ set -o errexit
 set -x
 
 # Run the snakemake!
-snakemake -j 4 -p --use-conda
+snakemake -j 4 -p --use-conda -s [endedness]
 
 # Print out various information about the job
 env | grep SLURM                                               # Print out values of the current jobs SLURM environment variables
