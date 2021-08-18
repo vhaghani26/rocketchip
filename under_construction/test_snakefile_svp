@@ -94,53 +94,24 @@ rule single_or_paired:
     log: "00_logs/single_or_paired.log"
     shell: "python3 single_or_paired.py 2> {log}"
 
-if # the file name ends with "paired.html":
-    rule test:
-        input: expand("01_raw_data/{sample}_test.txt", sample=config["samples"])
-        
-    rule test_wc:
-        input: "01_raw_data/{sample}_placeholder.txt"
-        output: "01_raw_data/{sample}_test.txt"
-        shell: "echo 'This is a paired-end read' > {output}"
-elif # the file name ends with "single.html":
-    rule test:
-        input: expand("01_raw_data/{sample}_test.txt", sample=config["samples"])
-        
-    rule test_wc:
-        input: "01_raw_data/{sample}_placeholder.txt"
-        output: "01_raw_data/{sample}_test.txt"
-        shell: "echo 'This is a single-end read' > {output}"
-else:
-    rule test:
-        shell: "echo 'Could not determine single vs paired endedness'"
-        
+rule sra_to_fastq_paired:
+    input:
+        expand("01_raw_data/{sample}_1.fastq.gz", sample=config["samples"], proxy = [] if no_input else [None]),
+        expand("01_raw_data/{sample}_2.fastq.gz", sample=config["samples"], proxy = [] if no_input else [None])
 
-# Need some type of checkpoing for DAG evaluation    
-    
-#def single_vs_paired_checkpoint():
+rule sra_to_fastq_paired_wc:
+   message: "Converting SRA file to FASTQ file format"
+    conda: "00_conda_software/chip_sra.yml"
+    input: 
+        sra_file = "01_raw_data/{sample}/{sample}.sra",
+        dependency1 = "01_raw_data/{sample}_placeholder.txt",
+        dependency2 = "01_raw_data/{sample}_paired.html"
+    output:
+        "01_raw_data/{sample}_1.fastq.gz",
+        "01_raw_data/{sample}_2.fastq.gz"
+    log: "00_logs/{sample}_sra_to_fastq.log"
+    shell: "fastq-dump {input.sra_file} --split-files --gzip --outdir 01_raw_data/ 2> {log}"
 
-
-# Need some type of conditional to carry out rules for single vs paired
-#print(f'{sample} is a paired-end read. Paired end reads will be split into separate files')
-#
-#rule sra_to_fastq:
-#    input:
-#        expand("01_raw_data/{sample}_1.fastq.gz", sample=config["samples"]),
-#        expand("01_raw_data/{sample}_2.fastq.gz", sample=config["samples"])
-#
-#rule sra_to_fastq_wc:
-#   message: "Converting SRA file to FASTQ file format"
-#    conda: "00_conda_software/chip_sra.yml"
-#    input: 
-#        sra_file = "01_raw_data/{sample}/{sample}.sra",
-#        dependency1 = "01_raw_data/{sample}_placeholder.txt",
-#        dependency2 = "01_raw_data/{sample}_paired.html"
-#    output:
-#        "01_raw_data/{sample}_1.fastq.gz",
-#        "01_raw_data/{sample}_2.fastq.gz"
-#    log: "00_logs/{sample}_sra_to_fastq.log"
-#    shell: "fastq-dump {input.sra_file} --split-files --gzip --outdir 01_raw_data/ 2> {log}"
-#
 #rule fastqc_precheck:
 #    input:
 #        expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=config["samples"]),
@@ -224,7 +195,7 @@ else:
 #        expand("03_sam_files/{sample}.sam", sample=config["samples"])
 #
 #rule align_reads_wc:
-#    message: "Aligning paired end reads to GRCm39/mm39 reference genome"
+#    message: "Aligning single end reads to GRCm39/mm39 reference genome"
 #    conda: "00_conda_software/chip_bwa.yml"
 #    input:
 #        read = "01_raw_data/{sample}.fastq.gz",
