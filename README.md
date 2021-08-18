@@ -11,8 +11,8 @@ In order to use the Rocketchip, clone the [GitHub repository](https://github.com
 #### samples.yaml
 The `samples.yml` file will be used as a configuration file to pipe in the samples used in the analysis. 
 
-#### Snakefile
-The Snakefile contains the code required to execute the entire workflow. Here, I will go through the basics of Snakemake usage for this program. For additional information, see the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html). For specifics regarding command-line interface, [this](https://snakemake.readthedocs.io/en/stable/executing/cli.html) may be helpful.
+#### Snakefiles (single_end_snakefile and paired_end_snakefile)
+The Snakefiles contain the code required to execute the entire workflow. Here, I will go through the basics of Snakemake usage for this program. For additional information, see the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html). For specifics regarding command-line interface, [this](https://snakemake.readthedocs.io/en/stable/executing/cli.html) may be helpful.
 
 Briefly, the whole program can be executed by running `snakemake -j 4 -p --use-conda -s [endedness]`, where the `-j` or `--jobs` option specifies the highest number of jobs (highest number of CPU) that can be run in parallel. The `-p` or `--prioritize` option tells the job scheduler to prioritize certain jobs given their dependencies. The `-s` option for `[endedness]` is a required parameter, and it refers to whether single- or paired-end data is used. If you are using single-end data, please use `-s single_end_snakefile` and if you are using paired-end data, please use `-s paired_end_snakefile`. Without specifying anything else, the whole workflow will run. To run a rule in particular or individually, you can use `snakemake -j 4 -p --use-conda -s [endedness] rulename`.
 
