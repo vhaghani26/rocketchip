@@ -1,23 +1,17 @@
-configfile: "/share/korflab/home/viki/rocketchip/samples.yaml"
+configfile: "samples.yaml"
 
 wildcard_constraints:
     sample='[a-zA-Z0-9]+'
 
-print(f'Starting ChIP-seq data analysis workflow for samples: {config["samples"]}')
+#print(f'Starting ChIP-seq data analysis workflow for samples: {config["samples"]}')
 
 rule all:
     input:     
-        expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=config["samples"]),
-        expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=config["samples"]),
-        expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=config["samples"]),
-        expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_peaks.narrowPeak", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_peaks.xls", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_summits.bed", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_model.r", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_treat_pileup.bdg", sample=config["samples"]),
-        expand("02_fastqc_analysis/{sample}.coorsorted.dedup_fastqc.html", sample=config["samples"]),
-        expand("02_fastqc_analysis/{sample}.coorsorted.dedup_fastqc.zip", sample=config["samples"]),
         expand("05_bigwig_files/{sample}.bw", sample=config["samples"])
 
 rule make_directories:
@@ -99,63 +93,12 @@ rule align_read_data:
     
 rule align_read_data_wc:
     message: "Aligning reads to reference genome"
-    input: "{sample}_alignment_snakefile"
+    input: 
+        rules = "{sample}_alignment_snakefile",
+        genome = multiext("01_raw_data/mm39", ".amb", ".ann", ".bwt", ".pac", ".sa") 
     output: "03_sam_files/{sample}.sam"
     log: "00_logs/{sample}_align_read_data.log"
-    shell: "snakemake -j 4 -p --use-conda -s {input}"
-
-#print(f'{sample} is a single-end read. Only one FASTQ file will be generated')   
-#
-#rule sra_to_fastq:
-#    input:
-#        expand("01_raw_data/{sample}.fastq.gz", sample=config["samples"])
-#
-#rule sra_to_fastq_wc:
-#    message: "Converting SRA file to FASTQ file format"
-#    conda: "00_conda_software/chip_sra.yml"
-#    input:
-#        sra_file = "01_raw_data/{sample}/{sample}.sra",
-#        dependency1 = "01_raw_data/{sample}_placeholder.txt",
-#        dependency2 = "01_raw_data/{sample}_single.html"
-#    output:
-#        "01_raw_data/{sample}.fastq.gz",
-#    log: "00_logs/{sample}_sra_to_fastq.log"
-#    shell: "fastq-dump {input.sra_file} --gzip --outdir 01_raw_data/ 2> {log}"
-#
-#rule fastqc_precheck:
-#    input:
-#        expand("02_fastqc_analysis/{sample}_fastqc.html", sample=config["samples"]),
-#        expand("02_fastqc_analysis/{sample}_fastqc.zip", sample=config["samples"])
-#
-#rule fastqc_precheck_wc:
-#    message: "Running quality control on samples pre-processing"
-#    conda: "00_conda_software/chip_fastqc.yml"
-#    input: 
-#        fastq = "01_raw_data/{sample}.fastq.gz",
-#        dependency = "01_raw_data/{sample}_single.html"
-#    output:
-#        "02_fastqc_analysis/{sample}_fastqc.html",
-#        "02_fastqc_analysis/{sample}_fastqc.zip"
-#    log: "00_logs/{sample}_fastqc_precheck_r1.log",
-#    shell: "fastqc {input.fastq} --outdir 02_fastqc_analysis/ 2> {log}"
-#
-#rule align_reads:
-#    input: 
-#        expand("03_sam_files/{sample}.sam", sample=config["samples"])
-#
-#rule align_reads_wc:
-#    message: "Aligning single end reads to GRCm39/mm39 reference genome"
-#    conda: "00_conda_software/chip_bwa.yml"
-#    input:
-#        read = "01_raw_data/{sample}.fastq.gz",
-#        genome = multiext("01_raw_data/mm39", ".amb", ".ann", ".bwt", ".pac", ".sa"),
-#        dependency = "01_raw_data/{sample}_single.html"
-#    output: "03_sam_files/{sample}.sam"
-#    log: "00_logs/{sample}_align_reads_err.log"
-#    shell: "bwa mem 01_raw_data/mm39 {input.read} > {output} 2> {log}"
-
-rule placeholder:
-    shell: "echo hello"
+    shell: "snakemake -j 4 -p --use-conda -s {input.rules}"
     
 rule sam_to_bam:
     input: expand("04_bam_files/{sample}.bam", sample=config["samples"])
