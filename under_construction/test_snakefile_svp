@@ -104,67 +104,6 @@ rule align_read_data_wc:
     log: "00_logs/{sample}_align_read_data.log"
     shell: "snakemake -j 4 -p --use-conda -s {input}"
 
-#rule sra_to_fastq_paired:
-#    input:
-#        expand("01_raw_data/{sample}_1.fastq.gz", sample=config["samples"], proxy = [] if no_input else [None]),
-#        expand("01_raw_data/{sample}_2.fastq.gz", sample=config["samples"], proxy = [] if no_input else [None])
-#
-#rule sra_to_fastq_paired_wc:
-#   message: "Converting SRA file to FASTQ file format"
-#    conda: "00_conda_software/chip_sra.yml"
-#    input: 
-#        sra_file = "01_raw_data/{sample}/{sample}.sra",
-#        dependency1 = "01_raw_data/{sample}_placeholder.txt",
-#        dependency2 = "01_raw_data/{sample}_paired.html"
-#    output:
-#        "01_raw_data/{sample}_1.fastq.gz",
-#        "01_raw_data/{sample}_2.fastq.gz"
-#    log: "00_logs/{sample}_sra_to_fastq.log"
-#    shell: "fastq-dump {input.sra_file} --split-files --gzip --outdir 01_raw_data/ 2> {log}"
-#
-#rule fastqc_precheck:
-#    input:
-#        expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=config["samples"]),
-#        expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=config["samples"]),
-#        expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=config["samples"]),
-#        expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=config["samples"])
-#
-#rule fastqc_precheck_wc:
-#    message: "Running quality control on samples pre-processing"
-#    conda: "00_conda_software/chip_fastqc.yml"
-#    input:
-#        r1 = "01_raw_data/{sample}_1.fastq.gz",
-#        r2 = "01_raw_data/{sample}_2.fastq.gz",
-#        dependency = "01_raw_data/{sample}_paired.html"
-#    output:
-#        "02_fastqc_analysis/{sample}_1_fastqc.html",
-#        "02_fastqc_analysis/{sample}_1_fastqc.zip",
-#        "02_fastqc_analysis/{sample}_2_fastqc.html",
-#        "02_fastqc_analysis/{sample}_2_fastqc.zip"
-#    log: 
-#        r1 = "00_logs/{sample}_fastqc_precheck_r1.log",
-#        r2 = "00_logs/{sample}_fastqc_precheck_r2.log"
-#    shell: """
-#    fastqc {input.r1} --outdir 02_fastqc_analysis/ 2> {log.r1}
-#    fastqc {input.r2} --outdir 02_fastqc_analysis/ 2> {log.r2}
-#    """
-#
-#rule align_reads:
-#    input: 
-#        expand("03_sam_files/{sample}.sam", sample=config["samples"])
-#
-#rule align_reads_wc:
-#    message: "Aligning paired end reads to GRCm39/mm39 reference genome"
-#    conda: "00_conda_software/chip_bwa.yml"
-#    input:
-#        r1 = "01_raw_data/{sample}_1.fastq.gz",
-#        r2 = "01_raw_data/{sample}_2.fastq.gz",
-#        genome = multiext("01_raw_data/mm39", ".amb", ".ann", ".bwt", ".pac", ".sa"),
-#        dependency = "01_raw_data/{sample}_paired.html"
-#    output: "03_sam_files/{sample}.sam"
-#    log: "00_logs/{sample}_align_reads_err.log"
-#    shell: "bwa mem 01_raw_data/mm39 {input.r1} {input.r2} > {output} 2> {log}"
-#
 #print(f'{sample} is a single-end read. Only one FASTQ file will be generated')   
 #
 #rule sra_to_fastq:
