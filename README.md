@@ -8,8 +8,8 @@ In order to use the Rocketchip, clone the [GitHub repository](https://github.com
 
 ### Repository Contents
 
-#### samples.yaml
-The `samples.yml` file will be used as a configuration file to pipe in the samples used in the analysis. 
+#### single_samples.yaml and paired_samples.yaml
+The `[endedness]_samples.yml` files will be used as a configuration file to pipe in the samples used in the analysis. All single-end samples should go in single_samples.yaml and all paired-end samples should go in paired_samples.yaml. The use of these different configuration files implies that both single- and paired-end analyses can be run at the same time on a cluster.
 
 #### Snakefiles (single_end_snakefile and paired_end_snakefile)
 The Snakefiles contain the code required to execute the entire workflow. Here, I will go through the basics of Snakemake usage for this program. For additional information, see the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html). For specifics regarding command-line interface, [this](https://snakemake.readthedocs.io/en/stable/executing/cli.html) may be helpful.
@@ -118,7 +118,7 @@ git clone https://github.com/vhaghani26/rocketchip.git chipseq_tutorial
 This clones the repository and its contents into a directory called `chipseq_tutorial`. You should now see the contents outlined in the "Repository Contents" section outlined above.
 
 ### Edit the YAML File
-Open the `samples.yml` file and add each SRA ID you are interested in visualizing on its own line using the following format:
+Open the `paired_samples.yml` file and add each SRA ID you are interested in visualizing on its own line using the following format:
 ```
 ---
 samples: 

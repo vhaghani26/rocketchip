@@ -1,4 +1,4 @@
-configfile: "samples.yaml"
+configfile: "paired_samples.yaml"
 
 wildcard_constraints:
     sample='[a-zA-Z0-9]+'
