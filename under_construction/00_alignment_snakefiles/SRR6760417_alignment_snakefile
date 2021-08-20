@@ -1,0 +1,48 @@
+rule all:
+    input:
+        "../01_raw_data/SRR6760417_1.fastq.gz",
+        "../01_raw_data/SRR6760417_2.fastq.gz",
+        "../02_fastqc_analysis/SRR6760417_1_fastqc.html",
+        "../02_fastqc_analysis/SRR6760417_1_fastqc.zip",
+        "../02_fastqc_analysis/SRR6760417_2_fastqc.html",
+        "../02_fastqc_analysis/SRR6760417_2_fastqc.zip",
+        "../03_sam_files/SRR6760417.sam"
+
+rule sra_to_fastq_paired:
+    message: "Converting SRA file to FASTQ file format"
+    conda: "../00_conda_software/chip_sra.yml"
+    input: "../01_raw_data/SRR6760417/SRR6760417.sra"
+    output:
+        "../01_raw_data/SRR6760417_1.fastq.gz",
+        "../01_raw_data/SRR6760417_2.fastq.gz"
+    log: "../00_logs/SRR6760417_sra_to_fastq.log"
+    shell: "fastq-dump {input} --split-files --gzip --outdir 01_raw_data/ 2> {log}"
+
+rule fastqc_precheck:
+    message: "Running quality control on samples pre-processing"
+    conda: "../00_conda_software/chip_fastqc.yml"
+    input:
+        r1 = "../01_raw_data/SRR6760417_1.fastq.gz",
+        r2 = "../01_raw_data/SRR6760417_2.fastq.gz",
+    output:
+        "../02_fastqc_analysis/SRR6760417_1_fastqc.html",
+        "../02_fastqc_analysis/SRR6760417_1_fastqc.zip",
+        "../02_fastqc_analysis/SRR6760417_2_fastqc.html",
+        "../02_fastqc_analysis/SRR6760417_2_fastqc.zip"
+    log:
+        r1 = "../00_logs/SRR6760417_fastqc_precheck_r1.log",
+        r2 = "../00_logs/SRR6760417_fastqc_precheck_r2.log"
+    shell: """
+    fastqc {input.r1} --outdir 02_fastqc_analysis/ 2> {log.r1}
+    fastqc {input.r2} --outdir 02_fastqc_analysis/ 2> {log.r2}
+    """
+
+rule align_reads:
+    message: "Aligning paired end reads to GRCm39/mm39 reference genome"
+    conda: "../00_conda_software/chip_bwa.yml"
+    input:
+        r1 = "../01_raw_data/SRR6760417_1.fastq.gz",
+        r2 = "../01_raw_data/SRR6760417_2.fastq.gz",
+    output: "../03_sam_files/SRR6760417.sam"
+    log: "../00_logs/SRR6760417_align_reads_err.log"
+    shell: "bwa mem ../01_raw_data/mm39 {input.r1} {input.r2} > {output} 2> {log}"
