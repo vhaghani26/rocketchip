@@ -32,6 +32,9 @@ for link, sample in zip(links, config["samples"]):
 for sample in config["samples"]:
     if sample in paired_end:
         os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/{sample}_paired.html')
+        os.system(f'touch {sample}_alignment_snakefile')
     else:
         os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/{sample}_single.html')
-    os.system(f'touch 01_raw_data/{sample}_placeholder.txt')
+        os.system(f'touch {sample}_alignment_snakefile')
+    with open(f'{sample}_alignment_snakefile', 'w') as fp:
+        f.write(
