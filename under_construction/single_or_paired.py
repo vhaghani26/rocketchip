@@ -26,110 +26,11 @@ for link, sample in zip(links, config["samples"]):
         else:
             single_end.append(f'{sample}')
 
-# Check if 00_alignment_snakefiles/ exists and make it if it doesn't
-snakefile_dir = "00_alignment_snakefiles/"
-isExist = os.path.exists(snakefile_dir)
-if isExist == True:
-    print("The directory 00_alignment_snakefiles/ already exists")
-else:
-    os.system(f'mkdir 00_alignment_snakefiles')
-
 # Add file name tags to distinguish paired and single end reads     
 for sample in config["samples"]:
     if sample in paired_end:
         os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/{sample}_paired.html')
-        os.system(f'touch 00_alignment_snakefiles/{sample}_alignment_snakefile')
         print(f'{sample} is a paired-end read')
     else:
         os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/{sample}_single.html')
-        os.system(f'touch 00_alignment_snakefiles/{sample}_alignment_snakefile')
         print(f'{sample} is a single-end read')
-    with open(f'00_alignment_snakefiles/{sample}_alignment_snakefile', 'w') as fp:
-        if sample in paired_end:
-            paired_lines = [
-                'rule all:\n',
-                '    input:\n',
-                f'        "01_raw_data/{sample}_1.fastq.gz",\n',
-                f'        "01_raw_data/{sample}_2.fastq.gz",\n',
-                f'        "02_fastqc_analysis/{sample}_1_fastqc.html",\n',
-                f'        "02_fastqc_analysis/{sample}_1_fastqc.zip",\n',
-                f'        "02_fastqc_analysis/{sample}_2_fastqc.html",\n',
-                f'        "02_fastqc_analysis/{sample}_2_fastqc.zip",\n',
-                f'        "03_sam_files/{sample}.sam"\n',
-                '\n',    
-                'rule sra_to_fastq_paired:\n',
-                '    message: "Converting SRA file to FASTQ file format"\n',
-                '    conda: "00_conda_software/chip_sra.yml"\n',
-                f'    input: "01_raw_data/{sample}/{sample}.sra"\n',
-                '    output:\n',
-                f'        "01_raw_data/{sample}_1.fastq.gz",\n',
-                f'        "01_raw_data/{sample}_2.fastq.gz"\n',
-                f'    log: "00_logs/{sample}_sra_to_fastq.log"\n',
-                '    shell: "fastq-dump {input} --split-files --gzip --outdir 01_raw_data/ 2> {log}"\n',
-                '\n',
-                'rule fastqc_precheck:\n',
-                '    message: "Running quality control on samples pre-processing"\n',
-                '    conda: "00_conda_software/chip_fastqc.yml"\n',
-                '    input:\n',
-                f'        r1 = "01_raw_data/{sample}_1.fastq.gz",\n',
-                f'        r2 = "01_raw_data/{sample}_2.fastq.gz",\n',
-                '    output:\n',
-                f'        "02_fastqc_analysis/{sample}_1_fastqc.html",\n',
-                f'        "02_fastqc_analysis/{sample}_1_fastqc.zip",\n',
-                f'        "02_fastqc_analysis/{sample}_2_fastqc.html",\n',
-                f'        "02_fastqc_analysis/{sample}_2_fastqc.zip"\n',
-                '    log:\n',
-                f'        r1 = "00_logs/{sample}_fastqc_precheck_r1.log",\n',
-                f'        r2 = "00_logs/{sample}_fastqc_precheck_r2.log"\n',
-                '    shell: """\n',
-                '    fastqc {input.r1} --outdir 02_fastqc_analysis/ 2> {log.r1}\n',
-                '    fastqc {input.r2} --outdir 02_fastqc_analysis/ 2> {log.r2}\n',
-                '    """\n',
-                '\n',
-                'rule align_reads:\n',
-                '    message: "Aligning paired end reads to GRCm39/mm39 reference genome"\n',
-                '    conda: "00_conda_software/chip_bwa.yml"\n',
-                '    input:\n',
-                f'        r1 = "01_raw_data/{sample}_1.fastq.gz",\n',
-                f'        r2 = "01_raw_data/{sample}_2.fastq.gz",\n',
-                f'    output: "03_sam_files/{sample}.sam"\n',
-                f'    log: "00_logs/{sample}_align_reads_err.log"\n',
-                '    shell: "bwa mem 01_raw_data/mm39 {input.r1} {input.r2} > {output} 2> {log}"\n',
-            ]
-            fp.writelines(paired_lines)
-        else:
-            single_lines = [
-                'rule all:\n',
-                '    input:\n',
-                f'        "01_raw_data/{sample}.fastq.gz",\n',
-                f'        "02_fastqc_analysis/{sample}_fastqc.html",\n',
-                f'        "02_fastqc_analysis/{sample}_fastqc.zip",\n',
-                f'        "03_sam_files/{sample}.sam",\n',
-                '\n',
-                'rule sra_to_fastq_wc:\n',
-                '    message: "Converting SRA file to FASTQ file format"\n',
-                '    conda: "00_conda_software/chip_sra.yml"\n',
-                f'    input: "01_raw_data/{sample}/{sample}.sra"\n',
-                f'    output: "01_raw_data/{sample}.fastq.gz"\n',
-                f'    log: "00_logs/{sample}_sra_to_fastq.log"\n',
-                '    shell: "fastq-dump {input} --gzip --outdir 01_raw_data/ 2> {log}"\n',
-                '\n',
-                'rule fastqc_precheck_wc:\n',
-                '    message: "Running quality control on samples pre-processing"\n',
-                '    conda: "00_conda_software/chip_fastqc.yml"\n',
-                f'    input: "01_raw_data/{sample}.fastq.gz"\n',
-                '    output:\n',
-                f'        "02_fastqc_analysis/{sample}_fastqc.html",\n',
-                f'        "02_fastqc_analysis/{sample}_fastqc.zip"\n',
-                f'    log: "00_logs/{sample}_fastqc_precheck_r1.log",\n',
-                '    shell: "fastqc {input} --outdir 02_fastqc_analysis/ 2> {log}"\n',
-                '\n',
-                'rule align_reads_wc:\n',
-                '    message: "Aligning single end reads to GRCm39/mm39 reference genome"\n',
-                '    conda: "00_conda_software/chip_bwa.yml"\n',
-                f'    input: "01_raw_data/{sample}.fastq.gz",\n',
-                f'    output: "03_sam_files/{sample}.sam"\n',
-                f'    log: "00_logs/{sample}_align_reads_err.log"\n',
-                '    shell: "bwa mem 01_raw_data/mm39 {input} > {output} 2> {log}"\n',
-            ]
-            fp.writelines(single_lines)
