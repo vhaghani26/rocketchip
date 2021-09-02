@@ -26,11 +26,19 @@ for link, sample in zip(links, config["samples"]):
         else:
             single_end.append(f'{sample}')
 
+# Check if 01_raw_data/html_files/ exists and make it if it doesn't
+snakefile_dir = "01_raw_data/html_files/"
+isExist = os.path.exists(snakefile_dir)
+if isExist == True:
+    print("The directory 01_raw_data/html_files/ already exists")
+else:
+    os.system(f'mkdir 01_raw_data/html_files')
+    
 # Add file name tags to distinguish paired and single end reads     
 for sample in config["samples"]:
     if sample in paired_end:
-        os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/{sample}_paired.html')
+        os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/html_files/{sample}_paired.html')
         print(f'{sample} is a paired-end read')
     else:
-        os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/{sample}_single.html')
+        os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/html_files/{sample}_single.html')
         print(f'{sample} is a single-end read')

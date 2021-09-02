@@ -64,7 +64,7 @@ rule download_data_wc:
 checkpoint single_or_paired:
     message: "Determining if samples are single or paired-end reads"
     input: expand("01_raw_data/{sample}/{sample}.sra", sample=config["samples"])
-    output: expand("00_alignment_snakefiles/{sample}_alignment_snakefile", sample=config["samples"])
+    output: directory("01_raw_data/html_files")
     log: "00_logs/single_or_paired.log"
     shell: "python3 single_or_paired.py 2> {log}"
 
