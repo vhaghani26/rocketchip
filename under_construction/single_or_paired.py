@@ -42,3 +42,4 @@ for sample in config["samples"]:
     else:
         os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/html_files/{sample}_single.html')
         print(f'{sample} is a single-end read')
+    os.system(f'touch {sample}_placeholder.txt')
