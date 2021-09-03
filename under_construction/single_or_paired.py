@@ -26,20 +26,22 @@ for link, sample in zip(links, config["samples"]):
         else:
             single_end.append(f'{sample}')
 
-# Check if 01_raw_data/html_files/ exists and make it if it doesn't
-snakefile_dir = "01_raw_data/html_files/"
-isExist = os.path.exists(snakefile_dir)
-if isExist == True:
-    print("The directory 01_raw_data/html_files/ already exists")
-else:
-    os.system(f'mkdir 01_raw_data/html_files')
+# Check if directories exist and create them if they don't
+directories = ["01_raw_data/html_files/", "01_raw_data/html_files/single/", "01_raw_data/html_files/paired/"]
+for directory in directories:
+    isExist = os.path.exists(directory)
+    if isExist == True:
+        print(f'The directory {directory} already exists and will not be overridden')
+    else:
+        os.system(f'mkdir {directory}')
+        print(f'The directory {directory} has been created')
     
 # Add file name tags to distinguish paired and single end reads     
 for sample in config["samples"]:
     if sample in paired_end:
-        os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/html_files/{sample}_paired.html')
+        os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/html_files/paired/{sample}_paired.html')
         print(f'{sample} is a paired-end read')
     else:
-        os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/html_files/{sample}_single.html')
+        os.system(f'mv 01_raw_data/{sample}.html 01_raw_data/html_files/single/{sample}_single.html')
         print(f'{sample} is a single-end read')
     os.system(f'touch 01_raw_data/{sample}_placeholder.txt')
