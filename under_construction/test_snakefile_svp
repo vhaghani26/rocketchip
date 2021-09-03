@@ -3,7 +3,7 @@ configfile: "samples.yaml"
 wildcard_constraints:
     sample='[a-zA-Z0-9]+'
 
-#print(f'Starting ChIP-seq data analysis workflow for samples: {config["samples"]}')
+print(f'Starting ChIP-seq data analysis workflow for samples: {config["samples"]}')
 
 rule all:
     input:     
@@ -65,8 +65,7 @@ rule download_data_wc:
 checkpoint single_or_paired:
     message: "Determining if samples are single or paired-end reads"
     input: expand("01_raw_data/{sample}/{sample}.sra", sample=config["samples"])
-    # Fix output as directory bc if new samples get added, this will no rerun
-    output: directory("01_raw_data/html_files")
+    output: expand("01_raw_data/{sample}_placeholder.txt", sample=config["samples"])
     log: "00_logs/single_or_paired.log"
     shell: "python3 single_or_paired.py 2> {log}"
     
