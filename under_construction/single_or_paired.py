@@ -27,7 +27,17 @@ for link, sample in zip(links, config["samples"]):
             single_end.append(f'{sample}')
 
 # Check if directories exist and create them if they don't
-directories = ["01_raw_data/html_files/", "01_raw_data/html_files/single/", "01_raw_data/html_files/paired/"]
+# The directories are made here to avoid the error "mv: cannot move ...: Not a directory" 
+directories = ["01_raw_data/html_files/",
+               "01_raw_data/html_files/single/",
+               "01_raw_data/html_files/paired/",
+               "01_raw_data/sra_files/",
+               "01_raw_data/sra_files/single/",
+               "01_raw_data/sra_files/paired/",
+               "01_raw_data/sra_files/",
+               "01_raw_data/sra_files/single/",
+               "01_raw_data/sra_files/paired/"
+               ]
 for directory in directories:
     isExist = os.path.exists(directory)
     if isExist == True:

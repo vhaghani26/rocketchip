@@ -65,7 +65,8 @@ rule download_data_wc:
 checkpoint single_or_paired:
     message: "Determining if samples are single or paired-end reads"
     input: expand("01_raw_data/{sample}/{sample}.sra", sample=config["samples"])
-    # Placeholder files are used as the output to ensure that the analysis is run for every sample
+    # Placeholder files are used as the output instead of a directory
+    # to ensure that the analysis is run for every sample
     # and gets updated if new samples are added to the yaml file
     # Output files cannot be temporary due to usage of a checkpoint here
     output: expand("01_raw_data/{sample}_placeholder.txt", sample=config["samples"])
