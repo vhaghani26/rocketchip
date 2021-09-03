@@ -61,13 +61,43 @@ rule download_data_wc:
     log: "00_logs/{sample}_download_data.log"
     shell: "prefetch {wildcards.sample} -O 01_raw_data/ > {log}"
 
+# Create a checkpoint since outputs are dynamic based on whether data is single or paired
 checkpoint single_or_paired:
     message: "Determining if samples are single or paired-end reads"
     input: expand("01_raw_data/{sample}/{sample}.sra", sample=config["samples"])
+    # Fix output as directory bc if new samples get added, this will no rerun
     output: directory("01_raw_data/html_files")
     log: "00_logs/single_or_paired.log"
     shell: "python3 single_or_paired.py 2> {log}"
+    
+# Create a function so that the rules depending on the checkpoint can use the function as an input
+class Checkpoint_endedness:
 
+    def __init__(self, pattern):
+        self.pattern = pattern
+
+    def get_endedness(self):
+        #with open (filename, 'rt')
+        #if filename.endswith('single.html')
+        #elif filename.endswith('paired.html')
+        # Need to go into 01_raw_data/html_files/
+        ## All files follow the pattern {sample}_single.html or {sample}_paired.html
+        ## Figure out how to get endedness as either single or paired based on file name tag
+        return endedness
+        
+    # Wait for the results of single_or_paired
+    # Triggers exception until rule single_or_paired has been run
+    def __call__(self, w):
+        global checkpoints
+        checkpoints.single_or_paired.get(**w)
+        endedness = self.get_endedness()    
+        pattern = expand(self.pattern, endedness = endedness, **w)
+        return pattern
+
+# Work on syntax
+rule get_endedness:
+    input: Checkpoint_endedness()
+    
 # Workflow diverges here for single- vs. paired-end data
     
 # Start of single-end workflow rules
