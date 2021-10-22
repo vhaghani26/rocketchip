@@ -1,0 +1,7 @@
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - deeptools=3.5.1=py_0
+  - deeptoolsintervals=0.1.9=py39h38f01e4_3
