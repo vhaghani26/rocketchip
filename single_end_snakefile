@@ -1,0 +1,18 @@
+configfile: "single_samples.yaml"
+
+wildcard_constraints:
+    sample='[a-zA-Z0-9]+'
+
+rule bam_to_bigwig:
+    input:
+        expand("05_bigwig_files/{sample}.bw", sample=config["samples"])
+        
+rule bam_to_bigwig_wc:
+    message: "Converting BAM file format to bigwig file format for visualization"
+    conda: "00_conda_software/chip_deeptools.yml"
+    input:
+        index = "04_bam_files/{sample}_sorted.bam.bai",
+        bam = "04_bam_files/{sample}_sorted.bam"
+    output: "05_bigwig_files/{sample}.bw"
+    log: "00_logs/{sample}_bam_to_bigwig.log"
+    shell: "bamCoverage -b {input.bam} -o {output} 2> {log}"
