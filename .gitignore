@@ -6,3 +6,4 @@
 04_bam_files/
 05_bigwig_files/
 06_macs2_peaks/
+__pycache__
