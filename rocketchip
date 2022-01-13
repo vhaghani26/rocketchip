@@ -1,0 +1,235 @@
+#!/usr/bin/env python3
+
+import argparse
+import os
+import sys
+import tempfile
+
+def run(command):
+	sys.stderr.write(f'running: {command}\n')
+	if os.system(command) != 0:
+		sys.stderr.write(f'failed\n')
+		sys.exit(1)
+
+##################
+## Command Line ##
+##################
+
+parser = argparse.ArgumentParser(
+	description='Rocketchip - ChIP-seq pipeline')
+parser.add_argument('--genome', type=str, metavar='<genome>', required=True,
+	help='name of genome at UCSC (e.g. hg19, mm39, dm6, ce11, sacCer3)')
+parser.add_argument('--masked', action='store_true', required=False,
+	help='use masked genome [defaults to naked]')
+parser.add_argument('--project', type=str, metavar='<path>', required=False,
+	help='path to project directory')
+parser.add_argument('--force', action='store_true', required=False,
+	help='overwrite project if it exists')
+parser.add_argument('--sra', type=str, metavar='<file>', required=False,
+	nargs='+', help='list of SRA identifiers')
+parser.add_argument('--single', action='store_true', required=False,
+	help='process as single reads [defaults to paired]')
+parser.add_argument('--data', type=str, metavar='<str>', required=False,
+	help='override current ROCKETCHIP_DATA enviornment variable')
+parser.add_argument('--src', type=str, metavar='<str>', required=False,
+	help='override current ROCKETCHIP_SRC enviornment variable')
+
+arg = parser.parse_args()
+
+CWD = os.path.abspath('.')
+
+#################
+## Environment ##
+#################
+
+# Data Files Location #
+if arg.data: os.environ['ROCKETCHIP_DATA'] = arg.data
+if 'ROCKETCHIP_DATA' not in os.environ:
+	sys.stderr.write('Error: set ROCKETCHIP_DATA or use --data\n')
+	sys.exit(1)
+if not os.path.isdir(os.environ['ROCKETCHIP_DATA']):
+	sys.stderr.write(f'Error: environ["ROCKETCHIP_DATA"] is not a directory\n')
+	sys.exit(1)
+DATA = os.path.abspath(os.environ['ROCKETCHIP_DATA'])
+
+sys.stderr.write(f'DATA: {DATA}\n')
+
+# Source Code Location #
+if arg.src: os.environ['ROCKETCHIP_SRC'] = arg.src
+if 'ROCKETCHIP_SRC' not in os.environ:
+	sys.stderr.write('Error: set ROCKETCHIP_SRC or use --src\n')
+	sys.exit(1)
+testfile = f'{os.environ["ROCKETCHIP_SRC"]}/paired_end_snakefile'
+if not os.path.isfile(testfile):
+	sys.stderr.write(f'Error: "{testfile}" not found\n')
+	sys.exit(1)
+SRC = os.path.abspath(os.environ['ROCKETCHIP_SRC'])
+
+sys.stderr.write(f'SRC: {SRC}\n')
+
+#######################
+## Genome Management ##
+#######################
+
+GENOME_DIR = f'{DATA}/{arg.genome}'
+os.makedirs(GENOME_DIR, exist_ok=True)
+if arg.masked:
+	TGZ = 'chromFaMasked.tar.gz'
+	SEQ = f'{arg.genome}.masked.fa'
+	IDX = f'{arg.genome}.masked.fa.bwt'
+else:
+	TGZ = 'chromFa.tar.gz'
+	SEQ = f'{arg.genome}.fa'
+	IDX = f'{arg.genome}.fa.bwt'
+
+# Download genome if not present
+GENOME_SEQ = f'{GENOME_DIR}/{SEQ}'
+if os.path.isfile(GENOME_SEQ):
+	sys.stderr.write(f'using local copy: {arg.genome}\n')
+else:
+	sys.stderr.write(f'Downloading {TGZ}\n')
+	TEMPDIR = tempfile.mkdtemp()
+	os.mkdir(f'{TEMPDIR}/files')
+	BASE = 'https://hgdownload.soe.ucsc.edu/goldenPath' # USA
+	URL = f'{BASE}/{arg.genome}/bigZips/{TGZ}'
+	run(f'wget {URL} -O {TEMPDIR}/{TGZ}')
+	run(f'tar -zxf {TEMPDIR}/{TGZ} -C {TEMPDIR}/files')
+	run(f'cat {TEMPDIR}/files/* > {GENOME_SEQ}')
+	run(f'rm -rf {TEMPDIR}')
+	os.chdir(GENOME_DIR)
+	run(f'bwa index -a bwtsw {GENOME_SEQ}')
+
+####################
+## SRA Management ##
+####################
+
+SRA_DIR = f'{DATA}/SRA'
+os.makedirs(SRA_DIR, exist_ok=True)
+sra = arg.sra if arg.sra else []
+for idx in sra:
+	SRA_FILE = f'{SRA_DIR}/{idx}/{idx}.sra'
+	if os.path.isfile(SRA_FILE):
+		sys.stderr.write(f'using local copy: {idx}\n')
+	else:
+		run(f'prefetch {idx} -O {SRA_DIR}/{idx}')
+		run(f'mv {SRA_DIR}/{idx}/{idx}/{idx}.sra {SRA_DIR}/{idx}')
+		run(f'rm -rf {SRA_DIR}/{idx}/{idx}')
+		os.chdir(f'{SRA_DIR}/{idx}')
+		run(f'fastq-dump {idx}.sra --split-files --gzip --outdir .')
+		# what about single end files???
+
+#############
+## Project ##
+#############
+
+# Paired or Single?
+
+os.chdir(CWD) # may have changed
+PROJECT = os.path.abspath(arg.project)
+TYPE = 'single' if arg.single else 'paired'
+SNAKEFILE = f'{TYPE}_end_snakefile'
+
+# Project directory legal?
+
+for restricted in [DATA, SRC]:
+	if PROJECT == restricted:
+		sys.stderr.write(f'Error: no projects allowed in {restricted}\n')
+		sys.exit(1)
+
+if os.path.isfile(f'{PROJECT}/{SNAKEFILE}') and not arg.force:
+	sys.stderr.write(f'Error: snakefile already exists at {PROJECT}\n')
+	sys.stderr.write('use --force to override\n')
+	sys.exit(1)
+
+# Create subdirectories
+
+os.makedirs(PROJECT, exist_ok=True)
+os.chdir(PROJECT)
+PDIRS = ['00_logs', '01_raw_data', '02_fastqc_analysis', '03_sam_files',
+	'04_bam_files', '05_bigwig_files', '06_macs2_peaks']
+for d in PDIRS: os.makedirs(d, exist_ok=True)
+run(f'cp {SRC}/{SNAKEFILE} Snakefile')
+
+# Create yaml
+
+with open('samples.yaml', 'w') as fp:
+	fp.write('---\nsamples:\n')
+	for sra in arg.sra:
+		fp.write(f'\t- {sra}\n')
+
+# Fill 01_raw_data
+
+run(f'ln -sf {GENOME_DIR}/{SEQ}* 01_raw_data')
+for sra in arg.sra:
+	if TYPE == 'paired':
+		run(f'ln -sf {SRA_DIR}/{sra}_1.fastq.gz 01_raw_data')
+		run(f'ln -sf {SRA_DIR}/{sra}_2.fastq.gz 01_raw_data')
+	else:
+		sys.stderr.write('not done yet\n')
+		sys.exit(1)
+
+
+"""
+
+## Installation ##
+
+Miniconda3 install starts with downloading Miniconda
+sh Miniconda3-py39_4.10.3-Linux-x86_64.sh
+conda env update -n base --file chip_bwa.yml
+conda env update -n base --file chip_deeptools.yml
+conda env update -n base --file chip_fastqc.yml
+conda env update -n base --file chip_macs2.yml
+conda env update -n base --file chip_sra.yml
+conda env update -n base --file chip_samtools.yml
+conda update -n base -c defaults conda
+
+## Genome names ##
+
+hg19, mm39, dm6, ce11, sacCer3
+
+## paired_end_snakefile changes ##
+
++ all references to mm39 are changed to genome
++ paired_samples.yaml changed to samples.yaml
+
+## single_end_snakefile changes ##
+
++ um, probably similar
+
+
+## Expected directory structures ##
+
+ROCKETCHIP_DATA/
+	mm39/
+		mm39.masked.fa
+		mm39.masked.amb
+		mm39.masked.ann
+		mm39.masked.bwt
+		mm39.masked.pac
+		mm39.masked.sa
+	sacCer3/
+		sacCer3.fa
+		sacCer3.amb
+		sacCer3.ann
+		sacCer3.bwt
+		sacCer3.pac
+		sacCer3.sa
+
+ROCKETCHIP_SRC/
+	dag_rockechip.pdf
+	README.md
+	rocketchip*
+	snakefiles/
+		paired_end_snakefile
+		single_end_snakefile
+
+PROJECT/
+	00_logs
+	01_raw_data
+	02_fastqc_analysis
+	03_sam_files
+	04_bam_files
+	05_bigwig_files
+	06_macs2_peaks
+
+"""
