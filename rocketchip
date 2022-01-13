@@ -25,8 +25,8 @@ parser.add_argument('--project', type=str, metavar='<path>', required=False,
 	help='path to project directory')
 parser.add_argument('--force', action='store_true', required=False,
 	help='overwrite project if it exists')
-parser.add_argument('--sra', type=str, metavar='<file>', required=False,
-	nargs='+', help='list of SRA identifiers')
+parser.add_argument('--sra', type=str, metavar='<str>', required=False,
+	nargs='+', help='list of SRA identifiers or files with SRA identifers')
 parser.add_argument('--single', action='store_true', required=False,
 	help='process as single reads [defaults to paired]')
 parser.add_argument('--data', type=str, metavar='<str>', required=False,
@@ -105,29 +105,41 @@ else:
 
 SRA_DIR = f'{DATA}/SRA'
 os.makedirs(SRA_DIR, exist_ok=True)
-sra = arg.sra if arg.sra else []
-for idx in sra:
-	SRA_FILE = f'{SRA_DIR}/{idx}/{idx}.sra'
+sras = []
+if arg.sra:
+	for sra in arg.sra:
+		if os.path.isfile(sra):
+			with open(sra) as fp:
+				for line in fp.readlines():
+					line = line.rstrip()
+					sras.append(line)
+		else:
+			sras.append(sra)
+
+for sra in sras:
+	SRA_FILE = f'{SRA_DIR}/{sra}/{sra}.sra'
 	if os.path.isfile(SRA_FILE):
-		sys.stderr.write(f'using local copy: {idx}\n')
+		sys.stderr.write(f'using local copy: {sra}\n')
 	else:
-		run(f'prefetch {idx} -O {SRA_DIR}/{idx}')
-		run(f'mv {SRA_DIR}/{idx}/{idx}/{idx}.sra {SRA_DIR}/{idx}')
-		run(f'rm -rf {SRA_DIR}/{idx}/{idx}')
-		os.chdir(f'{SRA_DIR}/{idx}')
-		run(f'fastq-dump {idx}.sra --split-files --gzip --outdir .')
+		run(f'prefetch {sra} -O {SRA_DIR}/{sra}')
+		run(f'mv {SRA_DIR}/{sra}/{sra}/{sra}.sra {SRA_DIR}/{sra}')
+		run(f'rm -rf {SRA_DIR}/{sra}/{sra}')
+		os.chdir(f'{SRA_DIR}/{sra}')
+		run(f'fastq-dump {sra}.sra --split-files --gzip --outdir .')
 		# what about single end files???
 
 #############
 ## Project ##
 #############
 
+if not arg.project: sys.exit(0) # just doing data setup
+
 # Paired or Single?
 
 os.chdir(CWD) # may have changed
 PROJECT = os.path.abspath(arg.project)
 TYPE = 'single' if arg.single else 'paired'
-SNAKEFILE = f'{TYPE}_end_snakefile'
+SNAKEFILE = f'{TYPE}_end_chipseq'
 
 # Project directory legal?
 
@@ -136,8 +148,8 @@ for restricted in [DATA, SRC]:
 		sys.stderr.write(f'Error: no projects allowed in {restricted}\n')
 		sys.exit(1)
 
-if os.path.isfile(f'{PROJECT}/{SNAKEFILE}') and not arg.force:
-	sys.stderr.write(f'Error: snakefile already exists at {PROJECT}\n')
+if os.path.isfile(f'{PROJECT}/Snakefile') and not arg.force:
+	sys.stderr.write(f'Error: Snakefile already exists at {PROJECT}\n')
 	sys.stderr.write('use --force to override\n')
 	sys.exit(1)
 
@@ -148,88 +160,39 @@ os.chdir(PROJECT)
 PDIRS = ['00_logs', '01_raw_data', '02_fastqc_analysis', '03_sam_files',
 	'04_bam_files', '05_bigwig_files', '06_macs2_peaks']
 for d in PDIRS: os.makedirs(d, exist_ok=True)
-run(f'cp {SRC}/{SNAKEFILE} Snakefile')
+run(f'cp {SRC}/snakefiles/{SNAKEFILE} Snakefile')
 
 # Create yaml
 
 with open('samples.yaml', 'w') as fp:
 	fp.write('---\nsamples:\n')
-	for sra in arg.sra:
-		fp.write(f'\t- {sra}\n')
+	for sra in sras:
+		fp.write(f'  - {sra}\n')
 
 # Fill 01_raw_data
 
-run(f'ln -sf {GENOME_DIR}/{SEQ}* 01_raw_data')
-for sra in arg.sra:
+run(f'ln -sf {GENOME_DIR}/{SEQ} 01_raw_data/genome.fa')
+gen_ext = ['.amb', '.ann', '.bwt', '.pac', '.sa']
+for ext in gen_ext:
+	run(f'ln -sf {GENOME_DIR}/{SEQ}{ext} 01_raw_data/genome{ext}')
+
+for sra in sras:
+	os.makedirs(f'01_raw_data/{sra}', exist_ok=True)
 	if TYPE == 'paired':
-		run(f'ln -sf {SRA_DIR}/{sra}_1.fastq.gz 01_raw_data')
-		run(f'ln -sf {SRA_DIR}/{sra}_2.fastq.gz 01_raw_data')
+		run(f'touch 01_raw_data/{sra}/{sra}.sra') # dummy file
+		run(f'ln -sf {SRA_DIR}/{sra}/{sra}_1.fastq.gz 01_raw_data')
+		run(f'ln -sf {SRA_DIR}/{sra}/{sra}_2.fastq.gz 01_raw_data')
 	else:
 		sys.stderr.write('not done yet\n')
 		sys.exit(1)
 
+# Finished with setup
 
-"""
+print(f"""
 
-## Installation ##
+ROCKETCHIP has completed setup. To run analysis type the following:
 
-Miniconda3 install starts with downloading Miniconda
-sh Miniconda3-py39_4.10.3-Linux-x86_64.sh
-conda env update -n base --file chip_bwa.yml
-conda env update -n base --file chip_deeptools.yml
-conda env update -n base --file chip_fastqc.yml
-conda env update -n base --file chip_macs2.yml
-conda env update -n base --file chip_sra.yml
-conda env update -n base --file chip_samtools.yml
-conda update -n base -c defaults conda
+	chdir {PROJECT}
+	snakemake
 
-## Genome names ##
-
-hg19, mm39, dm6, ce11, sacCer3
-
-## paired_end_snakefile changes ##
-
-+ all references to mm39 are changed to genome
-+ paired_samples.yaml changed to samples.yaml
-
-## single_end_snakefile changes ##
-
-+ um, probably similar
-
-
-## Expected directory structures ##
-
-ROCKETCHIP_DATA/
-	mm39/
-		mm39.masked.fa
-		mm39.masked.amb
-		mm39.masked.ann
-		mm39.masked.bwt
-		mm39.masked.pac
-		mm39.masked.sa
-	sacCer3/
-		sacCer3.fa
-		sacCer3.amb
-		sacCer3.ann
-		sacCer3.bwt
-		sacCer3.pac
-		sacCer3.sa
-
-ROCKETCHIP_SRC/
-	dag_rockechip.pdf
-	README.md
-	rocketchip*
-	snakefiles/
-		paired_end_snakefile
-		single_end_snakefile
-
-PROJECT/
-	00_logs
-	01_raw_data
-	02_fastqc_analysis
-	03_sam_files
-	04_bam_files
-	05_bigwig_files
-	06_macs2_peaks
-
-"""
+""")
