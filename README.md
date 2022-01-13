@@ -285,8 +285,9 @@ Quickstart
 This demo should take less than 5 minutes to run and uses minimal resources.
 
 1. Clone the repo
-2. Make a data directory where shared files (genomes, reads) will be stored
-3. Run a demo analysis
+2. Make a data directory (called `test` below)
+3. Run rocketchip to set up an analysis directory (called `demo` below)
+4. Run analysis using snakemake
 
 	git clone https://github.com/vhaghani26/rocketchip
 	cd rocketchip
@@ -295,4 +296,4 @@ This demo should take less than 5 minutes to run and uses minimal resources.
 	chdir demo
 	snakemake
 
-After you're done, you can remove the test and demo directories. In the future, you may want to set environment variables for ROCKETCHIP_DATA and ROCKETCHIP_SRC. The data directory is where shared genome and SRA files are stored. The src directory is where your rocketchip repo is located.
+After you're done, you can remove the `test` and `demo` directories. In the future, you may want to set environment variables for `ROCKETCHIP_DATA` and `ROCKETCHIP_SRC`. The data directory is where shared genome and SRA files are stored. The src directory is where your rocketchip repo is located.
