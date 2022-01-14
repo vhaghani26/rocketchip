@@ -289,6 +289,7 @@ This demo should take less than 5 minutes to run and uses minimal resources.
 3. Run rocketchip to set up an analysis directory (called `demo` below)
 4. Run analysis using snakemake
 
+
 	git clone https://github.com/vhaghani26/rocketchip
 	cd rocketchip
 	mkdir test
