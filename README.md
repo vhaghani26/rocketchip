@@ -295,7 +295,7 @@ cd rocketchip
 mkdir test
 rocketchip --genome sacCer3 --data test --src . --sra SRR12926698 --project demo
 chdir demo
-snakemake
+snakemake --use-conda
 ```
 
 After you're done, you can remove the `test` and `demo` directories. In the future, you may want to set environment variables for `ROCKETCHIP_DATA` and `ROCKETCHIP_SRC`. The data directory is where shared genome and SRA files are stored. The src directory is where your rocketchip repo is located.
