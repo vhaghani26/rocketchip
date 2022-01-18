@@ -68,7 +68,6 @@ rule set_alignment_reference:
 
 rule set_alignment_reference_wc:
     message: "Setting GRCm39/genome mouse genome assembly as reference genome for alignment"
-    conda: "00_conda_software/chip_bwa.yml"
     input: "01_raw_data/genome.fa"
     output: multiext("01_raw_data/genome", ".amb", ".ann", ".bwt", ".pac", ".sa")
     log: "00_logs/set_alignment_reference.log"
@@ -82,7 +81,6 @@ rule download_data:
 
 rule download_data_wc:
     message: "Downloading raw data files"
-    conda: "00_conda_software/chip_sra.yml"
     output: "01_raw_data/{sample}/{sample}.sra"
     log: "00_logs/{sample}_download_data.log"
     shell: "prefetch {wildcards.sample} -O 01_raw_data/ > {log}"
@@ -94,7 +92,6 @@ rule sra_to_fastq:
 
 rule sra_to_fastq_wc:
     message: "Converting SRA file to FASTQ file format"
-    conda: "00_conda_software/chip_sra.yml"
     input: "01_raw_data/{sample}/{sample}.sra"
     output:
         "01_raw_data/{sample}_1.fastq.gz",
@@ -111,7 +108,6 @@ rule fastqc_precheck:
 
 rule fastqc_precheck_wc:
     message: "Running quality control on samples pre-processing"
-    conda: "00_conda_software/chip_fastqc.yml"
     input:
         r1 = "01_raw_data/{sample}_1.fastq.gz",
         r2 = "01_raw_data/{sample}_2.fastq.gz",
@@ -134,7 +130,6 @@ rule align_reads:
 
 rule align_reads_wc:
     message: "Aligning paired end reads to reference genome"
-    conda: "00_conda_software/chip_bwa.yml"
     input:
         r1 = "01_raw_data/{sample}_1.fastq.gz",
         r2 = "01_raw_data/{sample}_2.fastq.gz",
@@ -148,7 +143,6 @@ rule sam_to_bam:
 
 rule sam_to_bam_wc:
     message: "Converting SAM to BAM file format"
-    conda: "00_conda_software/chip_samtools.yml"
     input: "03_sam_files/{sample}.sam"
     output: "04_bam_files/{sample}.bam"
     log: "00_logs/{sample}_sam_to_bam.log"
@@ -159,7 +153,6 @@ rule sam_fixmate:
 
 rule sam_fixmate_wc:
     message: "Removing secondary and unmapped reads. Adding tags to reads for deduplication"
-    conda: "00_conda_software/chip_samtools.yml"
     input: "04_bam_files/{sample}.bam"
     output: "04_bam_files/{sample}.namesorted.fixmate.bam"
     log: "00_logs/{sample}_sam_fixmate.log"
@@ -170,7 +163,6 @@ rule sam_sort:
 
 rule sam_sort_wc:
     message: "Sorting reads by chromosome coordinates"
-    conda: "00_conda_software/chip_samtools.yml"
     input: "04_bam_files/{sample}.namesorted.fixmate.bam"
     output: "04_bam_files/{sample}.coorsorted.fixmate.bam"
     log: "00_logs/{sample}_sam_sort.log"
@@ -181,7 +173,6 @@ rule sam_markdup:
 
 rule sam_markdup_wc:
     message: "Marking and removing duplicates"
-    conda: "00_conda_software/chip_samtools.yml"
     input: "04_bam_files/{sample}.coorsorted.fixmate.bam"
     output: "04_bam_files/{sample}.coorsorted.dedup.bam"
     log: "00_logs/{sample}_sam_markdup.log"
@@ -192,7 +183,6 @@ rule sam_index:
 
 rule sam_index_wc:
     message: "Indexing deduplicated BAM file"
-    conda: "00_conda_software/chip_samtools.yml"
     input: "04_bam_files/{sample}.coorsorted.dedup.bam"
     output: "04_bam_files/{sample}.coorsorted.dedup.bam.bai",
     log: "00_logs/{sample}_sam_index.log"
@@ -204,7 +194,6 @@ rule bam_to_bigwig:
 
 rule bam_to_bigwig_wc:
     message: "Converting BAM file format to bigwig file format for visualization"
-    conda: "00_conda_software/chip_deeptools.yml"
     input:
         index = "04_bam_files/{sample}.coorsorted.dedup.bam.bai",
         bam = "04_bam_files/{sample}.coorsorted.dedup.bam"
@@ -222,7 +211,6 @@ rule call_peaks:
 
 rule call_peaks_wc:
     message: "Calling ChIP-seq peaks"
-    conda: "00_conda_software/chip_macs2.yml"
     input: "04_bam_files/{sample}.coorsorted.dedup.bam"
     output:
         "06_macs2_peaks/{sample}_peaks.narrowPeak",
@@ -240,7 +228,6 @@ rule fastqc_postprocessing:
 
 rule fastqc_postprocessing_wc:
     message: "Running quality control on samples post-processing"
-    conda: "00_conda_software/chip_fastqc.yml"
     input: "04_bam_files/{sample}.coorsorted.dedup.bam"
     output:
         "02_fastqc_analysis/{sample}.coorsorted.dedup_fastqc.html",

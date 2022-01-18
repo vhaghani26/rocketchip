@@ -22,11 +22,11 @@ parser.add_argument('--project', type=str, metavar='<path>', required=True,
 parser.add_argument('--force', action='store_true', required=False,
 	help='overwrite project if it exists')
 parser.add_argument('--genome', type=str, metavar='<genome>', required=True,
-	help='name of genome at UCSC (e.g. hg19, mm39, dm6, ce11, sacCer3)')
+	help='name of genome at UCSC (e.g. sacCer3)')
 parser.add_argument('--masked', action='store_true', required=False,
 	help='use masked genome [defaults to naked]')
 parser.add_argument('--sra', type=str, metavar='<str>', required=True,
-	nargs='+', help='list of SRA identifiers or files with SRA identifers')
+	nargs='+', help='SRA ids (e.g. SRR12926698) or file of ids')
 parser.add_argument('--single', action='store_true', required=False,
 	help='process as single reads [defaults to paired]')
 parser.add_argument('--data', type=str, metavar='<str>', required=False,

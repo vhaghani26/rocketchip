@@ -1,0 +1,14 @@
+# rocketchip.yaml
+name: rocketchip
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bwa=0.7.17=h5bf99c6_8
+  - deeptools=3.5.1=py_0
+  - deeptoolsintervals=0.1.9=py39h38f01e4_3
+  - fastqc=0.11.9=hdfd78af_1
+  - macs2=2.2.7.1
+  - samtools=1.12=h9aed4be_1
+  - sra-tools=2.10.9=pl526haddd2b5_0

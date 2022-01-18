@@ -282,20 +282,82 @@ Feel free to contact me at [vhaghani@ucdavis.edu](vhaghani@ucdavis.edu) if you h
 Quickstart
 ==========
 
-This demo should take less than 5 minutes to run and uses minimal resources.
+This is a small demo that shows you how to setup and run rocketchip analyses.
 
-1. Clone the repo
-2. Make a data directory (called `test` below)
-3. Run rocketchip to set up an analysis directory (called `demo` below)
-4. Run analysis using snakemake
+## Setup ##
 
-```
-git clone https://github.com/vhaghani26/rocketchip
-cd rocketchip
-mkdir test
-rocketchip --genome sacCer3 --data test --src . --sra SRR12926698 --project demo
-chdir demo
-snakemake --use-conda
-```
+1. Install conda if not already installed
+2. Clone the rocketchip repository
+3. Create the rocketchip conda enviornment
 
-After you're done, you can remove the `test` and `demo` directories. In the future, you may want to set environment variables for `ROCKETCHIP_DATA` and `ROCKETCHIP_SRC`. The data directory is where shared genome and SRA files are stored. The src directory is where your rocketchip repo is located.
+Download a conda installer such as mini-conda and install it with a command
+that looks something like the following:
+
+	sh Miniconda3-py39_4.10.3-Linux-x86_64.sh
+
+Clone the rocketchip repository to wherever you typically keep repositories.
+For example this might be your home directory.
+
+	cd ~
+	git clone https://github.com/vhaghani26/rocketchip
+
+Create the conda environment for rocketchip. This will take a few minutes to
+run.
+
+	cd rocketchip
+	conda env create --file rocketchip.yaml
+
+Create a data directory that will hold downloaded files. In this demo, the data
+directory is in `rocketchip/data`, which is not a very good permanent home.
+Ideally, the data directory is a shared directory on the filesystem where
+multiple users can share the same genome and SRA files.
+
+	mkdir data
+
+All of the commands here in **Setup** only need to be done once.
+
+## Demo Analysis ##
+
+The rocketchip program requires three parameters `--genome`, `--sra`,
+`--project`. The first time you execute rocketchip with a particular genome, it
+may take a little while to download and index the genome. This demo uses S.
+cereviseae (sacCer3) to minimize dowload and processing time. Sequence read
+files from the SRA may also take some time to download and process. Again,
+previous sequence files are stored so they don't have to be downloaded and
+processed repeatedly. The SRA file used below (SRR12926698) is small (about
+44M). The project directory is where a rocketchip analysis takes place. In this
+demo, it is called `demo`.
+
+The following command will setup a rocketchip analysis directory. Note that the
+`--data` parameter points to the location of the directory where shared genome
+and SRA files are kept. The `--src` parameter indicates the location of the
+rocketchip git repository (in this case, the current directory). These should
+be changed later (see below).
+
+	rocketchip --genome sacCer3 --sra SRR12926698 --project demo --data data --src .
+
+To start the analysis, change to the demo directory and run `snakemake`. This
+should take only a few minutes to run and uses minimal resources.
+
+	chdir demo
+	snakemake
+
+Try setting up the same analysis again using a different project name. You will
+see that it doesn't take nearly as long to run as the first time because the
+files have already been downloaded and pre-processed.
+
+	rocketchip --genome sacCer3 --sra SRR12926698 --project demo2 --data data --src .
+
+You can now remove the `data` and `demo` directories (and `demo2` if you did
+that).
+
+## Post Demo Refinements ##
+
+To make subsequent analyses easier, you should set two environment variables.
+Set `ROCKETCHIP_DATA` to the absolute path of your shared data directory. Set
+`ROCKETCHIP_SRC` to the absolute path of a rocketchip git repo. These go in
+your `.profile`, `.zshrc` or whatever your login shell reads.
+
+	export ROCKETCHIP_DATA="/share/mylab/data/rocketchip
+	export ROCKETCHIP_SRC="/share/mylab/pkg/rocketchip
+
