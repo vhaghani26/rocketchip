@@ -67,7 +67,7 @@ rule set_alignment_reference:
     input: multiext("01_raw_data/genome", ".amb", ".ann", ".bwt", ".pac", ".sa")
 
 rule set_alignment_reference_wc:
-    message: "Setting GRCm39/genome mouse genome assembly as reference genome for alignment"
+    message: "Setting reference genome for alignment"
     input: "01_raw_data/genome.fa"
     output: multiext("01_raw_data/genome", ".amb", ".ann", ".bwt", ".pac", ".sa")
     log: "00_logs/set_alignment_reference.log"

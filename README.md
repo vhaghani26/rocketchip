@@ -295,6 +295,10 @@ that looks something like the following:
 
 	sh Miniconda3-py39_4.10.3-Linux-x86_64.sh
 
+Also install `mamba` which is better way to run conda installs
+
+	conda install mamba -n base -c conda-forge
+
 Clone the rocketchip repository to wherever you typically keep repositories.
 For example this might be your home directory.
 
@@ -305,7 +309,7 @@ Create the conda environment for rocketchip. This will take a few minutes to
 run.
 
 	cd rocketchip
-	conda env create --file rocketchip.yaml
+	mamba env create --file rocketchip.yaml
 
 Create a data directory that will hold downloaded files. In this demo, the data
 directory is in `rocketchip/data`, which is not a very good permanent home.
