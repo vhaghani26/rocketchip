@@ -11,7 +11,7 @@ rule all:
         expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=config["samples"]),
         expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=config["samples"]),
         expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=config["samples"]),
-        expand("06_macs2_peaks/{sample}_peaks.broadPeak, sample=config["samples"]),
+        expand("06_macs2_peaks/{sample}_peaks.broadPeak", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_peaks.xls", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_summits.bed", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_model.r", sample=config["samples"]),
