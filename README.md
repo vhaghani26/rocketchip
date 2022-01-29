@@ -310,17 +310,15 @@ run.
 
 	cd rocketchip
 	mamba env create --file rocketchip.yaml
-
-Create a data directory that will hold downloaded files. In this demo, the data
-directory is in `rocketchip/data`, which is not a very good permanent home.
-Ideally, the data directory is a shared directory on the filesystem where
-multiple users can share the same genome and SRA files.
-
-	mkdir data
+	conda activate rocketchip
 
 All of the commands here in **Setup** only need to be done once.
 
 ## Demo Analysis ##
+
+Make sure your rocketchip conda environment is active. If not, turn it on.
+
+	conda activate rocketchip
 
 The rocketchip program requires three parameters `--genome`, `--sra`,
 `--project`. The first time you execute rocketchip with a particular genome, it
@@ -338,7 +336,8 @@ and SRA files are kept. The `--src` parameter indicates the location of the
 rocketchip git repository (in this case, the current directory). These should
 be changed later (see below).
 
-	rocketchip --genome sacCer3 --sra SRR12926698 --project demo --data data --src .
+	mkdir data
+	./rocketchip --genome sacCer3 --sra SRR12926698 --project demo --data data --src .
 
 To start the analysis, change to the demo directory and run `snakemake`. This
 should take only a few minutes to run and uses minimal resources.
@@ -357,11 +356,21 @@ that).
 
 ## Post Demo Refinements ##
 
-To make subsequent analyses easier, you should set two environment variables.
-Set `ROCKETCHIP_DATA` to the absolute path of your shared data directory. Set
-`ROCKETCHIP_SRC` to the absolute path of a rocketchip git repo. These go in
-your `.profile`, `.zshrc` or whatever your login shell reads.
+To make subsequent analyses easier, you should do the following:
+
++ define `ROCKETCHIP_DATA`
++ define `ROCKETCHIP_SRC`
++ add rocketchip to your `PATH`
+
+Where do you want to put your local copies of genome and fastq files? This 
+should be a shared location where multiple projects can reuse the same genome
+and fastq files so that you don't have to download them multiple times.
+
+The rocketchip source directory can also be shared. Modify your `.profile`, 
+`.zshrc`, or whatever your shell reads on login with something like to 
+following:
 
 	export ROCKETCHIP_DATA="/share/mylab/data/rocketchip
 	export ROCKETCHIP_SRC="/share/mylab/pkg/rocketchip
+	PATH="$PATH:$ROCKETCHIP_SRC"
 

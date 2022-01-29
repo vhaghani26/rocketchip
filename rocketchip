@@ -2,6 +2,8 @@
 
 import argparse
 import os
+import re
+import subprocess
 import sys
 import tempfile
 
@@ -27,8 +29,6 @@ parser.add_argument('--masked', action='store_true', required=False,
 	help='use masked genome [defaults to naked]')
 parser.add_argument('--sra', type=str, metavar='<str>', required=True,
 	nargs='+', help='SRA ids (e.g. SRR12926698) or file of ids')
-parser.add_argument('--single', action='store_true', required=False,
-	help='process as single reads [defaults to paired]')
 parser.add_argument('--data', type=str, metavar='<str>', required=False,
 	help='override current ROCKETCHIP_DATA enviornment variable')
 parser.add_argument('--src', type=str, metavar='<str>', required=False,
@@ -116,6 +116,26 @@ if arg.sra:
 		else:
 			sras.append(sra)
 
+read_type = {'paired':0, 'single':0, 'broken':0}
+for sra in sras:
+	url = f'https://trace.ncbi.nlm.nih.gov/Traces/sra/?run={sra}'
+	html = subprocess.run(['wget', '-O', '-', url],
+		stdout=subprocess.PIPE).stdout.decode('utf-8')
+	pat = 'Layout(.+)Biosample'
+	match = re.search(pat, html, re.DOTALL)
+	if match:
+		if   re.search('SINGLE', match.group()): read_type['single'] += 1
+		elif re.search('PAIRED', match.group()): read_type['paired'] += 1
+		else:                                    read_type['broken'] += 1
+
+LAYOUT = None
+if   read_type['paired'] == len(sras): LAYOUT = 'paired'
+elif read_type['single'] == len(sras): LAYOUT = 'single'
+else:
+	print(f'ERROR: read types non-uniform {read_type}')
+	sys.exit(1)
+print('layout', LAYOUT)
+
 for sra in sras:
 	SRA_FILE = f'{SRA_DIR}/{sra}/{sra}.sra'
 	if os.path.isfile(SRA_FILE):
@@ -125,7 +145,7 @@ for sra in sras:
 		run(f'mv {SRA_DIR}/{sra}/{sra}/{sra}.sra {SRA_DIR}/{sra}')
 		run(f'rm -rf {SRA_DIR}/{sra}/{sra}')
 		os.chdir(f'{SRA_DIR}/{sra}')
-		if arg.single:
+		if LAYOUT == 'single':
 			sys.stderr.write('not done yet\n')
 			sys.exit(1)		# what about single end files???
 		else:
@@ -141,8 +161,7 @@ if not arg.project: sys.exit(0) # just doing data setup
 
 os.chdir(CWD) # may have changed
 PROJECT = os.path.abspath(arg.project)
-TYPE = 'single' if arg.single else 'paired'
-SNAKEFILE = f'{TYPE}_end_chipseq'
+SNAKEFILE = f'{LAYOUT}_narrow'
 
 # Project directory legal?
 
@@ -165,7 +184,7 @@ PDIRS = ['00_logs', '01_raw_data', '02_fastqc_analysis', '03_sam_files',
 for d in PDIRS: os.makedirs(d, exist_ok=True)
 run(f'cp {SRC}/snakefiles/{SNAKEFILE} Snakefile')
 
-# Create yaml
+# Create samples.yaml
 
 with open('samples.yaml', 'w') as fp:
 	fp.write('---\nsamples:\n')
