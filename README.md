@@ -302,7 +302,7 @@ Also install `mamba` which is better way to run conda installs
 Clone the rocketchip repository to wherever you typically keep repositories.
 For example this might be your home directory.
 
-	cd ~
+	cd $HOME
 	git clone https://github.com/vhaghani26/rocketchip
 
 Create the conda environment for rocketchip. This will take a few minutes to
@@ -314,47 +314,83 @@ run.
 
 All of the commands here in **Setup** only need to be done once.
 
-## Demo Analysis ##
+## Testing ##
+
+Let's test rocketchip to make sure the installation is working. Create a new 
+directory, possibly in your home directory for testing. We will do all of our 
+testing in this directory. Once complete, you can remove it.
+
+	cd $HOME
+	mkdir test
+	cd test
 
 Make sure your rocketchip conda environment is active. If not, turn it on.
 
 	conda activate rocketchip
 
-The rocketchip program requires three parameters `--genome`, `--sra`,
-`--project`. The first time you execute rocketchip with a particular genome, it
-may take a little while to download and index the genome. This demo uses S.
-cereviseae (sacCer3) to minimize dowload and processing time. Sequence read
-files from the SRA may also take some time to download and process. Again,
-previous sequence files are stored so they don't have to be downloaded and
-processed repeatedly. The SRA file used below (SRR12926698) is small (about
-44M). The project directory is where a rocketchip analysis takes place. In this
-demo, it is called `demo`.
+The rocketchip program requires three parameters `--genome`, `--sra`, 
+`--project`. We will also be using the `--data` parameter, which you can omit 
+later after testing (see below).
 
-The following command will setup a rocketchip analysis directory. Note that the
-`--data` parameter points to the location of the directory where shared genome
-and SRA files are kept. The `--src` parameter indicates the location of the
-rocketchip git repository (in this case, the current directory). These should
-be changed later (see below).
+### --genome ###
 
-	mkdir data
-	./rocketchip --genome sacCer3 --sra SRR12926698 --project demo --data data --src .
+The first time you execute rocketchip with a particular genome, it will 
+download and index the genome. This step happens only once. Subsequent analyses 
+will use the local files. This test uses S. cereviseae (sacCer3) to minimize 
+dowload and processing time.
 
-To start the analysis, change to the demo directory and run `snakemake`. This
+### --sra ###
+
+The first time you execute rocketchip with a list of SRA identifiers, it will 
+download them and extract the sequences. This step happens only once. 
+Subsequent analyses will use the local files. The SRA files used in this test
+are small to minimize download and processing time.
+
++ SRR12926698
+
+### --project ###
+
+Each analysis is stored in a project directory. In this test, we will be 
+creating a couple projects...
+
+### --data ###
+
+Local genome and SRA files must be stored _somewhere_. In this test, we will 
+put them in a directory called `cache`, inside our `test` directory. If you 
+have followed the directions, your terminal is already in the `test` directory.
+
+	mkdir cache
+
+
+### Test 1: paired, narrow ###
+
+Run the following command. This assumes your rocketchip source and test 
+directories are both located in the same directory (e.g. your home directory). 
+It should take about 1 minute to download and process the genome and SRA files 
+(assuming typical network speeds and CPUs).
+
+	../rocketchip/rocketchip --data cache --genome sacCer3 --src ../rocketchip --project demo1 --sra SRR12926698
+
+
+To start the analysis, change to the demo1 directory and run `snakemake`. This 
 should take only a few minutes to run and uses minimal resources.
 
 	chdir demo
 	snakemake
 
-Try setting up the same analysis again using a different project name. You will
-see that it doesn't take nearly as long to run as the first time because the
-files have already been downloaded and pre-processed.
+### Test 2: single, narrow ###
 
-	rocketchip --genome sacCer3 --sra SRR12926698 --project demo2 --data data --src .
+The following command is similar to the first test, but the SRA file comes from 
+single-end sequencing rather than paired.
 
-You can now remove the `data` and `demo` directories (and `demo2` if you did
-that).
+	../rocketchip/rocketchip --data cache --genome sacCer3 --src ../rocketchip --project demo2 --sra SRR352329
+
+This doesn't work yet because mm39 is still in the single snakefiles
+
 
 ## Post Demo Refinements ##
+
+You can now remove the `test` directory.
 
 To make subsequent analyses easier, you should do the following:
 
@@ -373,4 +409,12 @@ following:
 	export ROCKETCHIP_DATA="/share/mylab/data/rocketchip
 	export ROCKETCHIP_SRC="/share/mylab/pkg/rocketchip
 	PATH="$PATH:$ROCKETCHIP_SRC"
+
+
+To Do
+=====
+
++ Remove genome download and index from snakefiles
++ Remove SRA download and process from snakefiles
++ Change mm39 to genome
 

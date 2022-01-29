@@ -33,7 +33,8 @@ parser.add_argument('--data', type=str, metavar='<str>', required=False,
 	help='override current ROCKETCHIP_DATA enviornment variable')
 parser.add_argument('--src', type=str, metavar='<str>', required=False,
 	help='override current ROCKETCHIP_SRC enviornment variable')
-
+parser.add_argument('--wide', action='store_true', required=False,
+	help='find wide peakss [default is narrow]')
 arg = parser.parse_args()
 
 CWD = os.path.abspath('.')
@@ -82,7 +83,7 @@ else:
 	SEQ = f'{arg.genome}.fa'
 	IDX = f'{arg.genome}.fa.bwt'
 
-# Download genome if not present
+# Download and index genome
 GENOME_SEQ = f'{GENOME_DIR}/{SEQ}'
 if os.path.isfile(GENOME_SEQ):
 	sys.stderr.write(f'using local copy: {arg.genome}\n')
@@ -104,7 +105,10 @@ else:
 ####################
 
 SRA_DIR = f'{DATA}/SRA'
-os.makedirs(SRA_DIR, exist_ok=True)
+os.makedirs(f'{SRA_DIR}/paired', exist_ok=True)
+os.makedirs(f'{SRA_DIR}/single', exist_ok=True)
+
+# Get list of SRAs
 sras = []
 if arg.sra:
 	for sra in arg.sra:
@@ -116,52 +120,61 @@ if arg.sra:
 		else:
 			sras.append(sra)
 
-read_type = {'paired':0, 'single':0, 'broken':0}
-for sra in sras:
-	url = f'https://trace.ncbi.nlm.nih.gov/Traces/sra/?run={sra}'
-	html = subprocess.run(['wget', '-O', '-', url],
-		stdout=subprocess.PIPE).stdout.decode('utf-8')
-	pat = 'Layout(.+)Biosample'
-	match = re.search(pat, html, re.DOTALL)
-	if match:
-		if   re.search('SINGLE', match.group()): read_type['single'] += 1
-		elif re.search('PAIRED', match.group()): read_type['paired'] += 1
-		else:                                    read_type['broken'] += 1
+read_type = {'paired':0, 'single':0}
 
+# Download and process SRAs
+for sra in sras:
+	PAIRED = f'{SRA_DIR}/paired/{sra}/{sra}.sra'
+	SINGLE = f'{SRA_DIR}/single/{sra}/{sra}.sra'
+	layout = None
+	if os.path.isfile(PAIRED):
+		sys.stderr.write(f'using local copy: {sra}\n')
+		layout = 'paired'
+	elif os.path.isfile(SINGLE):
+		sys.stderr.write(f'using local copy: {sra}\n')
+		layout = 'single'
+	else:
+		# determine layout (paired or single)
+		url = f'https://trace.ncbi.nlm.nih.gov/Traces/sra/?run={sra}'
+		html = subprocess.run(['wget', '-O', '-', url],
+			stdout=subprocess.PIPE).stdout.decode('utf-8')
+		pat = 'Layout(.+)Biosample'
+		match = re.search(pat, html, re.DOTALL)
+		if match:
+			if   re.search('SINGLE', match.group()): layout = 'single'
+			elif re.search('PAIRED', match.group()): layout = 'paired'
+			else:
+				print(f'could not assess paired/single for {sra}, aborting')
+				sys.exit(1)
+		
+		# retrieve and process SRA file
+		run(f'prefetch {sra} -O {SRA_DIR}/{layout}/{sra}')
+		run(f'mv {SRA_DIR}/{layout}/{sra}/{sra}/{sra}.sra {SRA_DIR}/{layout}/{sra}')
+		run(f'rm -rf {SRA_DIR}/{layout}/{sra}/{sra}')
+		os.chdir(f'{SRA_DIR}/{layout}/{sra}')
+		if layout == 'paired':
+			run(f'fastq-dump {sra}.sra --split-files --gzip --outdir .')
+		else:
+			run(f'fastq-dump {sra}.sra --gzip --outdir .')
+	read_type[layout] += 1
+
+# Determine if the all of the reads are paired or single
 LAYOUT = None
 if   read_type['paired'] == len(sras): LAYOUT = 'paired'
 elif read_type['single'] == len(sras): LAYOUT = 'single'
 else:
-	print(f'ERROR: read types non-uniform {read_type}')
+	print(f'ERROR: read types inconsistent {read_type}')
 	sys.exit(1)
-print('layout', LAYOUT)
-
-for sra in sras:
-	SRA_FILE = f'{SRA_DIR}/{sra}/{sra}.sra'
-	if os.path.isfile(SRA_FILE):
-		sys.stderr.write(f'using local copy: {sra}\n')
-	else:
-		run(f'prefetch {sra} -O {SRA_DIR}/{sra}')
-		run(f'mv {SRA_DIR}/{sra}/{sra}/{sra}.sra {SRA_DIR}/{sra}')
-		run(f'rm -rf {SRA_DIR}/{sra}/{sra}')
-		os.chdir(f'{SRA_DIR}/{sra}')
-		if LAYOUT == 'single':
-			sys.stderr.write('not done yet\n')
-			sys.exit(1)		# what about single end files???
-		else:
-			run(f'fastq-dump {sra}.sra --split-files --gzip --outdir .')
+print('using layout', LAYOUT)
 
 #############
 ## Project ##
 #############
 
-if not arg.project: sys.exit(0) # just doing data setup
-
-# Paired or Single?
-
-os.chdir(CWD) # may have changed
+os.chdir(CWD)
 PROJECT = os.path.abspath(arg.project)
-SNAKEFILE = f'{LAYOUT}_narrow'
+PEAKS = 'wide' if arg.wide else 'narrow'
+SNAKEFILE = f'{LAYOUT}_{PEAKS}'
 
 # Project directory legal?
 
@@ -199,12 +212,12 @@ for ext in gen_ext:
 	run(f'ln -sf {GENOME_DIR}/{SEQ}{ext} 01_raw_data/genome{ext}')
 
 for sra in sras:
-	if TYPE == 'paired':
-		run(f'ln -sf {SRA_DIR}/{sra}/{sra}_1.fastq.gz 01_raw_data')
-		run(f'ln -sf {SRA_DIR}/{sra}/{sra}_2.fastq.gz 01_raw_data')
+	if layout == 'paired':
+		run(f'ln -sf {SRA_DIR}/{layout}/{sra}/{sra}_1.fastq.gz 01_raw_data')
+		run(f'ln -sf {SRA_DIR}/{layout}/{sra}/{sra}_2.fastq.gz 01_raw_data')
 	else:
-		sys.stderr.write('not done yet\n')
-		sys.exit(1)
+		run(f'ln -sf {SRA_DIR}/{layout}/{sra}/{sra}.fastq.gz 01_raw_data')
+		sys.exit(0)
 
 # Finished with setup
 
