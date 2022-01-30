@@ -371,7 +371,6 @@ It should take about 1 minute to download and process the genome and SRA files
 
 	../rocketchip/rocketchip --data cache --genome sacCer3 --src ../rocketchip --project demo1 --sra SRR12926698
 
-
 To start the analysis, change to the demo1 directory and run `snakemake`. This 
 should take only a few minutes to run and uses minimal resources.
 
@@ -385,7 +384,7 @@ single-end sequencing rather than paired.
 
 	../rocketchip/rocketchip --data cache --genome sacCer3 --src ../rocketchip --project demo2 --sra SRR352329
 
-This doesn't work yet because mm39 is still in the single snakefiles
+ERROR HERE: this file may not have any peaks! Find another SRA.
 
 
 ## Post Demo Refinements ##
@@ -410,11 +409,6 @@ following:
 	export ROCKETCHIP_SRC="/share/mylab/pkg/rocketchip
 	PATH="$PATH:$ROCKETCHIP_SRC"
 
+---------------------------------------------------------------------------
 
-To Do
-=====
-
-+ Remove genome download and index from snakefiles
-+ Remove SRA download and process from snakefiles
-+ Change mm39 to genome
-
+END

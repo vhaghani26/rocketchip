@@ -33,8 +33,8 @@ parser.add_argument('--data', type=str, metavar='<str>', required=False,
 	help='override current ROCKETCHIP_DATA enviornment variable')
 parser.add_argument('--src', type=str, metavar='<str>', required=False,
 	help='override current ROCKETCHIP_SRC enviornment variable')
-parser.add_argument('--wide', action='store_true', required=False,
-	help='find wide peakss [default is narrow]')
+parser.add_argument('--broad', action='store_true', required=False,
+	help='find broad peakss [default is narrow]')
 arg = parser.parse_args()
 
 CWD = os.path.abspath('.')
@@ -173,7 +173,7 @@ print('using layout', LAYOUT)
 
 os.chdir(CWD)
 PROJECT = os.path.abspath(arg.project)
-PEAKS = 'wide' if arg.wide else 'narrow'
+PEAKS = 'broad' if arg.broad else 'narrow'
 SNAKEFILE = f'{LAYOUT}_{PEAKS}'
 
 # Project directory legal?
@@ -217,7 +217,6 @@ for sra in sras:
 		run(f'ln -sf {SRA_DIR}/{layout}/{sra}/{sra}_2.fastq.gz 01_raw_data')
 	else:
 		run(f'ln -sf {SRA_DIR}/{layout}/{sra}/{sra}.fastq.gz 01_raw_data')
-		sys.exit(0)
 
 # Finished with setup
 
