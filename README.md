@@ -329,8 +329,8 @@ Make sure your rocketchip conda environment is active. If not, turn it on.
 	conda activate rocketchip
 
 The rocketchip program requires three parameters `--genome`, `--sra`, 
-`--project`. We will also be using the `--data` parameter, which you can omit 
-later after testing (see below).
+`--project`. We will also be using the `--data` and `--src` parameters,
+which you can omit later after testing (see below).
 
 ### --genome ###
 
@@ -378,12 +378,16 @@ should take only a few minutes to run and uses minimal resources.
 	chdir demo
 	snakemake
 
+Look in the XXX directory and examine the YYY file...
+
 ### Test 2: single, broad ###
 
 The following command is similar to the first test, but the SRA file comes from 
 single-end sequencing rather than paired.
 
 	../rocketchip/rocketchip --data cache --genome sacCer3 --src ../rocketchip --project demo2 --sra SRR9257200 --broad
+
+Look in the XXX directory and examine the YYY file...
 
 ## Post Demo Refinements ##
 
