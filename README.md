@@ -346,12 +346,14 @@ download them and extract the sequences. This step happens only once.
 Subsequent analyses will use the local files. The SRA files used in this test
 are small to minimize download and processing time.
 
-+ SRR12926698
++ SRR12926698 (paired end reads)
++ SRR9257200 (single end reads)
 
 ### --project ###
 
 Each analysis is stored in a project directory. In this test, we will be 
-creating a couple projects...
+creating a couple projects: a paired-end layout wth narrow peak calling and a 
+single-end layout with broad peak calling.
 
 ### --data ###
 
@@ -361,7 +363,6 @@ have followed the directions, your terminal is already in the `test` directory.
 
 	mkdir cache
 
-
 ### Test 1: paired, narrow ###
 
 Run the following command. This assumes your rocketchip source and test 
@@ -369,7 +370,7 @@ directories are both located in the same directory (e.g. your home directory).
 It should take about 1 minute to download and process the genome and SRA files 
 (assuming typical network speeds and CPUs).
 
-	../rocketchip/rocketchip --data cache --genome sacCer3 --src ../rocketchip --project demo1 --sra SRR12926698
+	../rocketchip/rocketchip --data cache --genome sacCer3 --src ../rocketchip --project demo1 --sra 
 
 To start the analysis, change to the demo1 directory and run `snakemake`. This 
 should take only a few minutes to run and uses minimal resources.
@@ -377,15 +378,12 @@ should take only a few minutes to run and uses minimal resources.
 	chdir demo
 	snakemake
 
-### Test 2: single, narrow ###
+### Test 2: single, broad ###
 
 The following command is similar to the first test, but the SRA file comes from 
 single-end sequencing rather than paired.
 
-	../rocketchip/rocketchip --data cache --genome sacCer3 --src ../rocketchip --project demo2 --sra SRR352329
-
-ERROR HERE: this file may not have any peaks! Find another SRA.
-
+	../rocketchip/rocketchip --data cache --genome sacCer3 --src ../rocketchip --project demo2 --sra SRR9257200 --broad
 
 ## Post Demo Refinements ##
 

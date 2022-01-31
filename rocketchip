@@ -224,7 +224,7 @@ print(f"""
 
 ROCKETCHIP has completed setup. To run analysis type the following:
 
-	chdir {PROJECT}
+	cd {PROJECT}
 	snakemake
 
 """)
