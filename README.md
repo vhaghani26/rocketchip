@@ -2,7 +2,7 @@
 
 vT.B.D.
 
-**Rocketchip is currently being redone. The usage information listed below is no longer relevant/compatible with the current version of Rocketchip. The README.md will be redone shortly to include updated usage instructions and a tutorial for getting started.**
+**Rocketchip is currently being redone. The README.md will be redone shortly to include updated usage instructions and a tutorial for getting started.**
 
 ## What is Rocketchip?
 
