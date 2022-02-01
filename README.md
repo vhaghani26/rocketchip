@@ -1,20 +1,223 @@
 # Rocketchip: A Comprehensive Bioinformatics Workflow for ChIP-Seq Data Analysis
 
-Rocketchip is currently being redone. The usage information listed below is no longer relevant/compatible with the current version of Rocketchip. The README.md will be redone shortly to include updated usage instructions and a tutorial for getting started.
+**Rocketchip is currently being redone. The usage information listed below is no longer relevant/compatible with the current version of Rocketchip. The README.md will be redone shortly to include updated usage instructions and a tutorial for getting started.**
 
 ## What is Rocketchip?
-Rocketchip is an automated bioinformatics workflow that downloads ChIP-seq data from the National Center for Biotechnology Information (NCBI) Sequence Read Archive (SRA) and uses it to generate the files required for data visualization and peak delineation. Both single- and paired-end data can be used, but they must be run separately. ChIP-seq data is downloaded directly from the SRA using the SRA Toolkit (sra-tools, v2.10.9). The raw sequence read file is then split into its respective paired-end read files by the SRA Toolkit (if the data is paired-end) and converted into FASTQ file format (sra-tools, v2.10.9). Reads are aligned to the GRCm39/mm39 mouse genome assembly using the Burrows-Wheeler Algorithm (BWA) Maximal Exact Match (MEM) software (bwa, v0.7.17). Samtools (samtools, v1.12) is used for file format conversion and deduplication of sequence data. Deeptools (deeptools, v3.5.1) is used to convert data to the bigwig file format, which can be used for visualization of ChIP-seq data in the UCSC Genome Browser or other visualization tools. Peaks are called using MACS2 (macs2, v2.2.7.1). FastQC (fastqc, v0.11.9) carries out a sequence quality control analysis pre-processing, on the raw sequence data, and post-processing, after sequence alignment takes place. Overall, this workflow carries out the major steps of ChIP-seq data analysis and generates output files to be used as figures and to be used in further analysis.
 
-## Using the Workflow
-In order to use the Rocketchip, clone the [GitHub repository](https://github.com/vhaghani26/rocketchip.git) into the directory of your choice. The contents of the repository are broken down below for your reference. See the "Snakefile" section under "Repository Contents" for more specifics on file execution. It is  recommended to try the tutorial outlined towards the end of this document to better understand specific usage of the program. Additionally, Snakemake should be installed in order to run Rocketchip. See [here](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) for instructions on Snakemake installation.
+Rocketchip is an automated bioinformatics workflow that downloads ChIP-seq data from the National Center for Biotechnology Information (NCBI) Sequence Read Archive (SRA) and uses it to generate the files required for data visualization and peak delineation. It was created using the workflow manager, Snakemake. Both single- and paired-end data can be used, but they must be run separately. ChIP-seq data is downloaded directly from the SRA using the SRA Toolkit (sra-tools, v2.10.9). The raw sequence read file is then split into its respective paired-end read files by the SRA Toolkit (if the data is paired-end) and converted into FASTQ file format (sra-tools, v2.10.9). Reads are aligned to the genome of the user's choice from the UCSC Genome Browser using the Burrows-Wheeler Algorithm (BWA) Maximal Exact Match (MEM) software (bwa, v0.7.17). Samtools (samtools, v1.12) is used for file format conversion and deduplication of sequence data. Deeptools (deeptools, v3.5.1) is used to convert data to the bigwig file format, which can be used for visualization of ChIP-seq data in the UCSC Genome Browser or other visualization tools. Peaks are called using MACS2 (macs2, v2.2.7.1). FastQC (fastqc, v0.11.9) carries out a sequence quality control analysis pre-processing, on the raw sequence data, and post-processing, after sequence alignment takes place. Overall, this workflow carries out the major steps of ChIP-seq data analysis and generates output files to be used as figures and to be used in further analysis.
+
+## Using Rocketchip
+
+In order to use the Rocketchip, clone [this GitHub repository](https://github.com/vhaghani26/rocketchip.git) into the directory of your choice. It is highly recommended to try the provided tutorial to better understand specific usage of Rocketchip. 
+
+## Tutorial
+
+This is a small demo that shows you how to setup and run rocketchip analyses.
+
+### Setup
+
+1. Install conda if not already installed
+2. Clone the rocketchip repository
+3. Create the rocketchip conda enviornment
+
+Download a conda installer such as mini-conda and install it with a command that looks something like the following:
+
+```
+sh Miniconda3-py39_4.10.3-Linux-x86_64.sh
+```
+
+Also install `mamba` which is better way to run conda installs
+
+```
+conda install mamba -n base -c conda-forge
+```
+
+Clone the rocketchip repository to wherever you typically keep repositories. For example this might be your home directory.
+
+```
+cd $HOME
+git clone https://github.com/vhaghani26/rocketchip
+```
+
+Create the conda environment for rocketchip. This will take a few minutes to run.
+
+```
+cd rocketchip
+mamba env create --file rocketchip.yaml
+conda activate rocketchip
+```
+
+All of the commands here in **Setup** only need to be done once.
+
+### Testing
+
+Let's test rocketchip to make sure the installation is working. Create a new directory, possibly in your home directory for testing. We will do all of our testing in this directory. Once complete, you can remove it.
+
+```
+cd $HOME
+mkdir test
+cd test
+```
+
+Make sure your rocketchip conda environment is active. If not, activate it.
+
+```
+conda activate rocketchip
+```
+
+The rocketchip program requires three parameters `--genome`, `--sra`, and `--project`. We will also be using the `--data` and `--src` parameters, which you can omit later after testing (see below).
+
+#### --genome
+
+The first time you execute rocketchip with a particular genome, it will download and index the genome. This step happens only once. Subsequent analyses will use the local files. This test uses S. cereviseae (sacCer3) to minimize 
+dowload and processing time.
+
+#### --sra
+
+The first time you execute rocketchip with a list of SRA identifiers, it will download them and extract the sequences. This step happens only once per SRA identifier. Subsequent analyses using previously called SRA identifiers will use the local files that have already been downloaded. The SRA files used in this test are small to minimize download and processing time.
+
+* SRR12926698 (paired-end reads)
+* SRR9257200 (single-end reads)
+
+#### --project
+
+Each analysis is stored in a project directory. In this test, we will be creating a couple projects: a paired-end layout wth narrow peak calling and a single-end layout with broad peak calling.
+
+#### --data
+
+Local genome and SRA files must be stored _somewhere_. In this test, we will put them in a directory called `cache`, inside our `test` directory. If you have followed the directions, your terminal is already in the `test` directory.
+
+```
+mkdir cache
+```
+
+#### Test 1: Paired-End, Narrow Peaks
+
+Run the following command. This assumes your Rocketchip source and test directories are both located in the same directory (e.g. your home directory). It should take about 1 minute to download and process the genome and SRA files (assuming typical network speeds and CPUs).
+
+```
+../rocketchip/rocketchip --data cache --genome sacCer3 --src ../rocketchip --project demo1 --sra 
+```
+
+To start the analysis, change to the demo directory and run `snakemake`. This should take only a few minutes to run and uses minimal resources.
+
+```
+chdir demo
+snakemake
+```
+
+Look in the XXX directory and examine the YYY file...
+
+#### Test 2: Single-End, Broad Peaks
+
+The following command is similar to the first test, but the SRA file comes from single-end sequencing rather than paired.
+
+```
+../rocketchip/rocketchip --data cache --genome sacCer3 --src ../rocketchip --project demo2 --sra SRR9257200 --broad
+```
+
+Look in the XXX directory and examine the YYY file...
+
+### Post Demo Refinements
+
+You can now remove the `test` directory.
+
+To make subsequent analyses easier, you should do the following:
+
+* define `ROCKETCHIP_DATA`
+* define `ROCKETCHIP_SRC`
+* add rocketchip to your `PATH`
+
+Where do you want to put your local copies of genome and fastq files? This should be a shared location where multiple projects can reuse the same genome and fastq files so that you don't have to download them multiple times.
+
+The rocketchip source directory can also be shared. Modify your `.profile`, `.bashrc`, `.zshrc`, or whatever your shell reads upon login with something like the following:
+
+```
+export ROCKETCHIP_DATA="/share/mylab/data/rocketchip
+export ROCKETCHIP_SRC="/share/mylab/pkg/rocketchip
+PATH="$PATH:$ROCKETCHIP_SRC"
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### Repository Contents
 
-#### single_samples.yaml and paired_samples.yaml
-The `[endedness]_samples.yml` files will be used as a configuration file to pipe in the samples used in the analysis. All single-end samples should go in single_samples.yaml and all paired-end samples should go in paired_samples.yaml. The use of these different configuration files implies that both single- and paired-end analyses can be run at the same time on a cluster.
+#### `snakefiles/` 
+
+`snakefiles/` contains the different snakefiles corresponding to the type of analysis being run. Depending on the user's data, namely whether the analysis is for single-end reads, paired-end reads, narrow peak analysis, or broad peak analysis, Rocketchip will run the appropriate workflow. The user should not edit the files within `snakefiles/`.
+
+
+
+
+
+#######################################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Repository Contents
+
 
 #### Snakefiles (single_end_snakefile and paired_end_snakefile)
-The Snakefiles contain the code required to execute the entire workflow. Here, I will go through the basics of Snakemake usage for this program. For additional information, see the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html). For specifics regarding command-line interface, [this](https://snakemake.readthedocs.io/en/stable/executing/cli.html) may be helpful.
+ Here, I will go through the basics of Snakemake usage for this program. For additional information, see the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html). For specifics regarding command-line interface, [this](https://snakemake.readthedocs.io/en/stable/executing/cli.html) may be helpful.
 
 Briefly, the whole program can be executed by running `snakemake -j 4 -p --use-conda -s [endedness]`, where the `-j` or `--jobs` option specifies the highest number of jobs (highest number of CPU) that can be run in parallel. The `-p` or `--prioritize` option tells the job scheduler to prioritize certain jobs given their dependencies. The `-s` option for `[endedness]` is a required parameter, and it refers to whether single- or paired-end data is used. If you are using single-end data, please use `-s single_end_snakefile` and if you are using paired-end data, please use `-s paired_end_snakefile`. Without specifying anything else, the whole workflow will run. To run a rule in particular or individually, you can use `snakemake -j 4 -p --use-conda -s [endedness] rulename`.
 
@@ -45,8 +248,15 @@ The repository contains a folder called `00_conda_software` that contains indivi
 #### .gitignore
 The `.gitignore` file contains the directories and consequently the data generated by each rule. Because the data is not pushed to git, it is strongly recommended to back up your data somewhere that it is protected.
 
-#### dag_rocketchip.pdf
-`dag_rocketchip.pdf` was generated using the command `snakemake --dag | dot -Tpdf > dag_rocketchip.pdf`. The file is a visual depiction of the workflow that is generated based on the dependencies of each rule.
+
+
+
+
+
+
+
+
+
 
 ## Outputs
 There are several output directories, each containing a component of the analysis. These directories are automatically generated when the analysis is run and outputs are automatically sorted into each directory.
@@ -74,6 +284,18 @@ Bigwig files are used for visualization of ChIP-seq data and are the final produ
 
 ### 06_macs2_peaks
 MACS2 is used to call peaks in the data. These peaks will be used in answering the biological question you are asking using the data. In many instances, the peaks correspond to the binding sites of a protein of interest.
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Tutorial
 
@@ -281,138 +503,3 @@ Future ideas for Rocketchip include the incorporation of track line generators f
 Feel free to contact me at [vhaghani@ucdavis.edu](vhaghani@ucdavis.edu) if you have any questions, comments, or concerns.
 
 
-Quickstart
-==========
-
-This is a small demo that shows you how to setup and run rocketchip analyses.
-
-## Setup ##
-
-1. Install conda if not already installed
-2. Clone the rocketchip repository
-3. Create the rocketchip conda enviornment
-
-Download a conda installer such as mini-conda and install it with a command
-that looks something like the following:
-
-	sh Miniconda3-py39_4.10.3-Linux-x86_64.sh
-
-Also install `mamba` which is better way to run conda installs
-
-	conda install mamba -n base -c conda-forge
-
-Clone the rocketchip repository to wherever you typically keep repositories.
-For example this might be your home directory.
-
-	cd $HOME
-	git clone https://github.com/vhaghani26/rocketchip
-
-Create the conda environment for rocketchip. This will take a few minutes to
-run.
-
-	cd rocketchip
-	mamba env create --file rocketchip.yaml
-	conda activate rocketchip
-
-All of the commands here in **Setup** only need to be done once.
-
-## Testing ##
-
-Let's test rocketchip to make sure the installation is working. Create a new 
-directory, possibly in your home directory for testing. We will do all of our 
-testing in this directory. Once complete, you can remove it.
-
-	cd $HOME
-	mkdir test
-	cd test
-
-Make sure your rocketchip conda environment is active. If not, turn it on.
-
-	conda activate rocketchip
-
-The rocketchip program requires three parameters `--genome`, `--sra`, 
-`--project`. We will also be using the `--data` and `--src` parameters,
-which you can omit later after testing (see below).
-
-### --genome ###
-
-The first time you execute rocketchip with a particular genome, it will 
-download and index the genome. This step happens only once. Subsequent analyses 
-will use the local files. This test uses S. cereviseae (sacCer3) to minimize 
-dowload and processing time.
-
-### --sra ###
-
-The first time you execute rocketchip with a list of SRA identifiers, it will 
-download them and extract the sequences. This step happens only once. 
-Subsequent analyses will use the local files. The SRA files used in this test
-are small to minimize download and processing time.
-
-+ SRR12926698 (paired end reads)
-+ SRR9257200 (single end reads)
-
-### --project ###
-
-Each analysis is stored in a project directory. In this test, we will be 
-creating a couple projects: a paired-end layout wth narrow peak calling and a 
-single-end layout with broad peak calling.
-
-### --data ###
-
-Local genome and SRA files must be stored _somewhere_. In this test, we will 
-put them in a directory called `cache`, inside our `test` directory. If you 
-have followed the directions, your terminal is already in the `test` directory.
-
-	mkdir cache
-
-### Test 1: paired, narrow ###
-
-Run the following command. This assumes your rocketchip source and test 
-directories are both located in the same directory (e.g. your home directory). 
-It should take about 1 minute to download and process the genome and SRA files 
-(assuming typical network speeds and CPUs).
-
-	../rocketchip/rocketchip --data cache --genome sacCer3 --src ../rocketchip --project demo1 --sra 
-
-To start the analysis, change to the demo1 directory and run `snakemake`. This 
-should take only a few minutes to run and uses minimal resources.
-
-	chdir demo
-	snakemake
-
-Look in the XXX directory and examine the YYY file...
-
-### Test 2: single, broad ###
-
-The following command is similar to the first test, but the SRA file comes from 
-single-end sequencing rather than paired.
-
-	../rocketchip/rocketchip --data cache --genome sacCer3 --src ../rocketchip --project demo2 --sra SRR9257200 --broad
-
-Look in the XXX directory and examine the YYY file...
-
-## Post Demo Refinements ##
-
-You can now remove the `test` directory.
-
-To make subsequent analyses easier, you should do the following:
-
-+ define `ROCKETCHIP_DATA`
-+ define `ROCKETCHIP_SRC`
-+ add rocketchip to your `PATH`
-
-Where do you want to put your local copies of genome and fastq files? This 
-should be a shared location where multiple projects can reuse the same genome
-and fastq files so that you don't have to download them multiple times.
-
-The rocketchip source directory can also be shared. Modify your `.profile`, 
-`.zshrc`, or whatever your shell reads on login with something like to 
-following:
-
-	export ROCKETCHIP_DATA="/share/mylab/data/rocketchip
-	export ROCKETCHIP_SRC="/share/mylab/pkg/rocketchip
-	PATH="$PATH:$ROCKETCHIP_SRC"
-
----------------------------------------------------------------------------
-
-END
