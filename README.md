@@ -1,6 +1,6 @@
 # Rocketchip: A Comprehensive Bioinformatics Workflow for ChIP-Seq Data Analysis
 
-vT.B.D.
+v0.0.3
 
 **Rocketchip is currently being redone. The README.md will be redone shortly to include updated usage instructions and a tutorial for getting started.**
 
@@ -139,6 +139,25 @@ export ROCKETCHIP_DATA="/share/mylab/data/rocketchip
 export ROCKETCHIP_SRC="/share/mylab/pkg/rocketchip
 PATH="$PATH:$ROCKETCHIP_SRC"
 ```
+
+
+
+
+
+
+
+
+## General Rocketchip Usage
+
+
+
+
+
+
+
+
+
+
 
 ## Rocketchip Outputs
 There are several output directories, each containing a component of the analysis. These directories are automatically generated when the analysis is run and outputs are automatically sorted into each directory.
