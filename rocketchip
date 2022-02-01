@@ -17,24 +17,25 @@ def run(command):
 ## Command Line ##
 ##################
 
+examples = 'rocketchip demo1 sacCer3 ucsc'
 parser = argparse.ArgumentParser(
-	description='Rocketchip - ChIP-seq pipeline')
-parser.add_argument('--project', type=str, metavar='<path>', required=True,
-	help='path to project directory')
-parser.add_argument('--force', action='store_true', required=False,
-	help='overwrite project if it exists')
-parser.add_argument('--genome', type=str, metavar='<genome>', required=True,
-	help='name of genome at UCSC (e.g. sacCer3)')
-parser.add_argument('--masked', action='store_true', required=False,
-	help='use masked genome [defaults to naked]')
-parser.add_argument('--sra', type=str, metavar='<str>', required=True,
-	nargs='+', help='SRA ids (e.g. SRR12926698) or file of ids')
+	description='Rocketchip - ChIP-seq pipeline', epilog=examples)
+parser.add_argument('project', type=str, metavar='<project>',
+	help='name of project directory to create')
+parser.add_argument('genome', type=str, metavar='<genome>',
+	help='path to fasta file or name of remote genome (e.g. ~/mygenome.fa, sacCer3)')
+parser.add_argument('reads', type=str, metavar='<reads>', nargs='+',
+	help='path to directory of fastq files or names/files of SRA identifiers')
 parser.add_argument('--data', type=str, metavar='<str>', required=False,
-	help='override current ROCKETCHIP_DATA enviornment variable')
+	help='override/set current ROCKETCHIP_DATA enviornment variable')
 parser.add_argument('--src', type=str, metavar='<str>', required=False,
-	help='override current ROCKETCHIP_SRC enviornment variable')
+	help='override/set current ROCKETCHIP_SRC enviornment variable')
 parser.add_argument('--broad', action='store_true', required=False,
 	help='find broad peakss [default is narrow]')
+parser.add_argument('--masked', action='store_true', required=False,
+	help='download masked genome [defaults to naked]')
+parser.add_argument('--force', action='store_true', required=False,
+	help='overwrite project if it exists')
 arg = parser.parse_args()
 
 CWD = os.path.abspath('.')
@@ -72,46 +73,85 @@ sys.stderr.write(f'SRC: {SRC}\n')
 ## Genome Management ##
 #######################
 
-GENOME_DIR = f'{DATA}/{arg.genome}'
-os.makedirs(GENOME_DIR, exist_ok=True)
-if arg.masked:
-	TGZ = 'chromFaMasked.tar.gz'
-	SEQ = f'{arg.genome}.masked.fa'
-	IDX = f'{arg.genome}.masked.fa.bwt'
+GENOME_SEQ = None # will be absolute path of fasta file
+
+if os.path.isfile(arg.genome):
+	GENOME_SEQ = os.path.abspath(arg.genome)
+	print(f'using local genome file: {GENOME_SEQ}')
+	if os.path.isfile(f'{GENOME_SEQ}.bwt'):
+		print('genome previously indexed, skipping')
+	else:
+		run(f'bwa index -a bwtsw {GENOME_SEQ}')
 else:
-	TGZ = 'chromFa.tar.gz'
-	SEQ = f'{arg.genome}.fa'
-	IDX = f'{arg.genome}.fa.bwt'
+	GENOME_DIR = f'{DATA}/{arg.genome}'
+	os.makedirs(GENOME_DIR, exist_ok=True)
+	if arg.masked:
+		TGZ = 'chromFaMasked.tar.gz'
+		SEQ = f'{arg.genome}.masked.fa'
+		IDX = f'{arg.genome}.masked.fa.bwt'
+	else:
+		TGZ = 'chromFa.tar.gz'
+		SEQ = f'{arg.genome}.fa'
+		IDX = f'{arg.genome}.fa.bwt'
 
-# Download and index genome
-GENOME_SEQ = f'{GENOME_DIR}/{SEQ}'
-if os.path.isfile(GENOME_SEQ):
-	sys.stderr.write(f'using local copy: {arg.genome}\n')
+	# Download and index genome
+	GENOME_SEQ = os.path.abspath(f'{GENOME_DIR}/{SEQ}')
+	if os.path.isfile(GENOME_SEQ):
+		sys.stderr.write(f'using local copy: {arg.genome}\n')
+	else:
+		sys.stderr.write(f'Downloading {TGZ}\n')
+		TEMPDIR = tempfile.mkdtemp()
+		os.mkdir(f'{TEMPDIR}/files')
+		BASE = 'https://hgdownload.soe.ucsc.edu/goldenPath' # USA
+		URL = f'{BASE}/{arg.genome}/bigZips/{TGZ}'
+		run(f'wget {URL} -O {TEMPDIR}/{TGZ}')
+		run(f'tar -zxf {TEMPDIR}/{TGZ} -C {TEMPDIR}/files')
+		run(f'cat {TEMPDIR}/files/* > {GENOME_SEQ}')
+		run(f'rm -rf {TEMPDIR}')
+		run(f'bwa index -a bwtsw {GENOME_SEQ}')
+
+#####################
+## Read Management ##
+#####################
+
+READS_DIR = None # will be absolute path of directory to fastq files
+LAYOUT    = None # will be either single or paired
+reads     = []   # will contain the names of local or remote reads
+
+if os.path.isdir(arg.reads[0]):
+	READS_DIR = os.path.abspath(arg.reads[0])
+	print(f'using local reads in: {READS_DIR}')
+	single = []
+	paired = []
+	for f in os.listdir(READS_DIR):
+		pat = '(\w+)\.fastq.gz'
+		match = re.search(pat, f)
+		if not match:
+			print(f'file name does not match xxx.fastq.gz {f}')
+		else:
+			name = match.group(1)
+			if name.endswith('_1') or name.endswith('_2'):
+				base = name[:-2]
+				if base not in paired: paired.append(base)
+			else:
+				single.append(name)
+	if len(single) > 0 and len(paired) > 0:
+		print('mixture of paired and single reads, aborting')
+		sys.exit(1)
+	if len(single) > 0:
+		LAYOUT = 'single'
+		reads = single
+	elif len(paired) > 0: # not validated for pairness yet
+		LAYOUT = 'paired'
+		reads = paired
 else:
-	sys.stderr.write(f'Downloading {TGZ}\n')
-	TEMPDIR = tempfile.mkdtemp()
-	os.mkdir(f'{TEMPDIR}/files')
-	BASE = 'https://hgdownload.soe.ucsc.edu/goldenPath' # USA
-	URL = f'{BASE}/{arg.genome}/bigZips/{TGZ}'
-	run(f'wget {URL} -O {TEMPDIR}/{TGZ}')
-	run(f'tar -zxf {TEMPDIR}/{TGZ} -C {TEMPDIR}/files')
-	run(f'cat {TEMPDIR}/files/* > {GENOME_SEQ}')
-	run(f'rm -rf {TEMPDIR}')
-	os.chdir(GENOME_DIR)
-	run(f'bwa index -a bwtsw {GENOME_SEQ}')
+	SRA_DIR = f'{DATA}/SRA'
+	os.makedirs(f'{SRA_DIR}/paired', exist_ok=True)
+	os.makedirs(f'{SRA_DIR}/single', exist_ok=True)
 
-####################
-## SRA Management ##
-####################
-
-SRA_DIR = f'{DATA}/SRA'
-os.makedirs(f'{SRA_DIR}/paired', exist_ok=True)
-os.makedirs(f'{SRA_DIR}/single', exist_ok=True)
-
-# Get list of SRAs
-sras = []
-if arg.sra:
-	for sra in arg.sra:
+	# Get list of SRAs
+	sras = []
+	for sra in arg.reads:
 		if os.path.isfile(sra):
 			with open(sra) as fp:
 				for line in fp.readlines():
@@ -120,52 +160,52 @@ if arg.sra:
 		else:
 			sras.append(sra)
 
-read_type = {'paired':0, 'single':0}
+	read_type = {'paired':0, 'single':0}
 
-# Download and process SRAs
-for sra in sras:
-	PAIRED = f'{SRA_DIR}/paired/{sra}/{sra}.sra'
-	SINGLE = f'{SRA_DIR}/single/{sra}/{sra}.sra'
-	layout = None
-	if os.path.isfile(PAIRED):
-		sys.stderr.write(f'using local copy: {sra}\n')
-		layout = 'paired'
-	elif os.path.isfile(SINGLE):
-		sys.stderr.write(f'using local copy: {sra}\n')
-		layout = 'single'
-	else:
-		# determine layout (paired or single)
-		url = f'https://trace.ncbi.nlm.nih.gov/Traces/sra/?run={sra}'
-		html = subprocess.run(['wget', '-O', '-', url],
-			stdout=subprocess.PIPE).stdout.decode('utf-8')
-		pat = 'Layout(.+)Biosample'
-		match = re.search(pat, html, re.DOTALL)
-		if match:
-			if   re.search('SINGLE', match.group()): layout = 'single'
-			elif re.search('PAIRED', match.group()): layout = 'paired'
-			else:
-				print(f'could not assess paired/single for {sra}, aborting')
-				sys.exit(1)
-
-		# retrieve and process SRA file
-		run(f'prefetch {sra} -O {SRA_DIR}/{layout}/{sra}')
-		run(f'mv {SRA_DIR}/{layout}/{sra}/{sra}/{sra}.sra {SRA_DIR}/{layout}/{sra}')
-		run(f'rm -rf {SRA_DIR}/{layout}/{sra}/{sra}')
-		os.chdir(f'{SRA_DIR}/{layout}/{sra}')
-		if layout == 'paired':
-			run(f'fastq-dump {sra}.sra --split-files --gzip --outdir .')
+	# Download and process SRAs
+	for sra in sras:
+		PAIRED = f'{SRA_DIR}/paired/{sra}.sra'
+		SINGLE = f'{SRA_DIR}/single/{sra}.sra'
+		layout = None
+		if os.path.isfile(PAIRED):
+			sys.stderr.write(f'using local copy: {sra}\n')
+			layout = 'paired'
+		elif os.path.isfile(SINGLE):
+			sys.stderr.write(f'using local copy: {sra}\n')
+			layout = 'single'
 		else:
-			run(f'fastq-dump {sra}.sra --gzip --outdir .')
-	read_type[layout] += 1
+			# determine layout (paired or single)
+			url = f'https://trace.ncbi.nlm.nih.gov/Traces/sra/?run={sra}'
+			html = subprocess.run(['wget', '-O', '-', url],
+				stdout=subprocess.PIPE).stdout.decode('utf-8')
+			pat = 'Layout(.+)Biosample'
+			match = re.search(pat, html, re.DOTALL)
+			if match:
+				if   re.search('SINGLE', match.group()): layout = 'single'
+				elif re.search('PAIRED', match.group()): layout = 'paired'
+				else:
+					print(f'could not assess paired/single for {sra}, aborting')
+					sys.exit(1)
 
-# Determine if the all of the reads are paired or single
-LAYOUT = None
-if   read_type['paired'] == len(sras): LAYOUT = 'paired'
-elif read_type['single'] == len(sras): LAYOUT = 'single'
-else:
-	print(f'ERROR: read types inconsistent {read_type}')
-	sys.exit(1)
-print('using layout', LAYOUT)
+			# retrieve and process SRA file
+			run(f'prefetch {sra} -O {SRA_DIR}/{layout}/{sra}')
+			run(f'mv {SRA_DIR}/{layout}/{sra}/{sra}/{sra}.sra {SRA_DIR}/{layout}')
+			run(f'rm -rf {SRA_DIR}/{layout}/{sra}/{sra}')
+			os.chdir(f'{SRA_DIR}/{layout}')
+			if layout == 'paired':
+				run(f'fastq-dump {sra}.sra --split-files --gzip --outdir .')
+			else:
+				run(f'fastq-dump {sra}.sra --gzip --outdir .')
+		read_type[layout] += 1
+
+	# Determine if the all of the reads are paired or single
+	if   read_type['paired'] == len(sras): LAYOUT = 'paired'
+	elif read_type['single'] == len(sras): LAYOUT = 'single'
+	else:
+		print(f'ERROR: read types inconsistent {read_type}')
+		sys.exit(1)
+	reads = sras
+	READS_DIR = f'{SRA_DIR}/{LAYOUT}'
 
 #############
 ## Project ##
@@ -201,22 +241,23 @@ run(f'cp {SRC}/snakefiles/{SNAKEFILE} Snakefile')
 
 with open('samples.yaml', 'w') as fp:
 	fp.write('---\nsamples:\n')
-	for sra in sras:
-		fp.write(f'  - {sra}\n')
+	for rid in reads:
+		fp.write(f'  - {rid}\n')
 
 # Fill 01_raw_data
 
-run(f'ln -sf {GENOME_DIR}/{SEQ} 01_raw_data/genome.fa')
+run(f'ln -sf {GENOME_SEQ} 01_raw_data/genome.fa')
 gen_ext = ['.amb', '.ann', '.bwt', '.pac', '.sa']
 for ext in gen_ext:
-	run(f'ln -sf {GENOME_DIR}/{SEQ}{ext} 01_raw_data/genome{ext}')
+	base = GENOME_SEQ
+	run(f'ln -sf {base}{ext} 01_raw_data/genome{ext}')
 
-for sra in sras:
-	if layout == 'paired':
-		run(f'ln -sf {SRA_DIR}/{layout}/{sra}/{sra}_1.fastq.gz 01_raw_data')
-		run(f'ln -sf {SRA_DIR}/{layout}/{sra}/{sra}_2.fastq.gz 01_raw_data')
+for rid in reads:
+	if LAYOUT == 'paired':
+		run(f'ln -sf {READS_DIR}/{rid}_1.fastq.gz 01_raw_data')
+		run(f'ln -sf {READS_DIR}/{rid}_2.fastq.gz 01_raw_data')
 	else:
-		run(f'ln -sf {SRA_DIR}/{layout}/{sra}/{sra}.fastq.gz 01_raw_data')
+		run(f'ln -sf {READS_DIR}/{rid}.fastq.gz 01_raw_data')
 
 # Finished with setup
 
@@ -228,3 +269,5 @@ ROCKETCHIP has completed setup. To run analysis type the following:
 	snakemake
 
 """)
+
+
