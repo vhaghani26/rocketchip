@@ -10,7 +10,7 @@ Rocketchip is an automated bioinformatics workflow that downloads ChIP-seq data 
 
 ## Getting Started
 
-In order to use Rocketchip, clone [this GitHub repository](https://github.com/vhaghani26/rocketchip.git) into the directory of your choice. It is highly recommended to try the provided tutorial to better understand specific usage of Rocketchip. 
+In order to use Rocketchip, clone [this GitHub repository](https://github.com/vhaghani26/rocketchip.git) into the directory of your choice. It is highly recommended to try the provided tutorial to better understand specific usage of Rocketchip. See the "General Rocketchip Usage" once you have completed the tutorial.
 
 ## Tutorial
 
