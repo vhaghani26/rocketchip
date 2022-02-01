@@ -60,7 +60,7 @@ if arg.src: os.environ['ROCKETCHIP_SRC'] = arg.src
 if 'ROCKETCHIP_SRC' not in os.environ:
 	sys.stderr.write('Error: set ROCKETCHIP_SRC or use --src\n')
 	sys.exit(1)
-testfile = f'{os.environ["ROCKETCHIP_SRC"]}/paired_end_snakefile'
+testfile = f'{os.environ["ROCKETCHIP_SRC"]}/rocketchip.yaml'
 if not os.path.isfile(testfile):
 	sys.stderr.write(f'Error: "{testfile}" not found\n')
 	sys.exit(1)
@@ -146,7 +146,7 @@ for sra in sras:
 			else:
 				print(f'could not assess paired/single for {sra}, aborting')
 				sys.exit(1)
-		
+
 		# retrieve and process SRA file
 		run(f'prefetch {sra} -O {SRA_DIR}/{layout}/{sra}')
 		run(f'mv {SRA_DIR}/{layout}/{sra}/{sra}/{sra}.sra {SRA_DIR}/{layout}/{sra}')
