@@ -14,13 +14,13 @@ In order to use Rocketchip, clone [this GitHub repository](https://github.com/vh
 
 ## Tutorial
 
-This is a small demo that shows you how to setup and run rocketchip analyses.
+This is a small demo that shows you how to setup and run Rocketchip analyses.
 
 ### Setup
 
 1. Install conda if not already installed
-2. Clone the rocketchip repository
-3. Create the rocketchip conda enviornment
+2. Clone the Rocketchip repository
+3. Create the Rocketchip conda enviornment
 
 Download a conda installer such as mini-conda and install it with a command that looks something like the following:
 
@@ -34,14 +34,14 @@ Also install `mamba` which is better way to run conda installs
 conda install mamba -n base -c conda-forge
 ```
 
-Clone the rocketchip repository to wherever you typically keep repositories. For example this might be your home directory.
+Clone the Rocketchip repository to wherever you typically keep repositories. For example this might be your home directory.
 
 ```
 cd $HOME
 git clone https://github.com/vhaghani26/rocketchip
 ```
 
-Create the conda environment for rocketchip. This will take a few minutes to run.
+Create the conda environment for Rocketchip. This will take a few minutes to run.
 
 ```
 cd rocketchip
@@ -53,7 +53,7 @@ All of the commands here in **Setup** only need to be done once.
 
 ### Testing
 
-Let's test rocketchip to make sure the installation is working. Create a new directory, possibly in your home directory for testing. We will do all of our testing in this directory. Once complete, you can remove it.
+Let's test Rocketchip to make sure the installation is working. Create a new directory, possibly in your home directory for testing. We will do all of our testing in this directory. Once complete, you can remove it.
 
 ```
 cd $HOME
@@ -61,22 +61,22 @@ mkdir test
 cd test
 ```
 
-Make sure your rocketchip conda environment is active. If not, activate it.
+Make sure your Rocketchip conda environment is active. If not, activate it.
 
 ```
 conda activate rocketchip
 ```
 
-The rocketchip program requires three parameters `--genome`, `--sra`, and `--project`. We will also be using the `--data` and `--src` parameters, which you can omit later after testing (see below).
+The Rocketchip program requires three parameters `--genome`, `--sra`, and `--project`. We will also be using the `--data` and `--src` parameters, which you can omit later after testing (see below).
 
 #### --genome
 
-The first time you execute rocketchip with a particular genome, it will download and index the genome. This step happens only once. Subsequent analyses will use the local files. This test uses S. cereviseae (sacCer3) to minimize 
+The first time you execute Rocketchip with a particular genome, it will download and index the genome. This step happens only once. Subsequent analyses will use the local files. This test uses S. cereviseae (sacCer3) to minimize 
 dowload and processing time.
 
 #### --sra
 
-The first time you execute rocketchip with a list of SRA identifiers, it will download them and extract the sequences. This step happens only once per SRA identifier. Subsequent analyses using previously called SRA identifiers will use the local files that have already been downloaded. The SRA files used in this test are small to minimize download and processing time.
+The first time you execute Rocketchip with a list of SRA identifiers, it will download them and extract the sequences. This step happens only once per SRA identifier. Subsequent analyses using previously called SRA identifiers will use the local files that have already been downloaded. The SRA files used in this test are small to minimize download and processing time.
 
 * SRR12926698 (paired-end reads)
 * SRR9257200 (single-end reads)
@@ -128,11 +128,11 @@ To make subsequent analyses easier, you should do the following:
 
 * define `ROCKETCHIP_DATA`
 * define `ROCKETCHIP_SRC`
-* add rocketchip to your `PATH`
+* add Rocketchip to your `PATH`
 
 Where do you want to put your local copies of genome and fastq files? This should be a shared location where multiple projects can reuse the same genome and fastq files so that you don't have to download them multiple times.
 
-The rocketchip source directory can also be shared. Modify your `.profile`, `.bashrc`, `.zshrc`, or whatever your shell reads upon login with something like the following:
+The Rocketchip source directory can also be shared. Modify your `.profile`, `.bashrc`, `.zshrc`, or whatever your shell reads upon login with something like the following:
 
 ```
 export ROCKETCHIP_DATA="/share/mylab/data/rocketchip
