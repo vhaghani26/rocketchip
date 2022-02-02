@@ -1,9 +1,11 @@
+#!/usr/bin/env python3
+
 import argparse
 import numpy
 import random
 
 parser = argparse.ArgumentParser(
-	description='Data fabricator for testing rocketchip')
+	description='Synthetic data maker for testing rocketchip')
 parser.add_argument('name', type=str, metavar='<name>',
 	help='base name of files to create (*.fa *.fastq)')
 parser.add_argument('stacks', type=int, metavar='<stacks>',
