@@ -116,14 +116,16 @@ rule call_peaks:
 
 rule call_peaks_wc:
     message: "Calling ChIP-seq peaks"
-    input: "04_bam_files/{sample}.coorsorted.dedup.bam"
+    input: 
+		control = "04_bam_files/{some_control_file}.coorsorted.dedup.bam",
+		treatment = "04_bam_files/{sample}.coorsorted.dedup.bam"
     output: 
         "06_macs2_peaks/{sample}_peaks.broadPeak", 
         "06_macs2_peaks/{sample}_peaks.xls",
         "06_macs2_peaks/{sample}_model.r",
         "06_macs2_peaks/{sample}_treat_pileup.bdg"
     log: "00_logs/{sample}_macs2_peaks.log"
-    shell: "macs2 callpeak -t {input} -f BAM -n {wildcards.sample} --bdg --outdir 06_macs2_peaks/ --broad 2> {log}"
+    shell: "macs2 callpeak -t {input.treatment} -c {input.control} -f BAM -n {wildcards.sample} --bdg --outdir 06_macs2_peaks/ --broad 2> {log}"
 
 rule fastqc_postprocessing:
     input:
