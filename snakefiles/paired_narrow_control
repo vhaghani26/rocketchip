@@ -6,11 +6,14 @@ wildcard_constraints:
 print(f'Starting ChIP-seq data analysis workflow for samples: {config["samples"]}')
 
 rule all:
-    input:     
-        expand("02_fastqc_analysis/{sample}_fastqc.html", sample=config["samples"]),
-        expand("02_fastqc_analysis/{sample}_fastqc.zip", sample=config["samples"]),
-        expand("06_macs2_peaks/{sample}_peaks.broadPeak", sample=config["samples"]),
+    input:
+        expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=config["samples"]),
+        expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=config["samples"]),
+        expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=config["samples"]),
+        expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=config["samples"]),
+        expand("06_macs2_peaks/{sample}_peaks.narrowPeak", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_peaks.xls", sample=config["samples"]),
+        expand("06_macs2_peaks/{sample}_summits.bed", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_model.r", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_treat_pileup.bdg", sample=config["samples"]),
         expand("02_fastqc_analysis/{sample}.coorsorted.dedup_fastqc.html", sample=config["samples"]),
@@ -19,34 +22,46 @@ rule all:
 
 rule fastqc_precheck:
     input:
-        expand("02_fastqc_analysis/{sample}_fastqc.html", sample=config["samples"]),
-        expand("02_fastqc_analysis/{sample}_fastqc.zip", sample=config["samples"])
+        expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=config["samples"]),
+        expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=config["samples"]),
+        expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=config["samples"]),
+        expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=config["samples"])
 
 rule fastqc_precheck_wc:
     message: "Running quality control on samples pre-processing"
-    input: "01_raw_data/{sample}.fastq.gz"
+    input:
+        r1 = "01_raw_data/{sample}_1.fastq.gz",
+        r2 = "01_raw_data/{sample}_2.fastq.gz",
     output:
-        "02_fastqc_analysis/{sample}_fastqc.html",
-        "02_fastqc_analysis/{sample}_fastqc.zip"
-    log: "00_logs/{sample}_fastqc_precheck_r1.log",
-    shell: "fastqc {input} --outdir 02_fastqc_analysis/ 2> {log}"
+        "02_fastqc_analysis/{sample}_1_fastqc.html",
+        "02_fastqc_analysis/{sample}_1_fastqc.zip",
+        "02_fastqc_analysis/{sample}_2_fastqc.html",
+        "02_fastqc_analysis/{sample}_2_fastqc.zip"
+    log:
+        r1 = "00_logs/{sample}_fastqc_precheck_r1.log",
+        r2 = "00_logs/{sample}_fastqc_precheck_r2.log"
+    shell: """
+    fastqc {input.r1} --outdir 02_fastqc_analysis/ 2> {log.r1}
+    fastqc {input.r2} --outdir 02_fastqc_analysis/ 2> {log.r2}
+    """
 
 rule align_reads:
-    input: 
+    input:
         expand("03_sam_files/{sample}.sam", sample=config["samples"])
 
 rule align_reads_wc:
-    message: "Aligning single end reads to reference genome"
+    message: "Aligning paired end reads to reference genome"
     input:
-        read = "01_raw_data/{sample}.fastq.gz",
+        r1 = "01_raw_data/{sample}_1.fastq.gz",
+        r2 = "01_raw_data/{sample}_2.fastq.gz",
         genome = multiext("01_raw_data/genome", ".amb", ".ann", ".bwt", ".pac", ".sa"),
     output: "03_sam_files/{sample}.sam"
     log: "00_logs/{sample}_align_reads_err.log"
-    shell: "bwa mem 01_raw_data/genome {input.read} > {output} 2> {log}"
-    
+    shell: "bwa mem 01_raw_data/genome {input.r1} {input.r2} > {output} 2> {log}"
+
 rule sam_to_bam:
     input: expand("04_bam_files/{sample}.bam", sample=config["samples"])
-    
+
 rule sam_to_bam_wc:
     message: "Converting SAM to BAM file format"
     input: "03_sam_files/{sample}.sam"
@@ -66,7 +81,7 @@ rule sam_fixmate_wc:
 
 rule sam_sort:
     input: expand("04_bam_files/{sample}.coorsorted.fixmate.bam", sample=config["samples"])
-    
+
 rule sam_sort_wc:
     message: "Sorting reads by chromosome coordinates"
     input: "04_bam_files/{sample}.namesorted.fixmate.bam"
@@ -90,14 +105,14 @@ rule sam_index:
 rule sam_index_wc:
     message: "Indexing deduplicated BAM file"
     input: "04_bam_files/{sample}.coorsorted.dedup.bam"
-    output: "04_bam_files/{sample}.coorsorted.dedup.bam.bai", 
+    output: "04_bam_files/{sample}.coorsorted.dedup.bam.bai",
     log: "00_logs/{sample}_sam_index.log"
     shell: "samtools index {input} 2> {log}"
 
 rule bam_to_bigwig:
     input:
         expand("05_bigwig_files/{sample}.bw", sample=config["samples"])
-        
+
 rule bam_to_bigwig_wc:
     message: "Converting BAM file format to bigwig file format for visualization"
     input:
@@ -109,21 +124,25 @@ rule bam_to_bigwig_wc:
 
 rule call_peaks:
     input:
-        expand("06_macs2_peaks/{sample}_peaks.broadPeak", sample=config["samples"]),
+        expand("06_macs2_peaks/{sample}_peaks.narrowPeak", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_peaks.xls", sample=config["samples"]),
+        expand("06_macs2_peaks/{sample}_summits.bed", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_model.r", sample=config["samples"]),
         expand("06_macs2_peaks/{sample}_treat_pileup.bdg", sample=config["samples"])
 
 rule call_peaks_wc:
     message: "Calling ChIP-seq peaks"
-    input: "04_bam_files/{sample}.coorsorted.dedup.bam"
-    output: 
-        "06_macs2_peaks/{sample}_peaks.broadPeak", 
+    input: 
+		control = "04_bam_files/{some_control_file}.coorsorted.dedup.bam",
+		treatment = "04_bam_files/{sample}.coorsorted.dedup.bam"
+    output:
+        "06_macs2_peaks/{sample}_peaks.narrowPeak",
         "06_macs2_peaks/{sample}_peaks.xls",
+        "06_macs2_peaks/{sample}_summits.bed",
         "06_macs2_peaks/{sample}_model.r",
         "06_macs2_peaks/{sample}_treat_pileup.bdg"
     log: "00_logs/{sample}_macs2_peaks.log"
-    shell: "macs2 callpeak -t {input} -f BAM -n {wildcards.sample} --bdg --outdir 06_macs2_peaks/ --broad 2> {log}"
+    shell: "macs2 callpeak -t {input.treatment} -c {input.control} -f BAM -n {wildcards.sample} --bdg --outdir 06_macs2_peaks/ 2> {log}"
 
 rule fastqc_postprocessing:
     input:
@@ -137,4 +156,4 @@ rule fastqc_postprocessing_wc:
         "02_fastqc_analysis/{sample}.coorsorted.dedup_fastqc.html",
         "02_fastqc_analysis/{sample}.coorsorted.dedup_fastqc.zip",
     log: "00_logs/{sample}_fastqc_postprocessing.log",
-    shell: "fastqc {input} --outdir 02_fastqc_analysis/ 2> {log}"  
+    shell: "fastqc {input} --outdir 02_fastqc_analysis/ 2> {log}"
