@@ -38,7 +38,9 @@ if arg.seed:
 
 coor = arg.flank
 locs = [] # location of each read (on center I suppose)
+peaks = []
 for i in range(arg.stacks):
+	peaks.append(arg.flank + i * arg.padding)
 	for r in numpy.random.normal(0, arg.stddev, arg.rps):
 		pos = int(r*arg.length)
 		if arg.width > 0: pos = random.randint(pos-arg.width, pos+arg.width)
@@ -93,3 +95,10 @@ for pos in locs:
 		seq = genome[pos-half:pos+half]
 		write_fastq(fp, n, seq)
 
+#####################
+# Create Peaks File #
+#####################
+
+with open(f'{arg.name}.peaks', 'w') as fp:
+	for peak in peaks:
+		fp.write(f'{peak}\n')
