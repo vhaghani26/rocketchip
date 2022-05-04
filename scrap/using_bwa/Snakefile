@@ -1,0 +1,71 @@
+# Sequence Aligner
+rule all:
+    input:
+        expand("macs3_output/test.out_{ext}", ext=["peaks.narrowPeak","peaks.xls","summits.bed"])
+
+rule bwa_index:
+    input:
+        "test_data/genome.fa"
+    output:
+        expand("test_data/genome.fa.{ext}", ext=["amb", "ann", "bwt", "pac", "sa"])
+    shell:
+        "bwa index {input}"
+# sakemake tries to run bwa_mem before bwa_index
+rule bwa_mem:
+    input:
+        "test_data/genome.fa",
+        "test_data/samples/{sample}.fastq"
+    output:
+        "bwa_output/{sample}.sam"
+    shell:
+        "bwa mem {input} > {output}"
+
+rule samtools_view:
+    input:
+        "bwa_output/{sample}.sam"
+    output:
+        "bwa_output/{sample}.bam"
+    shell:
+        "samtools view -Sb {input} > {output}"
+
+rule sametools_sort:
+    input:
+        "bwa_output/{sample}.bam"
+    output:
+        "sorted_reads/{sample}.bam"
+    shell:
+        "samtools sort -O bam {input} > {output}"
+
+rule sametools_rmdup:
+    input:
+        "sorted_reads/{sample}.bam"
+    output:
+        "rmdup_reads/{sample}.bam"
+    shell:
+        "samtools rmdup -S --output-fmt bam {input} {output}"
+
+
+rule macs3_callpeak:
+    input:
+        "rmdup_reads/{sample}.bam"
+    output:
+        "macs3_output/{sample}.out_peaks.narrowPeak",
+        "macs3_output/{sample}.out_peaks.xls",
+        "macs3_output/{sample}.out_summits.bed"
+    shell:
+        "macs3 callpeak -n {wildcards.sample}.out --outdir macs3_output -t {input} --nomodel"
+
+'''
+rule bwa_mem:
+    input:
+        "test_data/genome.fa",
+        "test_data/samples/{sample}_1.fastq",
+        "test_data/samples/{sample}_2.fastq"
+    output:
+        "bwa_output/{sample}.sam"
+    log:
+        "log/bwa_mem/{sample}.log"
+    threads: 8
+    shell:
+        "bwa mem -t {threads} {input} > {output}"
+'''

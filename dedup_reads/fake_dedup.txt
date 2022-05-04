@@ -1,0 +1,7 @@
+rule sam_dedup:
+	input:
+		"bam_files/{sample}.sorted.fixmate.bam"
+	output:
+		"bam_files/{sample}.sorted.dedup.bam"
+	shell:
+		"less {input} > {output}"

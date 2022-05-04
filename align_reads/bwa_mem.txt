@@ -1,0 +1,11 @@
+# Assuming that the genome has already been indexed
+
+rule align_reads:
+	input:
+		genome = multiext("data/genome", ".amb", ".ann", ".bwt", ".pac", ".sa"),
+		r1 = "data/{sample}_1.fastq",
+		r2 = "data/{sample}_2.fastq"
+	output:
+		"aligned_reads/{sample}.sam"
+	shell:
+		"bwa mem data/genome {input.r1} {input.r2} > {output}"

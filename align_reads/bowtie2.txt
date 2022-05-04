@@ -1,0 +1,11 @@
+# Assuming that the genome has already been indexed
+
+rule align_reads:
+	input:
+		genome = multiext("data/genome", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2", ".rev.1.bt2", ".rev.2.bt2"),
+		r1 = "data/{sample}_1.fastq",
+		r2 = "data/{sample}_2.fastq"
+	output:
+		"aligned_reads/{sample}.sam"
+	shell:
+		"bowtie2 -x data/genome -1 {input.r1} -2 {input.r2} > {output}"
