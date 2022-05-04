@@ -2,11 +2,48 @@
 import argparse
 
 parser = argparse.ArgumentParser(description='Make Snakefiles')
+parser.add_argument('-o', '--output', type=str, metavar='<str>', required = True,
+	help='output filename')
 parser.add_argument('-a', '--aligner', type=str, metavar='<str>', required=False,
-	help='input sequence aligner {bwa_mem, bowtie2, STAR} (default: bwa_mem)')
+	help='input sequence aligner {bwa_mem, bowtie2, STAR}c(default: bwa_mem)',
+	default='bwa_mem')
 parser.add_argument('-p', '--peakcaller', type=str, metavar='<str>', required = False,
-	help='input peak calling program {macs2, macs3} (default: macs3)' )
+	help='input peak calling program {macs2, macs3} (default: macs3)', default='macs3')
 parser.add_argument('-nd', '--no_deduplication', action='store_true',
 	help='if tagged, bam files will not be deduplicated')
 arg = parser.parse_args()
+
+sf = open(arg.output, 'w')
+
+# index genome
+
+# align reads
+with open(f'align_reads/{arg.aligner}.txt') as fh:
+	align_rule = ''.join(fh.readlines())
+	sf.write(f'{align_rule}\n')
+
+# samtools
+with open(f'samtools/samtools.txt') as fh:
+	samtools_rule = ''.join(fh.readlines())
+	sf.write(f'{samtools_rule}\n')
+	
+# dedup_reads
+if arg.no_deduplication:
+	with open(f'dedup_reads/fake_dedup.txt') as fh:
+		dedup_rule = ''.join(fh.readlines())
+		sf.write(f'{dedup_rule}\n')
+else:
+	with open(f'dedup_reads/sam_deduper.txt') as fh:
+		dedup_rule = ''.join(fh.readlines())
+		sf.write(f'{dedup_rule}\n')
+
+# call_peaks
+with open(f'call_peaks/{arg.peakcaller}.txt') as fh:
+	callpeaks_rule = ''.join(fh.readlines())
+	sf.write(f'{callpeaks_rule}\n')
+	
+# evaluate_peaks
+
+
+sf.close()
 
