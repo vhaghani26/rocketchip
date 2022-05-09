@@ -1,0 +1,13 @@
+# Assuming that the genome has already been indexed
+
+rule align_reads:
+	input:
+		genome = "data/GenomeDir",
+		r1 = "data/{sample}_1.fastq",
+		r2 = "data/{sample}_2.fastq"
+	output:
+		"aligned_reads/{sample}.sam"
+	shell:
+		"STAR --genomeDir {input.genome} --readFilesIn {input.r1} {input.r2} ",
+		"--outFileNamePrefix {wildcards.sample} --outStd SAM > {output}"
+"
