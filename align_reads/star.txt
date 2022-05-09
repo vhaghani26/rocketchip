@@ -10,4 +10,3 @@ rule align_reads:
 	shell:
 		"STAR --genomeDir {input.genome} --readFilesIn {input.r1} {input.r2} ",
 		"--outFileNamePrefix {wildcards.sample} --outStd SAM > {output}"
-"
