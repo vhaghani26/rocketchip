@@ -3,10 +3,13 @@ import argparse
 import os
 
 parser = argparse.ArgumentParser(description='Make Snakefiles')
-parser.add_Argument('--index_genome', type=str, metavar='<path>', required=False,
-	help='path to genome fasta file to be indexed if genome not indexed')
 parser.add_argument('-o', '--output', type=str, metavar='<path>', required=True,
 	help='output filename')
+parser.add_argument('-r', '--read', type=str, metavar='<str>', required=True,
+	help='input [single] for single end reads or [paired] for paired end readers')
+parser.add_argument('--index_genome', type=str, metavar='<path>', required=False,
+	help='path to genome fasta file to be indexed if genome not indexed')
+
 parser.add_argument('-a', '--aligner', type=str, metavar='<str>', required=False,
 	help='input sequence aligner {bwa_mem, bowtie2, STAR} (default: bwa_mem)',
 	default='bwa_mem')
@@ -28,9 +31,11 @@ if arg.index_genome:
 		os.system(f'STAR --runMode genomeGenerate --genomeDir data/genome --genomeFastaFiles {arg.index_genome}')
 
 # align reads
+# need to add options for single or paired end reads
 with open(f'align_reads/{arg.aligner}.txt') as fh:
 	align_rule = ''.join(fh.readlines())
 	sf.write(f'{align_rule}\n')
+
 
 # samtools
 with open(f'samtools/samtools.txt') as fh:

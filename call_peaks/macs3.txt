@@ -1,4 +1,4 @@
-rule call_peaks
+rule call_peaks:
 	input:
 		"bam_files/{sample}.sorted.fixmate.bam"
 	output:
