@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 import argparse
+import os
 
 parser = argparse.ArgumentParser(description='Make Snakefiles')
-parser.add_argument('-o', '--output', type=str, metavar='<str>', required = True,
+parser.add_Argument('--index_genome', type=str, metavar='<path>', required=False,
+	help='path to genome fasta file to be indexed if genome not indexed')
+parser.add_argument('-o', '--output', type=str, metavar='<path>', required=True,
 	help='output filename')
 parser.add_argument('-a', '--aligner', type=str, metavar='<str>', required=False,
-	help='input sequence aligner {bwa_mem, bowtie2, star}c(default: bwa_mem)',
+	help='input sequence aligner {bwa_mem, bowtie2, STAR} (default: bwa_mem)',
 	default='bwa_mem')
 parser.add_argument('-p', '--peakcaller', type=str, metavar='<str>', required = False,
 	help='input peak calling program {macs2, macs3} (default: macs3)', default='macs3')
@@ -16,6 +19,13 @@ arg = parser.parse_args()
 sf = open(arg.output, 'w')
 
 # index genome
+if arg.index_genome:
+	if arg.aligner == 'bwa_mem':
+		os.system(f'bwa index {arg.index_genome}')
+	elif arg.aligner == 'bowtie2':
+		os.system(f'bowtie2-build {arg.index_genome} data/genome')
+	elif arg.aligner == 'STAR':
+		os.system(f'STAR --runMode genomeGenerate --genomeDir data/genome --genomeFastaFiles {arg.index_genome}')
 
 # align reads
 with open(f'align_reads/{arg.aligner}.txt') as fh:
