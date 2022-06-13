@@ -2,7 +2,7 @@
 
 rule align_reads:
 	input:
-		genome = "data/GenomeDir",
+		genome = "data/GENOME_PREFIX",
 		r1 = "data/{sample}_1.fastq",
 		r2 = "data/{sample}_2.fastq"
 	output:
