@@ -1,0 +1,39 @@
+rule sam_to_bam:
+	input:
+		"aligned_reads/{sample}.sam"
+	output:
+		"bam_files/{sample}.bam"
+	shell:
+		"samtools view -Sb {input} > {output}"
+
+rule sam_fixmate:
+	input:
+		"bam_files/{sample}.bam"
+	output:
+		"bam_files/{sample}.fixmate.bam"
+	shell:
+		"samtools fixmate -rcm -O bam {input} {output}"
+		
+rule sam_sort:
+	input:
+		"bam_files/{sample}.fixmate.bam"
+	output:
+		"bam_files/{sample}.sorted.fixmate.bam"
+	shell:
+		"samtools sort -O bam {input} > {output}"
+
+rule sam_markdup:
+	input:
+		"bam_files/{sample}.sorted.fixmate.bam"
+	output:
+		"bam_files/{sample}.sorted.dedup.bam"
+	shell:
+		"samtools markdup -r --mode s {input} {output}"
+
+rule sam_index:
+	input:
+		"bam_files/{sample}.sorted.dedup.bam"
+	outout:
+		"bam_files/{sample}.sorted.dedup.bam.bai"
+	shell:
+		"samtools index {input}"

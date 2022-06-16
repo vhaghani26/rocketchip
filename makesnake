@@ -41,20 +41,15 @@ with open(f'align_reads/{arg.aligner}.txt') as fh:
 	sf.write(f'{align_rule}\n')
 
 
-# samtools
-with open(f'samtools/samtools.txt') as fh:
-	samtools_rule = ''.join(fh.readlines())
-	sf.write(f'{samtools_rule}\n')
-	
-# dedup_reads
+# samtools and markdup
 if arg.no_deduplication:
-	with open(f'dedup_reads/fake_dedup.txt') as fh:
-		dedup_rule = ''.join(fh.readlines())
-		sf.write(f'{dedup_rule}\n')
+	with open(f'samtools/samtools_fake_dedup.txt') as fh:
+		samtools_rule = ''.join(fh.readlines())
+		sf.write(f'{samtools_rule}\n')
 else:
-	with open(f'dedup_reads/sam_deduper.txt') as fh:
-		dedup_rule = ''.join(fh.readlines())
-		sf.write(f'{dedup_rule}\n')
+	with open(f'samtools/samtools_true_dedup.txt') as fh:
+		samtools_rule = ''.join(fh.readlines())
+		sf.write(f'{samtools_rule}\n')
 
 # call_peaks
 with open(f'call_peaks/{arg.peakcaller}.txt') as fh:
