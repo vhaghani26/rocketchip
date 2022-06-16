@@ -33,7 +33,7 @@ rule sam_markdup:
 rule sam_index:
 	input:
 		"bam_files/{sample}.sorted.dedup.bam"
-	outout:
+	output:
 		"bam_files/{sample}.sorted.dedup.bam.bai"
 	shell:
 		"samtools index {input}"

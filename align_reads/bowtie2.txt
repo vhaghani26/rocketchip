@@ -3,8 +3,8 @@
 rule align_reads:
 	input:
 		genome = multiext("data/GENOME_PREFIX", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2", ".rev.1.bt2", ".rev.2.bt2"),
-		r1 = "data/{sample}_1.fastq",
-		r2 = "data/{sample}_2.fastq"
+		r1 = "data/samples/{sample}_1.fastq",
+		r2 = "data/samples/{sample}_2.fastq"
 	output:
 		"aligned_reads/{sample}.sam"
 	shell:
