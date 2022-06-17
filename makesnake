@@ -4,12 +4,16 @@ import os
 import re
 
 parser = argparse.ArgumentParser(description='Make Snakefiles')
-parser.add_argument('-o', '--output', type=str, metavar='<path>', required=True,
+parser.add_argument('-o', '--output_file', type=str, metavar='<path>', required=True,
 	help='output filename')
-parser.add_argument('-r', '--read', type=str, metavar='<str>', required=True,
+parser.add_argument('-r', '--read_type', type=str, metavar='<str>', required=True,
 	help='input [single] for single end reads or [paired] for paired end readers')
-parser.add_argument('--index_genome', type=str, metavar='<path>', required=False,
-	help='path to genome fasta file to be indexed if genome not indexed')
+parser.add_argument('-g', '--reference_genome', type=str, metavar='<path>', required=True,
+	help='input path to reference_genome (genome.fa)')
+parser.add_argument('-i', '--index_genome', action = 'store_true',
+	help='index the genome')
+parser.add_argument('-c', '--config_file', type=str, metavar='<path>', required=True,
+	help='path to yaml config file')
 parser.add_argument('-a', '--aligner', type=str, metavar='<str>', required=False,
 	help='input sequence aligner {bwa_mem, bowtie2, STAR} (default: bwa_mem)',
 	default='bwa_mem')
@@ -19,26 +23,42 @@ parser.add_argument('-nd', '--no_deduplication', action='store_true',
 	help='if tagged, bam files will not be deduplicated')
 arg = parser.parse_args()
 
-sf = open(arg.output, 'w')
 
-genome_prefix = re.split('\.', re.split('/',arg.index_genome)[-1])[0]
+
+genome_prefix = re.split('\.', re.split('/',arg.reference_genome)[-1])[0]
 
 # index genome
 if arg.index_genome:
 	if arg.aligner == 'bwa_mem':
-		os.system(f'bwa index -p {genome_prefix} -a bwtsw {arg.index_genome}')
-		os.system(f'mv {prefix}* data/')
+		os.system(f'bwa index -p {genome_prefix} -a bwtsw {arg.reference_genome}')
+		os.system(f'mv {genome_prefix}* data/')
 	elif arg.aligner == 'bowtie2':
-		os.system(f'bowtie2-build {arg.index_genome} data/{genome_prefix}')
+		os.system(f'bowtie2-build {arg.reference_genome} data/{genome_prefix}')
 	elif arg.aligner == 'STAR':
-		os.system(f'STAR --runMode genomeGenerate --genomeDir data/genome --genomeFastaFiles {arg.index_genome}')
+		os.system(f'STAR --runMode genomeGenerate --genomeDir data/genome --genomeFastaFiles {arg.reference_genome}')
+
+sf = open(arg.output_file, 'w')
+
+# config file
+sf.write(f'configfile: \"{arg.config_file}\"\n\n')
+
+# rule all
+with open('rule_all/rule_all.txt') as fh:
+	rule_all = ''.join(fh.readlines())
+	sf.write(f'{rule_all}\n')
 
 # align reads
 # need to add options for single or paired end reads
-with open(f'align_reads/{arg.aligner}.txt') as fh:
-	align_rule = ''.join(fh.readlines())
-	align_rule = re.sub('GENOME_PREFIX', prefix, align_rule)
-	sf.write(f'{align_rule}\n')
+if arg.read_type == 'single':
+	with open(f'align_reads/{arg.aligner}_se.txt') as fh:
+		align_rule = ''.join(fh.readlines())
+		align_rule = re.sub('GENOME_PREFIX', genome_prefix, align_rule)
+		sf.write(f'{align_rule}\n')
+elif arg.read_type == 'paired':
+	with open(f'align_reads/{arg.aligner}_pe.txt') as fh:
+		align_rule = ''.join(fh.readlines())
+		align_rule = re.sub('GENOME_PREFIX', genome_prefix, align_rule)
+		sf.write(f'{align_rule}\n')
 
 
 # samtools and markdup
@@ -52,12 +72,16 @@ else:
 		sf.write(f'{samtools_rule}\n')
 
 # call_peaks
+'''
+--nomodel argument is included for the sake of testing fake data set generated
+	using datasynth. Otherwise macs wouldn't run because it tries to look for
+	paired +/- strand peaks which datasynth doesn't generate.
+'''
 with open(f'call_peaks/{arg.peakcaller}.txt') as fh:
 	callpeaks_rule = ''.join(fh.readlines())
 	sf.write(f'{callpeaks_rule}\n')
 	
 # evaluate_peaks
-
 
 sf.close()
 

@@ -1,6 +1,8 @@
-# Assuming that the genome has already been indexed
-
 rule align_reads:
+	input:
+		expand("aligned_reads/{sample}.sam", sample=config["samples"])
+
+rule align_reads_wc:
 	input:
 		genome = "data/GENOME_PREFIX",
 		r1 = "data/samples/{sample}_1.fastq",

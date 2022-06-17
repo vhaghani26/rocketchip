@@ -1,0 +1,12 @@
+rule align_reads:
+	input:
+		expand("aligned_reads/{sample}.sam", sample=config["samples"])
+
+rule align_reads_wc:
+	input:
+		genome = multiext("data/GENOME_PREFIX", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2", ".rev.1.bt2", ".rev.2.bt2"),
+		r = "data/samples/{sample}.fastq"
+	output:
+		"aligned_reads/{sample}.sam"
+	shell:
+		"bowtie2 -x data/GENOME_PREFIX -U {input.r} > {output}"

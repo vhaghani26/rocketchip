@@ -1,0 +1,13 @@
+rule align_reads:
+	input:
+		expand("aligned_reads/{sample}.sam", sample=config["samples"])
+
+rule align_reads_wc:
+	input:
+		genome = "data/GENOME_PREFIX",
+		r = "data/samples/{sample}.fastq"
+	output:
+		"aligned_reads/{sample}.sam"
+	shell:
+		"STAR --genomeDir {input.genome} --readFilesIn {input.r} ",
+		"--outFileNamePrefix {wildcards.sample} --outStd SAM > {output}"
