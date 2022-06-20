@@ -1,0 +1,10 @@
+rule call_peaks:
+	input:
+		"bam_files/{sample}.sorted.dedup.bam"
+	output:
+		"peaks/{sample}_peaks.narrowPeak",
+		"peaks/{sample}_peaks.xls",
+		"peaks/{sample}_summits.bed",
+		"peaks/{sample}_treat_pileup.bdg"
+	shell:
+		"macs3 callpeak -t {input} -f BAM -n {wildcards.sample} --bdg --nomodel --outdir peaks/"

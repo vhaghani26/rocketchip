@@ -1,0 +1,23 @@
+rule sam_to_bam:
+	input:
+		"aligned_reads/{sample}.sam"
+	output:
+		"bam_files/{sample}.bam"
+	shell:
+		"samtools view -Sb {input} > {output}"
+
+rule sam_fixmate:
+	input:
+		"bam_files/{sample}.bam"
+	output:
+		"bam_files/{sample}.fixmate.bam"
+	shell:
+		"samtools fixmate -rcm -O bam {input} {output}"
+		
+rule sam_sort:
+	input:
+		"bam_files/{sample}.fixmate.bam"
+	output:
+		"bam_files/{sample}.sorted.fixmate.bam"
+	shell:
+		"samtools sort -O bam {input} > {output}"
