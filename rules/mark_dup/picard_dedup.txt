@@ -1,0 +1,9 @@
+rule markdup:
+	input:
+		"bam_files/{sample}.sorted.fixmate.bam"
+	output:
+		"bam_files/{sample}.sorted.dedup.bam"
+	run:
+		shell("picard MarkDuplicates -I {input} -M {wildcards.sample}.dup_metrics "
+		"-O {output}")
+		shell("mv {wildcards.sample}.dup_metrics bam_files/")
