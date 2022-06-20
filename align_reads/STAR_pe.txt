@@ -9,6 +9,7 @@ rule align_reads_wc:
 		r2 = "data/samples/{sample}_2.fastq"
 	output:
 		"aligned_reads/{sample}.sam"
-	shell:
-		"STAR --genomeDir {input.genome} --readFilesIn {input.r1} {input.r2} ",
-		"--outFileNamePrefix {wildcards.sample} --outStd SAM > {output}"
+	run:
+		shell("STAR --genomeDir {input.genome} --readFilesIn {input.r1} {input.r2} "
+		"--outFileNamePrefix {wildcards.sample} --outStd SAM > {output}")
+		shell("mv {wildcards.sample}Log.* {wildcards.sample}SJ.out.tab aligned_reads/")
