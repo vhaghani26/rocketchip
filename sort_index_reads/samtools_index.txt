@@ -1,0 +1,7 @@
+rule sam_index:
+	input:
+		"bam_files/{sample}.sorted.dedup.bam"
+	output:
+		"bam_files/{sample}.sorted.dedup.bam.bai"
+	shell:
+		"samtools index {input}"

@@ -19,8 +19,9 @@ parser.add_argument('-a', '--aligner', type=str, metavar='<str>', required=False
 	default='bwa_mem')
 parser.add_argument('-p', '--peakcaller', type=str, metavar='<str>', required = False,
 	help='input peak calling program {macs2, macs3} (default: macs3)', default='macs3')
-parser.add_argument('-nd', '--no_deduplication', action='store_true',
-	help='if tagged, bam files will not be deduplicated')
+parser.add_argument('-d', '--deduplicator', type=str, metavar='<str>', required=False,
+	help='input deduplication tool {samtools, umitools, sambamba, no_duplication} (default: samtools)', 	
+	default='samtools')
 arg = parser.parse_args()
 
 
@@ -61,15 +62,25 @@ elif arg.read_type == 'paired':
 		sf.write(f'{align_rule}\n')
 
 
-# samtools and markdup
-if arg.no_deduplication:
-	with open(f'samtools/samtools_fake_dedup.txt') as fh:
-		samtools_rule = ''.join(fh.readlines())
-		sf.write(f'{samtools_rule}\n')
+# sort reads
+with open(f'sort_index_reads/samtools_sort.txt') as fh:
+	samtools_sort = ''.join(fh.readlines())
+	sf.write(f'{samtools_sort}\n')
+
+# mark dup
+if arg.deduplicator == 'no_duplication':
+	with open(f'mark_dup/fake_dedup.txt') as fh:
+		dedup_rule = ''.join(fh.readlines())
+		sf.write(f'{dedup_rule}\n')
 else:
-	with open(f'samtools/samtools_true_dedup.txt') as fh:
-		samtools_rule = ''.join(fh.readlines())
-		sf.write(f'{samtools_rule}\n')
+	with open(f'mark_dup/{arg.deduplicator}_dedup.txt') as fh:
+		dedup_rule = ''.join(fh.readlines())
+		sf.write(f'{dedup_rule}\n')
+
+# index reads
+with open(f'sort_index_reads/samtools_index.txt') as fh:
+	samtools_index = ''.join(fh.readlines())
+	sf.write(f'{samtools_index}\n')
 
 # call_peaks
 '''

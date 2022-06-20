@@ -1,0 +1,8 @@
+rule markdup:
+	input:
+		"bam_files/{sample}.sorted.fixmate.bam"
+	output:
+		"bam_files/{sample}.sorted.dedup.bam"
+	shell:
+		"cat {input} > {output}"
+
