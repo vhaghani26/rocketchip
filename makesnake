@@ -44,41 +44,41 @@ sf = open(arg.output_file, 'w')
 sf.write(f'configfile: \"{arg.config_file}\"\n\n')
 
 # rule all
-with open('rule_all/rule_all.txt') as fh:
+with open('rules/rule_all/rule_all.txt') as fh:
 	rule_all = ''.join(fh.readlines())
 	sf.write(f'{rule_all}\n')
 
 # align reads
 # need to add options for single or paired end reads
 if arg.read_type == 'single':
-	with open(f'align_reads/{arg.aligner}_se.txt') as fh:
+	with open(f'rules/align_reads/{arg.aligner}_se.txt') as fh:
 		align_rule = ''.join(fh.readlines())
 		align_rule = re.sub('GENOME_PREFIX', genome_prefix, align_rule)
 		sf.write(f'{align_rule}\n')
 elif arg.read_type == 'paired':
-	with open(f'align_reads/{arg.aligner}_pe.txt') as fh:
+	with open(f'rules/align_reads/{arg.aligner}_pe.txt') as fh:
 		align_rule = ''.join(fh.readlines())
 		align_rule = re.sub('GENOME_PREFIX', genome_prefix, align_rule)
 		sf.write(f'{align_rule}\n')
 
 
 # sort reads
-with open(f'sort_index_reads/samtools_sort.txt') as fh:
+with open(f'rules/sort_index_reads/samtools_sort.txt') as fh:
 	samtools_sort = ''.join(fh.readlines())
 	sf.write(f'{samtools_sort}\n')
 
 # mark dup
 if arg.deduplicator == 'no_duplication':
-	with open(f'mark_dup/fake_dedup.txt') as fh:
+	with open(f'rules/mark_dup/fake_dedup.txt') as fh:
 		dedup_rule = ''.join(fh.readlines())
 		sf.write(f'{dedup_rule}\n')
 else:
-	with open(f'mark_dup/{arg.deduplicator}_dedup.txt') as fh:
+	with open(f'rules/mark_dup/{arg.deduplicator}_dedup.txt') as fh:
 		dedup_rule = ''.join(fh.readlines())
 		sf.write(f'{dedup_rule}\n')
 
 # index reads
-with open(f'sort_index_reads/samtools_index.txt') as fh:
+with open(f'rules/sort_index_reads/samtools_index.txt') as fh:
 	samtools_index = ''.join(fh.readlines())
 	sf.write(f'{samtools_index}\n')
 
@@ -88,7 +88,7 @@ with open(f'sort_index_reads/samtools_index.txt') as fh:
 	using datasynth. Otherwise macs wouldn't run because it tries to look for
 	paired +/- strand peaks which datasynth doesn't generate.
 '''
-with open(f'call_peaks/{arg.peakcaller}.txt') as fh:
+with open(f'rules/call_peaks/{arg.peakcaller}.txt') as fh:
 	callpeaks_rule = ''.join(fh.readlines())
 	sf.write(f'{callpeaks_rule}\n')
 	
