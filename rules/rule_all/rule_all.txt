@@ -1,6 +1,10 @@
 rule all:
 	input:
-		expand("peaks/{sample}_peaks.narrowPeak", sample=config["samples"]),
+		#expand("peaks/{sample}_model.r", sample=config["samples"]),
+		expand("bigwig_files/{sample}.bw", sample=config["samples"]),
 		expand("peaks/{sample}_peaks.xls", sample=config["samples"]),
 		expand("peaks/{sample}_summits.bed", sample=config["samples"]),
-		expand("peaks/{sample}_treat_pileup.bdg", sample=config["samples"])
+		expand("peaks/{sample}_treat_pileup.bdg", sample=config["samples"]),
+		expand("peaks/{sample}_peaks.narrowPeak", sample=config["samples"]),
+		expand("peaks/{sample}_control_lambda.bdg", sample=config["samples"])
+		

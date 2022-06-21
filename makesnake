@@ -82,10 +82,15 @@ if arg.deduplicator != 'sambamba':
 	with open(f'rules/sort_index_reads/samtools_index.txt') as fh:
 		samtools_index = ''.join(fh.readlines())
 		sf.write(f'{samtools_index}\n')
+		
+# bam to bigwig
+with open(f'rules/bam_to_bigwig/bam_to_bigwig.txt') as fh:
+	bigwig_rule = ''.join(fh.readlines())
+	sf.write(f'{bigwig_rule}\n')
 
 # call_peaks
 '''
---nomodel argument is included for the sake of testing fake data set generated
+macs: --nomodel argument is included for the sake of testing fake data set generated
 	using datasynth. Otherwise macs wouldn't run because it tries to look for
 	paired +/- strand peaks which datasynth doesn't generate.
 '''

@@ -1,0 +1,8 @@
+rule bam_to_bigwig:
+	input:
+		index = "bam_files/{sample}.sorted.dedup.bam.bai",
+		bam = "bam_files/{sample}.sorted.dedup.bam"
+	output:
+		"bigwig_files/{sample}.bw"
+	shell:
+		"bamCoverage -b {input.bam} -o {output}"
