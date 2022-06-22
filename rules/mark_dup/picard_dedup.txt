@@ -4,6 +4,6 @@ rule markdup:
 	output:
 		"bam_files/{sample}.sorted.dedup.bam"
 	run:
-		shell("picard MarkDuplicates -I {input} -M {wildcards.sample}.dup_metrics "
-		"-O {output}")
+		shell("picard MarkDuplicates --REMOVE_DUPLICATES true -I {input} "
+		"-M {wildcards.sample}.dup_metrics -O {output}")
 		shell("mv {wildcards.sample}.dup_metrics bam_files/")

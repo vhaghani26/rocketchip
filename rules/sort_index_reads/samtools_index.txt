@@ -4,4 +4,4 @@ rule sam_index:
 	output:
 		"bam_files/{sample}.sorted.dedup.bam.bai"
 	shell:
-		"samtools index {input}"
+		"samtools index -@ THREADS {input}"

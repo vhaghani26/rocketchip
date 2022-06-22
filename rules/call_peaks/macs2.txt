@@ -9,4 +9,4 @@ rule call_peaks:
 		"peaks/{sample}_peaks.narrowPeak",
 		"peaks/{sample}_control_lambda.bdg"
 	shell:
-		"macs2 callpeak -t {input} -f BAM -n {wildcards.sample} --bdg --nomodel --outdir peaks/"
+		"macs2 callpeak -t {input} -f BAM -n {wildcards.sample} --nomodel --bdg --outdir peaks/"

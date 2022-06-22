@@ -10,4 +10,4 @@ rule align_reads_wc:
 	output:
 		"aligned_reads/{sample}.sam"
 	shell:
-		"bowtie2 -x data/GENOME_PREFIX -1 {input.r1} -2 {input.r2} > {output}"
+		"bowtie2 -p THREADS -x data/GENOME_PREFIX -1 {input.r1} -2 {input.r2} > {output}"

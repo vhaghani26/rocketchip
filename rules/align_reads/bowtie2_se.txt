@@ -5,8 +5,8 @@ rule align_reads:
 rule align_reads_wc:
 	input:
 		genome = multiext("data/GENOME_PREFIX", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2", ".rev.1.bt2", ".rev.2.bt2"),
-		r = "data/samples/{sample}.fastq"
+		r = "data/samples/{sample}.fastq.gz"
 	output:
 		"aligned_reads/{sample}.sam"
 	shell:
-		"bowtie2 -x data/GENOME_PREFIX -U {input.r} > {output}"
+		"bowtie2 -p THREADS -x data/GENOME_PREFIX -U {input.r} > {output}"

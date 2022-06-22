@@ -4,7 +4,7 @@ rule sam_to_bam:
 	output:
 		"bam_files/{sample}.bam"
 	shell:
-		"samtools view -Sb {input} > {output}"
+		"samtools view -@ THREADS -Sb {input} > {output}"
 
 rule sam_fixmate:
 	input:
@@ -12,7 +12,7 @@ rule sam_fixmate:
 	output:
 		"bam_files/{sample}.fixmate.bam"
 	shell:
-		"samtools fixmate -rcm -O bam {input} {output}"
+		"samtools fixmate -@ THREADS -rcm -O bam {input} {output}"
 		
 rule sam_sort:
 	input:
@@ -20,4 +20,4 @@ rule sam_sort:
 	output:
 		"bam_files/{sample}.sorted.fixmate.bam"
 	shell:
-		"samtools sort -O bam {input} > {output}"
+		"samtools sort -@ THREADS -O bam {input} > {output}"

@@ -5,9 +5,9 @@ rule align_reads:
 rule align_reads_wc:
 	input:
 		genome = multiext("data/GENOME_PREFIX", ".amb", ".ann", ".bwt", ".pac", ".sa"),
-		r1 = "data/samples/{sample}_1.fastq",
-		r2 = "data/samples/{sample}_2.fastq"
+		r1 = "data/samples/{sample}_1.fastq.gz",
+		r2 = "data/samples/{sample}_2.fastq.gz"
 	output:
 		"aligned_reads/{sample}.sam"
 	shell:
-		"bwa mem data/GENOME_PREFIX {input.r1} {input.r2} > {output}"
+		"bwa mem -t THREADS data/GENOME_PREFIX {input.r1} {input.r2} > {output}"

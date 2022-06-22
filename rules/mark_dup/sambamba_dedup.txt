@@ -4,4 +4,4 @@ rule markdup:
 	output:
 		"bam_files/{sample}.sorted.dedup.bam"
 	shell:
-		"sambamba markdup -r {input} {output}"
+		"sambamba markdup -t THREADS -r {input} {output}"

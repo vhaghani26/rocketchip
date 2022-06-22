@@ -4,5 +4,5 @@ rule markdup:
 	output:
 		"bam_files/{sample}.sorted.dedup.bam"
 	shell:
-		"samtools markdup -r --mode s {input} {output}"
+		"samtools markdup -@ THREADS -r --mode s {input} {output}"
 
