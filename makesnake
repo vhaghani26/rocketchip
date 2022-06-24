@@ -7,15 +7,17 @@ parser = argparse.ArgumentParser(description='Make Snakefiles')
 parser.add_argument('-o', '--output_file', type=str, metavar='<path>', required=True,
 	help='output filename')
 parser.add_argument('-r', '--read_type', type=str, metavar='<str>', required=True,
-	help='input [single] for single end reads or [paired] for paired end readers')
+	help='input [se] for single end reads or [pe] for paired end readers')
 parser.add_argument('-g', '--reference_genome', type=str, metavar='<path>', required=True,
 	help='input path to reference_genome (genome.fa)')
-parser.add_argument('-i', '--index_genome', action = 'store_true',
-	help='index the genome')
-parser.add_argument('-c', '--config_file', type=str, metavar='<path>', required=True,
+parser.add_argument('--config_file', type=str, metavar='<path>', required=True,
 	help='path to yaml config file')
-parser.add_argument('-t', '--threads', type=int, metavar='<int>', required=False,
+parser.add_argument('--index_genome', action='store_true',
+	help='index the genome')
+parser.add_argument('--threads', type=int, metavar='<int>', required=False,
 	help='Enter number of threads [1]', default=1)
+parser.add_argument('--broad', action = 'store_true',
+	help='if set, the peak calling program will try to call board peaks')
 parser.add_argument('--aligner', type=str, metavar='<str>', required=False,
 	help='input sequence aligner {bwa_mem, bowtie2, STAR} (default: bwa_mem)',
 	default='bwa_mem')
@@ -50,20 +52,18 @@ with open('rules/rule_all/rule_all.txt') as fh:
 	rule_all = ''.join(fh.readlines())
 	sf.write(f'{rule_all}\n')
 
+# fastq preprocessing
+with open(f'rules/fastqc/preprocessing_{arg.read_type}') as fh:
+	fastqc_rule = ''.join(fh.readlines())
+	sf.write(f'{fastqc_rule}\n')
+
 # align reads
 # need to add options for single or paired end reads
-if arg.read_type == 'single':
-	with open(f'rules/align_reads/{arg.aligner}_se.txt') as fh:
-		align_rule = ''.join(fh.readlines())
-		align_rule = re.sub('GENOME_PREFIX', genome_prefix, align_rule)
-		align_rule = re.sub('THREADS', str(arg.threads), align_rule)
-		sf.write(f'{align_rule}\n')
-elif arg.read_type == 'paired':
-	with open(f'rules/align_reads/{arg.aligner}_pe.txt') as fh:
-		align_rule = ''.join(fh.readlines())
-		align_rule = re.sub('GENOME_PREFIX', genome_prefix, align_rule)
-		align_rule = re.sub('THREADS', str(arg.threads), align_rule)
-		sf.write(f'{align_rule}\n')
+with open(f'rules/align_reads/{arg.aligner}_{arg.read_type}.txt') as fh:
+	align_rule = ''.join(fh.readlines())
+	align_rule = re.sub('GENOME_PREFIX', genome_prefix, align_rule)
+	align_rule = re.sub('THREADS', str(arg.threads), align_rule)
+	sf.write(f'{align_rule}\n')
 
 
 # sort reads
@@ -104,11 +104,17 @@ macs: --nomodel argument is included for the sake of testing fake data set gener
 	using datasynth. Otherwise macs wouldn't run because it tries to look for
 	paired +/- strand peaks which datasynth doesn't generate.
 '''
-with open(f'rules/call_peaks/{arg.peakcaller}.txt') as fh:
+with open(f'rules/call_peaks/{arg.peakcaller}_{arg.read_type}.txt') as fh:
 	callpeaks_rule = ''.join(fh.readlines())
+	if arg.peakcaller.startswith('macs'):
+		if arg.broad: callpeaks_rule = re.sub('BROAD', '--broad', callpeaks_rule)
+		else: callpeaks_rule = re.sub('BROAD', '', callpeaks_rule)
 	sf.write(f'{callpeaks_rule}\n')
-	
-# evaluate_peaks
+
+# fastq postprocessing
+with open(f'rules/fastqc/postprocessing_{arg.read_type}') as fh:
+	fastqc_rule = ''.join(fh.readlines())
+	sf.write(f'{fastqc_rule}\n')
 
 sf.close()
 
