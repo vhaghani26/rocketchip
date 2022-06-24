@@ -1,0 +1,8 @@
+rule fastqc_preprocessing:
+	input:
+		"data/samples/{sample}.fastq.gz"
+	output:
+		"fastqc_analysis/{sample}_fastqc.html",
+		"fastqc_analysis/{sample}_fastqc.zip"
+	shell:
+		"fastqc {input} --outdir fastqc_analysis/"

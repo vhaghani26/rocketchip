@@ -1,0 +1,12 @@
+rule fastqc_preprocessing:
+	input:
+		r1 = "data/samples/{sample}_1.fastq.gz",
+		r2 = "data/samples/{sample}_2.fastq.gz"
+	output:
+		"fastqc_analysis/{sample}_1_fastqc.html",
+		"fastqc_analysis/{sample}_1_fastqc.zip",
+		"fastqc_analysis/{sample}_2_fastqc.html",
+		"fastqc_analysis/{sample}_2_fastqc.zip"
+	run:
+		shell("fastqc {input.r1} --outdir fastqc_analysis/")
+		shell("fastqc {input.r2} --outdir fastqc_analysis/")
