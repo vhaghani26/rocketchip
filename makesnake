@@ -48,12 +48,12 @@ sf = open(arg.output_file, 'w')
 sf.write(f'configfile: \"{arg.config_file}\"\n\n')
 
 # rule all
-with open('rules/rule_all/rule_all.txt') as fh:
+with open(f'rules/rule_all/rule_all_{arg.read_type}.txt') as fh:
 	rule_all = ''.join(fh.readlines())
 	sf.write(f'{rule_all}\n')
 
 # fastq preprocessing
-with open(f'rules/fastqc/preprocessing_{arg.read_type}') as fh:
+with open(f'rules/fastqc/preprocessing_{arg.read_type}.txt') as fh:
 	fastqc_rule = ''.join(fh.readlines())
 	sf.write(f'{fastqc_rule}\n')
 
@@ -112,7 +112,7 @@ with open(f'rules/call_peaks/{arg.peakcaller}_{arg.read_type}.txt') as fh:
 	sf.write(f'{callpeaks_rule}\n')
 
 # fastq postprocessing
-with open(f'rules/fastqc/postprocessing_{arg.read_type}') as fh:
+with open(f'rules/fastqc/postprocessing_{arg.read_type}.txt') as fh:
 	fastqc_rule = ''.join(fh.readlines())
 	sf.write(f'{fastqc_rule}\n')
 

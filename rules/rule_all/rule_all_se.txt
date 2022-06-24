@@ -1,0 +1,14 @@
+rule all:
+	input:
+		expand("fastqc_analysis/{sample}_fastqc.zip", sample=config["samples"]),
+		expand("fastqc_analysis/{sample}_fastqc.html", sample=config["samples"]),
+		#expand("peaks/{sample}_model.r", sample=config["samples"]),
+		expand("peaks/{sample}_peaks.xls", sample=config["samples"]),
+		expand("peaks/{sample}_summits.bed", sample=config["samples"]),
+		expand("peaks/{sample}_treat_pileup.bdg", sample=config["samples"]),
+		expand("peaks/{sample}_peaks.narrowPeak", sample=config["samples"]),
+		expand("peaks/{sample}_control_lambda.bdg", sample=config["samples"]),
+		expand("bigwig_files/{sample}.bw", sample=config["samples"]),
+		expand("fastqc_analysis/{sample}.sorted.dedup_fastqc.zip", sample=config["samples"]),
+		expand("fastqc_analysis/{sample}.sorted.dedup_fastqc.html", sample=config["samples"])
+		
