@@ -1,0 +1,31 @@
+# expand("genrich_peaks/{sample}_peak.narrowPeak", sample=config["sample_groups"])
+
+rule name_sort_for_genrich:
+	input:
+		"bam_files/{sample}.sorted.dedup.bam"
+	output:
+		"bam_files/{sample}.namesorted_for_genrich.bam"
+	shell:
+		"samtools sort -n -@ THREADS -O BAM {input} > {output}"
+		
+def get_sample_groups(wildcards):
+	if len(wildcards.sample.split('_')) == 1:
+		return "bam_files/{sample}.namesorted_for_genrich.bam"
+	else:
+		exp = wildcards.sample.split('_')
+		return expand("bam_files/{sample}.namesorted_for_genrich.bam", sample=exp)
+
+rule call_peaks:
+	input:
+		s = get_sample_groups
+	output:
+		peak   = "genrich_peaks/{sample}_peak.narrowPeak",
+		reads  = "genrich_peaks/{sample}_reads.bed",
+		pileup = "genrich_peaks/{sample}_pileup"
+	run:
+		if type(input.s) is snakemake.io.Namedlist:
+			sample_input = ','.join(input.s)
+		else:
+			sample_input = input.s
+		shell("Genrich -t {sample_input} -o {output.peak} -f {output.pileup} "
+			"-b {output.reads} READ_TYPE")
