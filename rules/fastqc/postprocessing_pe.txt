@@ -1,4 +1,4 @@
-rule fastqc_postprocessing
+rule fastqc_postprocessing:
 	input:
 		"bam_files/{sample}.sorted.dedup.bam"
 	output:
