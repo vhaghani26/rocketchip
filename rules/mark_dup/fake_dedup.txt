@@ -3,4 +3,3 @@ rule markdup:
 	output: "04_bam_files/{sample}.sorted.dedup.bam"
 	log: "00_logs/{sample}_sam_markdup.log"
 	shell: "cat {input} > {output} 2> {log}"
-

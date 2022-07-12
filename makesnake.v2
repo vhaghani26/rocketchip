@@ -2,6 +2,34 @@
 import argparse
 import os
 import re
+import sys
+
+def add_rule(path):
+	with open(path) as fh:
+		rule = fh.read()
+		rule = rule.replace('PATH_TO_GENOME', arg.genome)
+		rule = rule.replace('GENOME', genome_name)
+		if 'samtools' in rule:
+			rule = rule.replace('THREADS', str(arg.threads-1))
+		else:
+			rule = rule.replace('THREADS', str(arg.threads))
+		
+		if arg.peak_type == 'narrow':
+			rule = rule.replace('PEPR_PEAK_TYPE','sharp')
+			rule = rule.replace('MACS3_PEAK_TYPE','')
+		elif arg.peak_type == 'broad':
+			rule = rule.replace('PEPR_PEAK_TYPE','broad')
+			rule = rule.replace('MACS3_PEAK_TYPE','--broad')
+		
+		if arg.read_type == 'se':
+			rule = rule.replace('PEPR_READ_TYPE','bam')
+			rule = rule.replace('GENRICH_READ_TYPE','-y')
+			rule = rule.replace('MACS3_READ_TYPE','BAM')
+		elif arg.read_type == 'pe':
+			rule = rule.replace('PEPR_READ_TYPE','bampe')
+			rule = rule.replace('GENRICH_READ_TYPE','')
+			rule = rule.replace('MACS3_READ_TYPE','BAMPE')
+		sf.write(f'{rule}\n')
 
 parser = argparse.ArgumentParser(description='Make Snakefiles')
 parser.add_argument('-o', '--output_file', type=str, metavar='<path>', required=True,
@@ -30,13 +58,13 @@ parser.add_argument('--deduplicator', type=str, metavar='<str>', required=False,
 	default='samtools')
 arg = parser.parse_args()
 
-# extract genome information for downstream analysis
+if arg.controls is None and arg.peakcaller == 'pepr':
+	sys.stderr.write('Error: Pepr peakcaller must contain at least 1 control and '
+		'2 sample replicates\n')
+	sys.exit(1)
+
+# extract genome name
 genome_name = re.split('\.', re.split('/',arg.genome)[-1])[0]
-'''
-with open(arg.genome) as fh:
-	genome = ''.join(fh.readlines())
-	genome_size = '{:.4e}'.format(len(genome))
-'''
 
 sf = open(arg.output_file, 'w')
 
@@ -45,71 +73,53 @@ sf.write(f'configfile: \"{arg.config_file}\"\n\n')
 
 # rule all: fastq files, peak files, bigwig file
 if arg.controls:
-	with open(f'rules/rule_all/fastq/fastq_with_control_{arg.read_type}.txt') as fh:
-		sf.write(fh.read())
-	with open(f'rules/rule_all/peaks/{arg.peakcaller}_with_control.txt') as fh:
-		sf.write(fh.read())
+	add_rule(f'rules/rule_all/fastq/fastq_with_control_{arg.read_type}.txt')
+	add_rule(f'rules/rule_all/peaks/{arg.peakcaller}_with_control.txt')
 else:
-	with open(f'rules/rule_all/fastq/fastq_no_control_{arg.read_type}.txt') as fh:
-		sf.write(fh.read())
-	with open(f'rules/rule_all/peaks/{arg.peakcaller}_no_control.txt') as fh:
-		sf.write(fh.read())
-
-with open(f'rules/rule_all/bigwig/bigwig.txt') as fh:
-	sf.write(fh.read())
+	add_rule(f'rules/rule_all/fastq/fastq_no_control_{arg.read_type}.txt')
+	add_rule(f'rules/rule_all/peaks/{arg.peakcaller}_no_control.txt')
+add_rule(f'rules/rule_all/bigwig/bigwig.txt')
 	
 # make directories
-with open(f'rules/make_dir/make_dir.txt') as fh:
-	sf.write(f'\n{fh.read()}')
+add_rule(f'rules/make_dir/make_dir.txt')
 
 # download/link genome:
-if os.path.isfile(arg.genome):
-	with open(f'rules/get_genome/local_genome.txt') as fh:
-		rule = fh.read()
-		rule = rule.replace('PATH_TO_GENOME', arg.genome)
-		rule = rule.replace('GENOME', genome_name)
-		sf.write(f'\n{rule}')
-else:
-	with open(f'rules/get_genome/remote_genome.txt') as fh:
-		rule = fh.read()
-		rule = rule.replace('GENOME', arg.genome)
-		sf.write(f'\n{rule}')	
+if os.path.isfile(arg.genome): add_rule(f'rules/get_genome/local_genome.txt')
+else:						   add_rule(f'rules/get_genome/remote_genome.txt')	
 		
 # index genome:
-with open(f'rules/index_genome/{arg.aligner}.txt') as fh:
-	rule = fh.read()
-	rule = rule.replace('GENOME', genome_name)
-	sf.write(f'\n{rule}')
+add_rule(f'rules/index_genome/{arg.aligner}.txt')
 	
 # download/link fastq
 
 # sra to fastq
 
 # fastq preprocessing
-with open(f'rules/fastqc/preprocessing_{arg.read_type}.txt') as fh:
-	rule = fh.read()
-	sf.write(f'\n{rule}')
+add_rule(f'rules/fastqc/preprocessing_{arg.read_type}.txt')
 
 # align reads
-with open(f'rules/align_reads/{arg.aligner}_{arg.read_type}.txt') as fh:
-	rule = fh.read()
-	rule = rule.replace('GENOME', genome_name)
-	rule = rule.replace('THREADS', str(arg.threads))
-	sf.write(f'\n{rule}')
+add_rule(f'rules/align_reads/{arg.aligner}_{arg.read_type}.txt')
 	
 # sort reads
-with open(f'rules/sort_index_reads/samtools_sort.txt') as fh:
-	rule = fh.read()
-	rule = rule.replace('THREADS', str(arg.threads-1))
-	sf.write(f'\n{rule}')
+add_rule(f'rules/sort_index_reads/samtools_sort.txt')
 
 # markdup
 if arg.deduplicator == 'no_deduplication':
-	with open(f'rules/mark_dup/fake_dedup.txt') as fh:
-		sf.write(fh.read())
+	add_rule(f'rules/mark_dup/fake_dedup.txt')
 else:
-	with open(f'rules/mark_dup/{arg.deduplicator}_dedup.txt') as fh:
-		rule = fh.read()
-		rule = rule.replace('THREADS', str(arg.threads-1))
-		sf.write(f'\n{rule}')
+	add_rule(f'rules/mark_dup/{arg.deduplicator}_dedup.txt')
 
+# index bam/sam
+with open(f'rules/sort_index_reads/samtools_index.txt') as fh:
+	rule = fh.read()
+	rule = rule.replace('THREADS', str(arg.threads-1))
+	sf.write(f'\n{rule}')
+	
+# bam to bigwig
+add_rule(f'rules/bam_to_bigwig/bam_to_bigwig.txt')
+
+# call peak
+if arg.controls:
+	add_rule(f'rules/call_peaks/{arg.peakcaller}/{arg.peakcaller}_with_control.txt')
+else:
+	add_rule(f'rules/call_peaks/{arg.peakcaller}/{arg.peakcaller}_no_control.txt')

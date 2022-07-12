@@ -3,31 +3,31 @@
 
 def get_sample_groups(wildcards):
 	if len(wildcards.sample.split('_')) == 1:
-		return "bam_files/{sample}.sorted.dedup.bam"
+		return "04_bam_files/{sample}.sorted.dedup.bam"
 	else:
 		exp = wildcards.sample.split('_')
-		return expand("bam_files/{sample}.sorted.dedup.bam", sample=exp)
+		return expand("04_bam_files/{sample}.sorted.dedup.bam", sample=exp)
 
 def get_sample_index_groups(wildcards):
 	if len(wildcards.sample.split('_')) == 1:
-		return "bam_files/{sample}.sorted.dedup.bam.bai"
+		return "04_bam_files/{sample}.sorted.dedup.bam.bai"
 	else:
 		exp = wildcards.sample.split('_')
-		return expand("bam_files/{sample}.sorted.dedup.bam.bai", sample=exp)
+		return expand("04_bam_files/{sample}.sorted.dedup.bam.bai", sample=exp)
 
 def get_control_groups(wildcards):
 	if len(wildcards.control.split('_')) == 1:
-		return "bam_files/{control}.sorted.dedup.bam"
+		return "04_bam_files/{control}.sorted.dedup.bam"
 	else:
 		exp = wildcards.control.split('_')
-		return expand("bam_files/{control}.sorted.dedup.bam", sample=exp)
+		return expand("04_bam_files/{control}.sorted.dedup.bam", sample=exp)
 
 def get_control_index_groups(wildcards):
 	if len(wildcards.control.split('_')) == 1:
-		return "bam_files/{control}.sorted.dedup.bam.bai"
+		return "04_bam_files/{control}.sorted.dedup.bam.bai"
 	else:
 		exp = wildcards.control.split('_')
-		return expand("bam_files/{control}.sorted.dedup.bam.bai", sample=exp)
+		return expand("04_bam_files/{control}.sorted.dedup.bam.bai", sample=exp)
 		
 rule call_peaks:
 	input:
@@ -35,8 +35,8 @@ rule call_peaks:
 		c = get_control_groups,
 		si = get_sample_index_groups,
 		ci = get_control_index_groups
-	output:
-		"pepr_peaks/{sample}_{control}__PePr_parameters.txt"
+	output: "06_pepr_peaks/{sample}_{control}__PePr_parameters.txt"
+	log: "00_logs/{sample}_pepr_peaks.log"
 	run:
 		if type(input.s) is snakemake.io.Namedlist:
 			sample_input = ','.join(input.s)
@@ -46,6 +46,6 @@ rule call_peaks:
 			control_input = ','.join(input.c)
 		else:
 			control_input = input.c
-		shell("PePr -f READ_TYPE --peaktype PEAK_TYPE --num-processors THREADS "
-			"-c {sample_input} -i {control_input} --output-directory pepr_peaks "
-			"-n {wildcards.sample}_{wildcards.control}")
+		shell("PePr -f PEPR_READ_TYPE --peaktype PEPR_PEAK_TYPE --num-processors THREADS "
+			"-c {sample_input} -i {control_input} --output-directory 06_pepr_peaks "
+			"-n {wildcards.sample}_{wildcards.control} 2> {log}")
