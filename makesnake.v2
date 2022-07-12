@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+import argparse
+import os
+import re
+
+parser = argparse.ArgumentParser(description='Make Snakefiles')
+parser.add_argument('-o', '--output_file', type=str, metavar='<path>', required=True,
+	help='output snakefile name')
+parser.add_argument('-s', '--samples', type=str, metavar='<samples>', nargs='+',
+	required=False, help='path to directory of sample fastq files or names/files of SRA identifiers')
+parser.add_argument('-c', '--controls', type=str, metavar='<samples>', nargs='+',
+	required=False, help='path to directory of control fastq files or names/files of SRA identifiers')
+parser.add_argument('-g', '--genome', type=str, metavar='<str>', required=True,
+	help='path to fasta file or name of remote genome (e.g. ~/mygenome.fa, sacCer3)')
+parser.add_argument('-r', '--read_type', type=str, metavar='<str>', required=True,
+	help='input [se] for single end reads or [pe] for paired end readers')
+parser.add_argument('--config_file', type=str, metavar='<path>', required=True,
+	help='path to yaml config file')
+parser.add_argument('--threads', type=int, metavar='<int>', required=False,
+	help='Enter number of threads [1]', default=1)
+parser.add_argument('--peak_type', type=str, metavar='<str>', required=False,
+	help='select peak type {narrow, broad} (default: narrow)', default='narrow')
+parser.add_argument('--aligner', type=str, metavar='<str>', required=False,
+	help='input sequence aligner {bwa_mem, bowtie2, STAR} (default: bwa_mem)',
+	default='bwa_mem')
+parser.add_argument('--peakcaller', type=str, metavar='<str>', required = False,
+	help='input peak calling program {macs3, genrich, pepr, peakseq, cisgenome (default: macs3)', default='macs3')
+parser.add_argument('--deduplicator', type=str, metavar='<str>', required=False,
+	help='input deduplication tool {samtools, picard, sambamba, no_deduplication} (default: samtools)', 	
+	default='samtools')
+arg = parser.parse_args()
+
+# extract genome information for downstream analysis
+genome_name = re.split('\.', re.split('/',arg.genome)[-1])[0]
+'''
+with open(arg.genome) as fh:
+	genome = ''.join(fh.readlines())
+	genome_size = '{:.4e}'.format(len(genome))
+'''
+
+sf = open(arg.output_file, 'w')
+
+# config file
+sf.write(f'configfile: \"{arg.config_file}\"\n\n')
+
+# rule all: fastq files, peak files, bigwig file
+if arg.controls:
+	with open(f'rules/rule_all/fastq/fastq_with_control_{arg.read_type}.txt') as fh:
+		sf.write(fh.read())
+	with open(f'rules/rule_all/peaks/{arg.peakcaller}_with_control.txt') as fh:
+		sf.write(fh.read())
+else:
+	with open(f'rules/rule_all/fastq/fastq_no_control_{arg.read_type}.txt') as fh:
+		sf.write(fh.read())
+	with open(f'rules/rule_all/peaks/{arg.peakcaller}_no_control.txt') as fh:
+		sf.write(fh.read())
+
+with open(f'rules/rule_all/bigwig/bigwig.txt') as fh:
+	sf.write(fh.read())
+	
+# make directories
+with open(f'rules/make_dir/make_dir.txt') as fh:
+	sf.write(f'\n{fh.read()}')
+
+# download/link genome:
+if os.path.isfile(arg.genome):
+	with open(f'rules/get_genome/local_genome.txt') as fh:
+		rule = fh.read()
+		rule = rule.replace('PATH_TO_GENOME', arg.genome)
+		rule = rule.replace('GENOME', genome_name)
+		sf.write(f'\n{rule}')
+else:
+	with open(f'rules/get_genome/remote_genome.txt') as fh:
+		rule = fh.read()
+		rule = rule.replace('GENOME', arg.genome)
+		sf.write(f'\n{rule}')	
+		
+# index genome:
+with open(f'rules/index_genome/{arg.aligner}.txt') as fh:
+	rule = fh.read()
+	rule = rule.replace('GENOME', genome_name)
+	sf.write(f'\n{rule}')
+	
+# download/link fastq
+
+# sra to fastq
+
+# fastq preprocessing
+with open(f'rules/fastqc/preprocessing_{arg.read_type}.txt') as fh:
+	rule = fh.read()
+	sf.write(f'\n{rule}')
+
+# align reads
+with open(f'rules/align_reads/{arg.aligner}_{arg.read_type}.txt') as fh:
+	rule = fh.read()
+	rule = rule.replace('GENOME', genome_name)
+	rule = rule.replace('THREADS', str(arg.threads))
+	sf.write(f'\n{rule}')
+	
+# sort reads
+with open(f'rules/sort_index_reads/samtools_sort.txt') as fh:
+	rule = fh.read()
+	rule = rule.replace('THREADS', str(arg.threads-1))
+	sf.write(f'\n{rule}')
+
+# markdup
+if arg.deduplicator == 'no_deduplication':
+	with open(f'rules/mark_dup/fake_dedup.txt') as fh:
+		sf.write(fh.read())
+else:
+	with open(f'rules/mark_dup/{arg.deduplicator}_dedup.txt') as fh:
+		rule = fh.read()
+		rule = rule.replace('THREADS', str(arg.threads-1))
+		sf.write(f'\n{rule}')
+

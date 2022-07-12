@@ -1,0 +1,17 @@
+rule name_sort_for_genrich:
+	input:
+		"bam_files/{sample}.sorted.dedup.bam"
+	output:
+		"bam_files/{sample}.namesorted_for_genrich.bam"
+	shell:
+		"samtools sort -n -@ THREADS -O BAM {input} > {output}"
+
+rule call_peaks:
+	input:
+		"bam_files/{sample}.namesorted_for_genrich.bam"
+	output:
+		peak   = "peaks/{sample}_peak.narrowPeak",
+		reads  = "peaks/{sample}_reads.bed",
+		pileup = "peaks/{sample}_pileup"
+	shell:
+		"Genrich -t {input} CONTROL -o {output.peak} -f {output.pileup} -b {output.reads}"

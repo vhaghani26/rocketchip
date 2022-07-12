@@ -1,12 +1,8 @@
 rule align_reads:
 	input:
-		expand("aligned_reads/{sample}.sam", sample=config["samples"])
-
-rule align_reads_wc:
-	input:
-		genome = multiext("data/GENOME_PREFIX", ".amb", ".ann", ".bwt", ".pac", ".sa"),
-		r = "data/samples/{sample}.fastq.gz"
-	output:
-		"aligned_reads/{sample}.sam"
+		genome = multiext("data/GENOME", ".amb", ".ann", ".bwt", ".pac", ".sa"),
+		r = "01_raw_data/{sample}.fastq.gz"
+	output: "03_sam_files/{sample}.sam"
+	log: "00_logs/{sample}_align_reads_err.log"
 	shell:
-		"bwa mem -t THREADS data/GENOME_PREFIX {input.r} > {output}"
+		"bwa mem -t THREADS 01_raw_data/GENOME {input.r} > {output} 2> {log}"

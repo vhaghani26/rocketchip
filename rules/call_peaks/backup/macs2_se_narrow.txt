@@ -1,0 +1,13 @@
+rule call_peaks:
+	input:
+		"bam_files/{sample}.sorted.dedup.bam"
+	output:
+		"peaks/{sample}_model.r",
+		"peaks/{sample}_peaks.xls",
+		"peaks/{sample}_summits.bed",
+		"peaks/{sample}_treat_pileup.bdg",
+		"peaks/{sample}_peaks.narrowPeak",
+		"peaks/{sample}_control_lambda.bdg"
+	shell:
+		"macs2 callpeak -t {input} CONTROL -f BAM -n {wildcards.sample} --bdg "
+		"-g GENOME_SIZE --outdir peaks/"

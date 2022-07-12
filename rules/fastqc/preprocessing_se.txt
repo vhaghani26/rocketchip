@@ -1,8 +1,10 @@
 rule fastqc_preprocessing:
 	input:
-		"data/samples/{sample}.fastq.gz"
+		"01_raw_data/{sample}.fastq.gz"
 	output:
-		"fastqc_analysis/{sample}_fastqc.html",
-		"fastqc_analysis/{sample}_fastqc.zip"
+		"02_fastqc_analysis/{sample}_fastqc.html",
+		"02_fastqc_analysis/{sample}_fastqc.zip"
+	log:
+		"00_logs/{sample}_fastqc_precheck.log"
 	shell:
-		"fastqc {input} --outdir fastqc_analysis/"
+		"fastqc {input} --outdir 02_fastqc_analysis/ 2> {log}"

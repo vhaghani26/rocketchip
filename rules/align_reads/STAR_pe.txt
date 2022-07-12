@@ -1,15 +1,13 @@
 rule align_reads:
 	input:
-		expand("aligned_reads/{sample}.sam", sample=config["samples"])
-
-rule align_reads_wc:
-	input:
-		genome = "data/GENOME_PREFIX",
-		r1 = "data/samples/{sample}_1.fastq",
-		r2 = "data/samples/{sample}_2.fastq"
+		genome = "data/GENOME",
+		r1 = "01_raw_data/{sample}_1.fastq.gz",
+		r2 = "01_raw_data/{sample}_2.fastq.gz"
 	output:
-		"aligned_reads/{sample}.sam"
+		"03_sam_files/{sample}.sam"
+	log: "00_logs/{sample}_align_reads_err.log"
 	run:
-		shell("STAR --runThreadN THREADS --genomeDir {input.genome} --readFilesIn {input.r1} {input.r2} "
-		"--outFileNamePrefix {wildcards.sample} --outStd SAM > {output}")
-		shell("mv {wildcards.sample}Log.* {wildcards.sample}SJ.out.tab aligned_reads/")
+		shell("STAR --runThreadN THREADS --genomeDir {input.genome} "
+		"--readFilesIn {input.r1} {input.r2} --readFilesCommand gunzip -c"
+		"--outFileNamePrefix {wildcards.sample} --outStd SAM > {output} 2> {log}")
+		shell("mv {wildcards.sample}Log.* {wildcards.sample}SJ.out.tab 03_sam_files/")

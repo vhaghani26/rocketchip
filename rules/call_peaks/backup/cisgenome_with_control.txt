@@ -1,0 +1,22 @@
+rule bam_to_sam:
+	input:
+		"bam_files/{sample}.sorted.dedup.bam"
+	output:
+		"aligned_reads/{sample}.sorted.dedup.sam"
+	shell:
+		"samtools view -@ THREADS {input} > {output}"
+		
+rule sam_to_aln:
+	input:
+		"aligned_reads/{sample}.sorted.dedup.sam"
+	output:
+		"cisgenome_files/{sample}.aln"
+	shell:
+		"./sam2aln -i {input} > {output}"
+
+rule write_filelist:
+
+rule call_peaks:
+	input:
+	output:
+	shell:

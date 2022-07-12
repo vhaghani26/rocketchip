@@ -1,0 +1,5 @@
+rule link_genome:
+	input: "PATH_TO_GENOME"
+	output: "01_raw_data/GENOME.fa"
+	log: "00_logs/link_genome.log"
+	shell: "ln -sf {input} {output}"

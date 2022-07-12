@@ -1,7 +1,5 @@
 rule markdup:
-	input:
-		"bam_files/{sample}.sorted.fixmate.bam"
-	output:
-		"bam_files/{sample}.sorted.dedup.bam"
-	shell:
-		"sambamba markdup -t THREADS -r {input} {output}"
+	input: "04_bam_files/{sample}.sorted.fixmate.bam"
+	output: "04_bam_files/{sample}.sorted.dedup.bam"
+	log: "00_logs/{sample}_sam_markdup.log"
+	shell: "sambamba markdup -t THREADS -r {input} {output} 2> {log}"

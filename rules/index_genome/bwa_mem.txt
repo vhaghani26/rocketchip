@@ -1,0 +1,7 @@
+rule index_genome:
+	input: "01_raw_data/GENOME.fa"
+	output: multiext("01_raw_data/GENOME", ".amb", ".ann", ".bwt", ".pac", ".sa")
+	log: "00_logs/index_genome.log"
+	run:
+		shell("bwa index -p GENOME -a bwtsw {input} 2> {log}")
+		shell("mv GENOME* 01_raw_data/")

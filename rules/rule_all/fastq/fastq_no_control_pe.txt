@@ -1,8 +1,8 @@
 rule all:
 	input:
-		expand("fastqc_analysis/{sample}_1_fastqc.zip", sample=config["samples"]),
-		expand("fastqc_analysis/{sample}_2_fastqc.zip", sample=config["samples"]),
-		expand("fastqc_analysis/{sample}_1_fastqc.html", sample=config["samples"]),
-		expand("fastqc_analysis/{sample}_2_fastqc.html", sample=config["samples"]),
-		expand("fastqc_analysis/{sample}.sorted.dedup_fastqc.zip", sample=config["samples"]),
-		expand("fastqc_analysis/{sample}.sorted.dedup_fastqc.html", sample=config["samples"]),
+		expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=config["samples"]),
+		expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=config["samples"]),
+		expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=config["samples"]),
+		expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=config["samples"]),
+		expand("02_fastqc_analysis/{sample}.sorted.dedup_fastqc.zip", sample=config["samples"]),
+		expand("02_fastqc_analysis/{sample}.sorted.dedup_fastqc.html", sample=config["samples"]),
