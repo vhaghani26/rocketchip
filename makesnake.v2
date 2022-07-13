@@ -9,6 +9,8 @@ def add_rule(path):
 		rule = fh.read()
 		rule = rule.replace('PATH_TO_GENOME', arg.genome)
 		rule = rule.replace('GENOME', genome_name)
+		rule = rule.replace("MAPPABILITY_MAP_FILE", arg.mappability_file)
+		rule = rule.replace("PEAKCALLER", arg.peakcaller)
 		if 'samtools' in rule:
 			rule = rule.replace('THREADS', str(arg.threads-1))
 		else:
@@ -56,13 +58,22 @@ parser.add_argument('--peakcaller', type=str, metavar='<str>', required = False,
 parser.add_argument('--deduplicator', type=str, metavar='<str>', required=False,
 	help='input deduplication tool {samtools, picard, sambamba, no_deduplication} (default: samtools)', 	
 	default='samtools')
+parser.add_argument('--mappability_file', type=str, metavar='<path>', required=False,
+	help='Path to mappability_file for PeakSeq')
 arg = parser.parse_args()
 
 if arg.controls is None and arg.peakcaller == 'pepr':
 	sys.stderr.write('Error: Pepr peakcaller must contain at least 1 control and '
 		'2 sample replicates\n')
 	sys.exit(1)
-
+if arg.peakcaller == 'peakseq':
+	if arg.controls is None:
+		sys.stderr.write('Error: PeakSeq peakcaller must contain at least 1 control\n')
+		sys.exit(1)
+	if arg.mappability_file is None:
+		sys.stderr.write('Error: PeakSeq peakcaller requires a mappability file input\n')
+		sys.exit(1)
+	
 # extract genome name
 genome_name = re.split('\.', re.split('/',arg.genome)[-1])[0]
 
