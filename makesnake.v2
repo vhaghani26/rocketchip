@@ -96,15 +96,69 @@ add_rule(f'rules/make_dir/make_dir.txt')
 
 # download/link genome:
 if os.path.isfile(arg.genome): add_rule(f'rules/get_genome/local_genome.txt')
-else:						   add_rule(f'rules/get_genome/remote_genome.txt')	
+else:                          add_rule(f'rules/get_genome/remote_genome.txt')	
 		
 # index genome:
 add_rule(f'rules/index_genome/{arg.aligner}.txt')
 	
-# download/link fastq
+# Make configfile
+samples  = []
+controls = []
+readtype = None
+controls_readtype = None
 
-# sra to fastq
-
+if os.path.isdir(arg.samples[0]):
+	READS_DIR = os.path.abspath(arg.samples[0])
+	single = []
+	paired = []
+	for file in os.listdir(READS_DIR):
+		if not file.endswith('.fastq.gz'): continue
+		file_name = re.search('(\w+)\.fastq\.gz', file).group(1)
+		if file_name.endswith('_1') or file_name.endswith('_2'):
+			base = file_name[:-2]
+			if base not in paired: paired.append(base)
+		else:
+			single.append(file_name)
+		if len(paired) > 0 and len(single) > 0:
+			print('Mixture of paired and single reads in sample dir, aborting')
+			sys.exit(1)
+		if len(single) > 0:
+			samples_readtype = 'se'
+			samples = single
+		elif len(paired) > 0:
+			samples_readtype = 'pe'
+			samples = paired
+		else:
+			print('No fastq.gz file found in sample dir, aborting')
+			sys.exit(1)
+else:
+	
+if os.path.isdir(arg.controls[0]):
+	READS_DIR = os.path.abspath(arg.controls[0])
+	single = []
+	paired = []
+	for file in os.listdir(READS_DIR):
+		if not file.endswith('.fastq.gz'): continue
+		file_name = re.search('(\w+)\.fastq\.gz', file).group(1)
+		if file_name.endswith('_1') or file_name.endswith('_2'):
+			base = file_name[:-2]
+			if base not in paired: paired.append(base)
+		else:
+			single.append(file_name)
+		if len(paired) > 0 and len(single) > 0:
+			print('Mixture of paired and single reads in control dir, aborting')
+			sys.exit(1)
+		if len(single) > 0:
+			controls_readtype = 'se'
+			controls = single
+		elif len(paired) > 0:
+			controls_readtype = 'pe'
+			controls = paired
+		else:
+			print('No fastq.gz file found in control dir, aborting')
+			sys.exit(1)
+else:
+	
 # fastq preprocessing
 add_rule(f'rules/fastqc/preprocessing_{arg.read_type}.txt')
 
@@ -121,10 +175,7 @@ else:
 	add_rule(f'rules/mark_dup/{arg.deduplicator}_dedup.txt')
 
 # index bam/sam
-with open(f'rules/sort_index_reads/samtools_index.txt') as fh:
-	rule = fh.read()
-	rule = rule.replace('THREADS', str(arg.threads-1))
-	sf.write(f'\n{rule}')
+add_rule(f'rules/sort_index_reads/samtools_index.txt')
 	
 # bam to bigwig
 add_rule(f'rules/bam_to_bigwig/bam_to_bigwig.txt')
