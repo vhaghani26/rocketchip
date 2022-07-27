@@ -36,7 +36,7 @@ rule call_peaks:
 		si = get_sample_index_groups,
 		ci = get_control_index_groups
 	output: "06_pepr_peaks/{sample}_{control}__PePr_parameters.txt"
-	log: "00_logs/{sample}_pepr_peaks.log"
+	log: "00_logs/{sample}_{control}_pepr_peaks.log"
 	run:
 		if type(input.s) is snakemake.io.Namedlist:
 			sample_input = ','.join(input.s)

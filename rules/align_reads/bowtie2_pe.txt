@@ -1,6 +1,6 @@
 rule align_reads:
 	input:
-		genome = multiext("data/GENOME", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2",
+		genome = multiext("01_raw_data/GENOME", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2",
 			".rev.1.bt2", ".rev.2.bt2"),
 		r1 = "01_raw_data/{sample}_1.fastq.gz",
 		r2 = "01_raw_data/{sample}_2.fastq.gz"

@@ -7,7 +7,7 @@ import sys
 def add_rule(path):
 	with open(path) as fh:
 		rule = fh.read()
-		rule = rule.replace('PATH_TO_GENOME', arg.genome)
+		rule = rule.replace('PATH_TO_GENOME', os.path.abspath(arg.genome))
 		rule = rule.replace('GENOME', genome_name)
 		rule = rule.replace("MAPPABILITY_MAP_FILE", arg.mappability_file)
 		rule = rule.replace("PEAKCALLER", arg.peakcaller)
@@ -36,10 +36,10 @@ def add_rule(path):
 parser = argparse.ArgumentParser(description='Make Snakefiles')
 parser.add_argument('-o', '--output_file', type=str, metavar='<path>', required=True,
 	help='output snakefile name')
-parser.add_argument('-s', '--samples', type=str, metavar='<samples>', nargs='+',
-	required=False, help='path to directory of sample fastq files or names/files of SRA identifiers')
-parser.add_argument('-c', '--controls', type=str, metavar='<samples>', nargs='+',
-	required=False, help='path to directory of control fastq files or names/files of SRA identifiers')
+#parser.add_argument('-s', '--samples', type=str, metavar='<samples>', nargs='+',
+	#required=False, help='path to directory of sample fastq files or names/files of SRA identifiers')
+#parser.add_argument('-c', '--controls', type=str, metavar='<samples>', nargs='+',
+	#required=False, help='path to directory of control fastq files or names/files of SRA identifiers')
 parser.add_argument('-g', '--genome', type=str, metavar='<str>', required=True,
 	help='path to fasta file or name of remote genome (e.g. ~/mygenome.fa, sacCer3)')
 parser.add_argument('-r', '--read_type', type=str, metavar='<str>', required=True,
@@ -62,6 +62,7 @@ parser.add_argument('--mappability_file', type=str, metavar='<path>', required=F
 	help='Path to mappability_file for PeakSeq')
 arg = parser.parse_args()
 
+'''
 if arg.controls is None and arg.peakcaller == 'pepr':
 	sys.stderr.write('Error: Pepr peakcaller must contain at least 1 control and '
 		'2 sample replicates\n')
@@ -73,7 +74,7 @@ if arg.peakcaller == 'peakseq':
 	if arg.mappability_file is None:
 		sys.stderr.write('Error: PeakSeq peakcaller requires a mappability file input\n')
 		sys.exit(1)
-	
+'''
 # extract genome name
 genome_name = re.split('\.', re.split('/',arg.genome)[-1])[0]
 
@@ -102,6 +103,7 @@ else:                          add_rule(f'rules/get_genome/remote_genome.txt')
 add_rule(f'rules/index_genome/{arg.aligner}.txt')
 	
 # Make configfile
+'''
 samples  = []
 controls = []
 readtype = None
@@ -158,7 +160,7 @@ if os.path.isdir(arg.controls[0]):
 			print('No fastq.gz file found in control dir, aborting')
 			sys.exit(1)
 else:
-	
+'''
 # fastq preprocessing
 add_rule(f'rules/fastqc/preprocessing_{arg.read_type}.txt')
 
@@ -185,3 +187,6 @@ if arg.controls:
 	add_rule(f'rules/call_peaks/{arg.peakcaller}/{arg.peakcaller}_with_control.txt')
 else:
 	add_rule(f'rules/call_peaks/{arg.peakcaller}/{arg.peakcaller}_no_control.txt')
+
+# fastqc postprocessing
+add_rule(f'rules/fastqc/postprocessing_{arg.read_type}.txt')

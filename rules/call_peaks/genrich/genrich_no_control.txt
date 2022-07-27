@@ -1,7 +1,7 @@
 rule name_sort_for_genrich:
 	input: "04_bam_files/{sample}.sorted.dedup.bam"
 	output: "04_bam_files/{sample}.namesorted_for_genrich.bam"
-	shell: "00_logs/{sample}_bam_namesort.log"
+	log: "00_logs/{sample}_bam_namesort.log"
 	shell: "samtools sort -n -@ THREADS -O BAM {input} > {output} 2> {log}"
 		
 def get_sample_groups(wildcards):
