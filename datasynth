@@ -12,6 +12,10 @@ parser.add_argument('stacks', type=int, metavar='<stacks>',
 	help='number of read stacks')
 parser.add_argument('rps', type=int, metavar='<rps>',
 	help='number of reads per stack')
+parser.add_argument('-o', type=str, metavar='<ouput_dir>', required=False,
+	default='.', help='Output directory')
+parser.add_argument('--control', type=str, metavar='<control_name>', required=False,
+	help='base name of files to create control (*.fa *.fastq)')
 parser.add_argument('--padding', type=int, metavar='<int>', required=False,
 	default=1000, help='spacing between read stacks [%(default)i]')
 parser.add_argument('--stddev', type=float, metavar='<float>', required=False,
@@ -53,7 +57,7 @@ coor += arg.flank
 ###################
 
 genome = ''
-with open(f'{arg.name}.fa', 'w') as fp:
+with open(f'{arg.o}/{arg.name}.fa', 'w') as fp:
 	fp.write(f'>{arg.name}\n')
 	count = 0
 	line = 80
@@ -73,14 +77,20 @@ def write_fastq(fp, n, seq):
 	fp.write('F' * len(seq))
 	fp.write('\n')
 
+def revcomp(seq):
+	comp = str.maketrans('ACGTRYMKWSBDHVN', 'TGCAYRKMWSVHDBN')
+	anti = seq.translate(comp)[::-1]
+	return anti
+
+
 half = arg.length // 2 # half single
 n = 0
 
 if arg.paired:
-	fp1 = open(f'{arg.name}_1.fastq', 'w')
-	fp2 = open(f'{arg.name}_2.fastq', 'w')
+	fp1 = open(f'{arg.o}/{arg.name}_1.fastq', 'w')
+	fp2 = open(f'{arg.o}/{arg.name}_2.fastq', 'w')
 else:
-	fp = open(f'{arg.name}.fastq', 'w')
+	fp = open(f'{arg.o}/{arg.name}.fastq', 'w')
 
 for pos in locs:
 	n += 1
@@ -88,17 +98,44 @@ for pos in locs:
 		p1 = pos - arg.paired // 2
 		p2 = pos + arg.paired // 2
 		seq1 = genome[p1-half:p1+half]
-		seq2 = genome[p2-half:p2+half]
+		seq2 = revcomp(genome[p2-half:p2+half])
 		write_fastq(fp1, n, seq1)
 		write_fastq(fp2, n, seq2)
 	else:
 		seq = genome[pos-half:pos+half]
 		write_fastq(fp, n, seq)
 
+
+####################
+## Create control ##
+####################
+if arg.control:
+	totrds = arg.stacks * arg.rps
+	if arg.paired:
+		fc1 = open(f'{arg.o}/{arg.control}_1.fastq', 'w')
+		fc2 = open(f'{arg.o}/{arg.control}_2.fastq', 'w')
+	else:
+		fc = open(f'{arg.o}/{arg.control}.fastq', 'w')
+
+	nc = 0
+	for i in range(totrds):
+		pos = random.randint(arg.padding, coor-arg.padding)
+		nc+=1
+		if arg.paired:
+			p1 = pos - arg.paired // 2
+			p2 = pos + arg.paired // 2
+			seq1 = genome[p1-half:p1+half]
+			seq2 = revcomp(genome[p2-half:p2+half])
+			write_fastq(fc1, n, seq1)
+			write_fastq(fc2, n, seq2)
+		else:
+			seq = genome[pos-half:pos+half]
+			write_fastq(fc, n, seq)
+
 #####################
 # Create Peaks File #
 #####################
 
-with open(f'{arg.name}.peaks', 'w') as fp:
+with open(f'{arg.o}/{arg.name}.peaks', 'w') as fp:
 	for peak in peaks:
 		fp.write(f'{peak}\n')
