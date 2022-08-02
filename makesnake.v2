@@ -83,6 +83,9 @@ sf = open(arg.output_file, 'w')
 # config file
 sf.write(f'configfile: \"{arg.config_file}\"\n\n')
 
+# functions for parsing configfile
+add_rule(f'rules/parse_config/parse_config.txt')
+
 # rule all: fastq files, peak files, bigwig file
 if arg.controls:
 	add_rule(f'rules/rule_all/fastq/fastq_with_control_{arg.read_type}.txt')
