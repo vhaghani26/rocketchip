@@ -1,0 +1,5 @@
+samples:
+   grp1: [exp_a, exp_b]
+   grp2: [exp_c]
+controls:
+   ctl1: [input]
