@@ -3,6 +3,10 @@
 import argparse
 import numpy
 import random
+import os
+import sys
+sys.path.append('tools')
+from readfasta import read_record
 
 parser = argparse.ArgumentParser(
 	description='Synthetic data maker for testing rocketchip')
@@ -14,7 +18,9 @@ parser.add_argument('rps', type=int, metavar='<rps>',
 	help='number of reads per stack')
 parser.add_argument('-o', type=str, metavar='<ouput_dir>', required=False,
 	default='.', help='Output directory')
-parser.add_argument('--control', type=str, metavar='<control_name>', required=False,
+parser.add_argument('--genome', type=str, metavar='<string>', required=False,
+	help='Path to existing genome. Random genome generate otherwise.')
+parser.add_argument('--control', type=str, metavar='<string>', required=False,
 	help='base name of files to create control (*.fa *.fastq)')
 parser.add_argument('--padding', type=int, metavar='<int>', required=False,
 	default=1000, help='spacing between read stacks [%(default)i]')
@@ -35,7 +41,8 @@ arg = parser.parse_args()
 if arg.seed:
 	random.seed(arg.seed)
 	numpy.random.seed(arg.seed)
-
+if arg.o != '.':
+	os.makedirs(arg.o, exist_ok=True)
 ###############################
 ## Create positions of reads ##
 ###############################
@@ -57,16 +64,22 @@ coor += arg.flank
 ###################
 
 genome = ''
-with open(f'{arg.o}/{arg.name}.fa', 'w') as fp:
-	fp.write(f'>{arg.name}\n')
-	count = 0
-	line = 80
-	for i in range(coor):
-		count += 1
-		nt = random.choice('ACGT')
-		fp.write(nt)
-		if count % line == 0: fp.write('\n')
-		genome += nt
+if arg.genome:
+	for idn, seq in read_record(arg.genome): genome = seq
+	if len(genome) < coor: 
+		print('Error: Genome size too small!')
+		sys.exit() 
+else:
+	with open(f'{arg.o}/{arg.name}.fa', 'w') as fp:
+		fp.write(f'>{arg.name}\n')
+		count = 0
+		line = 80
+		for i in range(coor):
+			count += 1
+			nt = random.choice('ACGT')
+			fp.write(nt)
+			if count % line == 0: fp.write('\n')
+			genome += nt
 
 ##################
 ## Create fastq ##
