@@ -1,51 +1,31 @@
-#expand("pepr_peaks/{sample}_{control}__PePr_parameters.txt",
-	#sample=config["sample_groups"], control=config["control_groups"])
+def sample_group(wildcards):
+	group = config["samples"][wildcards.sample]
+	return expand("04_bam_files/{sample}.sorted.dedup.bam", sample = group)
 
-def get_sample_groups(wildcards):
-	if len(wildcards.sample.split('_')) == 1:
-		return "04_bam_files/{sample}.sorted.dedup.bam"
-	else:
-		exp = wildcards.sample.split('_')
-		return expand("04_bam_files/{sample}.sorted.dedup.bam", sample=exp)
+def sample_index_group(wildcards):
+	group = config["samples"][wildcards.sample]
+	return expand("04_bam_files/{sample}.sorted.dedup.bam.bai", sample = group)
 
-def get_sample_index_groups(wildcards):
-	if len(wildcards.sample.split('_')) == 1:
-		return "04_bam_files/{sample}.sorted.dedup.bam.bai"
-	else:
-		exp = wildcards.sample.split('_')
-		return expand("04_bam_files/{sample}.sorted.dedup.bam.bai", sample=exp)
+def control_group(wildcards):
+	group = config["controls"][wildcards.control]
+	return expand("04_bam_files/{sample}.sorted.dedup.bam", sample = group)
 
-def get_control_groups(wildcards):
-	if len(wildcards.control.split('_')) == 1:
-		return "04_bam_files/{control}.sorted.dedup.bam"
-	else:
-		exp = wildcards.control.split('_')
-		return expand("04_bam_files/{control}.sorted.dedup.bam", sample=exp)
-
-def get_control_index_groups(wildcards):
-	if len(wildcards.control.split('_')) == 1:
-		return "04_bam_files/{control}.sorted.dedup.bam.bai"
-	else:
-		exp = wildcards.control.split('_')
-		return expand("04_bam_files/{control}.sorted.dedup.bam.bai", sample=exp)
+def control_index_group(wildcards):
+	group = config["controls"][wildcards.control]
+	return expand("04_bam_files/{sample}.sorted.dedup.bam.bai", sample = group)
 		
 rule call_peaks:
 	input:
-		s = get_sample_groups,
-		c = get_control_groups,
-		si = get_sample_index_groups,
-		ci = get_control_index_groups
+		s = sample_group,
+		c = control_group,
+		si = sample_index_group,
+		ci = control_index_group
 	output: "06_pepr_peaks/{sample}_{control}__PePr_parameters.txt"
 	log: "00_logs/{sample}_{control}_pepr_peaks.log"
 	run:
-		if type(input.s) is snakemake.io.Namedlist:
-			sample_input = ','.join(input.s)
-		else:
-			sample_input = input.s
-		if type(input.c) is snakemake.io.Namedlist:
-			control_input = ','.join(input.c)
-		else:
-			control_input = input.c
+		sample_input = ','.join(input.s)
+		control_input = ','.join(input.c)
+		
 		shell("PePr -f PEPR_READ_TYPE --peaktype PEPR_PEAK_TYPE --num-processors THREADS "
 			"-c {sample_input} -i {control_input} --output-directory 06_pepr_peaks "
 			"-n {wildcards.sample}_{wildcards.control} 2> {log}")

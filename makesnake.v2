@@ -9,8 +9,9 @@ def add_rule(path):
 		rule = fh.read()
 		rule = rule.replace('PATH_TO_GENOME', os.path.abspath(arg.genome))
 		rule = rule.replace('GENOME', genome_name)
-		rule = rule.replace("MAPPABILITY_MAP_FILE", arg.mappability_file)
 		rule = rule.replace("PEAKCALLER", arg.peakcaller)
+		if arg.mappability_file:
+			rule = rule.replace("MAPPABILITY_MAP_FILE", arg.mappability_file)
 		if 'samtools' in rule:
 			rule = rule.replace('THREADS', str(arg.threads-1))
 		else:

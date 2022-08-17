@@ -8,38 +8,24 @@ rule sam_to_aln:
 	input: "03_sam_files/{sample}.sorted.dedup.sam"
 	output: "06_cisgenome_files/{sample}.aln"
 	log: "00_logs/{sample}_sam_to_aln.log"
-	shell: "./sam2aln -i {input} > {output} 2> {log}"
+	shell: "./tools/sam2aln -i {input} > {output} 2> {log}"
 
-def get_sample_groups(wildcards):
-	if len(wildcards.sample.split('_')) == 1:
-		return "06_cisgenome_files/{sample}.aln"
-	else:
-		exp = wildcards.sample.split('_')
-		return expand("06_cisgenome_files/{sample}.aln", sample=exp)
+def sample_group(wildcards):
+	group = config["samples"][wildcards.sample]
+	return expand("06_cisgenome_files/{sample}.aln", sample = group)
 
-def get_control_groups(wildcards):
-	if len(wildcards.control.split('_')) == 1:
-		return "06_cisgenome_files/{control}.aln"
-	else:
-		exp = wildcards.control.split('_')
-		return expand("06_cisgenome_files/{control}.aln", sample=exp)
+def control_group(wildcards):
+	group = config["controls"][wildcards.control]
+	return expand("06_cisgenome_files/{sample}.aln", sample = group)
 		
 rule write_filelist:
 	input:
-		s = get_sample_groups,
-		c = get_control_groups
+		s = sample_group,
+		c = control_group
 	output: "06_cisgenome_files/{sample}_{control}_filelist.txt"
 	run:
-		if type(input.s) is snakemake.io.Namedlist:
-			for sample in input.s:
-				shell("echo \'{sample}\t1\' >> {output}")
-		else:
-			shell("echo \'{input.s}\t1\' >> {output}")
-		if type(input.c) is snakemake.io.Namedlist:
-			for control in input.c:
-				shell("echo \'{control}\t0\' >> {output}")
-		else:
-			shell("echo \'{input.c}\t0\' >> {output}")
+		for sample in input.s: shell("echo \'{sample}\t1\' >> {output}")
+		for control in input.c: shell("echo \'{control}\t0\' >> {output}")
 
 rule call_peaks:	
 	input: "06_cisgenome_files/{sample}_{control}_filelist.txt"

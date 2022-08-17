@@ -4,25 +4,20 @@ rule name_sort_for_genrich:
 	log: "00_logs/{sample}_bam_namesort.log"
 	shell: "samtools sort -n -@ THREADS -O BAM {input} > {output} 2> {log}"
 		
-def get_sample_groups(wildcards):
-	if len(wildcards.sample.split('_')) == 1:
-		return "04_bam_files/{sample}.namesorted_for_genrich.bam"
-	else:
-		exp = wildcards.sample.split('_')
-		return expand("04_bam_files/{sample}.namesorted_for_genrich.bam", sample=exp)
+def sample_group(wildcards):
+	group = config["samples"][wildcards.sample]
+	return expand("04_bam_files/{sample}.namesorted_for_genrich.bam", sample = group)
 
 rule call_peaks:
 	input:
-		s = get_sample_groups
+		s = sample_group
 	output:
 		peak   = "06_genrich_peaks/{sample}_peak.narrowPeak",
 		reads  = "06_genrich_peaks/{sample}_reads.bed",
 		pileup = "06_genrich_peaks/{sample}_pileup"
 	log: "00_logs/{sample}_genrich_peaks.log"
 	run:
-		if type(input.s) is snakemake.io.Namedlist:
-			sample_input = ','.join(input.s)
-		else:
-			sample_input = input.s
+		sample_input = ','.join(input.s)
+		shell("mkdir -p 06_genrich_peaks")
 		shell("Genrich -t {sample_input} -o {output.peak} -f {output.pileup} "
 			"-b {output.reads} GENRICH_READ_TYPE 2> {log}")

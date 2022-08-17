@@ -8,7 +8,7 @@ rule sam_to_aln:
 	input: "03_sam_files/{sample}.sorted.dedup.sam"
 	output: "06_cisgenome_files/{sample}.aln"
 	log: "00_logs/{sample}_sam_to_aln.log"
-	shell: "./sam2aln -i {input} > {output} 2> {log}"
+	shell: "./tools/sam2aln -i {input} > {output} 2> {log}"
 
 rule aln_to_bar:
 	input: "06_cisgenome_files/{sample}.aln"
@@ -25,7 +25,7 @@ rule get_chrinfo:
 		"06_cisgenome_files/GENOME_chrlist.txt",
 		"06_cisgenome_files/GENOME_chrlen.txt"
 	log: "00_logs/get_chroinfo.log"
-	shell: "./chromInfo -i {input} -o 06_cisgenome_files 2> {log}"
+	shell: "./tools/chrominfo -i {input} -o 06_cisgenome_files 2> {log}"
 
 rule summary_1:
 	input:

@@ -1,7 +1,6 @@
 rule sam_to_bam:
 	input: "03_sam_files/{sample}.sam"
 	output: "04_bam_files/{sample}.bam"
-	wildcard_constraints: sample='[a-zA-Z0-9]+'
 	log: "00_logs/{sample}_sam_to_bam.log"
 	shell: "samtools view -@ THREADS -Sb {input} > {output} 2> {log}"
 
