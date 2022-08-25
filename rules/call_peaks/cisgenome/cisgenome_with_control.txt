@@ -11,11 +11,11 @@ rule sam_to_aln:
 	shell: "./tools/sam2aln -i {input} > {output} 2> {log}"
 
 def sample_group(wildcards):
-	group = config["samples"][wildcards.sample]
+	group = Samples[wildcards.sample]
 	return expand("06_cisgenome_files/{sample}.aln", sample = group)
 
 def control_group(wildcards):
-	group = config["controls"][wildcards.control]
+	group = Controls[wildcards.control]
 	return expand("06_cisgenome_files/{sample}.aln", sample = group)
 		
 rule write_filelist:

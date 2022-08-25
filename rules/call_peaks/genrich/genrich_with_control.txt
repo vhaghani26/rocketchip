@@ -5,11 +5,11 @@ rule name_sort_for_genrich:
 	shell: "samtools sort -n -@ THREADS -O BAM {input} > {output} 2> {log}"
 
 def sample_group(wildcards):
-	group = config["samples"][wildcards.sample]
+	group = Samples[wildcards.sample]
 	return expand("04_bam_files/{sample}.namesorted_for_genrich.bam", sample = group)
 
 def control_group(wildcards):
-	group = config["controls"][wildcards.control]
+	group = Controls[wildcards.control]
 	return expand("04_bam_files/{sample}.namesorted_for_genrich.bam", sample = group)
 
 rule call_peaks:

@@ -20,7 +20,7 @@ arg = parser.parse_args()
 def read_config(config):
 	# Titles
 	titles = ['Author', 'Project', 'Genome', 'Reads', 'Readtype', 'Peaktype',
-	'Aligner', 'Deduplicator', 'Peakcaller']
+	'Aligner', 'Deduplicator', 'Peakcaller', 'Threads']
 	for title in config:
 		if not title in titles:
 			sys.exit(f'Invalid title in configfile: {title}')
@@ -80,7 +80,8 @@ def read_config(config):
 		config['Aligner'],
 		config['Deduplicator'],
 		config['Peakcaller'],
-		config['Reads']['Controls'] is not None
+		config['Reads']['Controls'] is not None,
+		config['Threads']
 	)
 
 
@@ -120,7 +121,7 @@ RULES_DIR       = f'{ROCKETCHIP_DIR}/rules'
 config = None
 with open(arg.configfile, 'r') as yamlfile: config = yaml.safe_load(yamlfile)
 (genome_name, genome_location, readtype, peaktype,
-aligner, deduplicator, peakcaller, control) = read_config(config)
+aligner, deduplicator, peakcaller, control, threads) = read_config(config)
 
 #########################################
 ## Check for peakcaller specific erros ##
@@ -202,6 +203,92 @@ with open(INDEX_GENOME) as fh:
 	rule = rule.replace('GENOME', genome_name)
 	snakerules.append(rule)
 	
-# 
+# Fastq preprocessing
+FASTQ_PREPROCESS = f'{RULES_DIR}/fastqc/preprocessing_{readtype}.txt'
+with open(FASTQ_PREPROCESS) as fh: snakerules.append(fh.read())
+
+# Align reads
+ALIGN_READS = f'{RULES_DIR}/align_reads/{aligner}_{readtype}.txt'
+with open(ALIGN_READS) as fh:
+	rule = fh.read()
+	assert('GENOME' in rule and 'THREADS' in rule)
+	rule = rule.replace('GENOME', genome_name)
+	rule = rule.replace('THREADS', str(threads))
+	snakerules.append(rule)
+	
+# Sort reads
+SORT_READS = f'{RULES_DIR}/sort_index_reads/samtools_sort.txt'
+with open(SORT_READS) as fh:
+	rule = fh.read()
+	assert('THREADS' in rule)
+	rule = rule.replace('THREADS', str(threads))
+	snakerules.append(rule)
+
+# Markdup
+MARKDUP = None
+if deduplicator == 'no_deduplication': MARKDUP = f'{RULES_DIR}/mark_dup/fake_dedup.txt'
+else: MARKDUP = f'{RULES_DIR}/mark_dup/{deduplicator}_dedup.txt'
+with open(MARKDUP) as fh:
+	rule = fh.read()
+	if deduplicator in ('sambamba', 'samtools'):
+		assert('THREADS' in rule)
+		rule = rule.replace('THREADS', str(threads))
+	snakerules.append(rule)
+
+# Index reads
+INDEX_READS = f'{RULES_DIR}/sort_index_reads/samtools_index.txt'
+with open(INDEX_READS) as fh:
+	rule = fh.read()
+	assert('THREADS' in rule)
+	rule = rule.replace('THREADS', str(threads))
+	snakerules.append(rule)
+
+# Bam to bigwig
+BAM_TO_BIGWIG = f'{RULES_DIR}/bam_to_bigwig/bam_to_bigwig.txt'
+with open(BAM_TO_BIGWIG) as fh: snakerules.append(fh.read())
+
+# Call peaks
+CALL_PEAKS = None
+if control:
+	CALL_PEAKS = f'{RULES_DIR}/call_peaks/{peakcaller}/{peakcaller}_with_control.txt'
+else:
+	CALL_PEAKS = f'{RULES_DIR}/call_peaks/{peakcaller}/{peakcaller}_no_control.txt'
+with open(CALL_PEAKS) as fh:
+	rule = fh.read()
+	# cisgenome specific
+	if peakcaller == 'cisgenome':
+		assert('THREADS' in rule)
+		rule = rule.replace('THREADS', str(threads))
+		if not control:
+			assert('GENOME' in rule)
+			rule = rule.replace('GENOME', genome_name)
+	# genrich specific
+	if peakcaller == 'genrich':
+		assert('THREADS' in rule and 'GENRICH_READ_TYPE' in rule)
+		rule = rule.replace('THREADS', str(threads))
+		if readtype == 'single': rule = rule.replace('GENRICH_READ_TYPE', '-y')
+		else: rule = rule.replace('GENRICH_READ_TYPE', '')
+	# macs3 specific
+	if peakcaller == 'macs3':
+		assert('MACS3_READ_TYPE' in rule and 'MACS3_PEAK_TYPE' in rule)
+		if readtype == 'single': rule = rule.replace('MACS3_READ_TYPE', 'BAM')
+		else: rule = rule.replace('MACS3_READ_TYPE', 'BAMPE')
+		if peaktype == 'narrow': rule = rule.replace('MACS3_PEAK_TYPE', '')
+		else: rule = rule.replace('MACS3_PEAK_TYPE','--broad')
+	# pepr specific
+	if peakcaller == 'pepr':
+		assert('PEPR_READ_TYPE' in rule and 'PEPR_PEAK_TYPE' in rule and 'THREADS' in rule)
+		rule = rule.replace('THREADS', str(threads))
+		if readtype == 'single': rule = rule.replace('PEPR_READ_TYPE','bam')
+		else: rule = rule.replace('PEPR_READ_TYPE','bampe')
+		if peaktype == 'narrow': rule = rule.replace('PEPR_PEAK_TYPE','sharp')
+		else: rule = rule.replace('PEPR_PEAK_TYPE','broad')
+	
+	snakerules.append(rule)
+
+# Fastq postprocessing
+FASTQ_PREPROCESS = f'{RULES_DIR}/fastqc/postprocessing_{readtype}.txt'
+with open(FASTQ_PREPROCESS) as fh: snakerules.append(fh.read())
+
 print('\n'.join(snakerules))
 

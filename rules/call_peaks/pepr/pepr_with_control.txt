@@ -1,17 +1,17 @@
 def sample_group(wildcards):
-	group = config["samples"][wildcards.sample]
+	group = Samples[wildcards.sample]
 	return expand("04_bam_files/{sample}.sorted.dedup.bam", sample = group)
 
 def sample_index_group(wildcards):
-	group = config["samples"][wildcards.sample]
+	group = Samples[wildcards.sample]
 	return expand("04_bam_files/{sample}.sorted.dedup.bam.bai", sample = group)
 
 def control_group(wildcards):
-	group = config["controls"][wildcards.control]
+	group = Controls[wildcards.control]
 	return expand("04_bam_files/{sample}.sorted.dedup.bam", sample = group)
 
 def control_index_group(wildcards):
-	group = config["controls"][wildcards.control]
+	group = Controls[wildcards.control]
 	return expand("04_bam_files/{sample}.sorted.dedup.bam.bai", sample = group)
 		
 rule call_peaks:

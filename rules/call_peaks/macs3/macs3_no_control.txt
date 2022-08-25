@@ -1,5 +1,5 @@
 def sample_group(wildcards):
-	group = config["samples"][wildcards.sample]
+	group = Samples[wildcards.sample]
 	return expand("04_bam_files/{sample}.sorted.dedup.bam", sample = group)
 
 rule call_peaks:
