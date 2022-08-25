@@ -1,0 +1,207 @@
+#!/usr/bin/env python3
+
+import argparse
+import yaml
+import os
+import sys
+
+parser = argparse.ArgumentParser(description='Make Snakefiles')
+parser.add_argument('configfile', type=str, metavar='<path>',
+	help='Path to configuration file. See README for details')
+parser.add_argument('-o', type=str, metavar='<string>', required=False,
+	help='output snakefile name (default: STDOUT)')
+arg = parser.parse_args()
+
+###############
+## Functions ##
+###############
+
+# Check for any invalid titles in config file
+def read_config(config):
+	# Titles
+	titles = ['Author', 'Project', 'Genome', 'Reads', 'Readtype', 'Peaktype',
+	'Aligner', 'Deduplicator', 'Peakcaller']
+	for title in config:
+		if not title in titles:
+			sys.exit(f'Invalid title in configfile: {title}')
+		if config[title] is None:
+			sys.exit(f'No input detected in config file in section \'{title}\'')	
+	
+	# Genome
+	genome_info = ['Name', 'Location']
+	for title in config['Genome']:
+		if not title in genome_info:
+			sys.exit(f'Invalid title in configfile: {title}')
+		if config['Genome'][title] is None:
+			sys.exit(f'No input detected in config file in section \'Genome: {title}\'')
+	genome_location = config['Genome']['Location']
+	if not os.path.isabs(genome_location) and not genome_location.startswith('http://'):
+		sys.exit(f'Invalid absolute path or url to genome location: {genome_location}')
+	
+	# Reads
+	reads_info  = ['Samples', 'Controls']
+	for title in config['Reads']:
+		if not title in reads_info:
+			sys.exit(f'Invalid title in config file: {title}')
+	
+	# User input
+	if config['Reads']['Samples'] is None:
+		sys.exit(f'Invalid sample input: no sample group detected')
+	else:
+		for group in config['Reads']['Samples']:
+			spl_group = config['Reads']['Samples'][group]
+			if spl_group is None or len(spl_group) < 1:
+				sys.exit(f'Invalid sample input: no samples detected in group {group}')
+	
+	if config['Reads']['Controls'] is not None:
+		for group in config['Reads']['Controls']:
+			ctl_group = config['Reads']['Controls'][group]
+			if ctl_group is None or len(ctl_group) < 1:
+				sys.exit(f'Invalid control sample input: no samples detected in group {group}')
+			
+	options = {
+		'Readtype': ['single', 'paired'],
+		'Peaktype': ['narrow', 'broad'],
+		'Aligner': ['bwa_mem', 'bowtie2', 'STAR'],
+		'Deduplicator': ['samtools', 'picard', 'sambamba', 'no_deduplication'],
+		'Peakcaller': ['macs3', 'genrich', 'pepr', 'cisgenome']
+		}
+	for option in options:
+		user_input = config[option]
+		if not user_input in options[option]:
+			sys.exit(f'Invalid {option} in configfile: {user_input}\nInput one of the following {option}s: {options[option]} (case sensitive)')
+
+	
+	return (
+		config['Genome']['Name'].replace(' ', '_'),
+		config['Genome']['Location'],
+		config['Readtype'],
+		config['Peaktype'],
+		config['Aligner'],
+		config['Deduplicator'],
+		config['Peakcaller'],
+		config['Reads']['Controls'] is not None
+	)
+
+
+def yaml2dict(reads):
+	o = []
+	'''
+	for t in reads:
+		o.append(f'{t} = {{\n')
+		for sample in reads[t]:	o.append(f'\t\'{sample}\': {reads[t][sample]},\n')
+		o.append(f'}}\n')
+	'''
+	s = 'Samples'
+	o.append(f'{s} = {{\n')
+	for sample in reads[s]: o.append(f'\t\'{sample}\': {reads[s][sample]},\n')
+	o.append(f'}}\n')
+	
+	c = 'Controls'
+	if reads['Controls'] is not None:
+		o.append(f'{c} = {{\n')
+		for sample in reads[c]: o.append(f'\t\'{sample}\': {reads[c][sample]},\n')
+		o.append(f'}}\n')
+		
+	return ''.join(o)
+	
+#######################
+## Environment setup ##
+#######################
+CURRENT_DIR     = os.getcwd()
+ROCKETCHIP_PATH = os.path.abspath(__file__)
+ROCKETCHIP_DIR  = os.path.dirname(ROCKETCHIP_PATH)
+RULES_DIR       = f'{ROCKETCHIP_DIR}/rules'
+
+#####################
+## Read configfile ##
+#####################
+
+config = None
+with open(arg.configfile, 'r') as yamlfile: config = yaml.safe_load(yamlfile)
+(genome_name, genome_location, readtype, peaktype,
+aligner, deduplicator, peakcaller, control) = read_config(config)
+
+#########################################
+## Check for peakcaller specific erros ##
+#########################################
+
+# cisgenome
+if config['Peakcaller'] == 'cisgenome':
+	# accept no replicates when there is 0 control
+	if config['Reads']['Controls'] is None:
+		for exp_group in config['Reads']['Samples']:
+			num_samples = len(config['Reads']['Samples'][exp_group])
+			if num_samples != 1:
+				sys.exit(f'Error: when there is no control, cisgenome reads exactly 1 experiment sample per experiment group; {num_samples} sample(s) provided in experiment group \'{exp_group}\'')
+				
+# pepr
+if config['Peakcaller'] == 'pepr':
+	for spl_group in config['Reads']['Samples']:
+		num_samples = len(config['Reads']['Samples'][spl_group])
+		if num_samples < 2:
+			sys.exit(f'Error: pepr must read in at least 2 sample replicates per experiment group and at least 1 control sample; {num_samples} sample(s) provided in experiment group \'{spl_group}\'')
+	if config['Reads']['Controls'] is None:
+		sys.exit(f'Error: pepr must read in at least 2 expriment replicates per experiment group and at least 1 control sample; 0 control provided')
+
+#####################
+## Make snakerules ##
+#####################
+
+snakerules = []
+
+# Wildcard constraints
+wildcard_constraints = f'wildcard_constraints:\n\tsample=\'[a-zA-Z0-9_]+\',\n\tcontrol=\'[a-zA-Z0-9_]+\'\n'
+snakerules.append(wildcard_constraints)
+
+# Reads
+reads = yaml2dict(config['Reads'])
+snakerules.append(reads)
+
+# Read parser
+READ_PARSER = f'{RULES_DIR}/parse_config/parse_reads.txt'
+with open(READ_PARSER) as fh: snakerules.append(fh.read())
+
+# Rule all: fastq files, peak files, bigwig file
+RULE_ALL_FASTQ = None
+RULE_ALL_PEAKCALLER = None
+RULE_ALL_BIGWIG = f'{RULES_DIR}/rule_all/bigwig/bigwig.txt'
+if control:
+	RULE_ALL_FASTQ = f'{RULES_DIR}/rule_all/fastq/fastq_with_control_{readtype}.txt'
+	RULE_ALL_PEAKCALLER = f'{RULES_DIR}/rule_all/peaks/{peakcaller}_with_control.txt'
+else:
+	RULE_ALL_FASTQ = f'{RULES_DIR}/rule_all/fastq/fastq_no_control_{readtype}.txt'
+	RULE_ALL_PEAKCALLER = f'{RULES_DIR}/rule_all/peaks/{peakcaller}_no_control.txt'
+for rule in (RULE_ALL_FASTQ, RULE_ALL_PEAKCALLER, RULE_ALL_BIGWIG):
+	with open(rule) as fh: snakerules.append(fh.read())
+
+# Make directories
+MAKE_DIR = f'{RULES_DIR}/make_dir/make_dir.txt'
+with open(MAKE_DIR) as fh:
+	rule = fh.read()
+	assert('PEAKCALLER' in rule)
+	rule = rule.replace('PEAKCALLER', peakcaller)
+	snakerules.append(rule)
+
+# Download/link genome:
+GET_GENOME = None
+if os.path.isabs(genome_location): GET_GENOME = f'{RULES_DIR}/get_genome/local_genome.txt'
+else: GET_GENOME = f'{RULES_DIR}/get_genome/remote_genome.txt'
+with open(GET_GENOME) as fh:
+	rule = fh.read()
+	assert('GENOME_LOCATION' in rule and 'GENOME' in rule)
+	rule = rule.replace('GENOME_LOCATION', genome_location)
+	rule = rule.replace('GENOME', genome_name)
+	snakerules.append(rule)
+	
+# Index genome:
+INDEX_GENOME = f'{RULES_DIR}/index_genome/{aligner}.txt'
+with open(INDEX_GENOME) as fh:
+	rule = fh.read()
+	assert('GENOME' in rule)
+	rule = rule.replace('GENOME', genome_name)
+	snakerules.append(rule)
+	
+# 
+print('\n'.join(snakerules))
+

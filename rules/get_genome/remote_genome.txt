@@ -1,9 +1,9 @@
 rule download_genome:
+	input: "GENOME_LOCATION"
 	output: "01_raw_data/GENOME.fa.gz"
 	log: "00_logs/download_genome.log"
 	shell:
-		"wget https://hgdownload.soe.ucsc.edu/goldenPath/GENOME/bigZips/GENOME.fa.gz "
-		"-O {output} 2> {log}"
+		"wget {input} -O {output} 2> {log}"
 
 rule process_genome:
 	input: "01_raw_data/GENOME.fa.gz"
