@@ -262,6 +262,7 @@ with open(CALL_PEAKS) as fh:
 		if not control:
 			assert('GENOME' in rule)
 			rule = rule.replace('GENOME', genome_name)
+		rule = rule.replace('./tools', f'{ROCKETCHIP_DIR}/tools')
 	# genrich specific
 	if peakcaller == 'genrich':
 		assert('THREADS' in rule and 'GENRICH_READ_TYPE' in rule)
