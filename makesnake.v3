@@ -124,10 +124,10 @@ def dict2snake(reads, dict_type, read_src):
 	return ''.join(o)
 	
 #####################################
-## File locations and environments ##
+## Environment and file  locations ##
 #####################################
 
-# Data files location (inspired by original rocketchip)
+# Data environment
 if arg.data: os.environ['ROCKETCHIP_DATA'] = arg.data
 if 'ROCKETCHIP_DATA' not in os.environ:
 	sys.exit('Error: ROCKETCHIP_DATA not in environment; set ROCKETCHIP_DATA or use --data')
@@ -135,7 +135,7 @@ if not os.path.isdir(os.environ['ROCKETCHIP_DATA']):
 	sys.exit('Error: ROCKETCHIP_DATA is not a directory')
 DATA = os.path.abspath(os.environ['ROCKETCHIP_DATA'])
 
-# Source code location (inspired by original rocketchip)
+# Source environment
 if arg.src: os.environ['ROCKETCHIP_SRC'] = arg.src
 if 'ROCKETCHIP_SRC' not in os.environ:
 	sys.exit('Error: ROCKETCHIP_SRC not in environment; set ROCKETCHIP_SRC or use --src')
@@ -151,7 +151,7 @@ CONFIGFILE_DIR  = os.path.dirname(CONFIGFILE_PATH)
 RULES_DIR       = f'{SRC}/rules'
 
 #####################
-## Read configfile ##
+## Read Configfile ##
 #####################
 
 config = None
@@ -159,17 +159,17 @@ with open(arg.configfile, 'r') as yamlfile: config = yaml.safe_load(yamlfile)
 (GENOME_NAME, GENOME_LOCATION, READTYPE, PEAKTYPE,
 ALIGNER, DEDUPLICATOR, PEAKCALLER, CONTROL, THREADS) = read_config(config)
 
-###############################
-## Check for genome location ##
-###############################
+#######################
+## Genome Management ##
+#######################
 if os.path.isfile(f'{CONFIGFILE_DIR}/{GENOME_LOCATION}'):
 	GENOME_LOCATION = os.path.abspath(f'{CONFIGFILE_DIR}/{GENOME_LOCATION}')
 if not os.path.isabs(GENOME_LOCATION) and not GENOME_LOCATION.startswith('http://'):
 	sys.exit('Error: Invalid path to local genome or url to remote genome in configfile in section Genome: Location')
 
-###########################
-## Check for reads input ##
-###########################
+######################
+## Reads Management ##
+######################
 lcr  = {}
 sra = []
 READ_SRC = None
@@ -238,9 +238,9 @@ if PEAKCALLER == 'pepr':
 	if config['Reads']['Controls'] is None:
 		sys.exit(f'Error: pepr must read in at least 2 expriment replicates per experiment group and at least 1 control sample; 0 control provided')
 
-#####################
-## Make snakerules ##
-#####################
+######################
+## Make Snake Rules ##
+######################
 
 snakerules = []
 
