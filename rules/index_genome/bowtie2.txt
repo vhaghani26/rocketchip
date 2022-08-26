@@ -1,8 +1,7 @@
 rule index_genome:
-	input: "01_raw_data/GENOME.fa"
+	input: "DATA/GENOME/GENOME.fa"
 	output:
-		multiext("01_raw_data/GENOME", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2",
-			".rev.1.bt2", ".rev.2.bt2")
+		multiext("DATA/GENOME/GENOME", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2", ".rev.1.bt2", ".rev.2.bt2")
 	log: "00_logs/index_genome.log"
 	shell:
-		"bowtie2-build {input} 01_raw_data/GENOME 2> {log}"
+		"bowtie2-build {input} DATA/GENOME/GENOME 2> {log}"

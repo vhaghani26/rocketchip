@@ -1,6 +1,6 @@
 rule index_genome:
-	input: "01_raw_data/GENOME.fa"
-	output: directory("01_raw_data/GENOME")
+	input: "DATA/GENOME/GENOME.fa"
+	output: directory("DATA/GENOME")
 	log: "00_logs/index_genome.log"
 	shell:
 		"STAR --runMode genomeGenerate --genomeDir {output} "

@@ -1,5 +1,7 @@
 rule link_genome:
 	input: "GENOME_LOCATION"
-	output: "01_raw_data/GENOME.fa"
+	output: "DATA/GENOME/GENOME.fa"
 	log: "00_logs/link_genome.log"
-	shell: "ln -sf {input} {output}"
+	run:
+		shell("mkdir DATA/GENOME -p")
+		shell("ln -sf {input} {output}")
