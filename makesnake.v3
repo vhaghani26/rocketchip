@@ -86,20 +86,37 @@ def read_config(config):
 	)
 
 
-def dict2snake(reads, t):
+def dict2snake(reads, dict_type, read_src):
 	o = []
-	if t == 'r':
+	if dict_type == 'names':
 		s = 'Samples'
 		o.append(f'{s} = {{\n')
-		for sample in reads[s]: o.append(f'\t\'{sample}\': {reads[s][sample]},\n')
+		if read_src == 'sra':
+			for group in reads[s]: o.append(f'\t\'{group}\': {reads[s][group]},\n')
+		else:
+			for group in reads[s]:
+				read_names = []
+				for read in reads[s][group]:
+					read_name = os.path.basename(read)
+					read_names.append(read_name)
+				o.append(f'\t\'{group}\': {read_names},\n')
 		o.append(f'}}\n')
 		
 		c = 'Controls'
 		if reads['Controls'] is not None:
 			o.append(f'{c} = {{\n')
-			for sample in reads[c]: o.append(f'\t\'{sample}\': {reads[c][sample]},\n')
+			if read_src == 'sra':
+				for group in reads[c]: o.append(f'\t\'{group}\': {reads[c][group]},\n')
+			else:
+				for group in reads[c]:
+					read_names = []
+					for read in reads[c][group]:
+						read_name = os.path.basename(read)
+						read_names.append(read_name)
+					o.append(f'\t\'{group}\': {read_names},\n')
 			o.append(f'}}\n')
-	elif t == 'p':
+	
+	elif dict_type == 'paths':
 		o.append(f'reads_path = {{\n')
 		for sample in reads: o.append(f'\t\'{sample}\': {reads[sample]},\n')
 		o.append(f'}}\n')
@@ -155,6 +172,7 @@ if not os.path.isabs(GENOME_LOCATION) and not GENOME_LOCATION.startswith('http:/
 ###########################
 lcr  = {}
 sra = []
+READ_SRC = None
 for sample_type in config['Reads']:
 	if config['Reads'][sample_type] is None: continue
 	for group in config['Reads'][sample_type]:
@@ -195,6 +213,9 @@ if len(lcr) > 0 and len(sra) > 0:
 	sys.exit(f'Error: Mix of local fastq reads and remote SRR identifiers detected')
 if len(lcr) <= 0 and len(sra) <= 0:
 	sys.exit(f'Error: 0 reads detected')
+if len(lcr) > 0: READ_SRC = 'lcr'
+else: READ_SRC = 'sra'
+
 #########################################
 ## Check for peakcaller specific erros ##
 #########################################
@@ -228,10 +249,12 @@ wildcard_constraints = f'wildcard_constraints:\n\tsample=\'[a-zA-Z0-9_]+\',\n\tc
 snakerules.append(wildcard_constraints)
 
 # Reads
-reads = dict2snake(config['Reads'], 'r')
-if len(lcr) > 0: lcr_path =  dict2snake(lcr, 'p')
+reads = dict2snake(config['Reads'], dict_type = 'names', read_src = READ_SRC)
 snakerules.append(reads)
-snakerules.append(lcr_path)
+if READ_SRC == 'lcr':
+	lcr_path =  dict2snake(lcr, dict_type = 'paths', read_src = READ_SRC)
+	snakerules.append(lcr_path)
+
 # Read parser
 READ_PARSER = f'{RULES_DIR}/parse_config/parse_reads.txt'
 with open(READ_PARSER) as fh: snakerules.append(fh.read())
@@ -287,7 +310,8 @@ if len(sra) > 0:
 		rule = rule.replace('DATA', DATA)
 		snakerules.append(rule)
 else:
-	x = 1
+	GET_READS = f'{RULES_DIR}/get_reads/local_reads_{READTYPE}.txt'
+	with open(GET_READS) as fh: snakerules.append(fh.read())
 
 
 # Fastq preprocessing

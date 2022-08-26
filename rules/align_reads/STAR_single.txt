@@ -5,8 +5,8 @@ rule align_reads:
 	output: "03_sam_files/{sample}.sam"
 	log: "00_logs/{sample}_align_reads_err.log"
 	run:
-		shell("STAR --runThreadN THREADS --genomeDir {input.genome} 
-		"--readFilesIn {input.r} --readFilesCommand gunzip -c"
+		shell("STAR --runThreadN THREADS --genomeDir {input.genome} "
+		"--readFilesIn {input.r} --readFilesCommand gunzip -c "
 		"--outFileNamePrefix {wildcards.sample} --outStd SAM > {output} 2> {log}")
 		shell("mv {wildcards.sample}Log.* {wildcards.sample}SJ.out.tab 03_sam_files/")
 
