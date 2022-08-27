@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
+import urllib.request
 import argparse
 import yaml
-import os
 import sys
+import os
+import re
 
 parser = argparse.ArgumentParser(description='Make Snakefiles')
 parser.add_argument('configfile', type=str, metavar='<path>',
@@ -180,6 +182,21 @@ for sample_type in config['Reads']:
 			read_dir  = os.path.dirname(read)
 			read_name = os.path.basename(read)
 			if read_name.startswith('SRR'):
+				if read_name in sra: continue
+				sys.stderr.write(f'sra entry detected... assessing read type (paired/single) for {read_name}\n')
+				page = urllib.request.urlopen(f'https://www.ncbi.nlm.nih.gov/sra/?term={read_name}')
+				html = page.read().decode('UTF-8')
+				page.close()
+				match = re.search('Layout: <span>(.{6})</span>', html)
+				readtype = None
+				if match:
+					if re.search('SINGLE', match.group()): readtype = 'single'
+					elif re.search('PAIRED', match.group()): readtype = 'paired'
+				if readtype is None:
+					sys.exit(f'Could not assess paired/end for {read_name}, aborting')
+				if readtype != READTYPE:
+					sys.exit(f'Inconsistent read type...\n{read_name} has type: {readtype} while config file input is Readtype: {READTYPE}')
+				sys.stderr.write(f'{read_name} has read type: {readtype}\n')
 				sra.append(read_name)
 			elif os.path.isdir(f'{CONFIGFILE_DIR}/{read_dir}') or os.path.isabs(read_dir):
 				if READTYPE == 'single':
