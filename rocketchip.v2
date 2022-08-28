@@ -181,7 +181,7 @@ for sample_type in config['Reads']:
 		for read in config['Reads'][sample_type][group]:
 			read_dir  = os.path.dirname(read)
 			read_name = os.path.basename(read)
-			if read_name.startswith('SRR'):
+			if read_name.startswith(('SRR', 'ERR', 'DRR')):
 				if read_name in sra: continue
 				sys.stderr.write(f'sra entry detected... assessing read type (paired/single) for {read_name}\n')
 				page = urllib.request.urlopen(f'https://www.ncbi.nlm.nih.gov/sra/?term={read_name}')
