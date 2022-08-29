@@ -141,7 +141,7 @@ DATA = os.path.abspath(os.environ['ROCKETCHIP_DATA'])
 if arg.src: os.environ['ROCKETCHIP_SRC'] = arg.src
 if 'ROCKETCHIP_SRC' not in os.environ:
 	sys.exit('Error: ROCKETCHIP_SRC not in environment; set ROCKETCHIP_SRC or use --src')
-testrule = f'{os.environ["ROCKETCHIP_SRC"]}/rules/parse_config/parse_reads_with_control.txt'
+testrule = f'{os.environ["ROCKETCHIP_SRC"]}/rules/parse_reads/parse_reads_with_control.txt'
 if not os.path.isfile(testrule):
 	sys.exit('Error: Incorrect ROCKETCHIP_SRC')
 SRC = os.path.abspath(os.environ['ROCKETCHIP_SRC'])
