@@ -141,7 +141,7 @@ DATA = os.path.abspath(os.environ['ROCKETCHIP_DATA'])
 if arg.src: os.environ['ROCKETCHIP_SRC'] = arg.src
 if 'ROCKETCHIP_SRC' not in os.environ:
 	sys.exit('Error: ROCKETCHIP_SRC not in environment; set ROCKETCHIP_SRC or use --src')
-testrule = f'{os.environ["ROCKETCHIP_SRC"]}/rules/parse_config/parse_reads.txt'
+testrule = f'{os.environ["ROCKETCHIP_SRC"]}/rules/parse_config/parse_reads_with_control.txt'
 if not os.path.isfile(testrule):
 	sys.exit('Error: Incorrect ROCKETCHIP_SRC')
 SRC = os.path.abspath(os.environ['ROCKETCHIP_SRC'])
@@ -273,7 +273,11 @@ if READ_SRC == 'lcr':
 	snakerules.append(lcr_path)
 
 # Read parser
-READ_PARSER = f'{RULES_DIR}/parse_config/parse_reads.txt'
+READ_PARSER = None
+if CONTROL:
+	READ_PARSER = f'{RULES_DIR}/parse_reads/parse_reads_with_control.txt'
+else:
+	READ_PARSER = f'{RULES_DIR}/parse_reads/parse_reads_no_control.txt'
 with open(READ_PARSER) as fh: snakerules.append(fh.read())
 
 # Rule all: fastq files, peak files, bigwig file
@@ -297,7 +301,7 @@ with open(MAKE_DIR) as fh:
 	rule = rule.replace('PEAKCALLER', PEAKCALLER)
 	snakerules.append(rule)
 
-# Download/link genome:
+# Download/copy genome:
 GET_GENOME = None
 if os.path.isabs(GENOME_LOCATION): GET_GENOME = f'{RULES_DIR}/get_genome/local_genome.txt'
 else: GET_GENOME = f'{RULES_DIR}/get_genome/remote_genome.txt'

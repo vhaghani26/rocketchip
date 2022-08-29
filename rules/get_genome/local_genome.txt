@@ -1,7 +1,7 @@
-rule link_genome:
+rule copy_genome:
 	input: "GENOME_LOCATION"
 	output: "DATA/GENOME/GENOME.fa"
-	log: "00_logs/link_genome.log"
+	log: "00_logs/copy_genome.log"
 	run:
 		shell("mkdir DATA/GENOME -p")
-		shell("ln -sf {input} {output}")
+		shell("cp {input} {output}")
