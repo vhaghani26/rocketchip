@@ -166,7 +166,7 @@ ALIGNER, DEDUPLICATOR, PEAKCALLER, CONTROL, THREADS) = read_config(config)
 #######################
 if os.path.isfile(f'{CONFIGFILE_DIR}/{GENOME_LOCATION}'):
 	GENOME_LOCATION = os.path.abspath(f'{CONFIGFILE_DIR}/{GENOME_LOCATION}')
-if not os.path.isabs(GENOME_LOCATION) and not GENOME_LOCATION.startswith('http://'):
+if not os.path.isabs(GENOME_LOCATION) and not GENOME_LOCATION.startswith(('http://', 'https://')):
 	sys.exit('Error: Invalid path to local genome or url to remote genome in configfile in section Genome: Location')
 
 ######################
