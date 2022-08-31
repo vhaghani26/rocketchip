@@ -1,18 +1,18 @@
 Author: Alan
 Project: A rocketchip demo
 Genome:
-   Name: demo_genome
-   Location: /home/azhang/rocketchip/demo_data/demo_genome.fa
+  Name: demo_genome
+  Location: /home/azhang/rocketchip/demo_data/demo_genome.fa
 Reads:
-   Samples:
-      grp1: 
-         - ../demo_data/exp_a
-         - /home/azhang/rocketchip/demo_data/exp_b
-      grp2:
-         - ../demo_data/exp_c
-   Controls:
-      ctl1: 
-         - ../demo_data/input
+  Samples:
+    grp1: 
+      - ../demo_data/exp_a
+      - /home/azhang/rocketchip/demo_data/exp_b
+    grp2:
+      - ../demo_data/exp_c
+  Controls:
+    ctl1: 
+      - ../demo_data/input
 Readtype: paired
 Peaktype: narrow
 Aligner: bwa_mem

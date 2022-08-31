@@ -261,6 +261,10 @@ if PEAKCALLER == 'pepr':
 
 snakerules = []
 
+# Project file content
+project_file = '\'\'\'\n' + yaml.dump(config, sort_keys=False) + '\'\'\'\n'
+snakerules.append(project_file)
+
 # Wildcard constraints
 wildcard_constraints = f'wildcard_constraints:\n\tsample=\'[a-zA-Z0-9_]+\',\n\tcontrol=\'[a-zA-Z0-9_]+\'\n'
 snakerules.append(wildcard_constraints)
