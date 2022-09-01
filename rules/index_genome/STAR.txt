@@ -13,7 +13,7 @@ rule link_indexed_genome:
 		indexers = multiext("DATA/GENOME/STAR_indexed_GENOME/", "chrLength.txt",  "chrNameLength.txt",  "chrName.txt",  "chrStart.txt",  "Genome", "genomeParameters.txt",  "Log.out",  "SA",  "SAindex"),
 		fa = "DATA/GENOME/GENOME.fa"
 	output:
-		directory("01_raw_data/fake_genome/"),
+		directory("01_raw_data/GENOME/"),
 		indexers = multiext("01_raw_data/GENOME/", "chrLength.txt",  "chrNameLength.txt",  "chrName.txt",  "chrStart.txt",  "Genome", "genomeParameters.txt",  "Log.out",  "SA",  "SAindex"),
 		fa = "01_raw_data/GENOME/GENOME.fa"
 	log: "00_logs/link_indexed_genome.log"

@@ -398,7 +398,7 @@ with open(CALL_PEAKS) as fh:
 		if not CONTROL:
 			assert('GENOME' in rule)
 			rule = rule.replace('GENOME', GENOME_NAME)
-		rule = rule.replace('./tools', f'{ROCKETCHIP_DIR}/tools')
+		rule = rule.replace('./tools', f'{os.environ["ROCKETCHIP_SRC"]}/tools')
 	# genrich specific
 	if PEAKCALLER == 'genrich':
 		assert('THREADS' in rule and 'GENRICH_READ_TYPE' in rule)
