@@ -130,10 +130,10 @@ if arg.control:
 	else:
 		fc = open(f'{arg.o}/{arg.control}.fastq', 'w')
 
-	nc = 0
+	n = 0
 	for i in range(totrds):
 		pos = random.randint(arg.padding, coor-arg.padding)
-		nc+=1
+		n+=1
 		if arg.paired:
 			p1 = pos - arg.paired // 2
 			p2 = pos + arg.paired // 2

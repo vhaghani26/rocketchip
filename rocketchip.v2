@@ -120,7 +120,9 @@ def dict2snake(reads, dict_type, read_src):
 	
 	elif dict_type == 'paths':
 		o.append(f'reads_path = {{\n')
-		for sample in reads: o.append(f'\t\'{sample}\': {reads[sample]},\n')
+		for sample in reads:
+			if type(reads[sample]) == list: o.append(f'\t\'{sample}\': {reads[sample]},\n')
+			else: o.append(f'\t\'{sample}\': \'{reads[sample]}\',\n')
 		o.append(f'}}\n')
 		
 	return ''.join(o)
@@ -205,7 +207,7 @@ for sample_type in config['Reads']:
 					else:
 						read_path = f'{CONFIGFILE_DIR}/{read_dir}/{read_name}.fastq.gz'
 					if os.path.isfile(read_path):
-						if read_name not in lcr: lcr[read_name] = readpath
+						if read_name not in lcr: lcr[read_name] = read_path
 					else:
 						sys.exit(f'Error: Missing {read_name}.fastq.gz in {read_dir}; Double check input for Readtype or Reads')
 				elif READTYPE == 'paired':
@@ -241,10 +243,7 @@ else: READ_SRC = 'sra'
 if PEAKCALLER == 'cisgenome':
 	# accept no replicates when there is 0 control
 	if config['Reads']['Controls'] is None:
-		for exp_group in config['Reads']['Samples']:
-			num_samples = len(config['Reads']['Samples'][exp_group])
-			if num_samples != 1:
-				sys.exit(f'Error: when there is no control, cisgenome reads exactly 1 experiment sample per experiment group; {num_samples} sample(s) provided in experiment group \'{exp_group}\'')
+		sys.exit(f'Error: cisgenome requires at least 1 control sample; no control sample detected')
 				
 # pepr
 if PEAKCALLER == 'pepr':
