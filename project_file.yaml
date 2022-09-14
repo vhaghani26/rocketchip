@@ -1,0 +1,17 @@
+Author: 
+Project: 
+Genome:
+  Name: 
+  Location: 
+Reads:
+  Samples:
+    grp1: 
+    grp2:
+  Controls:
+    ctl1: 
+Readtype: 
+Peaktype: 
+Aligner: 
+Deduplicator: 
+Peakcaller: 
+Threads: 
