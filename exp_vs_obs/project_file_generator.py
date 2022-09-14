@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import textwrap
+
 readtypes = ["paired", "single"]
 peaktypes = ["narrow", "broad"]
 aligners = ["bwa_mem", "bowtie2", "STAR"]
@@ -19,7 +21,7 @@ for readtype in readtypes:
                         read_data_path = "c"
                     elif readtype == "single" and peaktype == "broad":
                         read_data_path = "d"
-                    proj_file_info = f"""
+                    proj_file_info = textwrap.dedent(f"""
                     Author: Viktoria Haghani & Aditi Goyal
                     Project: Exp_vs_Obs_{readtype}_{peaktype}_{aligner}_{peakcaller}_{deduplicator}
                     Genome:
@@ -38,6 +40,5 @@ for readtype in readtypes:
                     Deduplicator: {deduplicator}
                     Peakcaller: {peakcaller}
                     Threads: 1
-                    """
-                    print()
+                    """)
                     print(proj_file_info)
