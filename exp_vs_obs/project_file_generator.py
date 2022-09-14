@@ -16,14 +16,11 @@ for readtype in readtypes:
                         Author: Viktoria Haghani & Aditi Goyal
                         Project: Exp_vs_Obs_{readtype}_{peaktype}_{aligner}_{peakcaller}_{deduplicator}
                         Genome:
-                          Name: 
+                          Name: ref_genome_synth
                           Location: 
                         Reads:
                           Samples:
                             grp1: 
-                              - 
-                              - 
-                            grp2:
                               - 
                           Controls:
                             ctl1: 
@@ -40,7 +37,7 @@ for readtype in readtypes:
                         Author: Viktoria Haghani & Aditi Goyal
                         Project: Exp_vs_Obs_{readtype}_{peaktype}_{aligner}_{peakcaller}_{deduplicator}
                         Genome:
-                          Name: 
+                          Name: ref_genome_synth
                           Location: 
                         Reads:
                           Samples:
@@ -64,7 +61,7 @@ for readtype in readtypes:
                         Author: Viktoria Haghani & Aditi Goyal
                         Project: Exp_vs_Obs_{readtype}_{peaktype}_{aligner}_{peakcaller}_{deduplicator}
                         Genome:
-                          Name: 
+                          Name: ref_genome_synth
                           Location: 
                         Reads:
                           Samples:
@@ -88,7 +85,7 @@ for readtype in readtypes:
                         Author: Viktoria Haghani & Aditi Goyal
                         Project: Exp_vs_Obs_{readtype}_{peaktype}_{aligner}_{peakcaller}_{deduplicator}
                         Genome:
-                          Name: 
+                          Name: ref_genome_synth
                           Location: 
                         Reads:
                           Samples:
