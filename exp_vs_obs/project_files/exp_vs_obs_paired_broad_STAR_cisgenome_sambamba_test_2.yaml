@@ -1,0 +1,24 @@
+
+Author: Viktoria Haghani & Aditi Goyal & Alan Zhang
+Project: exp_vs_obs_paired_broad_STAR_cisgenome_sambamba
+Genome:
+  Name: genome
+  Location: /seq_data/paired_broad/test_2/genome.fa
+Reads:
+  Samples:
+    grp1: 
+      - /seq_data/paired_broad/test_2/exp_a_1.fastq.gz
+      - /seq_data/paired_broad/test_2/exp_a_2.fastq.gz
+    grp2:
+      - /seq_data/paired_broad/test_2/exp_b_1.fastq.gz
+      - /seq_data/paired_broad/test_2/exp_b_2.fastq.gz
+  Controls:
+    ctl1: 
+      - /seq_data/paired_broad/test_2/input_1.fastq.gz
+      - /seq_data/paired_broad/test_2/input_2.fastq.gz
+Readtype: paired
+Peaktype: broad
+Aligner: STAR
+Deduplicator: sambamba
+Peakcaller: cisgenome
+Threads: 1
