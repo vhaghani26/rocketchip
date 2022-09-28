@@ -9,7 +9,7 @@ with open(path) as fh:
 		line = fh.readline()
 		if line == '': break
 		line = line.strip()
-		if line.startswith('&'): continue
+		if line.startswith('!'): continue
 		if line.startswith('#'): 
 			layout = line[1:]
 			os.makedirs(layout, exist_ok=True)

@@ -1,4 +1,4 @@
-&Name stacks rps padding stddev width length paired flank
+!Name stacks rps padding stddev width length paired flank
 #paired_narrow
 test 1
 exp_a  50      100    5000     0.1     400     80      10    2000  
