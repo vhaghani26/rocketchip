@@ -1,0 +1,20 @@
+
+Author: Viktoria Haghani & Aditi Goyal & Alan Zhang
+Project: exp_vs_obs_single_narrow_bwa_mem_genrich_picard
+Genome:
+  Name: genome
+  Location: /seq_data/single_narrow/test_5/genome.fa
+Reads:
+  Samples:
+    grp1: 
+      - /seq_data/single_narrow/test_5/exp_a.fastq.gz
+      - /seq_data/single_narrow/test_5/exp_b.fastq.gz
+  Controls:
+    ctl1: 
+      - /seq_data/single_narrow/test_5/input.fastq.gz
+Readtype: single
+Peaktype: narrow
+Aligner: bwa_mem
+Deduplicator: picard
+Peakcaller: genrich
+Threads: 1

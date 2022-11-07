@@ -1,0 +1,20 @@
+
+Author: Viktoria Haghani & Aditi Goyal & Alan Zhang
+Project: exp_vs_obs_paired_broad_bwa_mem_macs3_no_deduplication
+Genome:
+  Name: genome
+  Location: /seq_data/paired_broad/test_6/genome.fa
+Reads:
+  Samples:
+    grp1: 
+      - /seq_data/paired_broad/test_6/exp_a.fastq.gz
+      - /seq_data/paired_broad/test_6/exp_b.fastq.gz
+  Controls:
+    ctl1: 
+      - /seq_data/paired_broad/test_6/input.fastq.gz
+Readtype: paired
+Peaktype: broad
+Aligner: bwa_mem
+Deduplicator: no_deduplication
+Peakcaller: macs3
+Threads: 1

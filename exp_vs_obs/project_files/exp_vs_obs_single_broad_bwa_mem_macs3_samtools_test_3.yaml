@@ -1,0 +1,20 @@
+
+Author: Viktoria Haghani & Aditi Goyal & Alan Zhang
+Project: exp_vs_obs_single_broad_bwa_mem_macs3_samtools
+Genome:
+  Name: genome
+  Location: /seq_data/single_broad/test_3/genome.fa
+Reads:
+  Samples:
+    grp1: 
+      - /seq_data/single_broad/test_3/exp_a.fastq.gz
+      - /seq_data/single_broad/test_3/exp_b.fastq.gz
+  Controls:
+    ctl1: 
+      - /seq_data/single_broad/test_3/input.fastq.gz
+Readtype: single
+Peaktype: broad
+Aligner: bwa_mem
+Deduplicator: samtools
+Peakcaller: macs3
+Threads: 1
