@@ -15,3 +15,5 @@ for readtype in readtypes:
                 for deduplicator in deduplicators:
                     for i in range(1,7):
                         os.system(f'rocketchip project_files/exp_vs_obs_{readtype}_{peaktype}_{aligner}_{peakcaller}_{deduplicator}_test_{i}.yaml --output_file snakefiles/exp_vs_obs_{readtype}_{peaktype}_{aligner}_{peakcaller}_{deduplicator}_test_{i}')
+
+# rocketchip exp_vs_obs/project_files/exp_vs_obs_paired_narrow_bwa_mem_macs3_samtools_test_1.yaml --data exp_vs_obs/seq_data/paired_narrow/test_1 --src . --output_file exp_vs_obs/snakefiles/exp_vs_obs_paired_narrow_bwa_mem_macs3_samtools_test_1
