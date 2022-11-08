@@ -3,15 +3,15 @@ Author: Viktoria Haghani & Aditi Goyal & Alan Zhang
 Project: exp_vs_obs_single_narrow_bwa_mem_genrich_samtools
 Genome:
   Name: genome
-  Location: /seq_data/single_narrow/test_6/genome.fa
+  Location: exp_vs_obs/seq_data/single_narrow/test_6/genome.fa
 Reads:
   Samples:
     grp1: 
-      - /seq_data/single_narrow/test_6/exp_a.fastq.gz
-      - /seq_data/single_narrow/test_6/exp_b.fastq.gz
+      - exp_vs_obs/seq_data/single_narrow/test_6/exp_a
+      - exp_vs_obs/seq_data/single_narrow/test_6/exp_b
   Controls:
     ctl1: 
-      - /seq_data/single_narrow/test_6/input.fastq.gz
+      - exp_vs_obs/seq_data/single_narrow/test_6/input
 Readtype: single
 Peaktype: narrow
 Aligner: bwa_mem
