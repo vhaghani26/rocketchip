@@ -426,4 +426,7 @@ with open(CALL_PEAKS) as fh:
 FASTQ_PREPROCESS = f'{RULES_DIR}/fastqc/postprocessing_{READTYPE}.txt'
 with open(FASTQ_PREPROCESS) as fh: snakerules.append(fh.read())
 
-print('\n'.join(snakerules))
+if arg.output_file:
+	with open(arg.output_file, 'w') as fh: fh.write('\n'.join(snakerules))
+else:
+	print('\n'.join(snakerules))
