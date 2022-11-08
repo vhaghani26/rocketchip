@@ -24,11 +24,11 @@ for readtype in readtypes:
                         Reads:
                           Samples:
                             grp1: 
-                              - exp_vs_obs/seq_data/{readtype}_{peaktype}/test_{i}/exp_a
-                              - exp_vs_obs/seq_data/{readtype}_{peaktype}/test_{i}/exp_b
+                              - ../seq_data/{readtype}_{peaktype}/test_{i}/exp_a
+                              - ../seq_data/{readtype}_{peaktype}/test_{i}/exp_b
                           Controls:
                             ctl1: 
-                              - exp_vs_obs/seq_data/{readtype}_{peaktype}/test_{i}/input
+                              - ../seq_data/{readtype}_{peaktype}/test_{i}/input
                         Readtype: {readtype}
                         Peaktype: {peaktype}
                         Aligner: {aligner}
