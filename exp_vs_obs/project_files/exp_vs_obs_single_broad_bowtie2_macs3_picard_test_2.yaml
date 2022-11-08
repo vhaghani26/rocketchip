@@ -3,16 +3,15 @@ Author: Viktoria Haghani & Aditi Goyal & Alan Zhang
 Project: exp_vs_obs_single_broad_bowtie2_macs3_picard
 Genome:
   Name: genome
-  Location: /seq_data/single_broad/test_2/genome.fa
+  Location: exp_vs_obs/seq_data/single_broad/test_2/genome.fa
 Reads:
   Samples:
     grp1: 
-      - /seq_data/single_broad/test_2/exp_a.fastq.gz
-    grp2:
-      - /seq_data/single_broad/test_2/exp_b.fastq.gz
+      - exp_vs_obs/seq_data/single_broad/test_2/exp_a
+      - exp_vs_obs/seq_data/single_broad/test_2/exp_b
   Controls:
     ctl1: 
-      - /seq_data/single_broad/test_2/input.fastq.gz
+      - exp_vs_obs/seq_data/single_broad/test_2/input
 Readtype: single
 Peaktype: broad
 Aligner: bowtie2
