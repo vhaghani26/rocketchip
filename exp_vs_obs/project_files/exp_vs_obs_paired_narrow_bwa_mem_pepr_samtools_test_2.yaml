@@ -7,11 +7,11 @@ Genome:
 Reads:
   Samples:
     grp1: 
-      - exp_vs_obs/seq_data/paired_narrow/test_2/exp_a
-      - exp_vs_obs/seq_data/paired_narrow/test_2/exp_b
+      - ../seq_data/paired_narrow/test_2/exp_a
+      - ../seq_data/paired_narrow/test_2/exp_b
   Controls:
     ctl1: 
-      - exp_vs_obs/seq_data/paired_narrow/test_2/input
+      - ../seq_data/paired_narrow/test_2/input
 Readtype: paired
 Peaktype: narrow
 Aligner: bwa_mem

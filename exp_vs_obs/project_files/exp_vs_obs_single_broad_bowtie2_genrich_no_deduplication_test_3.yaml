@@ -7,11 +7,11 @@ Genome:
 Reads:
   Samples:
     grp1: 
-      - exp_vs_obs/seq_data/single_broad/test_3/exp_a
-      - exp_vs_obs/seq_data/single_broad/test_3/exp_b
+      - ../seq_data/single_broad/test_3/exp_a
+      - ../seq_data/single_broad/test_3/exp_b
   Controls:
     ctl1: 
-      - exp_vs_obs/seq_data/single_broad/test_3/input
+      - ../seq_data/single_broad/test_3/input
 Readtype: single
 Peaktype: broad
 Aligner: bowtie2
