@@ -3,7 +3,7 @@ Author: Viktoria Haghani & Aditi Goyal & Alan Zhang
 Project: exp_vs_obs_single_narrow_bwa_mem_pepr_sambamba
 Genome:
   Name: genome
-  Location: exp_vs_obs/seq_data/single_narrow/test_1/genome.fa
+  Location: ../seq_data/single_narrow/test_1/genome.fa
 Reads:
   Samples:
     grp1: 

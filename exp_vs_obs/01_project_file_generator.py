@@ -20,7 +20,7 @@ for readtype in readtypes:
                         Project: exp_vs_obs_{readtype}_{peaktype}_{aligner}_{peakcaller}_{deduplicator}
                         Genome:
                           Name: genome
-                          Location: exp_vs_obs/seq_data/{readtype}_{peaktype}/test_{i}/genome.fa
+                          Location: ../seq_data/{readtype}_{peaktype}/test_{i}/genome.fa
                         Reads:
                           Samples:
                             grp1: 

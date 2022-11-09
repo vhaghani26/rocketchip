@@ -3,7 +3,7 @@ Author: Viktoria Haghani & Aditi Goyal & Alan Zhang
 Project: exp_vs_obs_paired_narrow_STAR_pepr_no_deduplication
 Genome:
   Name: genome
-  Location: exp_vs_obs/seq_data/paired_narrow/test_1/genome.fa
+  Location: ../seq_data/paired_narrow/test_1/genome.fa
 Reads:
   Samples:
     grp1: 

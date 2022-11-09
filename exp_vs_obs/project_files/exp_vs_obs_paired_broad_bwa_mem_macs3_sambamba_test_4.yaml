@@ -3,7 +3,7 @@ Author: Viktoria Haghani & Aditi Goyal & Alan Zhang
 Project: exp_vs_obs_paired_broad_bwa_mem_macs3_sambamba
 Genome:
   Name: genome
-  Location: exp_vs_obs/seq_data/paired_broad/test_4/genome.fa
+  Location: ../seq_data/paired_broad/test_4/genome.fa
 Reads:
   Samples:
     grp1: 

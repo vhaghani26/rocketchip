@@ -3,7 +3,7 @@ Author: Viktoria Haghani & Aditi Goyal & Alan Zhang
 Project: exp_vs_obs_single_narrow_bowtie2_pepr_picard
 Genome:
   Name: genome
-  Location: exp_vs_obs/seq_data/single_narrow/test_5/genome.fa
+  Location: ../seq_data/single_narrow/test_5/genome.fa
 Reads:
   Samples:
     grp1: 
