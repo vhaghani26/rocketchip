@@ -32,9 +32,9 @@ Controls = {
 }
 
 reads_path = {
-	'exp_a': '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/single_narrow/test_1/exp_a.fastq.gz',
-	'exp_b': '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/single_narrow/test_1/exp_b.fastq.gz',
-	'input': '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/single_narrow/test_1/input.fastq.gz',
+	'exp_a': '/share/korflab/home/viki/rocketchip/exp_vs_obs/project_files/../seq_data/single_narrow/test_1/exp_a.fastq.gz',
+	'exp_b': '/share/korflab/home/viki/rocketchip/exp_vs_obs/project_files/../seq_data/single_narrow/test_1/exp_b.fastq.gz',
+	'input': '/share/korflab/home/viki/rocketchip/exp_vs_obs/project_files/../seq_data/single_narrow/test_1/input.fastq.gz',
 }
 
 sample_group_names = [group for group in Samples]
@@ -76,18 +76,18 @@ rule make_directories:
 		"05_bigwig_files 06_macs3_peaks"
 
 rule copy_genome:
-	input: "/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome.fa"
-	output: "/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/genome.fa"
+	input: "/share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome.fa"
+	output: "/share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/genome.fa"
 	log: "00_logs/copy_genome.log"
 	run:
-		shell("mkdir /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome -p")
+		shell("mkdir /share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome -p")
 		shell("cp {input} {output}")
 
 rule index_genome:
-	input: "/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/genome.fa"
+	input: "/share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/genome.fa"
 	output:
-		out = directory("/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome"),
-		indexers = multiext("/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/", "chrLength.txt",  "chrNameLength.txt",  "chrName.txt",  "chrStart.txt",  "Genome", "genomeParameters.txt",  "Log.out",  "SA",  "SAindex")
+		out = directory("/share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome"),
+		indexers = multiext("/share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/", "chrLength.txt",  "chrNameLength.txt",  "chrName.txt",  "chrStart.txt",  "Genome", "genomeParameters.txt",  "Log.out",  "SA",  "SAindex")
 	log: "00_logs/index_genome.log"
 	shell:
 		"STAR --runMode genomeGenerate --genomeDir {output.out} "
@@ -95,8 +95,8 @@ rule index_genome:
 
 rule link_indexed_genome:
 	input:
-		indexers = multiext("/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/", "chrLength.txt",  "chrNameLength.txt",  "chrName.txt",  "chrStart.txt",  "Genome", "genomeParameters.txt",  "Log.out",  "SA",  "SAindex"),
-		fa = "/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/genome.fa"
+		indexers = multiext("/share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/", "chrLength.txt",  "chrNameLength.txt",  "chrName.txt",  "chrStart.txt",  "Genome", "genomeParameters.txt",  "Log.out",  "SA",  "SAindex"),
+		fa = "/share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/genome.fa"
 	output:
 		directory("01_raw_data/genome/"),
 		indexers = multiext("01_raw_data/genome/", "chrLength.txt",  "chrNameLength.txt",  "chrName.txt",  "chrStart.txt",  "Genome", "genomeParameters.txt",  "Log.out",  "SA",  "SAindex"),
@@ -104,16 +104,16 @@ rule link_indexed_genome:
 	log: "00_logs/link_indexed_genome.log"
 	run:
 		shell("mkdir -p 01_raw_data/genome")
-		shell("ln -sf /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/chrLength.txt 01_raw_data/genome/chrLength.txt 2> {log}")
-		shell("ln -sf /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/chrNameLength.txt 01_raw_data/genome/chrNameLength.txt")
-		shell("ln -sf /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/chrName.txt 01_raw_data/genome/chrName.txt")
-		shell("ln -sf /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/chrStart.txt 01_raw_data/genome/chrStart.txt")
-		shell("ln -sf /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/Genome 01_raw_data/genome/Genome")
-		shell("ln -sf /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/genomeParameters.txt 01_raw_data/genome/genomeParameters.txt")
-		shell("ln -sf /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/Log.out 01_raw_data/genome/Log.out")
-		shell("ln -sf /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/SA 01_raw_data/genome/SA")
-		shell("ln -sf /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/SAindex 01_raw_data/genome/SAindex")
-		shell("ln -sf /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/genome.fa 01_raw_data/genome/genome.fa")
+		shell("ln -sf /share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/chrLength.txt 01_raw_data/genome/chrLength.txt 2> {log}")
+		shell("ln -sf /share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/chrNameLength.txt 01_raw_data/genome/chrNameLength.txt")
+		shell("ln -sf /share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/chrName.txt 01_raw_data/genome/chrName.txt")
+		shell("ln -sf /share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/chrStart.txt 01_raw_data/genome/chrStart.txt")
+		shell("ln -sf /share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/Genome 01_raw_data/genome/Genome")
+		shell("ln -sf /share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/genomeParameters.txt 01_raw_data/genome/genomeParameters.txt")
+		shell("ln -sf /share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/Log.out 01_raw_data/genome/Log.out")
+		shell("ln -sf /share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/SA 01_raw_data/genome/SA")
+		shell("ln -sf /share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/STAR_indexed_genome/SAindex 01_raw_data/genome/SAindex")
+		shell("ln -sf /share/korflab/home/viki/rocketchip/exp_vs_obs/seq_data/single_narrow/test_1/genome/genome.fa 01_raw_data/genome/genome.fa")
 
 def get_path(wildcards, paths = reads_path):
 	return paths[wildcards.sample]
