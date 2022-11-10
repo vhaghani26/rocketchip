@@ -4,7 +4,7 @@ import os
 
 '''
 Note: I ran this script in the main rocketchip directory using:
-    python3 exp_vs_obs/02_rocketchip_project_files.py
+    python3 exp_vs_obs/02_rocketchip_snakefiles.py
 '''
 
 readtypes = ["paired", "single"]
