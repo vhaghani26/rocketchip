@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-import os
-
 '''
 Note: I ran this script in the main rocketchip directory using:
     python3 exp_vs_obs/02_rocketchip_snakefiles.py
 '''
+
+import os
 
 readtypes = ["paired", "single"]
 peaktypes = ["narrow", "broad"]

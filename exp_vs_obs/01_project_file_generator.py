@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+'''
+Note: I ran this script using:
+    python3 01_project_file_generator.py
+'''
+
 import textwrap
 import os
         
