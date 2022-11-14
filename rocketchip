@@ -275,6 +275,9 @@ if READ_SRC == 'lcr':
 	lcr_path =  dict2snake(lcr, dict_type = 'paths', read_src = READ_SRC)
 	snakerules.append(lcr_path)
 
+# Source direcotry
+snakerules.append(f'src = \'{SRC}\'\n')
+
 # Read parser
 READ_PARSER = None
 if CONTROL:
@@ -430,3 +433,4 @@ if arg.output_file:
 	with open(arg.output_file, 'w') as fh: fh.write('\n'.join(snakerules))
 else:
 	print('\n'.join(snakerules))
+
