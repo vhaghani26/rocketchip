@@ -21,7 +21,7 @@ for readtype in readtypes:
                 for deduplicator in deduplicators:
                     for i in range(1,7):
                         proj_file_info = textwrap.dedent(f"""
-                        Author: Viktoria Haghani & Aditi Goyal & Alan Zhang
+                        Author: Viktoria_Haghani_and_Aditi_Goyal_and_Alan_Zhang
                         Project: exp_vs_obs_{readtype}_{peaktype}_{aligner}_{peakcaller}_{deduplicator}
                         Genome:
                           Name: genome
