@@ -5,4 +5,4 @@ rule bam_to_bigwig:
 	output: "05_bigwig_files/{sample}.bw"
 	log: "00_logs/{sample}_bam_to_bigwig.log"
 	shell:
-		"bamCoverage -b {input.bam} -o {output} 2> {log}"
+		"bamCoverage -b '{input.bam}' -o '{output}' 2> '{log}'"

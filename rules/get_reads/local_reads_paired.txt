@@ -15,5 +15,5 @@ rule link_reads:
 		r1 = "00_logs/{sample}_link_reads_1.log",
 		r2 = "00_logs/{sample}_link_reads_2.log"
 	run:
-		shell("ln -sf {input.r1} {output.o1} 2> {log.r1}")
-		shell("ln -sf {input.r2} {output.o2} 2> {log.r2}")
+		shell("ln -sf '{input.r1}' '{output.o1}' 2> '{log.r1}'")
+		shell("ln -sf '{input.r2}' '{output.o2}' 2> '{log.r2}'")

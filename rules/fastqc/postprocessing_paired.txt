@@ -7,4 +7,4 @@ rule fastqc_postprocessing:
 	log:
 		"00_logs/{sample}_fastqc_postprocessing.log"
 	shell:
-		"fastqc {input} --outdir 02_fastqc_analysis/ 2> {log}"
+		"fastqc '{input}' --outdir 02_fastqc_analysis/ 2> '{log}'"

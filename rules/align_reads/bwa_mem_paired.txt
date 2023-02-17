@@ -6,5 +6,5 @@ rule align_reads:
 	output: "03_sam_files/{sample}.sam"
 	log: "00_logs/{sample}_align_reads_err.log"
 	shell:
-		"bwa mem -t THREADS 01_raw_data/GENOME {input.r1} {input.r2} > {output} "
-		"2> {log}"
+		"bwa mem -t THREADS '01_raw_data/GENOME' '{input.r1}' '{input.r2}' > '{output}' "
+		"2> '{log}'"

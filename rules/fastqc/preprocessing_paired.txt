@@ -11,5 +11,5 @@ rule fastqc_preprocessing:
 		r1 = "00_logs/{sample}_fastqc_precheck_r1.log",
 		r2 = "00_logs/{sample}_fastqc_precheck_r2.log"
 	run:
-		shell("fastqc {input.r1} --outdir 02_fastqc_analysis/ 2> {log.r1}")
-		shell("fastqc {input.r2} --outdir 02_fastqc_analysis/ 2> {log.r2}")
+		shell("fastqc '{input.r1}' --outdir 02_fastqc_analysis/ 2> '{log.r1}'")
+		shell("fastqc '{input.r2}' --outdir 02_fastqc_analysis/ 2> '{log.r2}'")

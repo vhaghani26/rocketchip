@@ -6,4 +6,4 @@ rule link_reads:
 	output: "01_raw_data/{sample}.fastq.gz"
 	log: "00_logs/{sample}_link_reads.log"
 	shell:
-		"ln -sf {input} {output} 2> {log}"
+		"ln -sf '{input}' '{output}' 2> '{log}'"

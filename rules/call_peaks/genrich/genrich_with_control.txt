@@ -2,7 +2,7 @@ rule name_sort_for_genrich:
 	input: "04_bam_files/{sample}.sorted.dedup.bam"
 	output: "04_bam_files/{sample}.namesorted_for_genrich.bam"
 	log: "00_logs/{sample}_bam_namesort.log"
-	shell: "samtools sort -n -@ THREADS -O BAM {input} > {output} 2> {log}"
+	shell: "samtools sort -n -@ THREADS -O BAM '{input}' > '{output}' 2> '{log}'"
 
 def sample_group(wildcards):
 	group = Samples[wildcards.sample]
@@ -22,8 +22,12 @@ rule call_peaks:
 		pileup = "06_genrich_peaks/{sample}_{control}_pileup"
 	log: "00_logs/{sample}_{control}_genrich_peaks.log"
 	run:
-		sample_input = ','.join(input.s)
-		control_input = ','.join(input.c)
+		sample_list = []
+		control_list = []
+		for input_file in input.s: sample_list.append(f'\'{input_file}\'')
+		for control_file in input.c: control_list.append(f'\'{control_file}\'')
+		sample_input = ','.join(sample_list)
+		control_input = ','.join(control_list)
 		shell("mkdir -p 06_genrich_peaks")
 		shell("Genrich -t {sample_input} -c {control_input} GENRICH_READ_TYPE "
-			"-o {output.peak} -f {output.pileup} -b {output.reads} 2> {log}")
+			"-o '{output.peak}' -f '{output.pileup}' -b '{output.reads}' 2> '{log}'")

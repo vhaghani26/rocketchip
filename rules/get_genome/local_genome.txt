@@ -3,5 +3,5 @@ rule copy_genome:
 	output: "DATA/GENOME/GENOME.fa"
 	log: "00_logs/copy_genome.log"
 	run:
-		shell("mkdir DATA/GENOME -p")
-		shell("cp {input} {output}")
+		shell("mkdir 'DATA/GENOME' -p")
+		shell("cp '{input}' '{output}'")
