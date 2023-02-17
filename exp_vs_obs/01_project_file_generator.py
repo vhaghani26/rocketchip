@@ -21,7 +21,7 @@ for readtype in readtypes:
                 for deduplicator in deduplicators:
                     for i in range(1,7):
                         proj_file_info = textwrap.dedent(f"""
-                        Author: Viktoria Haghani & Aditi Goyal & Alan Zhang
+                        Author: Viktoria_Haghani_and_Aditi_Goyal_and_Alan_Zhang
                         Project: exp_vs_obs_{readtype}_{peaktype}_{aligner}_{peakcaller}_{deduplicator}
                         Genome:
                           Name: genome
@@ -44,3 +44,4 @@ for readtype in readtypes:
                         os.system(f'touch project_files/exp_vs_obs_{readtype}_{peaktype}_{aligner}_{peakcaller}_{deduplicator}_test_{i}.yaml')
                         with open(f'project_files/exp_vs_obs_{readtype}_{peaktype}_{aligner}_{peakcaller}_{deduplicator}_test_{i}.yaml', 'w') as f:
                             f.write(f'{proj_file_info}')
+                        os.system(f'sed -i \'1d\' project_files/exp_vs_obs_{readtype}_{peaktype}_{aligner}_{peakcaller}_{deduplicator}_test_{i}.yaml')
