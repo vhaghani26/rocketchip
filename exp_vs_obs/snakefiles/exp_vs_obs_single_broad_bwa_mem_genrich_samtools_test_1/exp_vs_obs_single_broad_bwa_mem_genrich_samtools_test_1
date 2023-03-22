@@ -82,8 +82,8 @@ rule copy_genome:
 	output: "/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/genome.fa"
 	log: "00_logs/copy_genome.log"
 	run:
-		shell("mkdir /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome -p")
-		shell("cp {input} {output}")
+		shell("mkdir '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome' -p")
+		shell("cp '{input}' '{output}'")
 
 rule index_genome:
 	input: "/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/genome.fa"
@@ -92,20 +92,20 @@ rule index_genome:
 		indexers = multiext("/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/bwa_indexed_genome/genome", ".amb", ".ann", ".bwt", ".pac", ".sa")
 	log: "00_logs/index_genome.log"
 	run:
-		shell("bwa index -p /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/bwa_indexed_genome/genome -a bwtsw {input} 2> {log}")
-		shell("ln -sf {input} {output.fa}")
+		shell("bwa index -p '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/bwa_indexed_genome/genome' -a bwtsw '{input}' 2> '{log}'")
+		shell("ln -sf '{input}' '{output.fa}'")
 		
 rule link_indexed_genome:
 	input: multiext("/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/bwa_indexed_genome/genome", ".amb", ".ann", ".bwt", ".pac", ".sa", ".fa")
 	output: multiext("01_raw_data/genome", ".amb", ".ann", ".bwt", ".pac", ".sa", ".fa")
 	log: "00_logs/link_indexed_genome.log"
 	run:
-		shell("ln -sf /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/bwa_indexed_genome/genome.amb 01_raw_data/genome.amb 2> {log}")
-		shell("ln -sf /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/bwa_indexed_genome/genome.ann 01_raw_data/genome.ann")
-		shell("ln -sf /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/bwa_indexed_genome/genome.bwt 01_raw_data/genome.bwt")
-		shell("ln -sf /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/bwa_indexed_genome/genome.pac 01_raw_data/genome.pac")
-		shell("ln -sf /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/bwa_indexed_genome/genome.sa 01_raw_data/genome.sa")
-		shell("ln -sf /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/bwa_indexed_genome/genome.fa 01_raw_data/genome.fa")
+		shell("ln -sf '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/bwa_indexed_genome/genome.amb' '01_raw_data/genome.amb' 2> {log}")
+		shell("ln -sf '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/bwa_indexed_genome/genome.ann' '01_raw_data/genome.ann'")
+		shell("ln -sf '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/bwa_indexed_genome/genome.bwt' '01_raw_data/genome.bwt'")
+		shell("ln -sf '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/bwa_indexed_genome/genome.pac' '01_raw_data/genome.pac'")
+		shell("ln -sf '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/bwa_indexed_genome/genome.sa' '01_raw_data/genome.sa'")
+		shell("ln -sf '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_1/genome/bwa_indexed_genome/genome.fa' '01_raw_data/genome.fa'")
 
 def get_path(wildcards, paths = reads_path):
 	return paths[wildcards.sample]
@@ -115,7 +115,7 @@ rule link_reads:
 	output: "01_raw_data/{sample}.fastq.gz"
 	log: "00_logs/{sample}_link_reads.log"
 	shell:
-		"ln -sf {input} {output} 2> {log}"
+		"ln -sf '{input}' '{output}' 2> '{log}'"
 
 rule fastqc_preprocessing:
 	input:
@@ -126,7 +126,7 @@ rule fastqc_preprocessing:
 	log:
 		"00_logs/{sample}_fastqc_precheck.log"
 	shell:
-		"fastqc {input} --outdir 02_fastqc_analysis/ 2> {log}"
+		"fastqc '{input}' --outdir 02_fastqc_analysis/ 2> '{log}'"
 
 rule align_reads:
 	input:
@@ -135,37 +135,37 @@ rule align_reads:
 	output: "03_sam_files/{sample}.sam"
 	log: "00_logs/{sample}_align_reads_err.log"
 	shell:
-		"bwa mem -t 1 01_raw_data/genome {input.r} > {output} 2> {log}"
+		"bwa mem -t 1 '01_raw_data/genome' '{input.r}' > '{output}' 2> '{log}'"
 
 rule sam_to_bam:
 	input: "03_sam_files/{sample}.sam"
 	output: "04_bam_files/{sample}.bam"
 	log: "00_logs/{sample}_sam_to_bam.log"
-	shell: "samtools view -@ 1 -Sb {input} > {output} 2> {log}"
+	shell: "samtools view -@ 1 -Sb '{input}' > '{output}' 2> '{log}'"
 
 rule sam_fixmate:
 	input: "04_bam_files/{sample}.bam"
 	output: "04_bam_files/{sample}.fixmate.bam"
 	log: "00_logs/{sample}_sam_fixmate.log"
-	shell: "samtools fixmate -@ 1 -rcm -O bam {input} {output} 2> {log}"
+	shell: "samtools fixmate -@ 1 -rcm -O bam '{input}' '{output}' 2> '{log}'"
 		
 rule sam_sort:
 	input: "04_bam_files/{sample}.fixmate.bam"
 	output: "04_bam_files/{sample}.sorted.fixmate.bam"
 	log: "00_logs/{sample}_sam_sort.log"
-	shell: "samtools sort -@ 1 -O bam {input} > {output} 2> {log}"
+	shell: "samtools sort -@ 1 -O bam '{input}' > '{output}' 2> '{log}'"
 
 rule markdup:
 	input: "04_bam_files/{sample}.sorted.fixmate.bam"
 	output: "04_bam_files/{sample}.sorted.dedup.bam"
 	log: "00_logs/{sample}_sam_markdup.log"
-	shell: "samtools markdup -@ 1 -r --mode s {input} {output} 2> {log}"
+	shell: "samtools markdup -@ 1 -r --mode s '{input}' '{output}' 2> '{log}'"
 
 rule bam_index:
 	input: "04_bam_files/{sample}.sorted.dedup.bam"
 	output: "04_bam_files/{sample}.sorted.dedup.bam.bai"
 	log: "00_logs/{sample}_bam_index.log"
-	shell: "samtools index -@ 1 {input} 2> {log}"
+	shell: "samtools index -@ 1 '{input}' 2> '{log}'"
 
 rule bam_to_bigwig:
 	input:
@@ -174,13 +174,13 @@ rule bam_to_bigwig:
 	output: "05_bigwig_files/{sample}.bw"
 	log: "00_logs/{sample}_bam_to_bigwig.log"
 	shell:
-		"bamCoverage -b {input.bam} -o {output} 2> {log}"
+		"bamCoverage -b '{input.bam}' -o '{output}' 2> '{log}'"
 
 rule name_sort_for_genrich:
 	input: "04_bam_files/{sample}.sorted.dedup.bam"
 	output: "04_bam_files/{sample}.namesorted_for_genrich.bam"
 	log: "00_logs/{sample}_bam_namesort.log"
-	shell: "samtools sort -n -@ 1 -O BAM {input} > {output} 2> {log}"
+	shell: "samtools sort -n -@ 1 -O BAM '{input}' > '{output}' 2> '{log}'"
 
 def sample_group(wildcards):
 	group = Samples[wildcards.sample]
@@ -200,11 +200,15 @@ rule call_peaks:
 		pileup = "06_genrich_peaks/{sample}_{control}_pileup"
 	log: "00_logs/{sample}_{control}_genrich_peaks.log"
 	run:
-		sample_input = ','.join(input.s)
-		control_input = ','.join(input.c)
+		sample_list = []
+		control_list = []
+		for input_file in input.s: sample_list.append(f'\'{input_file}\'')
+		for control_file in input.c: control_list.append(f'\'{control_file}\'')
+		sample_input = ','.join(sample_list)
+		control_input = ','.join(control_list)
 		shell("mkdir -p 06_genrich_peaks")
 		shell("Genrich -t {sample_input} -c {control_input} -y "
-			"-o {output.peak} -f {output.pileup} -b {output.reads} 2> {log}")
+			"-o '{output.peak}' -f '{output.pileup}' -b '{output.reads}' 2> '{log}'")
 
 rule fastqc_postprocessing:
 	input:
@@ -215,4 +219,4 @@ rule fastqc_postprocessing:
 	log:
 		"00_logs/{sample}_fastqc_postprocessing.log"
 	shell:
-		"fastqc {input} --outdir 02_fastqc_analysis/ 2> {log}"
+		"fastqc '{input}' --outdir 02_fastqc_analysis/ 2> '{log}'"
