@@ -189,7 +189,7 @@ rule sam_to_aln:
 	input: "03_sam_files/{sample}.sorted.dedup.sam"
 	output: "06_cisgenome_files/{sample}.aln"
 	log: "00_logs/{sample}_sam_to_aln.log"
-	shell: "'{src}/tools/sam2aln' -i '{input}' > '{output}' 2> '{log}'"
+	shell: "'{src}'/tools/sam2aln -i '{input}' > '{output}' 2> '{log}'"
 
 def sample_group(wildcards):
 	group = Samples[wildcards.sample]
