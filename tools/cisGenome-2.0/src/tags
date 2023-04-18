@@ -1,0 +1,1809 @@
+AFFYBAR_READ_FLOAT	AffyLib.c	/^void AFFYBAR_READ_FLOAT(FILE *fpIn, float *value)$/
+AFFYBAR_READ_INT	AffyLib.c	/^void AFFYBAR_READ_INT(FILE *fpIn, int *value)$/
+AFFYBAR_READ_ULONG	AffyLib.c	/^void AFFYBAR_READ_ULONG(FILE *fpIn, unsigned long /
+AFFYBAR_READ_VERSION	AffyLib.c	/^void AFFYBAR_READ_VERSION(FILE *fpIn, float *value/
+AddNucleicMatrixCount	MotifLib.c	/^int AddNucleicMatrixCount(struct DOUBLEMATRIX *pCo/
+AdjustDirectoryPath	GenomeLib.c	/^void AdjustDirectoryPath(char strPath[])$/
+AffyBpMapUnitCreate	AffyLib.c	/^struct tagAffyBpMapUnit *AffyBpMapUnitCreate()$/
+AffyBpMapUnitDestroy	AffyLib.c	/^int AffyBpMapUnitDestroy(struct tagAffyBpMapUnit */
+AffyBpMapUnitLoad	AffyLib.c	/^int AffyBpMapUnitLoad(struct tagAffyBpMapUnit *pUn/
+AffyBpMapUnitLoad_v3	AffyLib.c	/^int AffyBpMapUnitLoad_v3(struct tagAffyBpMapUnit */
+AffyBpMapUnitLoad_v3m2	AffyLib.c	/^int AffyBpMapUnitLoad_v3m2(struct tagAffyBpMapUnit/
+AffyGenomeAlignCreate	AffyLib.c	/^struct tagAffyGenomeAlign *AffyGenomeAlignCreate()/
+AffyGenomeAlignDestroy	AffyLib.c	/^int AffyGenomeAlignDestroy(struct tagAffyGenomeAli/
+AffyGenomeAlignInit	AffyLib.c	/^int AffyGenomeAlignInit(struct tagAffyGenomeAlign /
+AffyGenomeTransInit	AffyLib.c	/^int AffyGenomeTransInit(struct tagAffyGenomeAlign /
+Affy_BAR2TXT	AffyLib.c	/^int Affy_BAR2TXT(char strBARFile[], char strTXTFil/
+Affy_BAR2TXT_Fast	AffyLib.c	/^int Affy_BAR2TXT_Fast(char strBARFile[], char strT/
+Affy_BARData_AbsTS	AffyLib.c	/^int Affy_BARData_AbsTS(struct tagBARData *pBARData/
+Affy_BARData_Add	AffyLib.c	/^int Affy_BARData_Add(struct tagBARData *pD1, struc/
+Affy_BARData_AddTS	AffyLib.c	/^int Affy_BARData_AddTS(struct tagBARData *pBARData/
+Affy_BARData_Clone	AffyLib.c	/^struct tagBARData *Affy_BARData_Clone(struct tagBA/
+Affy_BARData_Create	AffyLib.c	/^struct tagBARData *Affy_BARData_Create()$/
+Affy_BARData_Destroy	AffyLib.c	/^void Affy_BARData_Destroy(struct tagBARData **pBAR/
+Affy_BARData_Div	AffyLib.c	/^int Affy_BARData_Div(struct tagBARData *pD1, struc/
+Affy_BARData_ExpTS	AffyLib.c	/^int Affy_BARData_ExpTS(struct tagBARData *pBARData/
+Affy_BARData_LogTS	AffyLib.c	/^int Affy_BARData_LogTS(struct tagBARData *pBARData/
+Affy_BARData_Mult	AffyLib.c	/^int Affy_BARData_Mult(struct tagBARData *pD1, stru/
+Affy_BARData_MultTS	AffyLib.c	/^int Affy_BARData_MultTS(struct tagBARData *pBARDat/
+Affy_BARData_Pow	AffyLib.c	/^int Affy_BARData_Pow(struct tagBARData *pD1, struc/
+Affy_BARData_PowTS	AffyLib.c	/^int Affy_BARData_PowTS(struct tagBARData *pBARData/
+Affy_BARData_RecTS	AffyLib.c	/^int Affy_BARData_RecTS(struct tagBARData *pBARData/
+Affy_BARData_Sub	AffyLib.c	/^int Affy_BARData_Sub(struct tagBARData *pD1, struc/
+Affy_BARData_SubTS	AffyLib.c	/^int Affy_BARData_SubTS(struct tagBARData *pBARData/
+Affy_BARData_UPowTS	AffyLib.c	/^int Affy_BARData_UPowTS(struct tagBARData *pBARDat/
+Affy_BARSeq_Clone	AffyLib.c	/^struct tagBARSeq *Affy_BARSeq_Clone(struct tagBARS/
+Affy_BARSeq_Create	AffyLib.c	/^struct tagBARSeq *Affy_BARSeq_Create()$/
+Affy_BARSeq_Destroy	AffyLib.c	/^void Affy_BARSeq_Destroy(struct tagBARSeq **pBARSe/
+Affy_BPMAPFilter_DATA	AffyLib.c	/^int Affy_BPMAPFilter_DATA(char strInFile[], char s/
+Affy_BPMAPFilter_GTrans	AffyLib.c	/^int Affy_BPMAPFilter_GTrans(char strInFile[], char/
+Affy_BPMAPFilter_ORI	AffyLib.c	/^int Affy_BPMAPFilter_ORI(char strInFile[], char st/
+Affy_CELData_Create	AffyLib.c	/^struct tagCELData *Affy_CELData_Create()$/
+Affy_CELData_Destroy	AffyLib.c	/^void Affy_CELData_Destroy(struct tagCELData **pCEL/
+Affy_CELSubGrid_Create	AffyLib.c	/^struct tagCELSubGrid *Affy_CELSubGrid_Create()$/
+Affy_CELSubGrid_Destroy	AffyLib.c	/^void Affy_CELSubGrid_Destroy(struct tagCELSubGrid /
+Affy_CSVANNOT_To_GenomeAlign_200506	AffyLib.c	/^int Affy_CSVANNOT_To_GenomeAlign_200506(char strIn/
+Affy_CSVANNOT_To_Reduced_200408	AffyLib.c	/^int Affy_CSVANNOT_To_Reduced_200408(char strInFile/
+Affy_CreateProbeRefGeneMap	AffyLib.c	/^int Affy_CreateProbeRefGeneMap(char strProbeLists[/
+Affy_CreateProbeRefGeneMap_BothDirection	AffyLib.c	/^int Affy_CreateProbeRefGeneMap_BothDirection(char /
+Affy_GenericDataGroup_Create	AffyLib.c	/^struct tagGenericDataGroup *Affy_GenericDataGroup_/
+Affy_GenericDataGroup_Delete	AffyLib.c	/^void Affy_GenericDataGroup_Delete(struct tagGeneri/
+Affy_GenericDataHeader_Create	AffyLib.c	/^struct tagGenericDataHeader *Affy_GenericDataHeade/
+Affy_GenericDataHeader_Delete	AffyLib.c	/^void Affy_GenericDataHeader_Delete(struct tagGener/
+Affy_GenericDataSet_Create	AffyLib.c	/^struct tagGenericDataSet *Affy_GenericDataSet_Crea/
+Affy_GenericDataSet_Delete	AffyLib.c	/^void Affy_GenericDataSet_Delete(struct tagGenericD/
+Affy_GenericFileHeader_Create	AffyLib.c	/^struct tagGenericFileHeader *Affy_GenericFileHeade/
+Affy_GenericFileHeader_Delete	AffyLib.c	/^void Affy_GenericFileHeader_Delete(struct tagGener/
+Affy_GenericFileObject_Create	AffyLib.c	/^struct tagGenericFileObject *Affy_GenericFileObjec/
+Affy_GenericFileObject_Delete	AffyLib.c	/^void Affy_GenericFileObject_Delete(struct tagGener/
+Affy_GenericFileObject_Load	AffyLib.c	/^struct tagGenericFileObject *Affy_GenericFileObjec/
+Affy_GenericFile_LoadDataGroup	AffyLib.c	/^struct tagGenericDataGroup *Affy_GenericFile_LoadD/
+Affy_GenericFile_LoadDataHeader	AffyLib.c	/^struct tagGenericDataHeader *Affy_GenericFile_Load/
+Affy_GenericFile_LoadDataSet	AffyLib.c	/^struct tagGenericDataSet *Affy_GenericFile_LoadDat/
+Affy_GenericFile_LoadFileHeader	AffyLib.c	/^struct tagGenericFileHeader *Affy_GenericFile_Load/
+Affy_GenericFile_LoadString	AffyLib.c	/^struct tagString *Affy_GenericFile_LoadString(FILE/
+Affy_GenericFile_LoadWString	AffyLib.c	/^struct tagWString *Affy_GenericFile_LoadWString(FI/
+Affy_LinkProbesetToAnnotation	AffyLib.c	/^int Affy_LinkProbesetToAnnotation(char strProbeset/
+Affy_LinkRefGeneScoreBackToProbeset	AffyLib.c	/^int Affy_LinkRefGeneScoreBackToProbeset(char strPr/
+Affy_LoadBAR	AffyLib.c	/^struct tagBARData *Affy_LoadBAR(char strFileName[]/
+Affy_LoadBAR_Fast	AffyLib.c	/^struct tagBARData *Affy_LoadBAR_Fast(char strFileN/
+Affy_LoadBPMAP	AffyLib.c	/^int Affy_LoadBPMAP(char strInFile[], char strOutFi/
+Affy_LoadBPMAP_TileMap	AffyLib.c	/^int Affy_LoadBPMAP_TileMap(char strInFile[], char /
+Affy_LoadBar_Intensity	AffyLib.c	/^int Affy_LoadBar_Intensity(char strBarFile[], char/
+Affy_LoadBar_Intensity_Group	AffyLib.c	/^int Affy_LoadBar_Intensity_Group(char strDataPath[/
+Affy_LoadCEL_CmdCslv1	AffyLib.c	/^struct tagCELData *Affy_LoadCEL_CmdCslv1(char strF/
+Affy_LoadCELv3	AffyLib.c	/^struct tagCELData *Affy_LoadCELv3(char strFileName/
+Affy_LoadCELv4	AffyLib.c	/^struct tagCELData *Affy_LoadCELv4(char strFileName/
+Affy_LoadCELv4_Fast	AffyLib.c	/^struct tagCELData *Affy_LoadCELv4_Fast(char strFil/
+Affy_LoadDatabase_Affy2Refid	AffyLib.c	/^struct tagStringPair **Affy_LoadDatabase_Affy2Refi/
+Affy_LoadDatabase_ExpressionData	AffyLib.c	/^struct tagStringPair **Affy_LoadDatabase_Expressio/
+Affy_MIME_Value2Float	AffyLib.c	/^float Affy_MIME_Value2Float(char *strValue, int nB/
+Affy_MIME_Value2Int	AffyLib.c	/^int Affy_MIME_Value2Int(char *strValue, int nBuffe/
+Affy_ParamValueType2String	AffyLib.c	/^struct tagString *Affy_ParamValueType2String(wchar/
+Affy_PickRandomControlFromCSV	AffyLib.c	/^int Affy_PickRandomControlFromCSV(char strInFile[]/
+Affy_SaveBAR	AffyLib.c	/^int Affy_SaveBAR(char strFileName[], struct tagBAR/
+Affy_SaveBAR_Columns_Fast	AffyLib.c	/^int Affy_SaveBAR_Columns_Fast(char strFileName[], /
+Affy_SaveCELv3	AffyLib.c	/^int Affy_SaveCELv3(char strFileName[], struct tagC/
+Affy_SaveCELv4	AffyLib.c	/^int Affy_SaveCELv4(char strFileName[], struct tagC/
+Affy_SaveFilteredBAR_Columns_Fast	AffyLib.c	/^int Affy_SaveFilteredBAR_Columns_Fast(char strFile/
+BLASTHITCLEARLIST	Alignment.c	/^void BLASTHITCLEARLIST(struct BLASTHIT **pHitList)/
+BLASTHITCREATE	Alignment.c	/^struct BLASTHIT *BLASTHITCREATE()$/
+BLASTHITDESTROY	Alignment.c	/^void BLASTHITDESTROY(struct BLASTHIT *pBlastHit)$/
+BLASTHITLOADFROMBLS	Alignment.c	/^struct BLASTHIT *BLASTHITLOADFROMBLS(char strFileN/
+BLASTHITTRIMEND	Alignment.c	/^int BLASTHITTRIMEND(struct BLASTHIT *pBlastHit)$/
+BLASTHITUPDATEALNLENANDIDENTITY	Alignment.c	/^int BLASTHITUPDATEALNLENANDIDENTITY(struct BLASTHI/
+BLASTHIT_COLINEAR	Alignment.c	/^int BLASTHIT_COLINEAR(struct BLASTHIT *pHit1, stru/
+BLASTHIT_INSERTBYALNLENANDIDENTITY	Alignment.c	/^int BLASTHIT_INSERTBYALNLENANDIDENTITY(struct BLAS/
+BLASTHIT_INSERTBYHITLOC	Alignment.c	/^int BLASTHIT_INSERTBYHITLOC(struct BLASTHIT *pBlas/
+BLASTHIT_INSERTBYQUERYLOC	Alignment.c	/^int BLASTHIT_INSERTBYQUERYLOC(struct BLASTHIT *pBl/
+BLASTHIT_RELATIVELOCBYALNLENANDIDENTITY	Alignment.c	/^int BLASTHIT_RELATIVELOCBYALNLENANDIDENTITY(struct/
+BLASTHIT_RELATIVELOCBYHIT	Alignment.c	/^int BLASTHIT_RELATIVELOCBYHIT(struct BLASTHIT *pHi/
+BLASTHIT_RELATIVELOCBYQUERY	Alignment.c	/^int BLASTHIT_RELATIVELOCBYQUERY(struct BLASTHIT *p/
+BLASTHIT_TRIMOVERLAP	Alignment.c	/^int BLASTHIT_TRIMOVERLAP(struct BLASTHIT *pGoldHit/
+BMADDROW	MatrixLib.c	/^int BMADDROW(struct BYTEMATRIX **pByteMatrix, unsi/
+BMBOOTSTRAP	MatrixLib.c	/^int BMBOOTSTRAP(struct BYTEMATRIX* pDestByteMatrix/
+BMBOOTSTRAPC	MatrixLib.c	/^int BMBOOTSTRAPC(struct BYTEMATRIX* pDestByteMatri/
+BMCLONE	MatrixLib.c	/^struct BYTEMATRIX* BMCLONE(struct BYTEMATRIX* pSou/
+BMCOPY	MatrixLib.c	/^int BMCOPY(struct BYTEMATRIX* pDestByteMatrix,stru/
+BMGETAT	MatrixLib.c	/^unsigned char BMGETAT(struct BYTEMATRIX* pSourceMa/
+BMLOAD	MatrixLib.c	/^struct BYTEMATRIX* BMLOAD(char strFilePath[])$/
+BMPERMUTEELEMENTSINONECOLUMN	MatrixLib.c	/^struct BYTEMATRIX* BMPERMUTEELEMENTSINONECOLUMN(st/
+BMPERMUTEROWS	MatrixLib.c	/^struct BYTEMATRIX* BMPERMUTEROWS(struct BYTEMATRIX/
+BMSAVE	MatrixLib.c	/^int BMSAVE(struct BYTEMATRIX* pByteMatrix, char st/
+BMSETAT	MatrixLib.c	/^int BMSETAT(struct BYTEMATRIX* pSourceMatrix,long /
+BMSUM	MatrixLib.c	/^double BMSUM(struct BYTEMATRIX* pByteMatrix)$/
+BM_T	MatrixLib.c	/^struct BYTEMATRIX* BM_T(struct BYTEMATRIX* pX)$/
+BVNORM2	MatrixLib.c	/^double BVNORM2(unsigned char *Vectorarray, long nL/
+BVNORMPRODUCT	MatrixLib.c	/^double BVNORMPRODUCT(unsigned char *Vectorarray1, /
+BaseLikelihood_Background	MotifLib.c	/^double BaseLikelihood_Background(unsigned char pSi/
+BaseLikelihood_Motif	MotifLib.c	/^double BaseLikelihood_Motif(unsigned char pSite[],/
+BaseLikelihood_MotifPWM	MotifLib.c	/^double BaseLikelihood_MotifPWM(unsigned char pSite/
+BaseLogLikelihood_MotifPWM	MotifLib.c	/^double BaseLogLikelihood_MotifPWM(unsigned char pS/
+ByteLoadRowVector	MatrixLib.c	/^long ByteLoadRowVector(char strInLine[], unsigned /
+CNV_Aln2WindowC_Main	HTSequencingLib.c	/^int CNV_Aln2WindowC_Main(char strInFile[], char st/
+CNV_Aln2Window_Main	HTSequencingLib.c	/^int CNV_Aln2Window_Main(char strInFile[], char str/
+CNV_Aln2Window_PrepareBARData	HTSequencingLib.c	/^struct tagBARData * CNV_Aln2Window_PrepareBARData(/
+CNV_Repeat2Window_Main	HTSequencingLib.c	/^int CNV_Repeat2Window_Main(char strGenomePath[], c/
+ChrPosCreate	TilingArrayLib.c	/^struct tagChrPos *ChrPosCreate()$/
+ChrPosDestroy	TilingArrayLib.c	/^void ChrPosDestroy(struct tagChrPos **pChrPos)$/
+ChrPosListCreate	TilingArrayLib.c	/^struct tagChrPosList *ChrPosListCreate()$/
+ChrPosListDestroy	TilingArrayLib.c	/^void ChrPosListDestroy(struct tagChrPosList **pChr/
+ConnectSitewithOrtho	WorkLib.c	/^int ConnectSitewithOrtho(int argv, char **argc)$/
+ConsScoreWriteToBedFile_ByStrand	GenomeLib.c	/^int ConsScoreWriteToBedFile_ByStrand(char strChrNa/
+ConsScoreWriteToBinaryFile_ByStrand	GenomeLib.c	/^int ConsScoreWriteToBinaryFile_ByStrand(struct BYT/
+ConsScoreWriteToTextFile_ByStrand	GenomeLib.c	/^int ConsScoreWriteToTextFile_ByStrand(struct BYTEM/
+Count_cMyc_In_ConservedTargetRegion	WorkLib.c	/^int Count_cMyc_In_ConservedTargetRegion(char strGe/
+Count_cMyc_In_ConservedTargetRegion_Main	WorkLib.c	/^int Count_cMyc_In_ConservedTargetRegion_Main()$/
+Count_cMyc_In_TargetRegion	WorkLib.c	/^int Count_cMyc_In_TargetRegion(char strGenomePath[/
+Count_cMyc_In_TargetRegion_Main	WorkLib.c	/^int Count_cMyc_In_TargetRegion_Main()$/
+CreateByteMatrix	MatrixLib.c	/^struct BYTEMATRIX* CreateByteMatrix(long nHeight, /
+CreateDoubleMatrix	MatrixLib.c	/^struct DOUBLEMATRIX* CreateDoubleMatrix(long nHeig/
+CreateIntMatrix	MatrixLib.c	/^struct INTMATRIX* CreateIntMatrix(long nHeight, lo/
+CreateLongMatrix	MatrixLib.c	/^struct LONGMATRIX* CreateLongMatrix(long nHeight, /
+CreateString	StringLib.c	/^struct tagString *CreateString(long nLength)$/
+CreateWString	StringLib.c	/^struct tagWString *CreateWString(long nLength)$/
+DMADD	MatrixLib.c	/^struct DOUBLEMATRIX* DMADD(struct DOUBLEMATRIX* pD/
+DMADDROW	MatrixLib.c	/^int DMADDROW(struct DOUBLEMATRIX **pDoubleMatrix, /
+DMADDTF	MatrixLib.c	/^int DMADDTF(struct DOUBLEMATRIX* pDoubleMatrix1,st/
+DMCLONE	MatrixLib.c	/^struct DOUBLEMATRIX* DMCLONE(struct DOUBLEMATRIX* /
+DMCONVTOBM	MatrixLib.c	/^struct BYTEMATRIX* DMCONVTOBM(struct DOUBLEMATRIX*/
+DMCOPY	MatrixLib.c	/^int DMCOPY(struct DOUBLEMATRIX* pDestDoubleMatrix,/
+DMGETAT	MatrixLib.c	/^double DMGETAT(struct DOUBLEMATRIX* pSourceMatrix,/
+DMGETMAX	MatrixLib.c	/^double DMGETMAX(struct DOUBLEMATRIX* pSourceMatrix/
+DMGETMIN	MatrixLib.c	/^double DMGETMIN(struct DOUBLEMATRIX* pSourceMatrix/
+DMLOAD	MatrixLib.c	/^struct DOUBLEMATRIX* DMLOAD(char strFilePath[])$/
+DMLOGTS	MatrixLib.c	/^int DMLOGTS(struct DOUBLEMATRIX* pSourceMatrix)$/
+DMMUL	MatrixLib.c	/^struct DOUBLEMATRIX* DMMUL(struct DOUBLEMATRIX* pS/
+DMNORM1	MatrixLib.c	/^double DMNORM1(struct DOUBLEMATRIX* pSourceMatrix)/
+DMPABSTS	MatrixLib.c	/^int DMPABSTS(struct DOUBLEMATRIX* pSourceMatrix)$/
+DMPADDTS	MatrixLib.c	/^int DMPADDTS(struct DOUBLEMATRIX* pSourceMatrix, d/
+DMPDIV	MatrixLib.c	/^struct DOUBLEMATRIX* DMPDIV(struct DOUBLEMATRIX* p/
+DMPDIVTF	MatrixLib.c	/^int DMPDIVTF(struct DOUBLEMATRIX* pDoubleMatrix1,s/
+DMPDIVTL	MatrixLib.c	/^int DMPDIVTL(struct DOUBLEMATRIX* pDoubleMatrix1,s/
+DMPDIVTS	MatrixLib.c	/^int DMPDIVTS(struct DOUBLEMATRIX* pSourceMatrix, d/
+DMPEXPTS	MatrixLib.c	/^int DMPEXPTS(struct DOUBLEMATRIX* pSourceMatrix)$/
+DMPLOGTS	MatrixLib.c	/^int DMPLOGTS(struct DOUBLEMATRIX* pSourceMatrix, d/
+DMPMUL	MatrixLib.c	/^struct DOUBLEMATRIX* DMPMUL(double dLamda, struct /
+DMPMULTF	MatrixLib.c	/^int DMPMULTF(struct DOUBLEMATRIX* pDoubleMatrix1,s/
+DMPMULTS	MatrixLib.c	/^int DMPMULTS(double dLamda, struct DOUBLEMATRIX* p/
+DMPPOWTF	MatrixLib.c	/^int DMPPOWTF(struct DOUBLEMATRIX* pDoubleMatrix1,s/
+DMPPOWTL	MatrixLib.c	/^int DMPPOWTL(struct DOUBLEMATRIX* pDoubleMatrix1,s/
+DMPPOWTS	MatrixLib.c	/^int DMPPOWTS(struct DOUBLEMATRIX* pSourceMatrix, d/
+DMPRECTS	MatrixLib.c	/^int DMPRECTS(double dLamda, struct DOUBLEMATRIX* p/
+DMPRODDIRICHLETRND	MatrixLib.c	/^int DMPRODDIRICHLETRND(struct DOUBLEMATRIX* pOutMa/
+DMPSUBTS	MatrixLib.c	/^int DMPSUBTS(double dLamda, struct DOUBLEMATRIX* p/
+DMPUPOWTS	MatrixLib.c	/^int DMPUPOWTS(double dBase, struct DOUBLEMATRIX* p/
+DMRANDNORM	MatrixLib.c	/^struct DOUBLEMATRIX* DMRANDNORM(long nHeight, long/
+DMRANDPRODDIRICHLET	MatrixLib.c	/^struct DOUBLEMATRIX* DMRANDPRODDIRICHLET(struct DO/
+DMRANDU	MatrixLib.c	/^struct DOUBLEMATRIX* DMRANDU(long nHeight, long nW/
+DMROWADDTF	MatrixLib.c	/^int DMROWADDTF(struct DOUBLEMATRIX* pSourceMatrix,/
+DMROWEXCH	MatrixLib.c	/^int DMROWEXCH(struct DOUBLEMATRIX* pSourceMatrix,l/
+DMROWNORM	MatrixLib.c	/^int DMROWNORM(struct DOUBLEMATRIX* pSourceMatrix)$/
+DMROWPMUL	MatrixLib.c	/^int DMROWPMUL(struct DOUBLEMATRIX* pSourceMatrix,l/
+DMROWSUBTF	MatrixLib.c	/^int DMROWSUBTF(struct DOUBLEMATRIX* pSourceMatrix,/
+DMROWTRNTF	MatrixLib.c	/^int DMROWTRNTF(struct DOUBLEMATRIX* pSourceMatrix,/
+DMSAVE	MatrixLib.c	/^int DMSAVE(struct DOUBLEMATRIX* pDoubleMatrix, cha/
+DMSETAT	MatrixLib.c	/^int DMSETAT(struct DOUBLEMATRIX* pSourceMatrix,lon/
+DMSOLVEEQU	MatrixLib.c	/^struct DOUBLEMATRIX* DMSOLVEEQU(struct DOUBLEMATRI/
+DMSORTMERGEA_0	MatrixLib.c	/^int DMSORTMERGEA_0(struct DOUBLEMATRIX* pSourceMat/
+DMSORTMERGE_0	MatrixLib.c	/^int DMSORTMERGE_0(struct DOUBLEMATRIX* pSourceMatr/
+DMSORTROWS	MatrixLib.c	/^int DMSORTROWS(struct DOUBLEMATRIX *pData, struct /
+DMSUB	MatrixLib.c	/^struct DOUBLEMATRIX* DMSUB(struct DOUBLEMATRIX* pD/
+DMSUBTF	MatrixLib.c	/^int DMSUBTF(struct DOUBLEMATRIX* pDoubleMatrix1,st/
+DMSUBTL	MatrixLib.c	/^int DMSUBTL(struct DOUBLEMATRIX* pDoubleMatrix1,st/
+DMSYMEIGEN	MatrixLib.c	/^int DMSYMEIGEN(struct DOUBLEMATRIX *pX,struct DOUB/
+DMSYMEIGENQR	MatrixLib.c	/^int DMSYMEIGENQR(struct DOUBLEMATRIX *pX,struct DO/
+DMSYMINVEIGEN	MatrixLib.c	/^int DMSYMINVEIGEN(struct DOUBLEMATRIX *pD,struct D/
+DM_T	MatrixLib.c	/^struct DOUBLEMATRIX* DM_T(struct DOUBLEMATRIX* pX)/
+DVNORM2	MatrixLib.c	/^double DVNORM2(double *Vectorarray, long nLen)$/
+DVNORMPRODUCT	MatrixLib.c	/^double DVNORMPRODUCT(double *Vectorarray1, double /
+DeleteString	StringLib.c	/^void DeleteString(struct tagString *pDelString)$/
+DeleteWString	StringLib.c	/^void DeleteWString(struct tagWString **pDelWString/
+DestroyByteMatrix	MatrixLib.c	/^void DestroyByteMatrix(struct BYTEMATRIX* pDelMatr/
+DestroyDoubleMatrix	MatrixLib.c	/^void DestroyDoubleMatrix(struct DOUBLEMATRIX* pDel/
+DestroyIntMatrix	MatrixLib.c	/^void DestroyIntMatrix(struct INTMATRIX* pDelMatrix/
+DestroyLongMatrix	MatrixLib.c	/^void DestroyLongMatrix(struct LONGMATRIX* pDelMatr/
+DoubleLoadRowVector	MatrixLib.c	/^long DoubleLoadRowVector(char strInLine[], double /
+EEL_GetReverseComplement_Main	WorkLib.c	/^int EEL_GetReverseComplement_Main()$/
+EEL_PrepareOrtholog_Main	work_eelprepareortho.c	/^int EEL_PrepareOrtholog_Main(int argv, char **argc/
+EEL_PrepareOrtholog_Main	WorkLib.c	/^int EEL_PrepareOrtholog_Main(int argv, char **argc/
+ESClustGetConsRegion	work_esclusgetrefflat.c	/^int ESClustGetConsRegion(int argv, char **argc)$/
+ESClustGetConsRegion	work_foxogetrefflat.c	/^int ESClustGetConsRegion(int argv, char **argc)$/
+ESClustGetPromoter	work_esgetgenearound.c	/^int ESClustGetPromoter(int argv, char **argc)$/
+ESClustGetPromoter	work_esgetpromoter.c	/^int ESClustGetPromoter(int argv, char **argc)$/
+ESClustGetPromoter	work_foxogetgenearound.c	/^int ESClustGetPromoter(int argv, char **argc)$/
+ESClustGetPromoter	work_xbpgetgenearound.c	/^int ESClustGetPromoter(int argv, char **argc)$/
+ESClustGetPromoter_Write	work_esgetgenearound.c	/^int ESClustGetPromoter_Write(struct SEQLINKMAP **p/
+ESClustGetPromoter_Write	work_esgetpromoter.c	/^int ESClustGetPromoter_Write(struct SEQLINKMAP **p/
+ESClustGetPromoter_Write	work_foxogetgenearound.c	/^int ESClustGetPromoter_Write(struct SEQLINKMAP **p/
+ESClustGetPromoter_Write	work_oct4getpromoter.c	/^int ESClustGetPromoter_Write(struct SEQLINKMAP **p/
+ESClustGetPromoter_Write	work_xbpgetgenearound.c	/^int ESClustGetPromoter_Write(struct SEQLINKMAP **p/
+ESRemoveRedundancy	work_esremoveregredundancy.c	/^int ESRemoveRedundancy(int argv, char **argc)$/
+Expression_GeneRankByLocusLink	MicroarrayLib.c	/^int Expression_GeneRankByLocusLink(int nProbeNum, /
+Expression_GeneRankByLocusLink	MicroarrayLib_tilemapnonshrink.c	/^int Expression_GeneRankByLocusLink(int nProbeNum, /
+Expression_GeneRankByLocusLink_EstimateMean	MicroarrayLib.c	/^struct DOUBLEMATRIX *Expression_GeneRankByLocusLin/
+Expression_GeneRankByLocusLink_EstimateMean	MicroarrayLib_tilemapnonshrink.c	/^struct DOUBLEMATRIX *Expression_GeneRankByLocusLin/
+Expression_GeneRankByLocusLink_EstimateVar	MicroarrayLib.c	/^int Expression_GeneRankByLocusLink_EstimateVar(str/
+Expression_GeneRankByLocusLink_EstimateVar	MicroarrayLib_tilemapnonshrink.c	/^int Expression_GeneRankByLocusLink_EstimateVar(str/
+Expression_GeneRankByLocusLink_EstimateVar0	MicroarrayLib.c	/^int Expression_GeneRankByLocusLink_EstimateVar0(st/
+Expression_GeneRankByLocusLink_EstimateVar0	MicroarrayLib_tilemapnonshrink.c	/^int Expression_GeneRankByLocusLink_EstimateVar0(st/
+Expression_GeneRankByLocusLink_Main	MicroarrayLib.c	/^int Expression_GeneRankByLocusLink_Main(char strPa/
+Expression_GeneRankByLocusLink_Main	MicroarrayLib_tilemapnonshrink.c	/^int Expression_GeneRankByLocusLink_Main(char strPa/
+Expression_GeneRankByLocusLink_Output	MicroarrayLib.c	/^int Expression_GeneRankByLocusLink_Output(int nLoc/
+Expression_GeneRankByLocusLink_Output	MicroarrayLib_tilemapnonshrink.c	/^int Expression_GeneRankByLocusLink_Output(int nLoc/
+Expression_GeneRankByLocusLink_ScoreInverseTransform	MicroarrayLib.c	/^int Expression_GeneRankByLocusLink_ScoreInverseTra/
+Expression_GeneRankByLocusLink_ScoreInverseTransform	MicroarrayLib_tilemapnonshrink.c	/^int Expression_GeneRankByLocusLink_ScoreInverseTra/
+Expression_GeneRankByLocusLink_ScoreTransform	MicroarrayLib.c	/^struct DOUBLEMATRIX *Expression_GeneRankByLocusLin/
+Expression_GeneRankByLocusLink_ScoreTransform	MicroarrayLib_tilemapnonshrink.c	/^struct DOUBLEMATRIX *Expression_GeneRankByLocusLin/
+Expression_GeneRankByLocusLink_TestPaper	MicroarrayLib.c	/^int Expression_GeneRankByLocusLink_TestPaper(int n/
+Expression_GeneRankByLocusLink_TestPaper	MicroarrayLib_tilemapnonshrink.c	/^int Expression_GeneRankByLocusLink_TestPaper(int n/
+Expression_GeneSelection_ClassPerm	MicroarrayLib.c	/^struct INTMATRIX *Expression_GeneSelection_ClassPe/
+Expression_GeneSelection_ClassPerm	MicroarrayLib_tilemapnonshrink.c	/^struct INTMATRIX *Expression_GeneSelection_ClassPe/
+Expression_GeneSelection_Evaluate	MicroarrayLib.c	/^int Expression_GeneSelection_Evaluate(struct DOUBL/
+Expression_GeneSelection_Evaluate	MicroarrayLib_tilemapnonshrink.c	/^int Expression_GeneSelection_Evaluate(struct DOUBL/
+Expression_GeneSelection_EvaluateVec	MicroarrayLib.c	/^int Expression_GeneSelection_EvaluateVec(int nProb/
+Expression_GeneSelection_EvaluateVec	MicroarrayLib_tilemapnonshrink.c	/^int Expression_GeneSelection_EvaluateVec(int nProb/
+Expression_GeneSelection_LoadGroupId	MicroarrayLib.c	/^struct INTMATRIX *Expression_GeneSelection_LoadGro/
+Expression_GeneSelection_LoadGroupId	MicroarrayLib_tilemapnonshrink.c	/^struct INTMATRIX *Expression_GeneSelection_LoadGro/
+Expression_GeneSelection_Main	MicroarrayLib.c	/^int Expression_GeneSelection_Main(char strDataFile/
+Expression_GeneSelection_Main	MicroarrayLib_tilemapnonshrink.c	/^int Expression_GeneSelection_Main(char strDataFile/
+Expression_GeneSelection_MonteCarlo	MicroarrayLib.c	/^struct DOUBLEMATRIX *Expression_GeneSelection_Mont/
+Expression_GeneSelection_MonteCarlo	MicroarrayLib_tilemapnonshrink.c	/^struct DOUBLEMATRIX *Expression_GeneSelection_Mont/
+Expression_GeneSelection_Output	MicroarrayLib.c	/^int Expression_GeneSelection_Output(int nProbeNum,/
+Expression_GeneSelection_Output	MicroarrayLib_tilemapnonshrink.c	/^int Expression_GeneSelection_Output(int nProbeNum,/
+Expression_GeneSelection_Output_1	MicroarrayLib.c	/^int Expression_GeneSelection_Output_1(int nProbeNu/
+Expression_GeneSelection_Output_1	MicroarrayLib_tilemapnonshrink.c	/^int Expression_GeneSelection_Output_1(int nProbeNu/
+Expression_GeneSelection_Output_WithRandomControl	MicroarrayLib.c	/^int Expression_GeneSelection_Output_WithRandomCont/
+Expression_GeneSelection_Output_WithRandomControl	MicroarrayLib_tilemapnonshrink.c	/^int Expression_GeneSelection_Output_WithRandomCont/
+Expression_GeneSelection_Output_WithRandomControl_Fast	MicroarrayLib.c	/^int Expression_GeneSelection_Output_WithRandomCont/
+Expression_GeneSelection_Output_WithRandomControl_Fast	MicroarrayLib_tilemapnonshrink.c	/^int Expression_GeneSelection_Output_WithRandomCont/
+Expression_GeneSelection_SubtractMean	MicroarrayLib.c	/^int Expression_GeneSelection_SubtractMean(int nPro/
+Expression_GeneSelection_tTest	MicroarrayLib.c	/^struct DOUBLEMATRIX *Expression_GeneSelection_tTes/
+Expression_GeneSelection_tTest	MicroarrayLib_tilemapnonshrink.c	/^struct DOUBLEMATRIX *Expression_GeneSelection_tTes/
+Expression_GetNonRedundantProbe_Main	MicroarrayLib.c	/^int Expression_GetNonRedundantProbe_Main(char strI/
+Expression_GetSpecificProbe_Main	MicroarrayLib.c	/^int Expression_GetSpecificProbe_Main(char strDatab/
+Expression_Normalization_Quantile	MicroarrayLib.c	/^int Expression_Normalization_Quantile(int nArrayNu/
+Expression_Normalization_Quantile	MicroarrayLib_tilemapnonshrink.c	/^int Expression_Normalization_Quantile(int nArrayNu/
+Expression_Normalization_Quantile_Main	MicroarrayLib.c	/^int Expression_Normalization_Quantile_Main(int nAr/
+Expression_Normalization_Quantile_Main	MicroarrayLib_tilemapnonshrink.c	/^int Expression_Normalization_Quantile_Main(int nAr/
+Expression_PowExpressLocusLink	MicroarrayLib.c	/^int Expression_PowExpressLocusLink(int nProbeNum, /
+Expression_PowExpressLocusLink	MicroarrayLib_tilemapnonshrink.c	/^int Expression_PowExpressLocusLink(int nProbeNum, /
+Expression_PowExpressLocusLink_Main	MicroarrayLib.c	/^int Expression_PowExpressLocusLink_Main(char strPa/
+Expression_PowExpressLocusLink_Main	MicroarrayLib_tilemapnonshrink.c	/^int Expression_PowExpressLocusLink_Main(char strPa/
+FLEXMTFMCREATE	MotifLib.c	/^struct FLEXMOTIFMATRIX *FLEXMTFMCREATE()$/
+FLEXMTFMDESTROY	MotifLib.c	/^int FLEXMTFMDESTROY(struct FLEXMOTIFMATRIX *pM)$/
+FLEXMTFMREFRESH	MotifLib.c	/^int FLEXMTFMREFRESH(struct FLEXMOTIFMATRIX *pM)$/
+FLEXMTFMSCORE	MotifLib.c	/^double FLEXMTFMSCORE(struct FLEXMOTIFMATRIX *pM, s/
+FLEXMTFMSHIFTPRIORCOUNT	MotifLib.c	/^int FLEXMTFMSHIFTPRIORCOUNT(struct FLEXMOTIFMATRIX/
+FLEXMTFSADDSITE	MotifLib.c	/^int FLEXMTFSADDSITE(struct FLEXMOTIFSITE *pS, int /
+FLEXMTFSADDTOLIST_SORTBYPOS	MotifLib.c	/^int FLEXMTFSADDTOLIST_SORTBYPOS(struct FLEXMOTIFSI/
+FLEXMTFSADDTOLIST_SORTBYPROB	MotifLib.c	/^int FLEXMTFSADDTOLIST_SORTBYPROB(struct FLEXMOTIFS/
+FLEXMTFSCREATE	MotifLib.c	/^struct FLEXMOTIFSITE *FLEXMTFSCREATE()$/
+FLEXMTFSDESTROY	MotifLib.c	/^int FLEXMTFSDESTROY(struct FLEXMOTIFSITE *pS)$/
+FLEXMTFSDESTROYLIST	MotifLib.c	/^int FLEXMTFSDESTROYLIST(struct FLEXMOTIFSITE **pSL/
+FLEXMTFSREMOVESITE	MotifLib.c	/^int FLEXMTFSREMOVESITE(struct FLEXMOTIFSITE *pS, i/
+FLEXSEQMTFCODENUCLEICSEQ	MotifLib.c	/^int FLEXSEQMTFCODENUCLEICSEQ(struct FLEXSEQMOTIF */
+FLEXSEQMTFCREATE	MotifLib.c	/^struct FLEXSEQMOTIF *FLEXSEQMTFCREATE(int nId, int/
+FLEXSEQMTFCREATEMONITOR	MotifLib.c	/^int FLEXSEQMTFCREATEMONITOR(struct FLEXSEQMOTIF *p/
+FLEXSEQMTFCREATEMOTIF	MotifLib.c	/^int FLEXSEQMTFCREATEMOTIF(struct FLEXSEQMOTIF *pSe/
+FLEXSEQMTFCREATESCORE	MotifLib.c	/^int FLEXSEQMTFCREATESCORE(struct FLEXSEQMOTIF *pSe/
+FLEXSEQMTFCREATESEQ	MotifLib.c	/^int FLEXSEQMTFCREATESEQ(struct FLEXSEQMOTIF *pSeqM/
+FLEXSEQMTFCREATESTATUS	MotifLib.c	/^int FLEXSEQMTFCREATESTATUS(struct FLEXSEQMOTIF *pS/
+FLEXSEQMTFDESTROY	MotifLib.c	/^int FLEXSEQMTFDESTROY(struct FLEXSEQMOTIF *pSeqMtf/
+FLEXSEQMTFDESTROYMONITOR	MotifLib.c	/^int FLEXSEQMTFDESTROYMONITOR(struct FLEXSEQMOTIF */
+FLEXSEQMTFDESTROYMOTIF	MotifLib.c	/^int FLEXSEQMTFDESTROYMOTIF(struct FLEXSEQMOTIF *pS/
+FLEXSEQMTFDESTROYSCORE	MotifLib.c	/^int FLEXSEQMTFDESTROYSCORE(struct FLEXSEQMOTIF *pS/
+FLEXSEQMTFDESTROYSEQ	MotifLib.c	/^int FLEXSEQMTFDESTROYSEQ(struct FLEXSEQMOTIF *pSeq/
+FLEXSEQMTFDESTROYSTATUS	MotifLib.c	/^int FLEXSEQMTFDESTROYSTATUS(struct FLEXSEQMOTIF *p/
+FLEXSEQMTFESTIMATENUCLEICBGMC	MotifLib.c	/^struct DOUBLEMATRIX *FLEXSEQMTFESTIMATENUCLEICBGMC/
+FLEXSEQMTFLOADCS	MotifLib.c	/^int FLEXSEQMTFLOADCS(struct FLEXSEQMOTIF *pSeqMtf,/
+FLEXSEQMTFLOADSEQ	MotifLib.c	/^struct FLEXSEQMOTIF **FLEXSEQMTFLOADSEQ(int *nSeqC/
+FLEXSEQMTFLOADSEQ_FOR_BGFIT	MotifLib.c	/^struct FLEXSEQMOTIF **FLEXSEQMTFLOADSEQ_FOR_BGFIT(/
+FLEXSEQMTFLOADSEQ_FOR_COUNTMCBACKGROUND_GENOME	MotifLib.c	/^struct FLEXSEQMOTIF *FLEXSEQMTFLOADSEQ_FOR_COUNTMC/
+FLEXSEQMTFLOADSEQ_FOR_HASHGENOME	MotifLib.c	/^struct FLEXSEQMOTIF *FLEXSEQMTFLOADSEQ_FOR_HASHGEN/
+FLEXSEQMTFLOADSEQ_FOR_INTEGRATEMATRIX_GENOME	MotifLib.c	/^struct FLEXSEQMOTIF *FLEXSEQMTFLOADSEQ_FOR_INTEGRA/
+FLEXSEQMTFLOADSEQ_FOR_SCANCONSENSUS_GENOME	MotifLib.c	/^struct FLEXSEQMOTIF *FLEXSEQMTFLOADSEQ_FOR_SCANCON/
+FLEXSEQMTFLOADSEQ_FOR_SCANCONSENSUS_SINGLE	MotifLib.c	/^struct FLEXSEQMOTIF *FLEXSEQMTFLOADSEQ_FOR_SCANCON/
+FLEXSEQMTFLOADSEQ_FOR_SCANMATRIX_GENOME	MotifLib.c	/^struct FLEXSEQMOTIF *FLEXSEQMTFLOADSEQ_FOR_SCANMAT/
+FLEXSEQMTFLOADSEQ_FOR_SCANMATRIX_GROUP	MotifLib.c	/^struct FLEXSEQMOTIF **FLEXSEQMTFLOADSEQ_FOR_SCANMA/
+FLEXSEQMTFLOADSEQ_FOR_SCANMATRIX_SINGLE	MotifLib.c	/^struct FLEXSEQMOTIF *FLEXSEQMTFLOADSEQ_FOR_SCANMAT/
+FLEXSEQMTF_REPEATUNMASK	MotifLib.c	/^int FLEXSEQMTF_REPEATUNMASK(struct FLEXSEQMOTIF *p/
+FastaSequenceExtract_Main	SequenceLib.c	/^int FastaSequenceExtract_Main(char strFASTAPath[],/
+FastaSequenceMask_Main	SequenceLib.c	/^int FastaSequenceMask_Main(char strSeqFile[], char/
+FastaSequenceSoft2HardMask_Main	SequenceLib.c	/^int FastaSequenceSoft2HardMask_Main(char strSeqFil/
+Feinberg_CollectGenoType	WorkLib.c	/^int Feinberg_CollectGenoType()$/
+Feinberg_CollectGenoType_ASM	WorkLib.c	/^int Feinberg_CollectGenoType_ASM()$/
+Feinberg_CollectGenoType_Tumor	WorkLib.c	/^int Feinberg_CollectGenoType_Tumor()$/
+Feinberg_CollectGenoType_mouse	WorkLib.c	/^int Feinberg_CollectGenoType_mouse()$/
+File_Bed2Aln_Main	GenomeLib.c	/^int File_Bed2Aln_Main(char strInputPath[], char st/
+File_Bed2Cod_Main	GenomeLib.c	/^int File_Bed2Cod_Main(char strInputPath[], char st/
+File_Bowtie2Aln_Main	file_bowtie2aln.c	/^int File_Bowtie2Aln_Main(char strInputFile[], char/
+File_Cod2Bed_Main	GenomeLib.c	/^int File_Cod2Bed_Main(char strInputPath[], char st/
+File_Eland2Aln_Main	file_eland2aln.c	/^int File_Eland2Aln_Main(char strInputFile[], char /
+File_Eland2Aln_Main	file_eland2aln_v2.c	/^int File_Eland2Aln_Main(char strInputFile[], char /
+FlexBaseLogLikelihood_Motif	MotifLib.c	/^double FlexBaseLogLikelihood_Motif(struct FLEXSEQM/
+FlexModule_AddMotifMatrixCount	MotifLib.c	/^int FlexModule_AddMotifMatrixCount(struct DOUBLEMA/
+FlexModule_BGFit	MotifLib.c	/^int FlexModule_BGFit(char strWorkPath[], char strS/
+FlexModule_BGFit_ClearOldStatus	MotifLib.c	/^int FlexModule_BGFit_ClearOldStatus(struct FLEXSEQ/
+FlexModule_BGFit_ExportLogLikelihood	MotifLib.c	/^int FlexModule_BGFit_ExportLogLikelihood(struct FL/
+FlexModule_BGFit_InitMotifLogLike	MotifLib.c	/^int FlexModule_BGFit_InitMotifLogLike(struct FLEXS/
+FlexModule_BGFit_InitSite	MotifLib.c	/^int FlexModule_BGFit_InitSite(struct FLEXSEQMOTIF /
+FlexModule_BGFit_Main	MotifLib.c	/^int FlexModule_BGFit_Main(char strParamFile[])$/
+FlexModule_BGFit_SampleBA	MotifLib.c	/^int FlexModule_BGFit_SampleBA(struct FLEXSEQMOTIF /
+FlexModule_BGFit_UpdateLikelihood	MotifLib.c	/^int FlexModule_BGFit_UpdateLikelihood(struct FLEXS/
+FlexModule_BGFit_UpdateNewStatus	MotifLib.c	/^int FlexModule_BGFit_UpdateNewStatus(struct FLEXSE/
+FlexModule_BGFit_WritePostMotifToFile	MotifLib.c	/^int FlexModule_BGFit_WritePostMotifToFile(char str/
+FlexModule_CallMotifSitesInFinalSample	MotifLib.c	/^int FlexModule_CallMotifSitesInFinalSample(struct /
+FlexModule_ClearOldStatus	MotifLib.c	/^int FlexModule_ClearOldStatus(struct FLEXSEQMOTIF /
+FlexModule_ComputeContextLogLike	MotifLib.c	/^double FlexModule_ComputeContextLogLike(struct FLE/
+FlexModule_ComputeModuleScore	FlexModuleInterface_2repeats.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_2sites.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_affine.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_anchoraffine.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_anchordist.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_BAK.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_maskfive2site.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_maskfiveoneeach.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_maskfivetnum.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_maskoneeachrelax.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_moreeach.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_moreeachrelax.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_motif.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_oneeach.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_oneeachrelax.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_palindrome.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_tnum.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_tnumrelax.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeModuleScore	FlexModuleInterface_tworeverse.c	/^double FlexModule_ComputeModuleScore(int nContextN/
+FlexModule_ComputeSiteScore	MotifLib.c	/^double FlexModule_ComputeSiteScore(unsigned char */
+FlexModule_ComputeTrueProb	FlexModuleInterface_2repeats.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_2sites.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_affine.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_anchoraffine.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_anchordist.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_BAK.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_maskfive2site.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_maskfiveoneeach.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_maskfivetnum.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_maskoneeachrelax.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_moreeach.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_moreeachrelax.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_motif.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_oneeach.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_oneeachrelax.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_palindrome.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_tnum.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_tnumrelax.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_ComputeTrueProb	FlexModuleInterface_tworeverse.c	/^double FlexModule_ComputeTrueProb(double dContextS/
+FlexModule_DecreaseW	MotifLib.c	/^int FlexModule_DecreaseW(struct FLEXSEQMOTIF **vSe/
+FlexModule_DecreaseWMotifLogLike	MotifLib.c	/^double FlexModule_DecreaseWMotifLogLike(struct FLE/
+FlexModule_DecreaseWUpdate	MotifLib.c	/^int FlexModule_DecreaseWUpdate(struct FLEXSEQMOTIF/
+FlexModule_DecreaseWUpdateMotif	MotifLib.c	/^int FlexModule_DecreaseWUpdateMotif(struct FLEXMOT/
+FlexModule_ExtractMotifsFromResult	MotifLib.c	/^int FlexModule_ExtractMotifsFromResult(char strInF/
+FlexModule_IncreaseW	MotifLib.c	/^int FlexModule_IncreaseW(struct FLEXSEQMOTIF **vSe/
+FlexModule_IncreaseWMotifLogLike	MotifLib.c	/^double FlexModule_IncreaseWMotifLogLike(struct FLE/
+FlexModule_IncreaseWUpdate	MotifLib.c	/^int FlexModule_IncreaseWUpdate(struct FLEXSEQMOTIF/
+FlexModule_IncreaseWUpdateMotif	MotifLib.c	/^int FlexModule_IncreaseWUpdateMotif(struct FLEXMOT/
+FlexModule_InitBGLogLike	MotifLib.c	/^int FlexModule_InitBGLogLike(struct FLEXSEQMOTIF */
+FlexModule_InitBGLogLike_FromFittedBGFile	MotifLib.c	/^int FlexModule_InitBGLogLike_FromFittedBGFile(stru/
+FlexModule_InitContext	MotifLib.c	/^int FlexModule_InitContext(struct FLEXSEQMOTIF *pS/
+FlexModule_InitScoreLike	MotifLib.c	/^struct DOUBLEMATRIX **FlexModule_InitScoreLike(str/
+FlexModule_InitSite	MotifLib.c	/^int FlexModule_InitSite(struct FLEXSEQMOTIF *pSeqM/
+FlexModule_LocalShift	MotifLib.c	/^int FlexModule_LocalShift(struct FLEXSEQMOTIF **vS/
+FlexModule_LogFreq	MotifLib.c	/^int FlexModule_LogFreq(struct DOUBLEMATRIX *pFreq)/
+FlexModule_Main	MotifLib.c	/^int FlexModule_Main(char strParamFile[])$/
+FlexModule_NormalizeFreq	MotifLib.c	/^int FlexModule_NormalizeFreq(struct DOUBLEMATRIX */
+FlexModule_NormalizePost	MotifLib.c	/^int FlexModule_NormalizePost(struct DOUBLEMATRIX */
+FlexModule_SampleBA	MotifLib.c	/^int FlexModule_SampleBA(struct FLEXSEQMOTIF *pSeqM/
+FlexModule_SampleD	FlexModuleInterface_2repeats.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_2sites.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_affine.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_anchoraffine.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_anchordist.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_BAK.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_maskfive2site.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_maskfiveoneeach.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_maskfivetnum.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_maskoneeachrelax.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_moreeach.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_moreeachrelax.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_motif.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_oneeach.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_oneeachrelax.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_palindrome.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_tnum.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_tnumrelax.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleD	FlexModuleInterface_tworeverse.c	/^int FlexModule_SampleD(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SampleL	MotifLib.c	/^int FlexModule_SampleL(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_SamplePost	MotifLib.c	/^int FlexModule_SamplePost(struct DOUBLEMATRIX *pFr/
+FlexModule_SampleW	MotifLib.c	/^int FlexModule_SampleW(struct FLEXSEQMOTIF **vSeqM/
+FlexModule_Sampler	MotifLib.c	/^int FlexModule_Sampler(char strWorkPath[], char st/
+FlexModule_ShiftContextLogLike	MotifLib.c	/^double FlexModule_ShiftContextLogLike(struct INTMA/
+FlexModule_ShiftMotifLogLike	MotifLib.c	/^double FlexModule_ShiftMotifLogLike(struct FLEXMOT/
+FlexModule_ShiftUpdate	MotifLib.c	/^int FlexModule_ShiftUpdate(struct FLEXSEQMOTIF *pS/
+FlexModule_ShiftUpdateMotif	MotifLib.c	/^int FlexModule_ShiftUpdateMotif(struct FLEXMOTIFMA/
+FlexModule_SubtractMotifMatrixCount	MotifLib.c	/^int FlexModule_SubtractMotifMatrixCount(struct DOU/
+FlexModule_UpdateNewStatus	MotifLib.c	/^int FlexModule_UpdateNewStatus(struct FLEXSEQMOTIF/
+FlexModule_WriteCisGenomeIniFiles	MotifLib.c	/^int FlexModule_WriteCisGenomeIniFiles(char strPara/
+FlexModule_WriteMotifToFile	MotifLib.c	/^int FlexModule_WriteMotifToFile(char strFilePath[]/
+FlexModule_WritePostMotifToFile	MotifLib.c	/^int FlexModule_WritePostMotifToFile(char strFilePa/
+GenomeGetConservedSeg_Main	work_getgenomeconsseg.c	/^int GenomeGetConservedSeg_Main(int argv, char **ar/
+GenomeGetConservedSeg_Main	work_gethumanconsseg.c	/^int GenomeGetConservedSeg_Main(int argv, char **ar/
+GenomeGetConservedSeg_Main	work_getmouseconsseg.c	/^int GenomeGetConservedSeg_Main(int argv, char **ar/
+GenomeGetConservedSeg_Write	work_getgenomeconsseg.c	/^int GenomeGetConservedSeg_Write(struct SEQLINKMAP /
+GenomeGetConservedSeg_Write	work_gethumanconsseg.c	/^int GenomeGetConservedSeg_Write(struct SEQLINKMAP /
+GenomeGetConservedSeg_Write	work_getmouseconsseg.c	/^int GenomeGetConservedSeg_Write(struct SEQLINKMAP /
+Genome_CS_Get_Distribution	GenomeLib.c	/^int Genome_CS_Get_Distribution(char strCSPath[], c/
+Genome_ChromosomeName_To_Index	GenomeLib.c	/^int Genome_ChromosomeName_To_Index(char strChrName/
+Genome_CodeCDS_FromRefGene_Main	GenomeLib.c	/^int Genome_CodeCDS_FromRefGene_Main(char strGenome/
+Genome_Code_4bit_GetMaskedReg_C_Main	GenomeLib.c	/^int Genome_Code_4bit_GetMaskedReg_C_Main(char strG/
+Genome_Code_4bit_GetMaskedReg_Main	GenomeLib.c	/^int Genome_Code_4bit_GetMaskedReg_Main(char strGen/
+Genome_Code_4bit_GetMaskedSeq_C_Main	GenomeLib.c	/^int Genome_Code_4bit_GetMaskedSeq_C_Main(char strG/
+Genome_Code_4bit_GetMaskedSeq_Main	GenomeLib.c	/^int Genome_Code_4bit_GetMaskedSeq_Main(char strGen/
+Genome_Code_4bit_GetSeq	GenomeLib.c	/^struct tagSequence *Genome_Code_4bit_GetSeq(char s/
+Genome_Code_4bit_GetSeqCS_C_Main	GenomeLib.c	/^int Genome_Code_4bit_GetSeqCS_C_Main(char strGenom/
+Genome_Code_4bit_GetSeqCS_Main	GenomeLib.c	/^int Genome_Code_4bit_GetSeqCS_Main(char strGenomeP/
+Genome_Code_4bit_GetSeq_C_Main	GenomeLib.c	/^int Genome_Code_4bit_GetSeq_C_Main(char strGenomeP/
+Genome_Code_4bit_GetSeq_Main	GenomeLib.c	/^int Genome_Code_4bit_GetSeq_Main(char strGenomePat/
+Genome_Code_4bit_GetUncompressed	GenomeLib.c	/^int Genome_Code_4bit_GetUncompressed(struct BYTEMA/
+Genome_CreateHash_Chr	GenomeLib.c	/^int Genome_CreateHash_Chr(char strGenomePath[],	ch/
+Genome_CreateHash_Chr_v0	GenomeLib.c	/^int Genome_CreateHash_Chr_v0(char strGenomePath[],/
+Genome_CreateHash_Main	GenomeLib.c	/^int Genome_CreateHash_Main(char strGenomePath[], c/
+Genome_Fasta_To_Code_4bit	GenomeLib.c	/^int Genome_Fasta_To_Code_4bit(char strInFile[], ch/
+Genome_Fasta_To_Code_4bit_Main	GenomeLib.c	/^int Genome_Fasta_To_Code_4bit_Main(char strInPath[/
+Genome_FilterMotifSites	GenomeLib.c	/^int Genome_FilterMotifSites(char strGenomePath[], /
+Genome_GetCDS	GenomeLib.c	/^struct BYTEMATRIX *Genome_GetCDS(char strCDSFile[]/
+Genome_GetConsScore	GenomeLib.c	/^struct BYTEMATRIX *Genome_GetConsScore(char strCon/
+Genome_GetGCCS_Summary_Main	GenomeLib.c	/^int Genome_GetGCCS_Summary_Main(char strGenomePath/
+Genome_GetMarkovBGForRegion	GenomeLib.c	/^int Genome_GetMarkovBGForRegion(char strGenomePath/
+Genome_GetRegionCS_Summary	GenomeLib.c	/^int Genome_GetRegionCS_Summary(char strGenomePath[/
+Genome_GetRegionCS_Summary_Main	GenomeLib.c	/^int Genome_GetRegionCS_Summary_Main(char strGenome/
+Genome_Index_To_ChromosomeName	GenomeLib.c	/^char *Genome_Index_To_ChromosomeName(char *strChrN/
+Genome_MafAlign_To_BG_Chr	GenomeLib.c	/^int Genome_MafAlign_To_BG_Chr(char strAlnFile[], c/
+Genome_MafAlign_To_BG_Main	GenomeLib.c	/^int Genome_MafAlign_To_BG_Main(char strInfoPath[])/
+Genome_MafAlign_To_CS_Chr	GenomeLib.c	/^int Genome_MafAlign_To_CS_Chr(char strAlnFile[], c/
+Genome_MafAlign_To_CS_Main	GenomeLib.c	/^int Genome_MafAlign_To_CS_Main(char strInfoPath[])/
+Genome_MafAlign_To_FootPrint_Chr	GenomeLib.c	/^int Genome_MafAlign_To_FootPrint_Chr(char strAlnFi/
+Genome_MafAlign_To_FootPrint_Main	GenomeLib.c	/^int Genome_MafAlign_To_FootPrint_Main(char strPara/
+Genome_MapMotifToRegion	GenomeLib.c	/^int Genome_MapMotifToRegion(char strGenomePath[], /
+Genome_PhastCons_To_Code_8bit	GenomeLib.c	/^int Genome_PhastCons_To_Code_8bit(char strPhastFil/
+Genome_PhastCons_To_Code_8bit_Main	GenomeLib.c	/^int Genome_PhastCons_To_Code_8bit_Main(char strGen/
+Genome_PhastCons_To_Code_8bit_Main_v2	GenomeLib.c	/^int Genome_PhastCons_To_Code_8bit_Main_v2(char str/
+Genome_PhastCons_To_Code_8bit_v2	GenomeLib.c	/^int Genome_PhastCons_To_Code_8bit_v2(char strPhast/
+Genome_RegionExtend_Main	GenomeLib.c	/^int Genome_RegionExtend_Main(char strInputPath[], /
+Genome_SpeciesAbbr_To_Species	GenomeLib.c	/^int Genome_SpeciesAbbr_To_Species(char strAbbr[], /
+Genome_Species_To_SpeciesAbbr	GenomeLib.c	/^int Genome_Species_To_SpeciesAbbr(char strSpecies[/
+GenomicRegionCreate	GenomeLib.c	/^struct tagGenomicRegion * GenomicRegionCreate()$/
+GenomicRegionDestroy	GenomeLib.c	/^int GenomicRegionDestroy(struct tagGenomicRegion */
+GenomicRegionGetUnique	GenomeLib.c	/^int GenomicRegionGetUnique(struct tagGenomicRegion/
+GenomicRegionInsert	GenomeLib.c	/^int GenomicRegionInsert(struct tagGenomicRegion **/
+GenomicRegionWrite	GenomeLib.c	/^int GenomicRegionWrite(struct tagGenomicRegion *pR/
+GetEBChIPCod	WorkLib.c	/^int GetEBChIPCod()$/
+GetFileName	GenomeLib.c	/^int GetFileName(char strFilePath[], char strFileNa/
+GliArrayGenerateRand	WorkLib.c	/^int GliArrayGenerateRand()$/
+HCNode_ClearTree	HTSequencingLib.c	/^int HCNode_ClearTree(struct tagHCNode **pNode)$/
+HCNode_Create	HTSequencingLib.c	/^struct tagHCNode *HCNode_Create(int nNodeId, int n/
+HCNode_Delete	HTSequencingLib.c	/^int HCNode_Delete(struct tagHCNode **pNode)$/
+HG17GetTSS_Main	WorkLib.c	/^int HG17GetTSS_Main(int argv, char **argc)$/
+HMM_BackwardSampling	MotifLib.c	/^int HMM_BackwardSampling(struct SEQMOTIF *pSeqMtf,/
+HMM_CallMotifSites	MotifLib.c	/^int HMM_CallMotifSites(struct SEQMOTIF *pSeqMtf,$/
+HMM_ForwardSummation	MotifLib.c	/^int HMM_ForwardSummation(struct SEQMOTIF *pSeqMtf,/
+HMM_RandInit	MotifLib.c	/^int HMM_RandInit(struct SEQMOTIF *pSeqMtf, $/
+HTSAln2WinParam_Create	HTSequencingLib.c	/^struct tagHTSAln2WinParam *HTSAln2WinParam_Create(/
+HTSAln2WinParam_Destroy	HTSequencingLib.c	/^void HTSAln2WinParam_Destroy(struct tagHTSAln2WinP/
+HTS_Aln2BAR	HTSequencingLib.c	/^int HTS_Aln2BAR(char strTXTFile[], char strBARFile/
+HTS_Aln2BARv2	HTSequencingLib.c	/^int HTS_Aln2BARv2(char strTXTFile[], char strBARFi/
+HTS_Aln2Diff_CallRegion	HTSequencingLib.c	/^int HTS_Aln2Diff_CallRegion(struct tagHTSAln2WinPa/
+HTS_Aln2Diff_CountHits	HTSequencingLib.c	/^double HTS_Aln2Diff_CountHits(struct tagBARData *p/
+HTS_Aln2Diff_EstimateP	HTSequencingLib.c	/^int HTS_Aln2Diff_EstimateP(struct tagBARData *pBAR/
+HTS_Aln2Diff_EstimateP3	HTSequencingLib.c	/^int HTS_Aln2Diff_EstimateP3(struct tagBARData *pBA/
+HTS_Aln2Diff_EstimatePBinom	HTSequencingLib.c	/^int HTS_Aln2Diff_EstimatePBinom(struct tagBARData /
+HTS_Aln2Diff_EstimatePrior2Col	HTSequencingLib.c	/^int HTS_Aln2Diff_EstimatePrior2Col(struct tagBARDa/
+HTS_Aln2Diff_Main	HTSequencingLib.c	/^int HTS_Aln2Diff_Main(char strParamPath[])$/
+HTS_Aln2Diff_PrepareBARData	HTSequencingLib.c	/^struct tagBARData * HTS_Aln2Diff_PrepareBARData(st/
+HTS_Aln2Diff_PrepareRecountingData	HTSequencingLib.c	/^struct tagBARData * HTS_Aln2Diff_PrepareRecounting/
+HTS_Aln2Enrich_EstimateP	HTSequencingLib.c	/^int HTS_Aln2Enrich_EstimateP(struct tagBARData *pB/
+HTS_Aln2Enrich_Main	HTSequencingLib.c	/^int HTS_Aln2Enrich_Main(char strParamPath[])$/
+HTS_Aln2Unique	HTSequencingLib.c	/^int HTS_Aln2Unique(char strInputPath[], char strOu/
+HTS_Aln2WinBAR	HTSequencingLib.c	/^int HTS_Aln2WinBAR(char strTXTFile[], char strOutp/
+HTS_Aln2WinBAR_Export	HTSequencingLib.c	/^int HTS_Aln2WinBAR_Export(char strTXTFile[], char /
+HTS_Aln2Window_CountHits	HTSequencingLib.c	/^double HTS_Aln2Window_CountHits(struct tagBARData /
+HTS_Aln2Window_LoadParamter	HTSequencingLib.c	/^struct tagHTSAln2WinParam *HTS_Aln2Window_LoadPara/
+HTS_Aln2Window_Main	HTSequencingLib.c	/^int HTS_Aln2Window_Main(char strParamPath[])$/
+HTS_Aln2Window_PrepareBARData	HTSequencingLib.c	/^struct tagBARData * HTS_Aln2Window_PrepareBARData(/
+HTS_Aln2Window_Scaling	HTSequencingLib.c	/^int HTS_Aln2Window_Scaling(struct tagBARData *pBAR/
+HTS_Aln2Window_WriteCGB	HTSequencingLib.c	/^int HTS_Aln2Window_WriteCGB(struct tagHTSAln2WinPa/
+HTS_Aln2Window_WriteCGW	HTSequencingLib.c	/^int HTS_Aln2Window_WriteCGW(struct tagHTSAln2WinPa/
+HTS_AlnShift2BAR	HTSequencingLib.c	/^int HTS_AlnShift2BAR(char strInputPath[], char str/
+HTS_CollectProfile	HTSequencingLib.c	/^struct INTMATRIX* HTS_CollectProfile(char strChr[]/
+HTS_CollectProfile_Main	HTSequencingLib.c	/^int HTS_CollectProfile_Main(char strInputFile[], c/
+HTS_CollectReads	HTSequencingLib.c	/^int HTS_CollectReads(char strInputFile[], char str/
+HTS_CountReads4RefGene_Main	HTSequencingLib.c	/^int HTS_CountReads4RefGene_Main(char strDatabasePa/
+HTS_CountReads4Region	HTSequencingLib.c	/^double HTS_CountReads4Region(char strChr[], int nS/
+HTS_CreateRepeatFilter	HTSequencingLib.c	/^int HTS_CreateRepeatFilter(char strGenomePath[], c/
+HTS_Enrich_OneSample_CallRegion_Initial	HTSequencingLib.c	/^struct DOUBLEMATRIX *HTS_Enrich_OneSample_CallRegi/
+HTS_Enrich_OneSample_ExportResults	HTSequencingLib.c	/^int	HTS_Enrich_OneSample_ExportResults(struct DOUB/
+HTS_Enrich_OneSample_Main	HTSequencingLib.c	/^int HTS_Enrich_OneSample_Main(char strBARFile[], i/
+HTS_Enrich_OneSample_MergeRegion	HTSequencingLib.c	/^struct DOUBLEMATRIX *HTS_Enrich_OneSample_MergeReg/
+HTS_Enrich_OneSample_RegionCollectInfo	HTSequencingLib.c	/^int HTS_Enrich_OneSample_RegionCollectInfo(struct /
+HTS_Enrich_OneSamplev2_ExportResults	HTSequencingLib.c	/^int	HTS_Enrich_OneSamplev2_ExportResults(struct DO/
+HTS_Enrich_OneSamplev2_ExportResults_Old	HTSequencingLib.c	/^int	HTS_Enrich_OneSamplev2_ExportResults_Old(struc/
+HTS_Enrich_OneSamplev2_FindOverlap	HTSequencingLib.c	/^int HTS_Enrich_OneSamplev2_FindOverlap(struct DOUB/
+HTS_Enrich_OneSamplev2_Main	HTSequencingLib.c	/^int HTS_Enrich_OneSamplev2_Main(char strBARFile[],/
+HTS_Enrich_OneSamplev2_Main_Old	HTSequencingLib.c	/^int HTS_Enrich_OneSamplev2_Main_Old(char strBARFil/
+HTS_Enrich_OneSamplev2_MatchFRRegions	HTSequencingLib.c	/^struct DOUBLEMATRIX *HTS_Enrich_OneSamplev2_MatchF/
+HTS_Enrich_OneSamplev2_RegionCollectInfo	HTSequencingLib.c	/^struct DOUBLEMATRIX *HTS_Enrich_OneSamplev2_Region/
+HTS_Enrich_TwoSample_CallRegion_Initial	HTSequencingLib.c	/^struct DOUBLEMATRIX *HTS_Enrich_TwoSample_CallRegi/
+HTS_Enrich_TwoSample_ExportResults	HTSequencingLib.c	/^int	HTS_Enrich_TwoSample_ExportResults(struct DOUB/
+HTS_Enrich_TwoSample_Main	HTSequencingLib.c	/^int HTS_Enrich_TwoSample_Main(char strPosBARFile[]/
+HTS_Enrich_TwoSample_MergeRegion	HTSequencingLib.c	/^struct DOUBLEMATRIX *HTS_Enrich_TwoSample_MergeReg/
+HTS_Enrich_TwoSample_RegionCollectInfo	HTSequencingLib.c	/^int HTS_Enrich_TwoSample_RegionCollectInfo(struct /
+HTS_Enrich_TwoSamplev2_ExportResults	HTSequencingLib.c	/^int	HTS_Enrich_TwoSamplev2_ExportResults(struct DO/
+HTS_Enrich_TwoSamplev2_Main	HTSequencingLib.c	/^int HTS_Enrich_TwoSamplev2_Main(char strPosBARFile/
+HTS_Enrich_TwoSamplev2_RegionCollectInfo	HTSequencingLib.c	/^struct DOUBLEMATRIX *HTS_Enrich_TwoSamplev2_Region/
+HTS_FilterRepeatReads	HTSequencingLib.c	/^int HTS_FilterRepeatReads(char strInputFile[], cha/
+HTS_TwoSample_FDR	HTSequencingLib.c	/^int HTS_TwoSample_FDR(struct DOUBLEMATRIX *pCount,/
+HTS_TwoSample_WindowSummary	HTSequencingLib.c	/^int HTS_TwoSample_WindowSummary(char strPosBARFile/
+HTS_TwoSample_WindowSummaryv2	HTSequencingLib.c	/^int HTS_TwoSample_WindowSummaryv2(char strPosBARFi/
+HTS_WindowSummary	HTSequencingLib.c	/^int HTS_WindowSummary(char strBARFile[], char strC/
+HTS_WindowSummaryPaper	HTSequencingLib.c	/^int HTS_WindowSummaryPaper(char strBARFile[], char/
+HTS_WindowSummaryv2	HTSequencingLib.c	/^int HTS_WindowSummaryv2(char strBARFile[], char st/
+HTS_selectread	WorkLib.c	/^int HTS_selectread(char strInputFile[], char strOu/
+HierarchicalCluster_Column	HTSequencingLib.c	/^int HierarchicalCluster_Column(int nRowNum, int nC/
+HierarchicalCluster_Column_Dist_AbsCorr	HTSequencingLib.c	/^int HierarchicalCluster_Column_Dist_AbsCorr(int nR/
+HierarchicalCluster_Column_Dist_Corr	HTSequencingLib.c	/^int HierarchicalCluster_Column_Dist_Corr(int nRowN/
+HierarchicalCluster_ExportCluster	HTSequencingLib.c	/^int HierarchicalCluster_ExportCluster(struct tagHC/
+HierarchicalCluster_UpdateDist_AverageLinkage	HTSequencingLib.c	/^double HierarchicalCluster_UpdateDist_AverageLinka/
+IMADDROW	MatrixLib.c	/^int IMADDROW(struct INTMATRIX **pIntMatrix, int nE/
+IMCLONE	MatrixLib.c	/^struct INTMATRIX* IMCLONE(struct INTMATRIX* pSourc/
+IMCOPY	MatrixLib.c	/^int IMCOPY(struct INTMATRIX* pDestIntMatrix,struct/
+IMGETAT	MatrixLib.c	/^int IMGETAT(struct INTMATRIX* pSourceMatrix,long n/
+IMLOAD	MatrixLib.c	/^struct INTMATRIX* IMLOAD(char strFilePath[])$/
+IMSAVE	MatrixLib.c	/^int IMSAVE(struct INTMATRIX* pIntMatrix, char strF/
+IMSETAT	MatrixLib.c	/^int IMSETAT(struct INTMATRIX* pSourceMatrix,long n/
+IMSORTMERGEA_0	MatrixLib.c	/^int IMSORTMERGEA_0(struct INTMATRIX* pSourceMatrix/
+IM_T	MatrixLib.c	/^struct INTMATRIX* IM_T(struct INTMATRIX* pX)$/
+IQR_ProbeMatch	WorkLib.c	/^int IQR_ProbeMatch()$/
+IntLoadRowVector	MatrixLib.c	/^long IntLoadRowVector(char strInLine[], int nEleme/
+LMADDROW	MatrixLib.c	/^int LMADDROW(struct LONGMATRIX **pLongMatrix, long/
+LMCOPY	MatrixLib.c	/^int LMCOPY(struct LONGMATRIX* pDestLongMatrix,stru/
+LMGETAT	MatrixLib.c	/^long LMGETAT(struct LONGMATRIX* pSourceMatrix,long/
+LMLOAD	MatrixLib.c	/^struct LONGMATRIX* LMLOAD(char strFilePath[])$/
+LMSAVE	MatrixLib.c	/^int LMSAVE(struct LONGMATRIX* pLongMatrix, char st/
+LMSETAT	MatrixLib.c	/^int LMSETAT(struct LONGMATRIX* pSourceMatrix,long /
+LM_T	MatrixLib.c	/^struct LONGMATRIX* LM_T(struct LONGMATRIX* pX)$/
+LoadFullSequenceList	SequenceLib.c	/^int LoadFullSequenceList(char strInFilePath[], str/
+LongLoadRowVector	MatrixLib.c	/^long LongLoadRowVector(char strInLine[], long nEle/
+MAlign_BlastHit_CheckColinearity	Alignment.c	/^int MAlign_BlastHit_CheckColinearity(struct BLASTH/
+MAlign_BlastHit_ComputeGenomicCod	Alignment.c	/^int MAlign_BlastHit_ComputeGenomicCod(struct SEQLI/
+MAlign_BlastHit_ExportLinkMapSeq	Alignment.c	/^int MAlign_BlastHit_ExportLinkMapSeq(struct tagSeq/
+MAlign_BlastHit_FillGapsInLinkMap	Alignment.c	/^int MAlign_BlastHit_FillGapsInLinkMap(struct SEQLI/
+MAlign_BlastHit_GetHitSegments	Alignment.c	/^struct BLASTHIT *MAlign_BlastHit_GetHitSegments(ch/
+MAlign_BlastHit_LinkHitSegments	Alignment.c	/^struct SEQLINKMAP *MAlign_BlastHit_LinkHitSegments/
+MAlign_BlastHit_Main	Alignment.c	/^int MAlign_BlastHit_Main(char strParamPath[])$/
+MAlign_BlastHit_PrepareIndividualCod	Alignment.c	/^int MAlign_BlastHit_PrepareIndividualCod(char strW/
+MAlign_BlastHit_PrepareIndividualFasta	Alignment.c	/^int MAlign_BlastHit_PrepareIndividualFasta(char st/
+MAlign_BlastHit_PrepareOrthologSegments	Alignment.c	/^int MAlign_BlastHit_PrepareOrthologSegments(char s/
+MAlign_BlastHit_SortLinkMapByQuery	Alignment.c	/^int MAlign_BlastHit_SortLinkMapByQuery(struct SEQL/
+MAlign_BlastHit_TrimOverlap	Alignment.c	/^int MAlign_BlastHit_TrimOverlap(struct BLASTHIT *p/
+MAlign_GenMotifAln_Main	Alignment.c	/^int MAlign_GenMotifAln_Main(char strParamPath[])$/
+MAlign_GenerateMotifAln_ExportAlignment	Alignment.c	/^int MAlign_GenerateMotifAln_ExportAlignment(int nS/
+MAlign_GenerateMotifAln_GenerateAlignment	Alignment.c	/^int MAlign_GenerateMotifAln_GenerateAlignment(char/
+MAlign_GenerateMotifAln_UpdateAlignAndMotif	Alignment.c	/^int MAlign_GenerateMotifAln_UpdateAlignAndMotif(st/
+MAlign_Genome_BlastHit_Main	Alignment.c	/^int MAlign_Genome_BlastHit_Main(char strParamPath[/
+MAlign_Genome_PrepareIndividualFasta	Alignment.c	/^int MAlign_Genome_PrepareIndividualFasta(char strR/
+MAlign_Genome_PrepareOrtholog	Alignment.c	/^int MAlign_Genome_PrepareOrtholog(char strInPath[]/
+MAlign_KMerStat_Count	Alignment.c	/^int MAlign_KMerStat_Count(char strWorkPath[], char/
+MAlign_KMerStat_Main	Alignment.c	/^int MAlign_KMerStat_Main(char strParamPath[])$/
+MAlign_MLAGAN_Align	Alignment.c	/^int MAlign_MLAGAN_Align(char strWorkPath[], int nD/
+MAlign_ModuleMap_ExportModules	Alignment.c	/^int MAlign_ModuleMap_ExportModules(struct MOTIFSIT/
+MAlign_ModuleMap_GetConservedMotif	Alignment.c	/^struct MOTIFSITELINKMAP *MAlign_ModuleMap_GetConse/
+MAlign_ModuleMap_JudgeModule	Alignment.c	/^int MAlign_ModuleMap_JudgeModule(int nMotifNum, st/
+MAlign_ModuleMap_LoadRawMotifMapping	Alignment.c	/^struct MOTIFSITELINKMAP *MAlign_ModuleMap_LoadRawM/
+MAlign_ModuleMap_Main	Alignment.c	/^int MAlign_ModuleMap_Main(char strParamPath[])$/
+MAlign_ModuleMap_SearchModule	Alignment.c	/^int MAlign_ModuleMap_SearchModule(char strWorkPath/
+MAlign_MotifMap_ComputeGenomicCod	Alignment.c	/^int MAlign_MotifMap_ComputeGenomicCod(char strWork/
+MAlign_MotifMap_ExportAlignment	Alignment.c	/^int MAlign_MotifMap_ExportAlignment(int nSpeciesNu/
+MAlign_MotifMap_GenerateAlignment	Alignment.c	/^int MAlign_MotifMap_GenerateAlignment(char strWork/
+MAlign_MotifMap_GetGenomicCod	Alignment.c	/^int MAlign_MotifMap_GetGenomicCod(int nPos, struct/
+MAlign_MotifMap_GroupMotifSiteByClusters	Alignment.c	/^int MAlign_MotifMap_GroupMotifSiteByClusters(char /
+MAlign_MotifMap_LoadSeqLinkMap	Alignment.c	/^int MAlign_MotifMap_LoadSeqLinkMap(struct SEQLINKM/
+MAlign_MotifMap_Main	Alignment.c	/^int MAlign_MotifMap_Main(char strParamPath[])$/
+MAlign_MotifMap_PrepareFasta	Alignment.c	/^int MAlign_MotifMap_PrepareFasta(char strWorkPath[/
+MAlign_MotifMap_TRUNCSTRING	Alignment.c	/^int MAlign_MotifMap_TRUNCSTRING(char strLine[], in/
+MAlign_MotifMap_UpdateAlignAndMotif	Alignment.c	/^int MAlign_MotifMap_UpdateAlignAndMotif(struct tag/
+MCMOVECREATE	MotifLib.c	/^struct MARKOVCHAINMOVE *MCMOVECREATE()$/
+MCMOVEDESTROY	MotifLib.c	/^int MCMOVEDESTROY(struct MARKOVCHAINMOVE *pM)$/
+MCMOVEDESTROYCIRCLE	MotifLib.c	/^int MCMOVEDESTROYCIRCLE(struct MARKOVCHAINMOVE **p/
+MM6GetGeneCover_Main	WorkLib.c	/^int MM6GetGeneCover_Main(int argv, char **argc)$/
+MOTIFSITELINKMAPCLEARLIST	Alignment.c	/^void MOTIFSITELINKMAPCLEARLIST(struct MOTIFSITELIN/
+MOTIFSITELINKMAPCREATE	Alignment.c	/^struct MOTIFSITELINKMAP *MOTIFSITELINKMAPCREATE()$/
+MOTIFSITELINKMAPDESTROY	Alignment.c	/^void MOTIFSITELINKMAPDESTROY(struct MOTIFSITELINKM/
+MOTIFSITELINKMAP_INSERTBYQUERYLOC	Alignment.c	/^int MOTIFSITELINKMAP_INSERTBYQUERYLOC(struct MOTIF/
+MOTIFSITELINKMAP_RELATIVELOCBYQUERY	Alignment.c	/^int MOTIFSITELINKMAP_RELATIVELOCBYQUERY(struct MOT/
+MTFMCREATE	MotifLib.c	/^struct MOTIFMATRIX *MTFMCREATE()$/
+MTFMDESTROY	MotifLib.c	/^int MTFMDESTROY(struct MOTIFMATRIX *pM)$/
+MTFMDESTROYLIST	MotifLib.c	/^int MTFMDESTROYLIST(struct MOTIFMATRIX **pMList)$/
+MTFMREFRESH_QUALITY	MotifLib.c	/^int MTFMREFRESH_QUALITY(struct MOTIFMATRIX *pM)$/
+MTFMSAMPLEPWM	MotifLib.c	/^int MTFMSAMPLEPWM(struct MOTIFMATRIX *pM)$/
+MTFMSCORE	MotifLib.c	/^double MTFMSCORE(struct MOTIFMATRIX *pM, struct DO/
+MTFSCREATE	MotifLib.c	/^struct MOTIFSITE *MTFSCREATE()$/
+MTFSDESTROY	MotifLib.c	/^int MTFSDESTROY(struct MOTIFSITE *pS)$/
+MTFSDESTROYLIST	MotifLib.c	/^int MTFSDESTROYLIST(struct MOTIFSITE **pSList)$/
+MTFSGRPCREATE	MotifLib.c	/^struct MOTIFSITEGROUP *MTFSGRPCREATE(int nMotifNum/
+MTFSGRPDESTROY	MotifLib.c	/^int MTFSGRPDESTROY(struct MOTIFSITEGROUP *pG)$/
+Maffy_bar2txt	affy_bar2txt.c	/^int main(int argv, char **argc)$/
+MapGeneID2RefGene	WorkLib.c	/^int MapGeneID2RefGene()$/
+MapHomoloGene	WorkLib.c	/^int MapHomoloGene()$/
+MapHomoloGene_ByHID	WorkLib.c	/^int MapHomoloGene_ByHID()$/
+Map_cMyc_Chr2122	WorkLib.c	/^int Map_cMyc_Chr2122()$/
+Map_cMyc_Chr2122_Conserved	WorkLib.c	/^int Map_cMyc_Chr2122_Conserved()$/
+MapcMyc_LOADSEQFROMGENOME	WorkLib.c	/^int MapcMyc_LOADSEQFROMGENOME(struct SEQMOTIF *pSe/
+MapcMyc_LOADSEQFROMGENOME_Conserved	WorkLib.c	/^int MapcMyc_LOADSEQFROMGENOME_Conserved(struct SEQ/
+Mcnv_aln2window	cnv_aln2window.c	/^int main(int argv, char **argc)$/
+Mcnv_repeat2window	cnv_repeat2window.c	/^int main(int argv, char **argc)$/
+Mfasta_soft2hardmask	fasta_soft2hardmask.c	/^int main(int argv, char **argc)$/
+Mfile_bed2aln	file_bed2aln.c	/^int main(int argv, char **argc)$/
+Mfile_bed2cod	file_bed2cod.c	/^int main(int argv, char **argc)$/
+Mfile_bowtie2aln	file_bowtie2aln.c	/^int main(int argv, char **argc)$/
+Mfile_cod2bed	file_cod2bed.c	/^int main(int argv, char **argc)$/
+Mfile_eland2aln	file_eland2aln.c	/^int main(int argv, char **argc)$/
+Mfile_eland2aln_v2	file_eland2aln_v2.c	/^int main(int argv, char **argc)$/
+Mflexmodule	flexmodule.c	/^int main(int argv, char **argc)$/
+Mflexmodule_bgfit	flexmodule_bgfit.c	/^int main(int argv, char **argc)$/
+Mgenome_codephastcons	genome_codephastcons.c	/^int main(int argv, char **argc)$/
+Mgenome_codephastcons_v2	genome_codephastcons_v2.c	/^int main(int argv, char **argc)$/
+Mgenome_codingCDS	genome_codingCDS.c	/^int main(int argv, char **argc)$/
+Mgenome_conservebg	genome_conservebg.c	/^int main(int argv, char **argc)$/
+Mgenome_conservecs	genome_conservecs.c	/^int main(int argv, char **argc)$/
+Mgenome_csgetdistn	genome_csgetdistn.c	/^int main(int argv, char **argc)$/
+Mgenome_encode	genome_encode.c	/^int main(int argv, char **argc)$/
+Mgenome_fastaseqmask	genome_fastaseqmask.c	/^int main(int argv, char **argc)$/
+Mgenome_footprint	genome_footprint.c	/^int main(int argv, char **argc)$/
+Mgenome_getcsgcsummary	genome_getcsgcsummary.c	/^int main(int argv, char **argc)$/
+Mgenome_getmaskedreg	genome_getmaskedreg.c	/^int main(int argv, char **argc)$/
+Mgenome_getmaskedreg_c	genome_getmaskedreg_c.c	/^int main(int argv, char **argc)$/
+Mgenome_getmaskedseq	genome_getmaskedseq.c	/^int main(int argv, char **argc)$/
+Mgenome_getmaskedseq_c	genome_getmaskedseq_c.c	/^int main(int argv, char **argc)$/
+Mgenome_getseq	genome_getseq.c	/^int main(int argv, char **argc)$/
+Mgenome_getseq_c	genome_getseq_c.c	/^int main(int argv, char **argc)$/
+Mgenome_getseqcs	genome_getseqcs.c	/^int main(int argv, char **argc)$/
+Mgenome_getseqcs_c	genome_getseqcs_c.c	/^int main(int argv, char **argc)$/
+Mgenome_hash	genome_hash.c	/^int main(int argv, char **argc)$/
+Mgenome_regioncssummary	genome_regioncssummary.c	/^int main(int argv, char **argc)$/
+Mgenome_regionextend	genome_regionextend.c	/^int main(int argv, char **argc)$/
+Mgenomelab	genomelab.c	/^int main(int argv, char **argc)$/
+Mhts_aln2bar	hts_aln2bar.c	/^int main(int argv, char **argc)$/
+Mhts_aln2barv2	hts_aln2barv2.c	/^int main(int argv, char **argc)$/
+Mhts_aln2uniq	hts_aln2uniq.c	/^int main(int argv, char **argc)$/
+Mhts_aln2winbar	hts_aln2winbar.c	/^int main(int argv, char **argc)$/
+Mhts_aln2window	hts_aln2window.c	/^int main(int argv, char **argc)$/
+Mhts_alnshift2bar	hts_alnshift2bar.c	/^int main(int argv, char **argc)$/
+Mhts_collectprofile	hts_collectprofile.c	/^int main(int argv, char **argc)$/
+Mhts_collectreads	hts_collectreads.c	/^int main(int argv, char **argc)$/
+Mhts_countreads4refgene	hts_countreads4refgene.c	/^int main(int argv, char **argc)$/
+Mhts_createrepeatfilter	hts_createrepeatfilter.c	/^int main(int argv, char **argc)$/
+Mhts_filterrepeatreads	hts_filterrepeatreads.c	/^int main(int argv, char **argc)$/
+Mhts_peakdetector	hts_peakdetector.c	/^int main(int argv, char **argc)$/
+Mhts_peakdetector_2sample	hts_peakdetector_2sample.c	/^int main(int argv, char **argc)$/
+Mhts_peakdetectorv2	hts_peakdetectorv2.c	/^int main(int argv, char **argc)$/
+Mhts_peakdetectorv2_2sample	hts_peakdetectorv2_2sample.c	/^int main(int argv, char **argc)$/
+Mhts_selectreads	hts_selectreads.c	/^int main(int argv, char **argc)$/
+Mhts_windowsummary	hts_windowsummary.c	/^int main(int argv, char **argc)$/
+Mhts_windowsummary_2sample	hts_windowsummary_2sample.c	/^int main(int argv, char **argc)$/
+Mhts_windowsummaryv2	hts_windowsummaryv2.c	/^int main(int argv, char **argc)$/
+Mhts_windowsummaryv2_2sample	hts_windowsummaryv2_2sample.c	/^int main(int argv, char **argc)$/
+Mmalign_blasthit	malign_blasthit.c	/^int main(int argv, char **argc)$/
+Mmalign_countkmer	malign_countkmer.c	/^int main(int argv, char **argc)$/
+Mmalign_generatemotifaln	malign_generatemotifaln.c	/^int main(int argv, char **argc)$/
+Mmalign_genome_blasthit	malign_genome_blasthit.c	/^int main(int argv, char **argc)$/
+Mmalign_genome_prepareortholog	malign_genome_prepareortholog.c	/^int main(int argv, char **argc)$/
+Mmalign_modulemap	malign_modulemap.c	/^int main(int argv, char **argc)$/
+Mmalign_motifmap	malign_motifmap.c	/^int main(int argv, char **argc)$/
+Mmotifmap_consensusscan	motifmap_consensusscan.c	/^int main(int argv, char **argc)$/
+Mmotifmap_consensusscan_genome	motifmap_consensusscan_genome.c	/^int main(int argv, char **argc)$/
+Mmotifmap_consensusscan_genome_enrich	motifmap_consensusscan_genome_enrich.c	/^int main(int argv, char **argc)$/
+Mmotifmap_consensusscan_genome_summary	motifmap_consensusscan_genome_summary.c	/^int main(int argv, char **argc)$/
+Mmotifmap_countkmer	motifmap_countkmer.c	/^int main(int argv, char **argc)$/
+Mmotifmap_filter_genome	motifmap_filter_genome.c	/^int main(int argv, char **argc)$/
+Mmotifmap_getcluster	motifmap_getcluster.c	/^int main(int argv, char **argc)$/
+Mmotifmap_getsitearound	motifmap_getsitearound.c	/^int main(int argv, char **argc)$/
+Mmotifmap_getsitearoundcs	motifmap_getsitearoundcs.c	/^int main(int argv, char **argc)$/
+Mmotifmap_matrixintegrate_genome	motifmap_matrixintegrate_genome.c	/^int main(int argv, char **argc)$/
+Mmotifmap_matrixscan	motifmap_matrixscan.c	/^int main(int argv, char **argc)$/
+Mmotifmap_matrixscan_genome	motifmap_matrixscan_genome.c	/^int main(int argv, char **argc)$/
+Mmotifmap_matrixscan_genome_enrich	motifmap_matrixscan_genome_enrich.c	/^int main(int argv, char **argc)$/
+Mmotifmap_matrixscan_genome_getcutoff	motifmap_matrixscan_genome_getcutoff.c	/^int main(int argv, char **argc)$/
+Mmotifmap_matrixscan_genome_summary	motifmap_matrixscan_genome_summary.c	/^int main(int argv, char **argc)$/
+Mmotifmap_matrixscan_genomebg	motifmap_matrixscan_genomebg.c	/^int main(int argv, char **argc)$/
+Mmotifmap_matrixscan_group	motifmap_matrixscan_group.c	/^int main(int argv, char **argc)$/
+Mmotifmap_multiplematrixscan_genome	motifmap_multiplematrixscan_genome.c	/^int main(int argv, char **argc)$/
+Mnetwork_bind2entrez	network_bind2entrez.c	/^int main(int argv, char **argc)$/
+Mnetwork_createortholognet	network_createortholognet.c	/^int main(int argv, char **argc)$/
+Mnetwork_getsubnet	network_getsubnet.c	/^int main(int argv, char **argc)$/
+Mnetwork_shortestpath	network_shortestpath.c	/^int main(int argv, char **argc)$/
+MotifMap_CountKmer_In_FlexSeqMtf	MotifLib.c	/^int MotifMap_CountKmer_In_FlexSeqMtf(struct FLEXSE/
+MotifMap_CountKmer_Sequential_Main	MotifLib.c	/^int MotifMap_CountKmer_Sequential_Main(char strInp/
+MotifMap_FilterOverlappingSite	MotifLib.c	/^int MotifMap_FilterOverlappingSite(char strInFile[/
+MotifMap_Filter_Genome_Main	MotifLib.c	/^int MotifMap_Filter_Genome_Main(char strInputPath[/
+MotifMap_GetContigIndex	MotifLib.c	/^int MotifMap_GetContigIndex(int nChrId, int nStart/
+MotifMap_GetSiteAroundCS_Genome_Main	MotifLib.c	/^int MotifMap_GetSiteAroundCS_Genome_Main(char strI/
+MotifMap_GetSiteAround_Main	MotifLib.c	/^int MotifMap_GetSiteAround_Main(char strInputPath[/
+MotifMap_GetStatistics	MotifLib.c	/^int MotifMap_GetStatistics(char strFileName[], dou/
+MotifMap_IntegrateMatrix_Export_Genome	MotifLib.c	/^int MotifMap_IntegrateMatrix_Export_Genome(struct /
+MotifMap_IntegrateMatrix_In_FlexSeqMtf	MotifLib.c	/^int MotifMap_IntegrateMatrix_In_FlexSeqMtf(struct /
+MotifMap_Rescore_Main	MotifLib.c	/^int MotifMap_Rescore_Main(char strMotifPath[], cha/
+MotifMap_ScanConsensus_Export_Genome	MotifLib.c	/^int MotifMap_ScanConsensus_Export_Genome(struct FL/
+MotifMap_ScanConsensus_Export_Single	MotifLib.c	/^int MotifMap_ScanConsensus_Export_Single(struct FL/
+MotifMap_ScanConsensus_Genome_Enrich_Main	MotifLib.c	/^int MotifMap_ScanConsensus_Genome_Enrich_Main(char/
+MotifMap_ScanConsensus_Genome_Main	MotifLib.c	/^int MotifMap_ScanConsensus_Genome_Main(char strMot/
+MotifMap_ScanConsensus_Genome_Summary_Main	MotifLib.c	/^int MotifMap_ScanConsensus_Genome_Summary_Main(cha/
+MotifMap_ScanConsensus_In_FlexSeqMtf	MotifLib.c	/^int MotifMap_ScanConsensus_In_FlexSeqMtf(struct FL/
+MotifMap_ScanConsensus_MotifCountMisMatch	MotifLib.c	/^int MotifMap_ScanConsensus_MotifCountMisMatch(stru/
+MotifMap_ScanConsensus_Sequential_Main	MotifLib.c	/^int MotifMap_ScanConsensus_Sequential_Main(char st/
+MotifMap_ScanMatrix_CountBackground	MotifLib.c	/^int MotifMap_ScanMatrix_CountBackground(struct FLE/
+MotifMap_ScanMatrix_Export	MotifLib.c	/^int MotifMap_ScanMatrix_Export(int nSeqCount, stru/
+MotifMap_ScanMatrix_Export_Genome	MotifLib.c	/^int MotifMap_ScanMatrix_Export_Genome(struct FLEXS/
+MotifMap_ScanMatrix_Export_Single	MotifLib.c	/^int MotifMap_ScanMatrix_Export_Single(struct FLEXS/
+MotifMap_ScanMatrix_GenomeBackground_Chr	MotifLib.c	/^int MotifMap_ScanMatrix_GenomeBackground_Chr(char /
+MotifMap_ScanMatrix_GenomeBackground_Main	MotifLib.c	/^int MotifMap_ScanMatrix_GenomeBackground_Main(char/
+MotifMap_ScanMatrix_Genome_ComputeBackground_Region	MotifLib.c	/^int MotifMap_ScanMatrix_Genome_ComputeBackground_R/
+MotifMap_ScanMatrix_Genome_CountBackground	MotifLib.c	/^int MotifMap_ScanMatrix_Genome_CountBackground(str/
+MotifMap_ScanMatrix_Genome_Enrich_Main	MotifLib.c	/^int MotifMap_ScanMatrix_Genome_Enrich_Main(char st/
+MotifMap_ScanMatrix_Genome_GetCutoff_Main	MotifLib.c	/^int MotifMap_ScanMatrix_Genome_GetCutoff_Main(char/
+MotifMap_ScanMatrix_Genome_Main	MotifLib.c	/^int MotifMap_ScanMatrix_Genome_Main(char strMotifP/
+MotifMap_ScanMatrix_Genome_Summary_Main	MotifLib.c	/^int MotifMap_ScanMatrix_Genome_Summary_Main(char s/
+MotifMap_ScanMatrix_Group_Main	MotifLib.c	/^int MotifMap_ScanMatrix_Group_Main(char  strMotifP/
+MotifMap_ScanMatrix_In_FlexSeqMtf	MotifLib.c	/^int MotifMap_ScanMatrix_In_FlexSeqMtf(struct FLEXS/
+MotifMap_ScanMatrix_InitBGLogLike	MotifLib.c	/^int MotifMap_ScanMatrix_InitBGLogLike(struct FLEXS/
+MotifMap_ScanMatrix_InitBGLogLike_Genome	MotifLib.c	/^int MotifMap_ScanMatrix_InitBGLogLike_Genome(struc/
+MotifMap_ScanMatrix_Integrate_Genome_Main	MotifLib.c	/^int MotifMap_ScanMatrix_Integrate_Genome_Main(char/
+MotifMap_ScanMatrix_MotifLikeRatio	MotifLib.c	/^double MotifMap_ScanMatrix_MotifLikeRatio(struct F/
+MotifMap_ScanMatrix_Sequential_ComputeBackground	MotifLib.c	/^int MotifMap_ScanMatrix_Sequential_ComputeBackgrou/
+MotifMap_ScanMatrix_Sequential_Main	MotifLib.c	/^int MotifMap_ScanMatrix_Sequential_Main(char  strM/
+MotifMap_ScanMultipleMatrix_ClusterTest	MotifLib.c	/^int MotifMap_ScanMultipleMatrix_ClusterTest(int nM/
+MotifMap_ScanMultipleMatrix_Export	MotifLib.c	/^int MotifMap_ScanMultipleMatrix_Export(char strFil/
+MotifMap_ScanMultipleMatrix_Genome_Main	MotifLib.c	/^int MotifMap_ScanMultipleMatrix_Genome_Main(char s/
+MotifMap_ScoreRefGene	MotifLib.c	/^int MotifMap_ScoreRefGene(char strSpecies[], char /
+MotifMap_SimuScoreDistribution_typeI	MotifLib.c	/^int MotifMap_SimuScoreDistribution_typeI(char strM/
+MotifMap_SimuScoreDistribution_typeII	MotifLib.c	/^int MotifMap_SimuScoreDistribution_typeII(char str/
+MotifMap_SimuScoreDistribution_typeIII	MotifLib.c	/^int MotifMap_SimuScoreDistribution_typeIII(char st/
+MotifMap_SimuScore_typeI	MotifLib.c	/^double MotifMap_SimuScore_typeI(struct BYTEMATRIX /
+MotifMap_SimuScore_typeII	MotifLib.c	/^double MotifMap_SimuScore_typeII(struct BYTEMATRIX/
+MotifMap_SimuScore_typeIII	MotifLib.c	/^double MotifMap_SimuScore_typeIII(struct BYTEMATRI/
+MotifMap_getcluster_Main	MotifLib.c	/^int MotifMap_getcluster_Main(char strInputPath[], /
+MotifSampler_Collapsed	MotifLib.c	/^int MotifSampler_Collapsed(char strInFile[], char /
+MotifSampler_HMM	MotifLib.c	/^int MotifSampler_HMM(char strInFile[], char strOut/
+MotifSampler_Quality	MotifLib.c	/^int MotifSampler_Quality(char strInFile[], char st/
+Mpowexpress	powexpress.c	/^int main(int argv, char **argc)$/
+Mpowexpress_getnrprobe	powexpress_getnrprobe.c	/^int main(int argv, char **argc)$/
+Mpowexpress_getspecificprobe	powexpress_getspecificprobe.c	/^int main(int argv, char **argc)$/
+Mpowexpressloc	powexpressloc.c	/^int main(int argv, char **argc)$/
+Mrefexon_createmap	refexon_createmap.c	/^int main(int argv, char **argc)$/
+Mrefflat_encode	refflat_encode.c	/^int main(int argv, char **argc)$/
+Mrefflex_getmultiortholog	refflex_getmultiortholog.c	/^int main(int argv, char **argc)$/
+Mrefflex_getmultiortholog1way	refflex_getmultiortholog1way.c	/^int main(int argv, char **argc)$/
+Mrefgene_encode	refgene_encode.c	/^int main(int argv, char **argc)$/
+Mrefgene_getaffy	refgene_getaffy.c	/^int main(int argv, char **argc)$/
+Mrefgene_getlocationsummary	refgene_getlocationsummary.c	/^int main(int argv, char **argc)$/
+Mrefgene_getmatchedcontrol	refgene_getmatchedcontrol.c	/^int main(int argv, char **argc)$/
+Mrefgene_getmultiortholog	refgene_getmultiortholog.c	/^int main(int argv, char **argc)$/
+Mrefgene_getmultiortholog1way	refgene_getmultiortholog1way.c	/^int main(int argv, char **argc)$/
+Mrefgene_getmultiorthologtssaround	refgene_getmultiorthologtssaround.c	/^int main(int argv, char **argc)$/
+Mrefgene_getmultiorthologtssaroundexonmasked	refgene_getmultiorthologtssaroundexonmasked.c	/^int main(int argv, char **argc)$/
+Mrefgene_getnearestgene	refgene_getnearestgene.c	/^int main(int argv, char **argc)$/
+Mrefgene_gettssaround	refgene_gettssaround.c	/^int main(int argv, char **argc)$/
+Mrefgene_pickspeciesspecific	refgene_pickspeciesspecific.c	/^int main(int argv, char **argc)$/
+Mreflocus_assignvalue	reflocus_assignvalue.c	/^int main(int argv, char **argc)$/
+Mreflocus_createmap	reflocus_createmap.c	/^int main(int argv, char **argc)$/
+Mreflocus_getneighborgenes	reflocus_getneighborgenes.c	/^int main(int argv, char **argc)$/
+Mrefmicroarray_createmap	refmicroarray_createmap.c	/^int main(int argv, char **argc)$/
+Mregion_overlap.cpp	region_overlap.cpp	/^int main(int argc, char *argv[]){$/
+Mrnaseq_countgeneread	rnaseq_countgeneread.c	/^int main(int argv, char **argc)$/
+Mseqclust	seqclust.c	/^int main(int argv, char **argc)$/
+Mseqclust_count	seqclust_count.c	/^int main(int argv, char **argc)$/
+Mseqclust_dp	seqclust_dp.c	/^int main(int argv, char **argc)$/
+Mseqclust_seg	seqclust_seg.c	/^int main(int argv, char **argc)$/
+Mseqpeak	seqpeak.c	/^int main(int argv, char **argc)$/
+Mtablesorter.cpp	tablesorter.cpp	/^int main(int argc, char *argv[])$/
+Mtablesorter_str.cpp	tablesorter_str.cpp	/^int main(int argc, char *argv[])$/
+Mtestrand	testrand.c	/^int main(int argv, char **argc)$/
+Mtilemap	tilemap.c	/^int main(int argv, char **argc)$/
+Mtilemap_extract	tilemap_extract.c	/^int main(int argv, char **argc)$/
+Mtilemap_importaffy	tilemap_importaffy.c	/^int main(int argv, char **argc)$/
+Mtilemap_norm	tilemap_norm.c	/^int main(int argv, char **argc)$/
+Mtilemapv2	tilemapv2.c	/^int main(int argv, char **argc)$/
+Mtilemapv2_importaffy	tilemapv2_importaffy.c	/^int main(int argv, char **argc)$/
+Mtilemapv2_quantilenorm	tilemapv2_quantilenorm.c	/^int main(int argv, char **argc)$/
+Mtilemapv2_regioninfo	tilemapv2_regioninfo.c	/^int main(int argv, char **argc)$/
+Mtilemapv2_regioninfo_integral	tilemapv2_regioninfo_integral.c	/^int main(int argv, char **argc)$/
+Mtilemapv2_txt2bar	tilemapv2_txt2bar.c	/^int main(int argv, char **argc)$/
+Mtileprobe_barnorm	tileprobe_barnorm.c	/^int main(int argv, char **argc)$/
+Mtileprobe_buildbarmodel	tileprobe_buildbarmodel.c	/^int main(int argv, char **argc)$/
+Mtileprobe_buildbarmodel_v2	tileprobe_buildbarmodel_v2.c	/^int main(int argv, char **argc)$/
+Mtileprobe_buildmodel	tileprobe_buildmodel.c	/^int main(int argv, char **argc)$/
+Mtileprobe_buildmodel_hmmb	tileprobe_buildmodel_hmmb.c	/^int main(int argv, char **argc)$/
+Mtileprobe_buildmodel_hmmm	tileprobe_buildmodel_hmmm.c	/^int main(int argv, char **argc)$/
+Mtileprobe_buildmodel_hmmt	tileprobe_buildmodel_hmmt.c	/^int main(int argv, char **argc)$/
+Mtileprobe_buildmodel_hmmw	tileprobe_buildmodel_hmmw.c	/^int main(int argv, char **argc)$/
+Mtileprobe_buildmodel_v2	tileprobe_buildmodel_v2.c	/^int main(int argv, char **argc)$/
+Mtileprobe_huberdata	tileprobe_huberdata.c	/^int main(int argv, char **argc)$/
+Mtileprobe_mat	tileprobe_mat.c	/^int main(int argv, char **argc)$/
+Mtileprobe_norm	tileprobe_norm.c	/^int main(int argv, char **argc)$/
+Mtileprobe_peak	tileprobe_peak.c	/^int main(int argv, char **argc)$/
+Mtileprobe_resample	tileprobe_resample.c	/^int main(int argv, char **argc)$/
+Mwork_eelprepareortho	work_eelprepareortho.c	/^int main(int argv, char **argc)$/
+Mwork_esclusgetrefflat	work_esclusgetrefflat.c	/^int main(int argv, char **argc)$/
+Mwork_esgetgenearound	work_esgetgenearound.c	/^int main(int argv, char **argc)$/
+Mwork_esgetpromoter	work_esgetpromoter.c	/^int main(int argv, char **argc)$/
+Mwork_esremoveregredundancy	work_esremoveregredundancy.c	/^int main(int argv, char **argc)$/
+Mwork_foxogetgenearound	work_foxogetgenearound.c	/^int main(int argv, char **argc)$/
+Mwork_foxogetrefflat	work_foxogetrefflat.c	/^int main(int argv, char **argc)$/
+Mwork_getgenomeconsseg	work_getgenomeconsseg.c	/^int main(int argv, char **argc)$/
+Mwork_gethumanconsseg	work_gethumanconsseg.c	/^int main(int argv, char **argc)$/
+Mwork_getmouseconsseg	work_getmouseconsseg.c	/^int main(int argv, char **argc)$/
+Mwork_oct4getpromoter	work_oct4getpromoter.c	/^int main(int argv, char **argc)$/
+Mwork_shhmbtest	work_shhmbtest.c	/^int main(int argv, char **argc)$/
+Mwork_xbpgetgenearound	work_xbpgetgenearound.c	/^int main(int argv, char **argc)$/
+NETWORKEDGECREATE	PhysicalNetworkLib.c	/^struct NETWORKEDGE *NETWORKEDGECREATE()$/
+NETWORKEDGEDESTROY	PhysicalNetworkLib.c	/^void NETWORKEDGEDESTROY(struct NETWORKEDGE **ppEdg/
+NETWORKNODECREATE	PhysicalNetworkLib.c	/^struct NETWORKNODE *NETWORKNODECREATE()$/
+NETWORKNODEDESTROY	PhysicalNetworkLib.c	/^void NETWORKNODEDESTROY(struct NETWORKNODE **ppNod/
+NETWORKNODE_ADDEDGE	PhysicalNetworkLib.c	/^int NETWORKNODE_ADDEDGE(struct NETWORKNODE **ppNod/
+NETWORKPHYSICALCREATE	PhysicalNetworkLib.c	/^struct NETWORKPHYSICAL *NETWORKPHYSICALCREATE()$/
+NETWORKPHYSICALDESTROY	PhysicalNetworkLib.c	/^void NETWORKPHYSICALDESTROY(struct NETWORKPHYSICAL/
+NETWORKSHORTESTPATHCREATE	PhysicalNetworkLib.c	/^struct NETWORKSHORTESTPATH *NETWORKSHORTESTPATHCRE/
+NETWORKSHORTESTPATHDESTROY	PhysicalNetworkLib.c	/^void NETWORKSHORTESTPATHDESTROY(struct NETWORKSHOR/
+NODEEDGEINTERFACECREATE	PhysicalNetworkLib.c	/^struct NODEEDGEINTERFACE *NODEEDGEINTERFACECREATE(/
+NODEEDGEINTERFACEDESTROY	PhysicalNetworkLib.c	/^void NODEEDGEINTERFACEDESTROY(struct NODEEDGEINTER/
+NODEEDGEINTERFACELIST_ADDHEAD	PhysicalNetworkLib.c	/^int NODEEDGEINTERFACELIST_ADDHEAD(struct NODEEDGEI/
+NODEEDGEINTERFACELIST_CLEARALL	PhysicalNetworkLib.c	/^void NODEEDGEINTERFACELIST_CLEARALL(struct NODEEDG/
+Network_CreateOrthogloNet_Main	PhysicalNetworkLib.c	/^int Network_CreateOrthogloNet_Main(char strNetWork/
+Network_DepthSearch_GetMaxScore	PhysicalNetworkLib.c	/^int Network_DepthSearch_GetMaxScore(struct NETWORK/
+Network_DepthSearch_GetMaxScore_Recursive	PhysicalNetworkLib.c	/^int Network_DepthSearch_GetMaxScore_Recursive(stru/
+Network_FindShortestPath	PhysicalNetworkLib.c	/^struct NETWORKSHORTESTPATH *Network_FindShortestPa/
+Network_FindShortestPath_ExportResults	PhysicalNetworkLib.c	/^int Network_FindShortestPath_ExportResults(char st/
+Network_FindShortestPath_InitDist	PhysicalNetworkLib.c	/^int Network_FindShortestPath_InitDist(struct NETWO/
+Network_FindShortestPath_Main	PhysicalNetworkLib.c	/^int Network_FindShortestPath_Main(char strNetWorkF/
+Network_FindShortestPath_V	PhysicalNetworkLib.c	/^struct NETWORKSHORTESTPATH *Network_FindShortestPa/
+Network_FindShortestPath_V_ExportResults	PhysicalNetworkLib.c	/^int Network_FindShortestPath_V_ExportResults(char /
+Network_FindShortestPath_V_InitDist	PhysicalNetworkLib.c	/^int Network_FindShortestPath_V_InitDist(struct NET/
+Network_GetSubNet_Main	PhysicalNetworkLib.c	/^int Network_GetSubNet_Main(char strNetWorkFile[], /
+Network_InitNodeBV	PhysicalNetworkLib.c	/^int Network_InitNodeBV(struct NETWORKPHYSICAL *pNe/
+Network_InitNodeDV	PhysicalNetworkLib.c	/^int Network_InitNodeDV(struct NETWORKPHYSICAL *pNe/
+Network_InitNodeIV	PhysicalNetworkLib.c	/^int Network_InitNodeIV(struct NETWORKPHYSICAL *pNe/
+Network_InitNodeSV	PhysicalNetworkLib.c	/^int Network_InitNodeSV(struct NETWORKPHYSICAL *pNe/
+Network_LinkBINDEntrez_GetGeneID	PhysicalNetworkLib.c	/^int Network_LinkBINDEntrez_GetGeneID(int nMGI, cha/
+Network_LinkBINDEntrez_Main	PhysicalNetworkLib.c	/^int Network_LinkBINDEntrez_Main(char strBindFile[]/
+Network_LoadAnnotation	PhysicalNetworkLib.c	/^int Network_LoadAnnotation(struct NETWORKPHYSICAL /
+Network_LoadFromSIF	PhysicalNetworkLib.c	/^struct NETWORKPHYSICAL *Network_LoadFromSIF(char s/
+Network_LoadValue_FromRefGene	PhysicalNetworkLib.c	/^int Network_LoadValue_FromRefGene(struct NETWORKPH/
+Network_LoadValue_FromRefGene_ForShortestPath	PhysicalNetworkLib.c	/^int Network_LoadValue_FromRefGene_ForShortestPath(/
+Network_WriteToSIF	PhysicalNetworkLib.c	/^int Network_WriteToSIF(struct NETWORKPHYSICAL *pNe/
+Oct4GetPromoter	work_oct4getpromoter.c	/^int Oct4GetPromoter(int argv, char **argc)$/
+ProbeGenomeInfoCreate	TilingArrayLib.c	/^struct tagProbeGenomeInfo *ProbeGenomeInfoCreate()/
+ProbeGenomeInfoDestroy	TilingArrayLib.c	/^void ProbeGenomeInfoDestroy(struct tagProbeGenomeI/
+Quality_BaseLogLikelihood_Background	MotifLib.c	/^double Quality_BaseLogLikelihood_Background(unsign/
+Quality_BaseLogLikelihood_Motif	MotifLib.c	/^double Quality_BaseLogLikelihood_Motif(unsigned ch/
+Quality_CallMotifSites	MotifLib.c	/^int Quality_CallMotifSites(struct SEQMOTIF *pSeqMt/
+Quality_EstimateTruePosProb	MotifLib.c	/^double Quality_EstimateTruePosProb(int nNeighborCo/
+Quality_Neighbor_Likelihood	MotifLib.c	/^int Quality_Neighbor_Likelihood(struct SITEPOS *pN/
+Quality_RandInit	MotifLib.c	/^int Quality_RandInit(struct SEQMOTIF *pSeqMtf, int/
+Quality_Sampler	MotifLib.c	/^int Quality_Sampler(struct SEQMOTIF *pSeqMtf, doub/
+Quality_UpdateNeighborCount	MotifLib.c	/^int Quality_UpdateNeighborCount(struct SEQMOTIF *p/
+RNASEQ_CountReadPerTranscript_Main	HTSequencingLib.c	/^int RNASEQ_CountReadPerTranscript_Main(char strInF/
+RNASEQ_HitTest	HTSequencingLib.c	/^int RNASEQ_HitTest(int nChr, int nPos, struct tagR/
+ROTATE	MatrixLib.h	/^#define ROTATE(a,i,j,k,l) g=a[i][j];h=a[k][l];a[i]/
+RefFlatInit	GenomeLib.c	/^int RefFlatInit(struct tagRefGene * pRefGene, char/
+RefFlatInit_FromGenomeLabFormat	GenomeLib.c	/^int RefFlatInit_FromGenomeLabFormat(struct tagRefG/
+RefFlatWrite	GenomeLib.c	/^int RefFlatWrite(struct tagRefGene *pRefGene, FILE/
+RefFlat_Convert_UCSC_To_Lab	GenomeLib.c	/^int RefFlat_Convert_UCSC_To_Lab(char strInPath[], /
+RefFlat_RemoveRedundancy	GenomeLib.c	/^int RefFlat_RemoveRedundancy(char strTargetPath[],/
+RefFlex_GetMultiOrtholog1way	GenomeLib.c	/^int RefFlex_GetMultiOrtholog1way(char strInPath[],/
+RefFlex_GetMultiOrtholog1way_Main	GenomeLib.c	/^int RefFlex_GetMultiOrtholog1way_Main(char strTarg/
+RefFlex_GetMultiOrtholog_Main	GenomeLib.c	/^int RefFlex_GetMultiOrtholog_Main(char strTargetPa/
+RefFlex_GetOrtholog	GenomeLib.c	/^int RefFlex_GetOrtholog(struct tagRefGene **vOrigi/
+RefFlex_LoadOriginRefGene	GenomeLib.c	/^struct tagRefGene **RefFlex_LoadOriginRefGene(char/
+RefFlex_MapMultiOrthologToOriginalSpecies	GenomeLib.c	/^int RefFlex_MapMultiOrthologToOriginalSpecies(int /
+RefFlex_MergeMultiOrtholog	GenomeLib.c	/^int RefFlex_MergeMultiOrtholog(int nSpeciesNum, st/
+RefGeneClone	GenomeLib.c	/^struct tagRefGene *RefGeneClone(struct tagRefGene /
+RefGeneCreate	GenomeLib.c	/^struct tagRefGene * RefGeneCreate()$/
+RefGeneDestroy	GenomeLib.c	/^int RefGeneDestroy(struct tagRefGene *pRefGene)$/
+RefGeneInit	GenomeLib.c	/^int RefGeneInit(struct tagRefGene * pRefGene, char/
+RefGeneInit_FromGenomeLabFormat	GenomeLib.c	/^int RefGeneInit_FromGenomeLabFormat(struct tagRefG/
+RefGeneInsert	GenomeLib.c	/^int RefGeneInsert(struct tagRefGene **vList, struc/
+RefGeneSelectRegion	GenomeLib.c	/^struct tagGenomicRegion *RefGeneSelectRegion(struc/
+RefGeneWrite	GenomeLib.c	/^int RefGeneWrite(struct tagRefGene * pRefGene, FIL/
+RefGene_AnnotateWithExonArrayID	GenomeLib.c	/^int RefGene_AnnotateWithExonArrayID(char strInPath/
+RefGene_AnnotateWithLocusID	GenomeLib.c	/^int RefGene_AnnotateWithLocusID(char strInPath[], /
+RefGene_AnnotateWithMicroArrayID	GenomeLib.c	/^int RefGene_AnnotateWithMicroArrayID(char strInPat/
+RefGene_ClearDatabase	GenomeLib.c	/^int RefGene_ClearDatabase(struct tagRefGene ***vSo/
+RefGene_Convert_UCSC_To_Lab	GenomeLib.c	/^int RefGene_Convert_UCSC_To_Lab(char strInPath[], /
+RefGene_Database_AssignEdgeValue_Main	GenomeLib.c	/^int RefGene_Database_AssignEdgeValue_Main(char str/
+RefGene_Database_AssignShortest_Main	GenomeLib.c	/^int RefGene_Database_AssignShortest_Main(char strD/
+RefGene_Database_AssignValues_Main	GenomeLib.c	/^int RefGene_Database_AssignValues_Main(char strDat/
+RefGene_GetAffy_Main	GenomeLib.c	/^int RefGene_GetAffy_Main(char strDatabasePath[], c/
+RefGene_GetBestOverlap	GenomeLib.c	/^int RefGene_GetBestOverlap(struct tagRefGene *pSee/
+RefGene_GetLocationCode	GenomeLib.c	/^int RefGene_GetLocationCode(int nChr, int nPos, st/
+RefGene_GetLocationInfo	GenomeLib.c	/^int RefGene_GetLocationInfo(int nChr, int nStart, /
+RefGene_GetLocationSummary_Main	GenomeLib.c	/^int RefGene_GetLocationSummary_Main(char strDataba/
+RefGene_GetMatchedControl_Main	GenomeLib.c	/^int RefGene_GetMatchedControl_Main(char strDatabas/
+RefGene_GetMultiOrtholog1way	GenomeLib.c	/^int RefGene_GetMultiOrtholog1way(char strInPath[],/
+RefGene_GetMultiOrtholog1way_Main	GenomeLib.c	/^int RefGene_GetMultiOrtholog1way_Main(char strTarg/
+RefGene_GetMultiOrtholog_Main	GenomeLib.c	/^int RefGene_GetMultiOrtholog_Main(char strTargetPa/
+RefGene_GetNearestGene	GenomeLib.c	/^int RefGene_GetNearestGene(int nChr, int nStart, i/
+RefGene_GetNearestGene_Main	GenomeLib.c	/^int RefGene_GetNearestGene_Main(char strDatabasePa/
+RefGene_GetNeighborGenes	GenomeLib.c	/^int RefGene_GetNeighborGenes(int nChr, int nStart,/
+RefGene_GetNeighborGenes_Main	GenomeLib.c	/^int RefGene_GetNeighborGenes_Main(char strDatabase/
+RefGene_GetOrtholog	GenomeLib.c	/^int RefGene_GetOrtholog(char strRefGenePath[], $/
+RefGene_GetSeededRelaxedOrtholog	GenomeLib.c	/^int RefGene_GetSeededRelaxedOrtholog(int nSeedMatc/
+RefGene_GetTargetGenomicRegion_TSSTES	GenomeLib.c	/^int RefGene_GetTargetGenomicRegion_TSSTES(char str/
+RefGene_GetTargetTSSAround	GenomeLib.c	/^int RefGene_GetTargetTSSAround(char strRefGenePath/
+RefGene_LoadDatabase	GenomeLib.c	/^struct tagRefGene **RefGene_LoadDatabase(char strD/
+RefGene_MapBetweenDatabase	GenomeLib.c	/^int RefGene_MapBetweenDatabase(char strInPath[], c/
+RefGene_MapMultiOrthologToOriginalSpecies	GenomeLib.c	/^int RefGene_MapMultiOrthologToOriginalSpecies(int /
+RefGene_Match	GenomeLib.c	/^double RefGene_Match(struct tagRefGene *pRefGene1,/
+RefGene_MergeMultiOrtholog	GenomeLib.c	/^int RefGene_MergeMultiOrtholog(int nSpeciesNum, st/
+RefGene_MultiOrthologGetTSSAround	GenomeLib.c	/^int RefGene_MultiOrthologGetTSSAround(char strInPa/
+RefGene_MultiOrthologGetTSSAroundExonMasked	GenomeLib.c	/^int RefGene_MultiOrthologGetTSSAroundExonMasked(ch/
+RefGene_Overlap	GenomeLib.c	/^int RefGene_Overlap(struct tagRefGene *pRefGene1, /
+RefGene_PickSpeciesSpecific	GenomeLib.c	/^int RefGene_PickSpeciesSpecific(char strTargetPath/
+RefGene_RemoveRedundancy	GenomeLib.c	/^int RefGene_RemoveRedundancy(char strTargetPath[],/
+RefLocusInit_FromGenomeLabFormat	GenomeLib.c	/^int RefLocusInit_FromGenomeLabFormat(struct tagRef/
+RefLocusWrite	GenomeLib.c	/^int RefLocusWrite(struct tagRefGene *pRefGene, FIL/
+RemoveFiles	GenomeLib.c	/^void RemoveFiles(char strPath[])$/
+SEQLINKMAPCLEARLIST	Alignment.c	/^void SEQLINKMAPCLEARLIST(struct SEQLINKMAP **pLink/
+SEQLINKMAPCREATE	Alignment.c	/^struct SEQLINKMAP *SEQLINKMAPCREATE()$/
+SEQLINKMAPDESTROY	Alignment.c	/^void SEQLINKMAPDESTROY(struct SEQLINKMAP *pLinkMap/
+SEQLINKMAP_INSERTBYQUERYLOC	Alignment.c	/^int SEQLINKMAP_INSERTBYQUERYLOC(struct SEQLINKMAP /
+SEQLINKMAP_RELATIVELOCBYQUERY	Alignment.c	/^int SEQLINKMAP_RELATIVELOCBYQUERY(struct SEQLINKMA/
+SEQMTFADDCOUNTTONUCLEICBGMC	MotifLib.c	/^int SEQMTFADDCOUNTTONUCLEICBGMC(struct DOUBLEMATRI/
+SEQMTFCODENUCLEICSEQ	MotifLib.c	/^int SEQMTFCODENUCLEICSEQ(struct SEQMOTIF *pSeqMtf,/
+SEQMTFCREATE	MotifLib.c	/^struct SEQMOTIF *SEQMTFCREATE(int nId, int nSeqNum/
+SEQMTFCREATEHMM	MotifLib.c	/^int SEQMTFCREATEHMM(struct SEQMOTIF *pSeqMtf, int /
+SEQMTFCREATEPATH	MotifLib.c	/^int SEQMTFCREATEPATH(struct SEQMOTIF *pSeqMtf, int/
+SEQMTFCREATESCORE	MotifLib.c	/^int SEQMTFCREATESCORE(struct SEQMOTIF *pSeqMtf, in/
+SEQMTFCREATESEQ	MotifLib.c	/^int SEQMTFCREATESEQ(struct SEQMOTIF *pSeqMtf, int /
+SEQMTFDESTROY	MotifLib.c	/^int SEQMTFDESTROY(struct SEQMOTIF *pSeqMtf)$/
+SEQMTFDESTROYHMM	MotifLib.c	/^int SEQMTFDESTROYHMM(struct SEQMOTIF *pSeqMtf)$/
+SEQMTFDESTROYPATH	MotifLib.c	/^int SEQMTFDESTROYPATH(struct SEQMOTIF *pSeqMtf, in/
+SEQMTFDESTROYSCORE	MotifLib.c	/^int SEQMTFDESTROYSCORE(struct SEQMOTIF *pSeqMtf, i/
+SEQMTFDESTROYSEQ	MotifLib.c	/^int SEQMTFDESTROYSEQ(struct SEQMOTIF *pSeqMtf, int/
+SEQMTFESTIMATENUCLEICBGMC	MotifLib.c	/^struct DOUBLEMATRIX *SEQMTFESTIMATENUCLEICBGMC(str/
+SEQMTFLOADPRIMARYSEQFROMFASTA	MotifLib.c	/^struct SEQMOTIF **SEQMTFLOADPRIMARYSEQFROMFASTA(in/
+SEQMTFLOADPRIMARYSEQFROMFASTA_FORQUALITY	MotifLib.c	/^struct SEQMOTIF **SEQMTFLOADPRIMARYSEQFROMFASTA_FO/
+SEQMTFLOADPRIMARYSEQFROMFASTA_FORREGRESSOR	MotifLib.c	/^struct SEQMOTIF **SEQMTFLOADPRIMARYSEQFROMFASTA_FO/
+SEQMTFWRITESAMPPATHTOFASTA	MotifLib.c	/^int SEQMTFWRITESAMPPATHTOFASTA(FILE *fpOut, struct/
+SEQMTFWRITESEQTOFASTA	MotifLib.c	/^int SEQMTFWRITESEQTOFASTA(FILE *fpOut, struct SEQM/
+SEQMTF_ADDCOUNTTONUCLEICBGMC_BOTHSTRAND	MotifLib.c	/^int SEQMTF_ADDCOUNTTONUCLEICBGMC_BOTHSTRAND(struct/
+SEQMTF_LOADSEQCSFROMGENOME_FORMOTIFFILTER	MotifLib.c	/^int SEQMTF_LOADSEQCSFROMGENOME_FORMOTIFFILTER(stru/
+SEQMTF_LOADSEQFROMGENOME	MotifLib.c	/^int SEQMTF_LOADSEQFROMGENOME(struct SEQMOTIF *pSeq/
+SEQMTF_MAPMOTIF_BOTHSTRANDASBG	MotifLib.c	/^int SEQMTF_MAPMOTIF_BOTHSTRANDASBG(struct DOUBLEMA/
+SEQMTF_MOTIFMAP_SCORE	MotifLib.c	/^double SEQMTF_MOTIFMAP_SCORE(struct SEQMOTIF *pSeq/
+SEQMTF_SETBGMCSCORE_BOTHSTRAND	MotifLib.c	/^int SEQMTF_SETBGMCSCORE_BOTHSTRAND(struct SEQMOTIF/
+SEQMTF_WRITEMOTIFSITETOBED_THENCLEARSITES	MotifLib.c	/^int SEQMTF_WRITEMOTIFSITETOBED_THENCLEARSITES(stru/
+SIGN	MatrixLib.h	/^#define SIGN(a,b) ((b) >= 0.0 ? fabs(a) : -fabs(a)/
+SITEPOSCREATE	MotifLib.c	/^struct SITEPOS *SITEPOSCREATE()$/
+SITEPOSDESTROY	MotifLib.c	/^int SITEPOSDESTROY(struct SITEPOS *pS)$/
+SITEPOSDESTROYLIST	MotifLib.c	/^int SITEPOSDESTROYLIST(struct SITEPOS **pSList)$/
+SITEPOSLISTGETCOUNT	MotifLib.c	/^int SITEPOSLISTGETCOUNT(struct SITEPOS *pSList)$/
+SORT_MERGE_DOUBLE	MatrixLib.c	/^long SORT_MERGE_DOUBLE(double *array, long *indexa/
+SORT_MERGE_DOUBLE_A	MatrixLib.c	/^long SORT_MERGE_DOUBLE_A(double *array, long *inde/
+SORT_MERGE_DOUBLE_MERGE_1	MatrixLib.c	/^int SORT_MERGE_DOUBLE_MERGE_1(double *array1, long/
+SORT_MERGE_DOUBLE_MERGE_2	MatrixLib.c	/^int SORT_MERGE_DOUBLE_MERGE_2(double *array1, long/
+SORT_MERGE_DOUBLE_MERGE_A_1	MatrixLib.c	/^int SORT_MERGE_DOUBLE_MERGE_A_1(double *array1, lo/
+SORT_MERGE_DOUBLE_MERGE_A_2	MatrixLib.c	/^int SORT_MERGE_DOUBLE_MERGE_A_2(double *array1, lo/
+SORT_MERGE_INT_A	MatrixLib.c	/^long SORT_MERGE_INT_A(int *array, long *indexarray/
+SORT_MERGE_INT_MERGE_A_1	MatrixLib.c	/^int SORT_MERGE_INT_MERGE_A_1(int *array1, long nle/
+SORT_MERGE_INT_MERGE_A_2	MatrixLib.c	/^int SORT_MERGE_INT_MERGE_A_2(int *array1, long *in/
+SeqClustDP_BlockBIC_Normal	HTSequencingLib.c	/^double SeqClustDP_BlockBIC_Normal(float **vData, i/
+SeqClustDP_ComputeBinStats	HTSequencingLib.c	/^int SeqClustDP_ComputeBinStats(char strOutputPath[/
+SeqClustDP_ComputeBinStats_Chr	HTSequencingLib.c	/^int SeqClustDP_ComputeBinStats_Chr(char strOutputP/
+SeqClustDP_FindBlock	HTSequencingLib.c	/^int SeqClustDP_FindBlock(char strOutputPath[], cha/
+SeqClustDP_FindBlock_SingleRegion	HTSequencingLib.c	/^int SeqClustDP_FindBlock_SingleRegion(char strChr[/
+SeqClustDP_FindBlock_SingleRegion_BinStandardize	HTSequencingLib.c	/^int SeqClustDP_FindBlock_SingleRegion_BinStandardi/
+SeqClustDP_QuantileCutoff	HTSequencingLib.c	/^int SeqClustDP_QuantileCutoff(char strOutputPath[]/
+SeqClustDP_Segmentation	HTSequencingLib.c	/^int SeqClustDP_Segmentation(char strOutputPath[], /
+SeqClust_AdaptiveBlock	HTSequencingLib.c	/^int SeqClust_AdaptiveBlock(int nGeneNum, int nSamp/
+SeqClust_AdaptiveFactor	HTSequencingLib.c	/^int SeqClust_AdaptiveFactor(int nGeneNum, int nSam/
+SeqClust_CollectData_ForAutoSeg	HTSequencingLib.c	/^int SeqClust_CollectData_ForAutoSeg(char strOutput/
+SeqClust_CollectData_ForAutoSeg_SingleSample	HTSequencingLib.c	/^int SeqClust_CollectData_ForAutoSeg_SingleSample(s/
+SeqClust_CollectData_RefineFileNormFactor	HTSequencingLib.c	/^int SeqClust_CollectData_RefineFileNormFactor(char/
+SeqClust_ComputeBinStats	HTSequencingLib.c	/^int SeqClust_ComputeBinStats(char strOutputPath[],/
+SeqClust_ComputeBinStats_Chr	HTSequencingLib.c	/^int SeqClust_ComputeBinStats_Chr(char strOutputPat/
+SeqClust_CountBinReads	HTSequencingLib.c	/^int SeqClust_CountBinReads(char strInputPath[], ch/
+SeqClust_CountBinReads_SingleFile	HTSequencingLib.c	/^int SeqClust_CountBinReads_SingleFile(char strInpu/
+SeqClust_Count_ExportCod	HTSequencingLib.c	/^int SeqClust_Count_ExportCod(char strOutputFile[],/
+SeqClust_Count_LoadRegion	HTSequencingLib.c	/^int SeqClust_Count_LoadRegion(char strInputPath[],/
+SeqClust_Count_Main	HTSequencingLib.c	/^int SeqClust_Count_Main(char strInputPath[], char /
+SeqClust_Count_RegCompare	HTSequencingLib.c	/^int SeqClust_Count_RegCompare(int nChrId, int nSta/
+SeqClust_Count_SingleSample	HTSequencingLib.c	/^int SeqClust_Count_SingleSample(char strFileName[]/
+SeqClust_FDRCutoff	HTSequencingLib.c	/^int SeqClust_FDRCutoff(char strOutputPath[], char /
+SeqClust_FindChr	HTSequencingLib.c	/^int SeqClust_FindChr(struct tagString **vChrName, /
+SeqClust_FindChrInfo	HTSequencingLib.c	/^int SeqClust_FindChrInfo(struct tagProbeGenomeInfo/
+SeqClust_FixedBlock	HTSequencingLib.c	/^int SeqClust_FixedBlock(int nGeneNum, int nSampleN/
+SeqClust_Initialize	HTSequencingLib.c	/^int SeqClust_Initialize(char strInputPath[], int */
+SeqClust_InitializeKernel	HTSequencingLib.c	/^int SeqClust_InitializeKernel(struct DOUBLEMATRIX /
+SeqClust_KMFnorm	HTSequencingLib.c	/^double SeqClust_KMFnorm(int nGeneNum, int nSampleN/
+SeqClust_KMFnorm_Quadrature	HTSequencingLib.c	/^double SeqClust_KMFnorm_Quadrature(double *vX, dou/
+SeqClust_KMVnorm	HTSequencingLib.c	/^double SeqClust_KMVnorm(int nGeneNum, int nSampleN/
+SeqClust_KMVnorm_Quadrature	HTSequencingLib.c	/^double SeqClust_KMVnorm_Quadrature(double *vX, dou/
+SeqClust_Knorm	HTSequencingLib.c	/^double SeqClust_Knorm(int nGeneNum, int nSampleNum/
+SeqClust_Kpolya	HTSequencingLib.c	/^double SeqClust_Kpolya(int nGeneNum, int nSampleNu/
+SeqClust_Kpolya_MM	HTSequencingLib.c	/^int SeqClust_Kpolya_MM(int nSampleNum, int nMMax, /
+SeqClust_Kpolya_MM_LogLike	HTSequencingLib.c	/^double SeqClust_Kpolya_MM_LogLike(int nSampleNum, /
+SeqClust_LoadData_Kmeans	HTSequencingLib.c	/^int SeqClust_LoadData_Kmeans(char strInputPath[], /
+SeqClust_Main	HTSequencingLib.c	/^int SeqClust_Main(char strInputPath[], char strOut/
+SeqClust_QuantileCutoff	HTSequencingLib.c	/^int SeqClust_QuantileCutoff(char strOutputPath[], /
+SeqClust_ReadCovBlock	HTSequencingLib.c	/^int SeqClust_ReadCovBlock(char strFileName[], int /
+SeqClust_ReadPos_From_Aln	HTSequencingLib.c	/^int SeqClust_ReadPos_From_Aln(char strLine[], char/
+SeqClust_ReadPos_From_Cod	HTSequencingLib.c	/^int SeqClust_ReadPos_From_Cod(char strLine[], char/
+SeqClust_SegDP_Main	HTSequencingLib.c	/^int SeqClust_SegDP_Main(char strInputPath[], char /
+SeqClust_Seg_Main	HTSequencingLib.c	/^int SeqClust_Seg_Main(char strInputPath[], char st/
+SeqClust_Segmentation	HTSequencingLib.c	/^int SeqClust_Segmentation(char strOutputPath[], ch/
+SeqPeak_CleanFiles	HTSequencingLib.c	/^int SeqPeak_CleanFiles(char strOutputPath[], char /
+SeqPeak_CollectRawData	HTSequencingLib.c	/^int SeqPeak_CollectRawData(struct DOUBLEMATRIX *pR/
+SeqPeak_CollectRawData_SingleFile	HTSequencingLib.c	/^int SeqPeak_CollectRawData_SingleFile(int nRegionN/
+SeqPeak_ComputeBinStats	HTSequencingLib.c	/^int SeqPeak_ComputeBinStats(char strOutputPath[], /
+SeqPeak_ComputeBinStats_Chr_Initial	HTSequencingLib.c	/^int SeqPeak_ComputeBinStats_Chr_Initial(char strOu/
+SeqPeak_ComputeBinStats_Chr_Tstandard	HTSequencingLib.c	/^int SeqPeak_ComputeBinStats_Chr_Tstandard(char str/
+SeqPeak_ComputeBinStats_Chr_Tstat	HTSequencingLib.c	/^int SeqPeak_ComputeBinStats_Chr_Tstat(char strOutp/
+SeqPeak_CountBinReads	HTSequencingLib.c	/^int SeqPeak_CountBinReads(char strInputPath[], cha/
+SeqPeak_CountBinReads_SingleFile	HTSequencingLib.c	/^int SeqPeak_CountBinReads_SingleFile(char strInput/
+SeqPeak_ExportPeaks	HTSequencingLib.c	/^int SeqPeak_ExportPeaks(char strOutputPath[], char/
+SeqPeak_FDR_Flip	HTSequencingLib.c	/^int SeqPeak_FDR_Flip(char strOutputPath[], char st/
+SeqPeak_Initialize	HTSequencingLib.c	/^int SeqPeak_Initialize(char strInputPath[], int *p/
+SeqPeak_Main	HTSequencingLib.c	/^int SeqPeak_Main(char strInputPath[], char strOutp/
+SeqPeak_RefineBoundary	HTSequencingLib.c	/^int SeqPeak_RefineBoundary(struct DOUBLEMATRIX *pR/
+SeqPeak_RefineBoundary_DetectBoundary	HTSequencingLib.c	/^int SeqPeak_RefineBoundary_DetectBoundary(int nReg/
+SeqPeak_RefineBoundary_FindOverlapRegions	HTSequencingLib.c	/^int SeqPeak_RefineBoundary_FindOverlapRegions(int /
+SeqPeak_RefineBoundary_RegionProfile	HTSequencingLib.c	/^int SeqPeak_RefineBoundary_RegionProfile(int nRegi/
+SeqPeak_RegionCompare	HTSequencingLib.c	/^int SeqPeak_RegionCompare(int nChr1, int nStart1, /
+SeqPeak_Segmentation	HTSequencingLib.c	/^int SeqPeak_Segmentation(char strOutputPath[], cha/
+SequenceAddTail	SequenceLib.c	/^int SequenceAddTail(struct tagSequence *pSequence,/
+SequenceCreate	SequenceLib.c	/^struct tagSequence *SequenceCreate()$/
+SequenceDelete	SequenceLib.c	/^void SequenceDelete(struct tagSequence *pDelSequen/
+SequenceListClear	SequenceLib.c	/^void SequenceListClear(struct tagSequence **pSeque/
+SequenceListGetAt	SequenceLib.c	/^struct tagSequence *SequenceListGetAt(struct tagSe/
+SequenceListGetSize	SequenceLib.c	/^int SequenceListGetSize(struct tagSequence *pSeque/
+SequenceListGetTail	SequenceLib.c	/^struct tagSequence *SequenceListGetTail(struct tag/
+SequenceWriteToFasta	SequenceLib.c	/^FILE *SequenceWriteToFasta(struct tagSequence *pSe/
+SequenceWriteToFasta_ByStrand	SequenceLib.c	/^FILE *SequenceWriteToFasta_ByStrand(struct tagSequ/
+StrMakeLower	StringLib.c	/^void StrMakeLower(char strLongLine[])$/
+StrMakeUpper	StringLib.c	/^void StrMakeUpper(char strLongLine[])$/
+StrTrimLeft	file_bowtie2aln.c	/^char* StrTrimLeft(char strLongLine[])$/
+StrTrimLeft	file_eland2aln.c	/^char* StrTrimLeft(char strLongLine[])$/
+StrTrimLeft	file_eland2aln_v2.c	/^char* StrTrimLeft(char strLongLine[])$/
+StrTrimLeft	StringLib.c	/^char* StrTrimLeft(char strLongLine[])$/
+StrTrimLeft	tablesorter.cpp	/^char* StrTrimLeft(char strLongLine[])$/
+StrTrimLeft	tablesorter_str.cpp	/^char* StrTrimLeft(char strLongLine[])$/
+StrTrimRight	file_bowtie2aln.c	/^char* StrTrimRight(char strLongLine[])$/
+StrTrimRight	file_eland2aln.c	/^char* StrTrimRight(char strLongLine[])$/
+StrTrimRight	file_eland2aln_v2.c	/^char* StrTrimRight(char strLongLine[])$/
+StrTrimRight	StringLib.c	/^char* StrTrimRight(char strLongLine[])$/
+StrTrimRight	tablesorter.cpp	/^char* StrTrimRight(char strLongLine[])$/
+StrTrimRight	tablesorter_str.cpp	/^char* StrTrimRight(char strLongLine[])$/
+StrTrimSpace	StringLib.c	/^char* StrTrimSpace(char strLongLine[])$/
+StringAddTail	StringLib.c	/^struct tagString *StringAddTail(struct tagString */
+StringPairClearList	StringLib.c	/^void StringPairClearList(struct tagStringPair **pS/
+StringPairCreate	StringLib.c	/^struct tagStringPair *StringPairCreate()$/
+StringPairDestroy	StringLib.c	/^void StringPairDestroy(struct tagStringPair **pStr/
+StringPair_ClearDatabase	StringLib.c	/^int StringPair_ClearDatabase(struct tagStringPair /
+SubtractNucleicMatrixCount	MotifLib.c	/^int SubtractNucleicMatrixCount(struct DOUBLEMATRIX/
+TileMap_BPMAPFilter_Pbsum	MicroarrayLib.c	/^int TileMap_BPMAPFilter_Pbsum(char strInFile[], ch/
+TileMap_BPMAPFilter_Pbsum	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_BPMAPFilter_Pbsum(char strInFile[], ch/
+TileMap_BindingRegionSelection_HMM	MicroarrayLib.c	/^int TileMap_BindingRegionSelection_HMM(int nProbeN/
+TileMap_BindingRegionSelection_HMM	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_BindingRegionSelection_HMM(int nProbeN/
+TileMap_BindingRegionSelection_HMM_Main	MicroarrayLib.c	/^int TileMap_BindingRegionSelection_HMM_Main(int nP/
+TileMap_BindingRegionSelection_HMM_Main	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_BindingRegionSelection_HMM_Main(int nP/
+TileMap_BindingRegionSelection_MA_PERM_Main	MicroarrayLib.c	/^int TileMap_BindingRegionSelection_MA_PERM_Main(in/
+TileMap_BindingRegionSelection_MA_PERM_Main	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_BindingRegionSelection_MA_PERM_Main(in/
+TileMap_BindingRegionSelection_MA_UMS_Main	MicroarrayLib.c	/^int TileMap_BindingRegionSelection_MA_UMS_Main(int/
+TileMap_BindingRegionSelection_MA_UMS_Main	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_BindingRegionSelection_MA_UMS_Main(int/
+TileMap_CallBindingRegion_HMM	MicroarrayLib.c	/^int TileMap_CallBindingRegion_HMM(int nProbeNum, s/
+TileMap_CallBindingRegion_HMM	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_CallBindingRegion_HMM(int nProbeNum, s/
+TileMap_CallBindingRegion_MA	MicroarrayLib.c	/^int TileMap_CallBindingRegion_MA(int nProbeNum, st/
+TileMap_CallBindingRegion_MA	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_CallBindingRegion_MA(int nProbeNum, st/
+TileMap_CombineIntensity	MicroarrayLib.c	/^int TileMap_CombineIntensity(int nArrayNum, int nT/
+TileMap_CombineIntensity	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_CombineIntensity(int nArrayNum, int nT/
+TileMap_CountScore	MicroarrayLib.c	/^int TileMap_CountScore(struct DOUBLEMATRIX *pPermM/
+TileMap_CountScore	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_CountScore(struct DOUBLEMATRIX *pPermM/
+TileMap_ExportAffyIntensity	MicroarrayLib.c	/^int TileMap_ExportAffyIntensity(int nArrayNum, int/
+TileMap_ExportAffyIntensity	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_ExportAffyIntensity(int nArrayNum, int/
+TileMap_Extract	MicroarrayLib.c	/^int TileMap_Extract(char strWorkPath[], char strPr/
+TileMap_Extract	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_Extract(char strWorkPath[], char strPr/
+TileMap_Extract_Main	MicroarrayLib.c	/^int TileMap_Extract_Main(char strParamPath[])$/
+TileMap_Extract_Main	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_Extract_Main(char strParamPath[])$/
+TileMap_ImportAffy_Main	MicroarrayLib.c	/^int TileMap_ImportAffy_Main(char strParamPath[])$/
+TileMap_ImportAffy_Main	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_ImportAffy_Main(char strParamPath[])$/
+TileMap_ImportAffy_Normalization_Main	MicroarrayLib.c	/^int TileMap_ImportAffy_Normalization_Main(char str/
+TileMap_ImportAffy_Normalization_Main	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_ImportAffy_Normalization_Main(char str/
+TileMap_ImportCELIntensity	MicroarrayLib.c	/^int TileMap_ImportCELIntensity(char strWorkPath[],/
+TileMap_ImportCELIntensity	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_ImportCELIntensity(char strWorkPath[],/
+TileMap_LoadCEL	MicroarrayLib.c	/^int TileMap_LoadCEL(char strWorkPath[], char strCe/
+TileMap_LoadCEL	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_LoadCEL(char strWorkPath[], char strCe/
+TileMap_MA	MicroarrayLib.c	/^int TileMap_MA(struct DOUBLEMATRIX *pScore, struct/
+TileMap_MA	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_MA(struct DOUBLEMATRIX *pScore, struct/
+TileMap_Main	MicroarrayLib.c	/^int TileMap_Main(char strParamPath[])$/
+TileMap_Main	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_Main(char strParamPath[])$/
+TileMap_Normalization_Main	MicroarrayLib.c	/^int TileMap_Normalization_Main(char strParamPath[]/
+TileMap_Normalization_Main	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_Normalization_Main(char strParamPath[]/
+TileMap_Normalization_Quantile	MicroarrayLib.c	/^int TileMap_Normalization_Quantile(int nArrayNum, /
+TileMap_Normalization_Quantile	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_Normalization_Quantile(int nArrayNum, /
+TileMap_ProbeSelection_Main	MicroarrayLib.c	/^int TileMap_ProbeSelection_Main(char strDataFile[]/
+TileMap_ProbeSelection_Main	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_ProbeSelection_Main(char strDataFile[]/
+TileMap_ProbeSelection_MonteCarlo	MicroarrayLib.c	/^struct DOUBLEMATRIX *TileMap_ProbeSelection_MonteC/
+TileMap_ProbeSelection_MonteCarlo	MicroarrayLib_tilemapnonshrink.c	/^struct DOUBLEMATRIX *TileMap_ProbeSelection_MonteC/
+TileMap_ProbeSelection_Output	MicroarrayLib.c	/^int TileMap_ProbeSelection_Output(int nProbeNum, s/
+TileMap_ProbeSelection_Output	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_ProbeSelection_Output(int nProbeNum, s/
+TileMap_ProbeSelection_tTest	MicroarrayLib.c	/^struct DOUBLEMATRIX *TileMap_ProbeSelection_tTest(/
+TileMap_ProbeSelection_tTest	MicroarrayLib_tilemapnonshrink.c	/^struct DOUBLEMATRIX *TileMap_ProbeSelection_tTest(/
+TileMap_UMS	MicroarrayLib.c	/^int TileMap_UMS(struct DOUBLEMATRIX *pSelect, doub/
+TileMap_UMS	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_UMS(struct DOUBLEMATRIX *pSelect, doub/
+TileMap_UMS_HMM_Main	MicroarrayLib.c	/^int TileMap_UMS_HMM_Main(char strSelectPath[], cha/
+TileMap_UMS_HMM_Main	MicroarrayLib_tilemapnonshrink.c	/^int TileMap_UMS_HMM_Main(char strSelectPath[], cha/
+TileMapv2	TilingArrayLib.c	/^int TileMapv2(struct tagTileMapv2Param *pParam)$/
+TileMapv2Param_Create	TilingArrayLib.c	/^struct tagTileMapv2Param *TileMapv2Param_Create()$/
+TileMapv2Param_Destroy	TilingArrayLib.c	/^int TileMapv2Param_Destroy(struct tagTileMapv2Para/
+TileMapv2_BpmapToBAR	TilingArrayLib.c	/^struct tagBARData *TileMapv2_BpmapToBAR(char strBp/
+TileMapv2_CollectProbes_Main	TilingArrayLib.c	/^int TileMapv2_CollectProbes_Main(char strRegionPat/
+TileMapv2_CollectProbes_ProcessRegion	TilingArrayLib.c	/^int TileMapv2_CollectProbes_ProcessRegion(char str/
+TileMapv2_DataTransform	TilingArrayLib.c	/^int TileMapv2_DataTransform(struct tagBARData *pDa/
+TileMapv2_ExportAffyIntensity	TilingArrayLib.c	/^int TileMapv2_ExportAffyIntensity(char strWorkPath/
+TileMapv2_ExportAffyIntensity_MultiBAR	TilingArrayLib.c	/^int TileMapv2_ExportAffyIntensity_MultiBAR(struct /
+TileMapv2_ExportAffyIntensity_SingleBAR	TilingArrayLib.c	/^int TileMapv2_ExportAffyIntensity_SingleBAR(char s/
+TileMapv2_ExportAffyIntensity_SingleTXT	TilingArrayLib.c	/^int TileMapv2_ExportAffyIntensity_SingleTXT(char s/
+TileMapv2_GetMask	TilingArrayLib.c	/^struct BYTEMATRIX *TileMapv2_GetMask(struct tagCEL/
+TileMapv2_GetShrinkingVar_FromSSR	TilingArrayLib.c	/^int TileMapv2_GetShrinkingVar_FromSSR(struct tagBA/
+TileMapv2_GetShrinkingVar_UnequalDF	TilingArrayLib.c	/^int TileMapv2_GetShrinkingVar_UnequalDF(struct DOU/
+TileMapv2_HMM	TilingArrayLib.c	/^int TileMapv2_HMM(struct tagBARData *pData, struct/
+TileMapv2_HMM_CallRegion	TilingArrayLib.c	/^struct DOUBLEMATRIX *TileMapv2_HMM_CallRegion(stru/
+TileMapv2_HMM_Decoding	TilingArrayLib.c	/^int TileMapv2_HMM_Decoding(struct tagBARData *pDat/
+TileMapv2_HMM_Decoding_Chr	TilingArrayLib.c	/^int TileMapv2_HMM_Decoding_Chr(int nProbeNum, int /
+TileMapv2_HMM_RegionFDR_LeftTail	TilingArrayLib.c	/^int TileMapv2_HMM_RegionFDR_LeftTail(struct INTMAT/
+TileMapv2_HMM_RegionFDR_Permutation	TilingArrayLib.c	/^int TileMapv2_HMM_RegionFDR_Permutation(struct INT/
+TileMapv2_ImportAffy_Main	TilingArrayLib.c	/^int TileMapv2_ImportAffy_Main(char strParamPath[])/
+TileMapv2_InfoTrack_Create	TilingArrayLib.c	/^struct tagTileMapv2InfoTrack *TileMapv2_InfoTrack_/
+TileMapv2_InfoTrack_Destroy	TilingArrayLib.c	/^int TileMapv2_InfoTrack_Destroy(struct tagTileMapv/
+TileMapv2_LoadCEL	TilingArrayLib.c	/^struct tagCELData *TileMapv2_LoadCEL(char strFileN/
+TileMapv2_LoadFromBinaryFile	TilingArrayLib.c	/^int TileMapv2_LoadFromBinaryFile(void *buffer, siz/
+TileMapv2_LoadParameters	TilingArrayLib.c	/^struct tagTileMapv2Param *TileMapv2_LoadParameters/
+TileMapv2_MA	TilingArrayLib.c	/^int TileMapv2_MA(struct tagBARData *pData, struct /
+TileMapv2_MA_CallRegion	TilingArrayLib.c	/^struct DOUBLEMATRIX *TileMapv2_MA_CallRegion(struc/
+TileMapv2_MA_ExportRegion	TilingArrayLib.c	/^int TileMapv2_MA_ExportRegion(struct DOUBLEMATRIX /
+TileMapv2_MA_RegionFDR_LeftTail	TilingArrayLib.c	/^int TileMapv2_MA_RegionFDR_LeftTail(struct INTMATR/
+TileMapv2_MA_RegionFDR_Permutation	TilingArrayLib.c	/^int TileMapv2_MA_RegionFDR_Permutation(struct INTM/
+TileMapv2_MA_RegionFDR_UMS	TilingArrayLib.c	/^struct DOUBLEMATRIX *TileMapv2_MA_RegionFDR_UMS(st/
+TileMapv2_Main	TilingArrayLib.c	/^int TileMapv2_Main(char strParamPath[])$/
+TileMapv2_ProbeReMapping_HashAlign	TilingArrayLib.c	/^struct tagAffyBpMapUnit *TileMapv2_ProbeReMapping_/
+TileMapv2_ProbeReMapping_Main	TilingArrayLib.c	/^int TileMapv2_ProbeReMapping_Main(char strBpmapFil/
+TileMapv2_ProbeReMapping_ProbeAlign	TilingArrayLib.c	/^struct tagAffyBpMapUnit *TileMapv2_ProbeReMapping_/
+TileMapv2_ProbeReMapping_SortProbeList	TilingArrayLib.c	/^struct tagAffyBpMapUnit **TileMapv2_ProbeReMapping/
+TileMapv2_ProbeReMapping_WriteBpmapFile	TilingArrayLib.c	/^int TileMapv2_ProbeReMapping_WriteBpmapFile(char s/
+TileMapv2_ProbeSelection_DataTransformation	TilingArrayLib.c	/^int TileMapv2_ProbeSelection_DataTransformation(st/
+TileMapv2_ProbeSelection_Main	TilingArrayLib.c	/^int TileMapv2_ProbeSelection_Main(struct tagTileMa/
+TileMapv2_ProbeSelection_MultiSample	TilingArrayLib.c	/^int TileMapv2_ProbeSelection_MultiSample(struct ta/
+TileMapv2_ProbeSelection_MultiSample_Fast	TilingArrayLib.c	/^int TileMapv2_ProbeSelection_MultiSample_Fast(stru/
+TileMapv2_ProbeSelection_MultiSample_WithMask_Fast	TilingArrayLib.c	/^int TileMapv2_ProbeSelection_MultiSample_WithMask_/
+TileMapv2_ProbeSelection_OneSample_WithMask	TilingArrayLib.c	/^int TileMapv2_ProbeSelection_OneSample_WithMask(st/
+TileMapv2_ProbeSelection_RemoveMean	TilingArrayLib.c	/^int TileMapv2_ProbeSelection_RemoveMean(struct tag/
+TileMapv2_ProbeSelection_TwoSample	TilingArrayLib.c	/^int TileMapv2_ProbeSelection_TwoSample(struct tagB/
+TileMapv2_ProbeSelection_TwoSample_WithMask	TilingArrayLib.c	/^int TileMapv2_ProbeSelection_TwoSample_WithMask(st/
+TileMapv2_QuantileNorm_AddQuantile	TilingArrayLib.c	/^struct DOUBLEMATRIX *TileMapv2_QuantileNorm_AddQua/
+TileMapv2_QuantileNorm_Rescale	TilingArrayLib.c	/^int TileMapv2_QuantileNorm_Rescale(char strPrcPath/
+TileMapv2_RegionDetection_HMM_Main	TilingArrayLib.c	/^int TileMapv2_RegionDetection_HMM_Main(struct tagT/
+TileMapv2_RegionDetection_HMM_PrepareData	TilingArrayLib.c	/^struct tagBARData *TileMapv2_RegionDetection_HMM_P/
+TileMapv2_RegionDetection_MA_Main	TilingArrayLib.c	/^int TileMapv2_RegionDetection_MA_Main(struct tagTi/
+TileMapv2_RegionDetection_MA_PrepareData	TilingArrayLib.c	/^struct tagBARData *TileMapv2_RegionDetection_MA_Pr/
+TileMapv2_RegionDetection_MA_ResetData	TilingArrayLib.c	/^int TileMapv2_RegionDetection_MA_ResetData(struct /
+TileMapv2_RegionFDR_Compute	TilingArrayLib.c	/^int TileMapv2_RegionFDR_Compute(struct DOUBLEMATRI/
+TileMapv2_RegionFDR_Count	TilingArrayLib.c	/^int TileMapv2_RegionFDR_Count(struct DOUBLEMATRIX /
+TileMapv2_RegionFDR_LocalFDR	TilingArrayLib.c	/^struct DOUBLEMATRIX* TileMapv2_RegionFDR_LocalFDR(/
+TileMapv2_RegionFDR_Reorganize	TilingArrayLib.c	/^struct DOUBLEMATRIX *TileMapv2_RegionFDR_Reorganiz/
+TileMapv2_RegionInfo_CollectTrackInfo	TilingArrayLib.c	/^int TileMapv2_RegionInfo_CollectTrackInfo(char str/
+TileMapv2_RegionInfo_Integral_CollectTrackInfo	TilingArrayLib.c	/^int TileMapv2_RegionInfo_Integral_CollectTrackInfo/
+TileMapv2_RegionInfo_Integral_Main	TilingArrayLib.c	/^int TileMapv2_RegionInfo_Integral_Main(char strReg/
+TileMapv2_RegionInfo_LoadTrackInfo	TilingArrayLib.c	/^int TileMapv2_RegionInfo_LoadTrackInfo(char strInf/
+TileMapv2_RegionInfo_Main	TilingArrayLib.c	/^int TileMapv2_RegionInfo_Main(char strRegionPath[]/
+TileMapv2_SaveToBinaryFile	TilingArrayLib.c	/^int TileMapv2_SaveToBinaryFile(const void *buffer,/
+TileMapv2_SummarizeResults_Main	TilingArrayLib.c	/^int TileMapv2_SummarizeResults_Main(struct tagTile/
+TileMapv2_TXT2BAR	TilingArrayLib.c	/^int TileMapv2_TXT2BAR(char strTXTFile[], char strE/
+TileMapv2_TXT_QuantileNormalization	TilingArrayLib.c	/^int TileMapv2_TXT_QuantileNormalization(char strDa/
+TileMapv2_UMS_HMM_Main	TilingArrayLib.c	/^int TileMapv2_UMS_HMM_Main(struct tagBARData *pDat/
+TileProbe_BARBuild_Main	TilingArrayLib.c	/^int TileProbe_BARBuild_Main(char strInputPath[], c/
+TileProbe_BARBuildv2_Main	TilingArrayLib.c	/^int TileProbe_BARBuildv2_Main(char strInputPath[],/
+TileProbe_BARNorm_Main	TilingArrayLib.c	/^int TileProbe_BARNorm_Main(char strInputPath[], in/
+TileProbe_BpmapToBAR	TilingArrayLib.c	/^struct tagBARData *TileProbe_BpmapToBAR(char strBp/
+TileProbe_BpmapToBARHuber	TilingArrayLib.c	/^struct tagBARData *TileProbe_BpmapToBARHuber(char /
+TileProbe_BpmapToBARv2	TilingArrayLib.c	/^struct tagBARData *TileProbe_BpmapToBARv2(char str/
+TileProbe_BuildHMMB_Main	TilingArrayLib.c	/^int TileProbe_BuildHMMB_Main(char strInputPath[], /
+TileProbe_BuildHMMM_Main	TilingArrayLib.c	/^int TileProbe_BuildHMMM_Main(char strInputPath[], /
+TileProbe_BuildHMMT_Main	TilingArrayLib.c	/^int TileProbe_BuildHMMT_Main(char strInputPath[], /
+TileProbe_BuildHMMW_Main	TilingArrayLib.c	/^int TileProbe_BuildHMMW_Main(char strInputPath[], /
+TileProbe_Build_Main	TilingArrayLib.c	/^int TileProbe_Build_Main(char strInputPath[], char/
+TileProbe_Buildv2_Main	TilingArrayLib.c	/^int TileProbe_Buildv2_Main(char strInputPath[], ch/
+TileProbe_HuberData_Main	TilingArrayLib.c	/^int TileProbe_HuberData_Main(char strParamPath[])$/
+TileProbe_MAT_Correction	TilingArrayLib.c	/^int TileProbe_MAT_Correction(struct tagBARData *pB/
+TileProbe_MAT_Main	TilingArrayLib.c	/^int TileProbe_MAT_Main(char strParamPath[])$/
+TileProbe_MAT_XX	TilingArrayLib.c	/^struct DOUBLEMATRIX *TileProbe_MAT_XX(struct tagBA/
+TileProbe_MAT_XY	TilingArrayLib.c	/^struct DOUBLEMATRIX *TileProbe_MAT_XY(struct tagBA/
+TileProbe_MATv2_Correction	TilingArrayLib.c	/^int TileProbe_MATv2_Correction(struct tagBARData */
+TileProbe_MATv2_Main	TilingArrayLib.c	/^int TileProbe_MATv2_Main(char strParamPath[])$/
+TileProbe_MATv2_XX	TilingArrayLib.c	/^struct DOUBLEMATRIX *TileProbe_MATv2_XX(struct tag/
+TileProbe_MATv2_XY	TilingArrayLib.c	/^struct DOUBLEMATRIX *TileProbe_MATv2_XY(struct tag/
+TileProbe_Norm_Main	TilingArrayLib.c	/^int TileProbe_Norm_Main(char strInputPath[], int n/
+TileProbe_Peak	TilingArrayLib.c	/^int TileProbe_Peak(int nIPNum, int nCTNum, struct /
+TileProbe_Peak_Call	TilingArrayLib.c	/^struct DOUBLEMATRIX *TileProbe_Peak_Call(int nTCol/
+TileProbe_Peak_Main	TilingArrayLib.c	/^int TileProbe_Peak_Main(char strInputPath[])$/
+TileProbe_Resample_MATPeak	TilingArrayLib.c	/^struct DOUBLEMATRIX *TileProbe_Resample_MATPeak(in/
+TileProbe_Resample_Main	TilingArrayLib.c	/^int TileProbe_Resample_Main(char strParamFile[])$/
+TileProbe_Resample_Model	TilingArrayLib.c	/^int TileProbe_Resample_Model(int nArrayNum, int nP/
+TileProbe_Resample_Residual	TilingArrayLib.c	/^int TileProbe_Resample_Residual(int nArrayNum, int/
+TileProbe_Resample_VarModel	TilingArrayLib.c	/^int TileProbe_Resample_VarModel(int nArrayNum, int/
+Tiling_BindingRegionSelection_HMM	MicroarrayLib.c	/^int Tiling_BindingRegionSelection_HMM(int nProbeNu/
+Tiling_BindingRegionSelection_HMM	MicroarrayLib_tilemapnonshrink.c	/^int Tiling_BindingRegionSelection_HMM(int nProbeNu/
+Tiling_BindingRegionSelection_HMM_BaumWelch	MicroarrayLib.c	/^int Tiling_BindingRegionSelection_HMM_BaumWelch(in/
+Tiling_BindingRegionSelection_HMM_BaumWelch	MicroarrayLib_tilemapnonshrink.c	/^int Tiling_BindingRegionSelection_HMM_BaumWelch(in/
+Tiling_BindingRegionSelection_HMM_BaumWelch_Main	MicroarrayLib.c	/^int Tiling_BindingRegionSelection_HMM_BaumWelch_Ma/
+Tiling_BindingRegionSelection_HMM_BaumWelch_Main	MicroarrayLib_tilemapnonshrink.c	/^int Tiling_BindingRegionSelection_HMM_BaumWelch_Ma/
+Tiling_BindingRegionSelection_HMM_ConstLen	MicroarrayLib.c	/^int Tiling_BindingRegionSelection_HMM_ConstLen(int/
+Tiling_BindingRegionSelection_HMM_ConstLen	MicroarrayLib_tilemapnonshrink.c	/^int Tiling_BindingRegionSelection_HMM_ConstLen(int/
+Tiling_BindingRegionSelection_HMM_ConstLen_Main	MicroarrayLib.c	/^int Tiling_BindingRegionSelection_HMM_ConstLen_Mai/
+Tiling_BindingRegionSelection_HMM_ConstLen_Main	MicroarrayLib_tilemapnonshrink.c	/^int Tiling_BindingRegionSelection_HMM_ConstLen_Mai/
+Tiling_BindingRegionSelection_HMM_ExpLen	MicroarrayLib.c	/^int Tiling_BindingRegionSelection_HMM_ExpLen(int n/
+Tiling_BindingRegionSelection_HMM_ExpLen	MicroarrayLib_tilemapnonshrink.c	/^int Tiling_BindingRegionSelection_HMM_ExpLen(int n/
+Tiling_BindingRegionSelection_HMM_ExpLen_Main	MicroarrayLib.c	/^int Tiling_BindingRegionSelection_HMM_ExpLen_Main(/
+Tiling_BindingRegionSelection_HMM_ExpLen_Main	MicroarrayLib_tilemapnonshrink.c	/^int Tiling_BindingRegionSelection_HMM_ExpLen_Main(/
+Tiling_BindingRegionSelection_HMM_GetEmission	MicroarrayLib.c	/^double Tiling_BindingRegionSelection_HMM_GetEmissi/
+Tiling_BindingRegionSelection_HMM_GetEmission	MicroarrayLib_tilemapnonshrink.c	/^double Tiling_BindingRegionSelection_HMM_GetEmissi/
+Tiling_BindingRegionSelection_HMM_GetEmissionId	MicroarrayLib.c	/^int Tiling_BindingRegionSelection_HMM_GetEmissionI/
+Tiling_BindingRegionSelection_HMM_GetEmissionId	MicroarrayLib_tilemapnonshrink.c	/^int Tiling_BindingRegionSelection_HMM_GetEmissionI/
+Tiling_BindingRegionSelection_HMM_GetTransition	MicroarrayLib.c	/^double Tiling_BindingRegionSelection_HMM_GetTransi/
+Tiling_BindingRegionSelection_HMM_GetTransition	MicroarrayLib_tilemapnonshrink.c	/^double Tiling_BindingRegionSelection_HMM_GetTransi/
+Tiling_BindingRegionSelection_HMM_GetTransition_ExpLen	MicroarrayLib.c	/^double Tiling_BindingRegionSelection_HMM_GetTransi/
+Tiling_BindingRegionSelection_HMM_GetTransition_ExpLen	MicroarrayLib_tilemapnonshrink.c	/^double Tiling_BindingRegionSelection_HMM_GetTransi/
+Tiling_BindingRegionSelection_HMM_Main	MicroarrayLib.c	/^int Tiling_BindingRegionSelection_HMM_Main(int nPr/
+Tiling_BindingRegionSelection_HMM_Main	MicroarrayLib_tilemapnonshrink.c	/^int Tiling_BindingRegionSelection_HMM_Main(int nPr/
+Tiling_BindingRegionSelection_OutputToBed	MicroarrayLib.c	/^int Tiling_BindingRegionSelection_OutputToBed(int /
+Tiling_BindingRegionSelection_OutputToBed	MicroarrayLib_tilemapnonshrink.c	/^int Tiling_BindingRegionSelection_OutputToBed(int /
+Tiling_BindingRegionSelection_ScoreTransform	MicroarrayLib.c	/^struct DOUBLEMATRIX *Tiling_BindingRegionSelection/
+Tiling_BindingRegionSelection_ScoreTransform	MicroarrayLib_tilemapnonshrink.c	/^struct DOUBLEMATRIX *Tiling_BindingRegionSelection/
+Tiling_ProbeSelection_Main	MicroarrayLib.c	/^int Tiling_ProbeSelection_Main(char strDataFile[],/
+Tiling_ProbeSelection_Main	MicroarrayLib_tilemapnonshrink.c	/^int Tiling_ProbeSelection_Main(char strDataFile[],/
+Tiling_ProbeSelection_MonteCarlo	MicroarrayLib.c	/^struct DOUBLEMATRIX *Tiling_ProbeSelection_MonteCa/
+Tiling_ProbeSelection_MonteCarlo	MicroarrayLib_tilemapnonshrink.c	/^struct DOUBLEMATRIX *Tiling_ProbeSelection_MonteCa/
+Tiling_ProbeSelection_Output_WithRandomControl	MicroarrayLib.c	/^int Tiling_ProbeSelection_Output_WithRandomControl/
+Tiling_ProbeSelection_Output_WithRandomControl	MicroarrayLib_tilemapnonshrink.c	/^int Tiling_ProbeSelection_Output_WithRandomControl/
+Tiling_ProbeSelection_Output_WithRandomControl_ForTest	MicroarrayLib.c	/^int Tiling_ProbeSelection_Output_WithRandomControl/
+Tiling_ProbeSelection_Output_WithRandomControl_ForTest	MicroarrayLib_tilemapnonshrink.c	/^int Tiling_ProbeSelection_Output_WithRandomControl/
+Tiling_ProbeSelection_tTest	MicroarrayLib.c	/^struct DOUBLEMATRIX *Tiling_ProbeSelection_tTest(i/
+Tiling_ProbeSelection_tTest	MicroarrayLib_tilemapnonshrink.c	/^struct DOUBLEMATRIX *Tiling_ProbeSelection_tTest(i/
+Tiling_UMS_FDR	MicroarrayLib.c	/^int Tiling_UMS_FDR(struct DOUBLEMATRIX *pSelect, d/
+Tiling_UMS_FDR	MicroarrayLib_tilemapnonshrink.c	/^int Tiling_UMS_FDR(struct DOUBLEMATRIX *pSelect, d/
+Tiling_UMS_FDR_Main	MicroarrayLib.c	/^int Tiling_UMS_FDR_Main(char strSelectPath[], char/
+Tiling_UMS_FDR_Main	MicroarrayLib_tilemapnonshrink.c	/^int Tiling_UMS_FDR_Main(char strSelectPath[], char/
+TransLoc_ComputeCV	MicroarrayLib.c	/^double TransLoc_ComputeCV(struct DOUBLEMATRIX *pDa/
+TransLoc_ComputeCorrelation	MicroarrayLib.c	/^double TransLoc_ComputeCorrelation(struct DOUBLEMA/
+TransLoc_FilterProbes	MicroarrayLib.c	/^int TransLoc_FilterProbes(char strWorkPath[], char/
+TransLoc_GetProbeCoordinates	MicroarrayLib.c	/^int TransLoc_GetProbeCoordinates(char strArrayAnno/
+TransLoc_GroupRefGene	MicroarrayLib.c	/^int TransLoc_GroupRefGene(char strGenomeAnnotPath[/
+TransLoc_ImportScore	MicroarrayLib.c	/^int TransLoc_ImportScore(char strWorkPath[], char /
+TransLoc_Main	MicroarrayLib.c	/^int TransLoc_Main(char strParamPath[])$/
+TransLoc_NeighborDistance	MicroarrayLib.c	/^int TransLoc_NeighborDistance(char strWorkPath[], /
+WriteMotifToFile	MotifLib.c	/^int WriteMotifToFile(char strOutFile[], $/
+affy_bar2txt	Makefile	/^affy_bar2txt: AffyLib.o GenomeLib.o MathLib.o Matr/
+all	Makefile	/^all: $(ALL)$/
+atod	region_overlap.cpp	/^double atod(string num){$/
+beta	MathLib.c	/^double beta(double da, double db)$/
+big_endian_fread	AffyLib.c	/^size_t big_endian_fread(void *ptr, size_t size, si/
+big_endian_fwrite	AffyLib.c	/^size_t big_endian_fwrite(const void *ptr, size_t s/
+bin	Makefile	/^bin: $(ALL)$/
+book_norm	WorkLib.c	/^int book_norm()$/
+cMyc_AffyMatch	WorkLib.c	/^int cMyc_AffyMatch()$/
+cMyc_AgilentMatch	WorkLib.c	/^int cMyc_AgilentMatch()$/
+cMyc_ExonMatch	WorkLib.c	/^int cMyc_ExonMatch()$/
+clean	Makefile	/^clean:$/
+cnv_aln2window	Makefile	/^cnv_aln2window: AffyLib.o GenomeLib.o MathLib.o Ma/
+cnv_repeat2window	Makefile	/^cnv_repeat2window: AffyLib.o GenomeLib.o MathLib.o/
+dirichletrnd	RandomLib.c	/^double *dirichletrnd(double alpha[], int n, double/
+dnorm	RandomLib.c	/^double dnorm(double dx, double mu, double sigma)$/
+eigsrt	MatrixLib.c	/^void eigsrt(double d[], double **v, int n)$/
+erf	MathLib.c	/^double erf(double dx)$/
+exprnd	RandomLib.c	/^double exprnd(double mu)$/
+factorial	MathLib.c	/^double factorial(int nx)$/
+fasta_soft2hardmask	Makefile	/^fasta_soft2hardmask: AffyLib.o GenomeLib.o MathLib/
+file_bed2aln	Makefile	/^file_bed2aln: AffyLib.o GenomeLib.o MathLib.o Matr/
+file_bed2cod	Makefile	/^file_bed2cod: AffyLib.o GenomeLib.o MathLib.o Matr/
+file_cod2bed	Makefile	/^file_cod2bed: AffyLib.o GenomeLib.o MathLib.o Matr/
+file_eland2aln	Makefile	/^file_eland2aln: file_eland2aln.o$/
+flexmodule	Makefile	/^flexmodule: AffyLib.o GenomeLib.o MathLib.o Matrix/
+flexmodule_anchordist	Makefile	/^flexmodule_anchordist: flexmodule$/
+flexmodule_bgfit	Makefile	/^flexmodule_bgfit: AffyLib.o GenomeLib.o MathLib.o /
+flexmodule_moreeach	Makefile	/^flexmodule_moreeach: flexmodule$/
+flexmodule_moreeachrelax	Makefile	/^flexmodule_moreeachrelax: flexmodule$/
+flexmodule_motif	Makefile	/^flexmodule_motif: flexmodule$/
+flexmodule_oneeach	Makefile	/^flexmodule_oneeach: flexmodule$/
+flexmodule_oneeachrelax	Makefile	/^flexmodule_oneeachrelax: flexmodule$/
+flexmodule_tnum	Makefile	/^flexmodule_tnum: flexmodule$/
+flexmodule_tnumrelax	Makefile	/^flexmodule_tnumrelax: flexmodule$/
+flexmodule_tworeverse	Makefile	/^flexmodule_tworeverse: flexmodule$/
+gamma	MathLib.c	/^double gamma(double dx)$/
+gammaln	MathLib.c	/^double gammaln(double dx)$/
+gammp	MathLib.c	/^double gammp(double da, double dx)$/
+gamrnd	RandomLib.c	/^double gamrnd(double alpha, double beta)$/
+gcf	MathLib.c	/^void gcf(double *gammcf, double da, double dx, dou/
+genome_codephastcons	Makefile	/^genome_codephastcons: AffyLib.o GenomeLib.o MathLi/
+genome_codephastcons_v2	Makefile	/^genome_codephastcons_v2: AffyLib.o GenomeLib.o Mat/
+genome_codingCDS	Makefile	/^genome_codingCDS: AffyLib.o GenomeLib.o MathLib.o /
+genome_conservebg	Makefile	/^genome_conservebg: AffyLib.o GenomeLib.o MathLib.o/
+genome_conservecs	Makefile	/^genome_conservecs: AffyLib.o GenomeLib.o MathLib.o/
+genome_csgetdistn	Makefile	/^genome_csgetdistn: AffyLib.o GenomeLib.o MathLib.o/
+genome_encode	Makefile	/^genome_encode: AffyLib.o GenomeLib.o MathLib.o Mat/
+genome_fastaseqmask	Makefile	/^genome_fastaseqmask: AffyLib.o GenomeLib.o MathLib/
+genome_footprint	Makefile	/^genome_footprint: AffyLib.o GenomeLib.o MathLib.o /
+genome_getcsgcsummary	Makefile	/^genome_getcsgcsummary: AffyLib.o GenomeLib.o MathL/
+genome_getmaskedreg	Makefile	/^genome_getmaskedreg: AffyLib.o GenomeLib.o MathLib/
+genome_getmaskedreg_c	Makefile	/^genome_getmaskedreg_c: AffyLib.o GenomeLib.o MathL/
+genome_getmaskedseq	Makefile	/^genome_getmaskedseq: AffyLib.o GenomeLib.o MathLib/
+genome_getmaskedseq_c	Makefile	/^genome_getmaskedseq_c: AffyLib.o GenomeLib.o MathL/
+genome_getseq	Makefile	/^genome_getseq: AffyLib.o GenomeLib.o MathLib.o Mat/
+genome_getseq_c	Makefile	/^genome_getseq_c: AffyLib.o GenomeLib.o MathLib.o M/
+genome_getseqcs	Makefile	/^genome_getseqcs: AffyLib.o GenomeLib.o MathLib.o M/
+genome_getseqcs_c	Makefile	/^genome_getseqcs_c: AffyLib.o GenomeLib.o MathLib.o/
+genome_hash	Makefile	/^genome_hash: AffyLib.o GenomeLib.o MathLib.o Matri/
+genome_regioncssummary	Makefile	/^genome_regioncssummary: AffyLib.o GenomeLib.o Math/
+genome_regionextend	Makefile	/^genome_regionextend: AffyLib.o GenomeLib.o MathLib/
+gser	MathLib.c	/^void gser(double *gamser, double da, double dx, do/
+hts_aln2bar	Makefile	/^hts_aln2bar: AffyLib.o GenomeLib.o MathLib.o Matri/
+hts_aln2barv2	Makefile	/^hts_aln2barv2: AffyLib.o GenomeLib.o MathLib.o Mat/
+hts_aln2window	Makefile	/^hts_aln2window: AffyLib.o GenomeLib.o MathLib.o Ma/
+hts_alnshift2bar	Makefile	/^hts_alnshift2bar: AffyLib.o GenomeLib.o MathLib.o /
+hts_collectprofile	Makefile	/^hts_collectprofile: AffyLib.o GenomeLib.o MathLib./
+hts_collectreads	Makefile	/^hts_collectreads: AffyLib.o GenomeLib.o MathLib.o /
+hts_countreads4refgene	Makefile	/^hts_countreads4refgene: AffyLib.o GenomeLib.o Math/
+hts_createrepeatfilter	Makefile	/^hts_createrepeatfilter: AffyLib.o GenomeLib.o Math/
+hts_filterrepeatreads	Makefile	/^hts_filterrepeatreads: AffyLib.o GenomeLib.o MathL/
+hts_peakdetector	Makefile	/^hts_peakdetector: AffyLib.o GenomeLib.o MathLib.o /
+hts_peakdetector_2sample	Makefile	/^hts_peakdetector_2sample: AffyLib.o GenomeLib.o Ma/
+hts_peakdetectorv2	Makefile	/^hts_peakdetectorv2: AffyLib.o GenomeLib.o MathLib./
+hts_peakdetectorv2_2sample	Makefile	/^hts_peakdetectorv2_2sample: AffyLib.o GenomeLib.o /
+hts_windowsummary	Makefile	/^hts_windowsummary: AffyLib.o GenomeLib.o MathLib.o/
+hts_windowsummary_2sample	Makefile	/^hts_windowsummary_2sample: AffyLib.o GenomeLib.o M/
+hts_windowsummaryv2	Makefile	/^hts_windowsummaryv2: AffyLib.o GenomeLib.o MathLib/
+hts_windowsummaryv2_2sample	Makefile	/^hts_windowsummaryv2_2sample: AffyLib.o GenomeLib.o/
+itemsmaller	tablesorter.cpp	/^bool itemsmaller(const table_item &item1, const ta/
+itemsmaller	tablesorter_str.cpp	/^bool itemsmaller(const table_item &item1, const ta/
+itoa	region_overlap.cpp	/^string itoa(int num){	$/
+jacobi	MatrixLib.c	/^void jacobi(double **a, int n, double d[], double /
+little_endian_fread	AffyLib.c	/^size_t little_endian_fread(void *ptr, size_t size,/
+little_endian_fwrite	AffyLib.c	/^size_t little_endian_fwrite(const void *ptr, size_/
+malign_blasthit	Makefile	/^malign_blasthit: AffyLib.o GenomeLib.o MathLib.o M/
+malign_countkmer	Makefile	/^malign_countkmer: AffyLib.o GenomeLib.o MathLib.o /
+malign_generatemotifaln	Makefile	/^malign_generatemotifaln: AffyLib.o GenomeLib.o Mat/
+malign_genome_blasthit	Makefile	/^malign_genome_blasthit: AffyLib.o GenomeLib.o Math/
+malign_genome_prepareortholog	Makefile	/^malign_genome_prepareortholog: AffyLib.o GenomeLib/
+malign_modulemap	Makefile	/^malign_modulemap: AffyLib.o GenomeLib.o MathLib.o /
+malign_motifmap	Makefile	/^malign_motifmap: AffyLib.o GenomeLib.o MathLib.o M/
+menu_MapRPL	WorkLib.c	/^int menu_MapRPL(char strAlnPath[], char strRefGene/
+menu_affy_bar2txt	affy_bar2txt.c	/^int menu_affy_bar2txt(int argv, char **argc)$/
+menu_affy_bar2txt	genomelab.c	/^int menu_affy_bar2txt(int argv, char **argc)$/
+menu_affy_bpmap_filter_data	genomelab.c	/^int menu_affy_bpmap_filter_data()$/
+menu_affy_bpmap_filter_gtrans	genomelab.c	/^int menu_affy_bpmap_filter_gtrans()$/
+menu_affy_bpmap_filter_ori	genomelab.c	/^int menu_affy_bpmap_filter_ori()$/
+menu_affy_getrandomcontrolprobesets	genomelab.c	/^int menu_affy_getrandomcontrolprobesets()$/
+menu_affy_getreducedannot	genomelab.c	/^int menu_affy_getreducedannot()$/
+menu_affy_loadbar_intensity	genomelab.c	/^int menu_affy_loadbar_intensity()$/
+menu_affy_loadbar_intensity_group	genomelab.c	/^int menu_affy_loadbar_intensity_group()$/
+menu_affy_loadbpmap_intensity	genomelab.c	/^int menu_affy_loadbpmap_intensity()$/
+menu_affychr2122_probematch	WorkLib.c	/^int menu_affychr2122_probematch()$/
+menu_cnv_aln2window	cnv_aln2window.c	/^int menu_cnv_aln2window(int argv, char **argc)$/
+menu_cnv_aln2window	genomelab.c	/^int menu_cnv_aln2window(int argv, char **argc)$/
+menu_cnv_repeat2window	cnv_repeat2window.c	/^int menu_cnv_repeat2window(int argv, char **argc)$/
+menu_cnv_repeat2window	genomelab.c	/^int menu_cnv_repeat2window(int argv, char **argc)$/
+menu_codingCDS	genome_codingCDS.c	/^int menu_codingCDS(int argv, char **argc)$/
+menu_codingCDS	genomelab.c	/^int menu_codingCDS(int argv, char **argc)$/
+menu_codinggenome	genome_encode.c	/^int menu_codinggenome(int argv, char **argc)$/
+menu_codinggenome	genomelab.c	/^int menu_codinggenome(int argv, char **argc)$/
+menu_codingphastcons	genome_codephastcons.c	/^int menu_codingphastcons(int argv, char **argc)$/
+menu_codingphastcons	genomelab.c	/^int menu_codingphastcons(int argv, char **argc)$/
+menu_codingphastcons_v2	genome_codephastcons_v2.c	/^int menu_codingphastcons_v2(int argv, char **argc)/
+menu_codingphastcons_v2	genomelab.c	/^int menu_codingphastcons_v2(int argv, char **argc)/
+menu_cs_getdistn	genome_csgetdistn.c	/^int menu_cs_getdistn(int argv, char **argc)$/
+menu_cs_getdistn	genomelab.c	/^int menu_cs_getdistn(int argv, char **argc)$/
+menu_csgc_summary	genome_getcsgcsummary.c	/^int menu_csgc_summary(int argv, char **argc)$/
+menu_csgc_summary	genomelab.c	/^int menu_csgc_summary(int argv, char **argc)$/
+menu_expression_geneselection	genomelab.c	/^int menu_expression_geneselection(int argv, char */
+menu_expression_geneselection	powexpress.c	/^int menu_expression_geneselection(int argv, char */
+menu_expression_getnrprobe	genomelab.c	/^int menu_expression_getnrprobe(int argv, char **ar/
+menu_expression_getnrprobe	powexpress_getnrprobe.c	/^int menu_expression_getnrprobe(int argv, char **ar/
+menu_expression_getspecificprobe	genomelab.c	/^int menu_expression_getspecificprobe(int argv, cha/
+menu_expression_getspecificprobe	powexpress_getspecificprobe.c	/^int menu_expression_getspecificprobe(int argv, cha/
+menu_expression_quantilenormalization	genomelab.c	/^int menu_expression_quantilenormalization()$/
+menu_expression_rankgenebylocuslink	genomelab.c	/^int menu_expression_rankgenebylocuslink(int argv, /
+menu_expression_rankgenebylocuslink	powexpressloc.c	/^int menu_expression_rankgenebylocuslink(int argv, /
+menu_fasta_soft2hardmask	fasta_soft2hardmask.c	/^int menu_fasta_soft2hardmask(int argv, char **argc/
+menu_fasta_soft2hardmask	genomelab.c	/^int menu_fasta_soft2hardmask(int argv, char **argc/
+menu_file_bed2aln	file_bed2aln.c	/^int menu_file_bed2aln(int argv, char **argc)$/
+menu_file_bed2aln	genomelab.c	/^int menu_file_bed2aln(int argv, char **argc)$/
+menu_file_bed2cod	file_bed2cod.c	/^int menu_file_bed2cod(int argv, char **argc)$/
+menu_file_bed2cod	genomelab.c	/^int menu_file_bed2cod(int argv, char **argc)$/
+menu_file_cod2bed	file_cod2bed.c	/^int menu_file_cod2bed(int argv, char **argc)$/
+menu_file_cod2bed	genomelab.c	/^int menu_file_cod2bed(int argv, char **argc)$/
+menu_flexmodule	flexmodule.c	/^int menu_flexmodule(int argv, char **argc)$/
+menu_flexmodule	genomelab.c	/^int menu_flexmodule(int argv, char **argc)$/
+menu_flexmodule_bgfit	flexmodule_bgfit.c	/^int menu_flexmodule_bgfit(int argv, char **argc)$/
+menu_flexmodule_bgfit	genomelab.c	/^int menu_flexmodule_bgfit(int argv, char **argc)$/
+menu_flexmodule_extractmotif	genomelab.c	/^int menu_flexmodule_extractmotif(int argv, char **/
+menu_geneset	WorkLib.c	/^int menu_geneset(int argv, char **argc)$/
+menu_genome_hash	genome_hash.c	/^int menu_genome_hash(int argv, char **argc)$/
+menu_genome_hash	genomelab.c	/^int menu_genome_hash(int argv, char **argc)$/
+menu_genome_regionextend	genomelab.c	/^int menu_genome_regionextend(int argv, char **argc/
+menu_genome_regionextend	genome_regionextend.c	/^int menu_genome_regionextend(int argv, char **argc/
+menu_getmaskedregionfromgenome	genome_getmaskedreg.c	/^int menu_getmaskedregionfromgenome(int argv, char /
+menu_getmaskedregionfromgenome	genomelab.c	/^int menu_getmaskedregionfromgenome(int argv, char /
+menu_getmaskedregionfromgenome_c	genome_getmaskedreg_c.c	/^int menu_getmaskedregionfromgenome_c(int argv, cha/
+menu_getmaskedregionfromgenome_c	genomelab.c	/^int menu_getmaskedregionfromgenome_c(int argv, cha/
+menu_getmaskedseqfromgenome	genome_getmaskedseq.c	/^int menu_getmaskedseqfromgenome(int argv, char **a/
+menu_getmaskedseqfromgenome	genomelab.c	/^int menu_getmaskedseqfromgenome(int argv, char **a/
+menu_getmaskedseqfromgenome_c	genome_getmaskedseq_c.c	/^int menu_getmaskedseqfromgenome_c(int argv, char */
+menu_getmaskedseqfromgenome_c	genomelab.c	/^int menu_getmaskedseqfromgenome_c(int argv, char */
+menu_getseqcsfromgenome	genome_getseqcs.c	/^int menu_getseqcsfromgenome(int argv, char **argc)/
+menu_getseqcsfromgenome	genomelab.c	/^int menu_getseqcsfromgenome(int argv, char **argc)/
+menu_getseqcsfromgenome_c	genome_getseqcs_c.c	/^int menu_getseqcsfromgenome_c(int argv, char **arg/
+menu_getseqcsfromgenome_c	genomelab.c	/^int menu_getseqcsfromgenome_c(int argv, char **arg/
+menu_getseqfromfasta	genomelab.c	/^int menu_getseqfromfasta(int argv, char **argc)$/
+menu_getseqfromgenome	genome_getseq.c	/^int menu_getseqfromgenome(int argv, char **argc)$/
+menu_getseqfromgenome	genomelab.c	/^int menu_getseqfromgenome(int argv, char **argc)$/
+menu_getseqfromgenome_c	genome_getseq_c.c	/^int menu_getseqfromgenome_c(int argv, char **argc)/
+menu_getseqfromgenome_c	genomelab.c	/^int menu_getseqfromgenome_c(int argv, char **argc)/
+menu_hts_aln2bar	genomelab.c	/^int menu_hts_aln2bar(int argv, char **argc)$/
+menu_hts_aln2bar	hts_aln2bar.c	/^int menu_hts_aln2bar(int argv, char **argc)$/
+menu_hts_aln2barv2	genomelab.c	/^int menu_hts_aln2barv2(int argv, char **argc)$/
+menu_hts_aln2barv2	hts_aln2barv2.c	/^int menu_hts_aln2barv2(int argv, char **argc)$/
+menu_hts_aln2diff	genomelab.c	/^int menu_hts_aln2diff(int argv, char **argc)$/
+menu_hts_aln2uniq	genomelab.c	/^int menu_hts_aln2uniq(int argv, char **argc)$/
+menu_hts_aln2uniq	hts_aln2uniq.c	/^int menu_hts_aln2uniq(int argv, char **argc)$/
+menu_hts_aln2winbar	genomelab.c	/^int menu_hts_aln2winbar(int argv, char **argc)$/
+menu_hts_aln2winbar	hts_aln2winbar.c	/^int menu_hts_aln2winbar(int argv, char **argc)$/
+menu_hts_aln2window	genomelab.c	/^int menu_hts_aln2window(int argv, char **argc)$/
+menu_hts_aln2window	hts_aln2window.c	/^int menu_hts_aln2window(int argv, char **argc)$/
+menu_hts_alnshift2bar	genomelab.c	/^int menu_hts_alnshift2bar(int argv, char **argc)$/
+menu_hts_alnshift2bar	hts_alnshift2bar.c	/^int menu_hts_alnshift2bar(int argv, char **argc)$/
+menu_hts_collectprofile	genomelab.c	/^int menu_hts_collectprofile(int argv, char **argc)/
+menu_hts_collectprofile	hts_collectprofile.c	/^int menu_hts_collectprofile(int argv, char **argc)/
+menu_hts_collectreads	genomelab.c	/^int menu_hts_collectreads(int argv, char **argc)$/
+menu_hts_collectreads	hts_collectreads.c	/^int menu_hts_collectreads(int argv, char **argc)$/
+menu_hts_countreads4refgene	genomelab.c	/^int menu_hts_countreads4refgene(int argv, char **a/
+menu_hts_countreads4refgene	hts_countreads4refgene.c	/^int menu_hts_countreads4refgene(int argv, char **a/
+menu_hts_createrepeatfilter	genomelab.c	/^int menu_hts_createrepeatfilter(int argv, char **a/
+menu_hts_createrepeatfilter	hts_createrepeatfilter.c	/^int menu_hts_createrepeatfilter(int argv, char **a/
+menu_hts_filterrepeatreads	genomelab.c	/^int menu_hts_filterrepeatreads(int argv, char **ar/
+menu_hts_filterrepeatreads	hts_filterrepeatreads.c	/^int menu_hts_filterrepeatreads(int argv, char **ar/
+menu_hts_onesample_enrich	genomelab.c	/^int menu_hts_onesample_enrich(int argv, char **arg/
+menu_hts_onesample_enrich	hts_peakdetector.c	/^int menu_hts_onesample_enrich(int argv, char **arg/
+menu_hts_onesamplev2_enrich	genomelab.c	/^int menu_hts_onesamplev2_enrich(int argv, char **a/
+menu_hts_onesamplev2_enrich	hts_peakdetectorv2.c	/^int menu_hts_onesamplev2_enrich(int argv, char **a/
+menu_hts_selectreads	genomelab.c	/^int menu_hts_selectreads(int argv, char **argc)$/
+menu_hts_selectreads	hts_selectreads.c	/^int menu_hts_selectreads(int argv, char **argc)$/
+menu_hts_twosample_enrich	genomelab.c	/^int menu_hts_twosample_enrich(int argv, char **arg/
+menu_hts_twosample_enrich	hts_peakdetector_2sample.c	/^int menu_hts_twosample_enrich(int argv, char **arg/
+menu_hts_twosample_windowsummary	genomelab.c	/^int menu_hts_twosample_windowsummary(int argv, cha/
+menu_hts_twosample_windowsummary	hts_windowsummary_2sample.c	/^int menu_hts_twosample_windowsummary(int argv, cha/
+menu_hts_twosample_windowsummaryv2	genomelab.c	/^int menu_hts_twosample_windowsummaryv2(int argv, c/
+menu_hts_twosample_windowsummaryv2	hts_windowsummaryv2_2sample.c	/^int menu_hts_twosample_windowsummaryv2(int argv, c/
+menu_hts_twosamplev2_enrich	genomelab.c	/^int menu_hts_twosamplev2_enrich(int argv, char **a/
+menu_hts_twosamplev2_enrich	hts_peakdetectorv2_2sample.c	/^int menu_hts_twosamplev2_enrich(int argv, char **a/
+menu_hts_windowsummary	genomelab.c	/^int menu_hts_windowsummary(int argv, char **argc)$/
+menu_hts_windowsummary	hts_windowsummary.c	/^int menu_hts_windowsummary(int argv, char **argc)$/
+menu_hts_windowsummarypaper	genomelab.c	/^int menu_hts_windowsummarypaper(int argv, char **a/
+menu_hts_windowsummaryv2	genomelab.c	/^int menu_hts_windowsummaryv2(int argv, char **argc/
+menu_hts_windowsummaryv2	hts_windowsummaryv2.c	/^int menu_hts_windowsummaryv2(int argv, char **argc/
+menu_maf_conserve_bg	genome_conservebg.c	/^int menu_maf_conserve_bg(int argv, char **argc)$/
+menu_maf_conserve_bg	genomelab.c	/^int menu_maf_conserve_bg(int argv, char **argc)$/
+menu_maf_conserve_cs	genome_conservecs.c	/^int menu_maf_conserve_cs(int argv, char **argc)$/
+menu_maf_conserve_cs	genomelab.c	/^int menu_maf_conserve_cs(int argv, char **argc)$/
+menu_maf_footprint	genome_footprint.c	/^int menu_maf_footprint(int argv, char **argc)$/
+menu_maf_footprint	genomelab.c	/^int menu_maf_footprint(int argv, char **argc)$/
+menu_malign_blasthit	genomelab.c	/^int menu_malign_blasthit(int argv, char **argc)$/
+menu_malign_blasthit	malign_blasthit.c	/^int menu_malign_blasthit(int argv, char **argc)$/
+menu_malign_countkmer	genomelab.c	/^int menu_malign_countkmer(int argv, char **argc)$/
+menu_malign_countkmer	malign_countkmer.c	/^int menu_malign_countkmer(int argv, char **argc)$/
+menu_malign_generatemotifaln	genomelab.c	/^int menu_malign_generatemotifaln(int argv, char **/
+menu_malign_generatemotifaln	malign_generatemotifaln.c	/^int menu_malign_generatemotifaln(int argv, char **/
+menu_malign_genome_blasthit	genomelab.c	/^int menu_malign_genome_blasthit(int argv, char **a/
+menu_malign_genome_blasthit	malign_genome_blasthit.c	/^int menu_malign_genome_blasthit(int argv, char **a/
+menu_malign_genome_prepareortholog	genomelab.c	/^int menu_malign_genome_prepareortholog(int argv, c/
+menu_malign_genome_prepareortholog	malign_genome_prepareortholog.c	/^int menu_malign_genome_prepareortholog(int argv, c/
+menu_malign_modulemap	genomelab.c	/^int menu_malign_modulemap(int argv, char **argc)$/
+menu_malign_modulemap	malign_modulemap.c	/^int menu_malign_modulemap(int argv, char **argc)$/
+menu_malign_motifmap	genomelab.c	/^int menu_malign_motifmap(int argv, char **argc)$/
+menu_malign_motifmap	malign_motifmap.c	/^int menu_malign_motifmap(int argv, char **argc)$/
+menu_mapcMyc	genomelab.c	/^int menu_mapcMyc()$/
+menu_motif_getcutoff_typeI	genomelab.c	/^int menu_motif_getcutoff_typeI()$/
+menu_motif_getcutoff_typeII	genomelab.c	/^int menu_motif_getcutoff_typeII()$/
+menu_motif_getcutoff_typeIII	genomelab.c	/^int menu_motif_getcutoff_typeIII()$/
+menu_motif_simuscoredistn_typeI	genomelab.c	/^int menu_motif_simuscoredistn_typeI()$/
+menu_motif_simuscoredistn_typeII	genomelab.c	/^int menu_motif_simuscoredistn_typeII()$/
+menu_motif_simuscoredistn_typeIII	genomelab.c	/^int menu_motif_simuscoredistn_typeIII()$/
+menu_motifmap_consensusscan	genomelab.c	/^int menu_motifmap_consensusscan(int argv, char **a/
+menu_motifmap_consensusscan	motifmap_consensusscan.c	/^int menu_motifmap_consensusscan(int argv, char **a/
+menu_motifmap_consensusscan_genome	genomelab.c	/^int menu_motifmap_consensusscan_genome(int argv, c/
+menu_motifmap_consensusscan_genome	motifmap_consensusscan_genome.c	/^int menu_motifmap_consensusscan_genome(int argv, c/
+menu_motifmap_consensusscan_genome_enrich	genomelab.c	/^int menu_motifmap_consensusscan_genome_enrich(int /
+menu_motifmap_consensusscan_genome_enrich	motifmap_consensusscan_genome_enrich.c	/^int menu_motifmap_consensusscan_genome_enrich(int /
+menu_motifmap_consensusscan_genome_summary	genomelab.c	/^int menu_motifmap_consensusscan_genome_summary(int/
+menu_motifmap_consensusscan_genome_summary	motifmap_consensusscan_genome_summary.c	/^int menu_motifmap_consensusscan_genome_summary(int/
+menu_motifmap_countkmer	genomelab.c	/^int menu_motifmap_countkmer(int argv, char **argc)/
+menu_motifmap_countkmer	motifmap_countkmer.c	/^int menu_motifmap_countkmer(int argv, char **argc)/
+menu_motifmap_filter_genome	genomelab.c	/^int menu_motifmap_filter_genome(int argv, char **a/
+menu_motifmap_filter_genome	motifmap_filter_genome.c	/^int menu_motifmap_filter_genome(int argv, char **a/
+menu_motifmap_getcluster	genomelab.c	/^int menu_motifmap_getcluster(int argv, char **argc/
+menu_motifmap_getcluster	motifmap_getcluster.c	/^int menu_motifmap_getcluster(int argv, char **argc/
+menu_motifmap_getsitearound	genomelab.c	/^int menu_motifmap_getsitearound(int argv, char **a/
+menu_motifmap_getsitearound	motifmap_getsitearound.c	/^int menu_motifmap_getsitearound(int argv, char **a/
+menu_motifmap_getsitearoundcs_genome	genomelab.c	/^int menu_motifmap_getsitearoundcs_genome(int argv,/
+menu_motifmap_getsitearoundcs_genome	motifmap_getsitearoundcs.c	/^int menu_motifmap_getsitearoundcs_genome(int argv,/
+menu_motifmap_matrixintegrate_genome	genomelab.c	/^int menu_motifmap_matrixintegrate_genome(int argv,/
+menu_motifmap_matrixintegrate_genome	motifmap_matrixintegrate_genome.c	/^int menu_motifmap_matrixintegrate_genome(int argv,/
+menu_motifmap_matrixscan	genomelab.c	/^int menu_motifmap_matrixscan(int argv, char **argc/
+menu_motifmap_matrixscan	motifmap_matrixscan.c	/^int menu_motifmap_matrixscan(int argv, char **argc/
+menu_motifmap_matrixscan_genome	genomelab.c	/^int menu_motifmap_matrixscan_genome(int argv, char/
+menu_motifmap_matrixscan_genome	motifmap_matrixscan_genome.c	/^int menu_motifmap_matrixscan_genome(int argv, char/
+menu_motifmap_matrixscan_genome_enrich	genomelab.c	/^int menu_motifmap_matrixscan_genome_enrich(int arg/
+menu_motifmap_matrixscan_genome_enrich	motifmap_matrixscan_genome_enrich.c	/^int menu_motifmap_matrixscan_genome_enrich(int arg/
+menu_motifmap_matrixscan_genome_getcutoff	genomelab.c	/^int menu_motifmap_matrixscan_genome_getcutoff(int /
+menu_motifmap_matrixscan_genome_getcutoff	motifmap_matrixscan_genome_getcutoff.c	/^int menu_motifmap_matrixscan_genome_getcutoff(int /
+menu_motifmap_matrixscan_genome_summary	genomelab.c	/^int menu_motifmap_matrixscan_genome_summary(int ar/
+menu_motifmap_matrixscan_genome_summary	motifmap_matrixscan_genome_summary.c	/^int menu_motifmap_matrixscan_genome_summary(int ar/
+menu_motifmap_matrixscan_genomebackground	genomelab.c	/^int menu_motifmap_matrixscan_genomebackground(int /
+menu_motifmap_matrixscan_genomebackground	motifmap_matrixscan_genomebg.c	/^int menu_motifmap_matrixscan_genomebackground(int /
+menu_motifmap_matrixscan_group	genomelab.c	/^int menu_motifmap_matrixscan_group(int argv, char /
+menu_motifmap_matrixscan_group	motifmap_matrixscan_group.c	/^int menu_motifmap_matrixscan_group(int argv, char /
+menu_motifmap_multiplematrixscan_genome	genomelab.c	/^int menu_motifmap_multiplematrixscan_genome(int ar/
+menu_motifmap_multiplematrixscan_genome	motifmap_multiplematrixscan_genome.c	/^int menu_motifmap_multiplematrixscan_genome(int ar/
+menu_motifmap_rescore	genomelab.c	/^int menu_motifmap_rescore(int argv, char **argc)$/
+menu_motifsampler_quality	genomelab.c	/^int menu_motifsampler_quality()$/
+menu_network_bind2entrez	genomelab.c	/^int menu_network_bind2entrez(int argv, char **argc/
+menu_network_bind2entrez	network_bind2entrez.c	/^int menu_network_bind2entrez(int argv, char **argc/
+menu_network_createortholognet	genomelab.c	/^int menu_network_createortholognet(int argv, char /
+menu_network_createortholognet	network_createortholognet.c	/^int menu_network_createortholognet(int argv, char /
+menu_network_getsubnet	genomelab.c	/^int menu_network_getsubnet(int argv, char **argc)$/
+menu_network_getsubnet	network_getsubnet.c	/^int menu_network_getsubnet(int argv, char **argc)$/
+menu_network_shortestpath	genomelab.c	/^int menu_network_shortestpath(int argv, char **arg/
+menu_network_shortestpath	network_shortestpath.c	/^int menu_network_shortestpath(int argv, char **arg/
+menu_refexon_createmap	genomelab.c	/^int menu_refexon_createmap(int argv, char **argc)$/
+menu_refexon_createmap	refexon_createmap.c	/^int menu_refexon_createmap(int argv, char **argc)$/
+menu_refflat_sort	genomelab.c	/^int menu_refflat_sort(int argv, char **argc)$/
+menu_refflat_sort	refflat_encode.c	/^int menu_refflat_sort(int argv, char **argc)$/
+menu_refflex_getmultiortholog	genomelab.c	/^int menu_refflex_getmultiortholog(int argv, char */
+menu_refflex_getmultiortholog	refflex_getmultiortholog.c	/^int menu_refflex_getmultiortholog(int argv, char */
+menu_refflex_getmultiortholog1way	genomelab.c	/^int menu_refflex_getmultiortholog1way(int argv, ch/
+menu_refflex_getmultiortholog1way	refflex_getmultiortholog1way.c	/^int menu_refflex_getmultiortholog1way(int argv, ch/
+menu_refgene_getaffy	genomelab.c	/^int menu_refgene_getaffy(int argv, char **argc)$/
+menu_refgene_getaffy	refgene_getaffy.c	/^int menu_refgene_getaffy(int argv, char **argc)$/
+menu_refgene_getlocationsummary	genomelab.c	/^int menu_refgene_getlocationsummary(int argv, char/
+menu_refgene_getlocationsummary	refgene_getlocationsummary.c	/^int menu_refgene_getlocationsummary(int argv, char/
+menu_refgene_getmatchedcontrol	genomelab.c	/^int menu_refgene_getmatchedcontrol(int argv, char /
+menu_refgene_getmatchedcontrol	refgene_getmatchedcontrol.c	/^int menu_refgene_getmatchedcontrol(int argv, char /
+menu_refgene_getmultiortholog	genomelab.c	/^int menu_refgene_getmultiortholog(int argv, char */
+menu_refgene_getmultiortholog	refgene_getmultiortholog.c	/^int menu_refgene_getmultiortholog(int argv, char */
+menu_refgene_getmultiortholog1way	genomelab.c	/^int menu_refgene_getmultiortholog1way(int argv, ch/
+menu_refgene_getmultiortholog1way	refgene_getmultiortholog1way.c	/^int menu_refgene_getmultiortholog1way(int argv, ch/
+menu_refgene_getmultiorthologtssaround	genomelab.c	/^int menu_refgene_getmultiorthologtssaround(int arg/
+menu_refgene_getmultiorthologtssaround	refgene_getmultiorthologtssaround.c	/^int menu_refgene_getmultiorthologtssaround(int arg/
+menu_refgene_getmultiorthologtssaroundexonmasked	genomelab.c	/^int menu_refgene_getmultiorthologtssaroundexonmask/
+menu_refgene_getmultiorthologtssaroundexonmasked	refgene_getmultiorthologtssaroundexonmasked.c	/^int menu_refgene_getmultiorthologtssaroundexonmask/
+menu_refgene_getnearestgene	genomelab.c	/^int menu_refgene_getnearestgene(int argv, char **a/
+menu_refgene_getnearestgene	refgene_getnearestgene.c	/^int menu_refgene_getnearestgene(int argv, char **a/
+menu_refgene_getortholog	genomelab.c	/^int menu_refgene_getortholog(int argv, char **argc/
+menu_refgene_gettargettssaround	genomelab.c	/^int menu_refgene_gettargettssaround(int argv, char/
+menu_refgene_gettargettssaround	refgene_gettssaround.c	/^int menu_refgene_gettargettssaround(int argv, char/
+menu_refgene_pickspeciesspecific	genomelab.c	/^int menu_refgene_pickspeciesspecific(int argv, cha/
+menu_refgene_pickspeciesspecific	refgene_pickspeciesspecific.c	/^int menu_refgene_pickspeciesspecific(int argv, cha/
+menu_refgene_sort	genomelab.c	/^int menu_refgene_sort(int argv, char **argc)$/
+menu_refgene_sort	refgene_encode.c	/^int menu_refgene_sort(int argv, char **argc)$/
+menu_reflocus_assignedgevalue	genomelab.c	/^int menu_reflocus_assignedgevalue(int argv, char */
+menu_reflocus_assignvalue	genomelab.c	/^int menu_reflocus_assignvalue(int argv, char **arg/
+menu_reflocus_assignvalue	reflocus_assignvalue.c	/^int menu_reflocus_assignvalue(int argv, char **arg/
+menu_reflocus_assignvalue_test	genomelab.c	/^int menu_reflocus_assignvalue_test(int argv, char /
+menu_reflocus_createmap	genomelab.c	/^int menu_reflocus_createmap(int argv, char **argc)/
+menu_reflocus_createmap	reflocus_createmap.c	/^int menu_reflocus_createmap(int argv, char **argc)/
+menu_reflocus_getneighborgenes	genomelab.c	/^int menu_reflocus_getneighborgenes(int argv, char /
+menu_reflocus_getneighborgenes	reflocus_getneighborgenes.c	/^int menu_reflocus_getneighborgenes(int argv, char /
+menu_refmicroarray_createmap	genomelab.c	/^int menu_refmicroarray_createmap(int argv, char **/
+menu_refmicroarray_createmap	refmicroarray_createmap.c	/^int menu_refmicroarray_createmap(int argv, char **/
+menu_regioncs_summary	genomelab.c	/^int menu_regioncs_summary(int argv, char **argc)$/
+menu_regioncs_summary	genome_regioncssummary.c	/^int menu_regioncs_summary(int argv, char **argc)$/
+menu_rnaseq_countgeneread	genomelab.c	/^int menu_rnaseq_countgeneread(int argv, char **arg/
+menu_rnaseq_countgeneread	rnaseq_countgeneread.c	/^int menu_rnaseq_countgeneread(int argv, char **arg/
+menu_seqclust	genomelab.c	/^int menu_seqclust(int argv, char **argc)$/
+menu_seqclust	seqclust.c	/^int menu_seqclust(int argv, char **argc)$/
+menu_seqclust_count	genomelab.c	/^int menu_seqclust_count(int argv, char **argc)$/
+menu_seqclust_count	seqclust_count.c	/^int menu_seqclust_count(int argv, char **argc)$/
+menu_seqclust_dp	genomelab.c	/^int menu_seqclust_dp(int argv, char **argc)$/
+menu_seqclust_dp	seqclust_dp.c	/^int menu_seqclust_dp(int argv, char **argc)$/
+menu_seqclust_seg	genomelab.c	/^int menu_seqclust_seg(int argv, char **argc)$/
+menu_seqclust_seg	seqclust_seg.c	/^int menu_seqclust_seg(int argv, char **argc)$/
+menu_seqmask	genome_fastaseqmask.c	/^int menu_seqmask(int argv, char **argc)$/
+menu_seqmask	genomelab.c	/^int menu_seqmask(int argv, char **argc)$/
+menu_seqpeak	genomelab.c	/^int menu_seqpeak(int argv, char **argc)$/
+menu_seqpeak	seqpeak.c	/^int menu_seqpeak(int argv, char **argc)$/
+menu_shhinsitu	WorkLib.c	/^int menu_shhinsitu()$/
+menu_test_chipcluster	genomelab.c	/^int menu_test_chipcluster()$/
+menu_tilemap	genomelab.c	/^int menu_tilemap(int argv, char **argc)$/
+menu_tilemap	tilemap.c	/^int menu_tilemap(int argv, char **argc)$/
+menu_tilemap_extract	genomelab.c	/^int menu_tilemap_extract(int argv, char **argc)$/
+menu_tilemap_extract	tilemap_extract.c	/^int menu_tilemap_extract(int argv, char **argc)$/
+menu_tilemap_importaffy	genomelab.c	/^int menu_tilemap_importaffy(int argv, char **argc)/
+menu_tilemap_importaffy	tilemap_importaffy.c	/^int menu_tilemap_importaffy(int argv, char **argc)/
+menu_tilemap_normalization	genomelab.c	/^int menu_tilemap_normalization(int argv, char **ar/
+menu_tilemap_normalization	tilemap_norm.c	/^int menu_tilemap_normalization(int argv, char **ar/
+menu_tilemap_proberemap	genomelab.c	/^int menu_tilemap_proberemap(int argv, char **argc)/
+menu_tilemapv2	genomelab.c	/^int menu_tilemapv2(int argv, char **argc)$/
+menu_tilemapv2	tilemapv2.c	/^int menu_tilemapv2(int argv, char **argc)$/
+menu_tilemapv2_collectprobes	genomelab.c	/^int menu_tilemapv2_collectprobes(int argv, char **/
+menu_tilemapv2_importaffy	genomelab.c	/^int menu_tilemapv2_importaffy(int argv, char **arg/
+menu_tilemapv2_importaffy	tilemapv2_importaffy.c	/^int menu_tilemapv2_importaffy(int argv, char **arg/
+menu_tilemapv2_quantilenorm	genomelab.c	/^int menu_tilemapv2_quantilenorm(int argv, char **a/
+menu_tilemapv2_quantilenorm	tilemapv2_quantilenorm.c	/^int menu_tilemapv2_quantilenorm(int argv, char **a/
+menu_tilemapv2_regioninfo	genomelab.c	/^int menu_tilemapv2_regioninfo(int argv, char **arg/
+menu_tilemapv2_regioninfo	tilemapv2_regioninfo.c	/^int menu_tilemapv2_regioninfo(int argv, char **arg/
+menu_tilemapv2_regioninfo_integral	genomelab.c	/^int menu_tilemapv2_regioninfo_integral(int argv, c/
+menu_tilemapv2_regioninfo_integral	tilemapv2_regioninfo_integral.c	/^int menu_tilemapv2_regioninfo_integral(int argv, c/
+menu_tilemapv2_txt2bar	genomelab.c	/^int menu_tilemapv2_txt2bar(int argv, char **argc)$/
+menu_tilemapv2_txt2bar	tilemapv2_txt2bar.c	/^int menu_tilemapv2_txt2bar(int argv, char **argc)$/
+menu_tileprobe_barnorm	genomelab.c	/^int menu_tileprobe_barnorm(int argv, char **argc)$/
+menu_tileprobe_barnorm	tileprobe_barnorm.c	/^int menu_tileprobe_barnorm(int argv, char **argc)$/
+menu_tileprobe_buildbarmodel	genomelab.c	/^int menu_tileprobe_buildbarmodel(int argv, char **/
+menu_tileprobe_buildbarmodel	tileprobe_buildbarmodel.c	/^int menu_tileprobe_buildbarmodel(int argv, char **/
+menu_tileprobe_buildbarmodel_v2	genomelab.c	/^int menu_tileprobe_buildbarmodel_v2(int argv, char/
+menu_tileprobe_buildbarmodel_v2	tileprobe_buildbarmodel_v2.c	/^int menu_tileprobe_buildbarmodel_v2(int argv, char/
+menu_tileprobe_buildmodel	genomelab.c	/^int menu_tileprobe_buildmodel(int argv, char **arg/
+menu_tileprobe_buildmodel	tileprobe_buildmodel.c	/^int menu_tileprobe_buildmodel(int argv, char **arg/
+menu_tileprobe_buildmodel_hmmb	genomelab.c	/^int menu_tileprobe_buildmodel_hmmb(int argv, char /
+menu_tileprobe_buildmodel_hmmb	tileprobe_buildmodel_hmmb.c	/^int menu_tileprobe_buildmodel_hmmb(int argv, char /
+menu_tileprobe_buildmodel_hmmm	genomelab.c	/^int menu_tileprobe_buildmodel_hmmm(int argv, char /
+menu_tileprobe_buildmodel_hmmm	tileprobe_buildmodel_hmmm.c	/^int menu_tileprobe_buildmodel_hmmm(int argv, char /
+menu_tileprobe_buildmodel_hmmt	genomelab.c	/^int menu_tileprobe_buildmodel_hmmt(int argv, char /
+menu_tileprobe_buildmodel_hmmt	tileprobe_buildmodel_hmmt.c	/^int menu_tileprobe_buildmodel_hmmt(int argv, char /
+menu_tileprobe_buildmodel_hmmw	genomelab.c	/^int menu_tileprobe_buildmodel_hmmw(int argv, char /
+menu_tileprobe_buildmodel_hmmw	tileprobe_buildmodel_hmmw.c	/^int menu_tileprobe_buildmodel_hmmw(int argv, char /
+menu_tileprobe_buildmodel_v2	genomelab.c	/^int menu_tileprobe_buildmodel_v2(int argv, char **/
+menu_tileprobe_buildmodel_v2	tileprobe_buildmodel_v2.c	/^int menu_tileprobe_buildmodel_v2(int argv, char **/
+menu_tileprobe_huberdata	genomelab.c	/^int menu_tileprobe_huberdata(int argv, char **argc/
+menu_tileprobe_huberdata	tileprobe_huberdata.c	/^int menu_tileprobe_huberdata(int argv, char **argc/
+menu_tileprobe_mat	genomelab.c	/^int menu_tileprobe_mat(int argv, char **argc)$/
+menu_tileprobe_mat	tileprobe_mat.c	/^int menu_tileprobe_mat(int argv, char **argc)$/
+menu_tileprobe_norm	genomelab.c	/^int menu_tileprobe_norm(int argv, char **argc)$/
+menu_tileprobe_norm	tileprobe_norm.c	/^int menu_tileprobe_norm(int argv, char **argc)$/
+menu_tileprobe_peak	genomelab.c	/^int menu_tileprobe_peak(int argv, char **argc)$/
+menu_tileprobe_peak	tileprobe_peak.c	/^int menu_tileprobe_peak(int argv, char **argc)$/
+menu_tileprobe_resample	genomelab.c	/^int menu_tileprobe_resample(int argv, char **argc)/
+menu_tileprobe_resample	tileprobe_resample.c	/^int menu_tileprobe_resample(int argv, char **argc)/
+menu_tiling_bindingcall_hmm	genomelab.c	/^int menu_tiling_bindingcall_hmm()$/
+menu_tiling_bindingcall_hmm_baumwelch	genomelab.c	/^int menu_tiling_bindingcall_hmm_baumwelch()$/
+menu_tiling_bindingcall_hmm_constlen	genomelab.c	/^int menu_tiling_bindingcall_hmm_constlen()$/
+menu_tiling_bindingcall_hmm_explen	genomelab.c	/^int menu_tiling_bindingcall_hmm_explen()$/
+menu_tiling_probeselection	genomelab.c	/^int menu_tiling_probeselection()$/
+menu_tiling_ums_fdr	genomelab.c	/^int menu_tiling_ums_fdr(int argv, char **argc)$/
+menu_transloc	genomelab.c	/^int menu_transloc(int argv, char **argc)$/
+motifmap_consensusscan	Makefile	/^motifmap_consensusscan: AffyLib.o GenomeLib.o Math/
+motifmap_consensusscan_genome	Makefile	/^motifmap_consensusscan_genome: AffyLib.o GenomeLib/
+motifmap_consensusscan_genome_enrich	Makefile	/^motifmap_consensusscan_genome_enrich: AffyLib.o Ge/
+motifmap_consensusscan_genome_summary	Makefile	/^motifmap_consensusscan_genome_summary: AffyLib.o G/
+motifmap_countkmer	Makefile	/^motifmap_countkmer: AffyLib.o GenomeLib.o MathLib./
+motifmap_filter_genome	Makefile	/^motifmap_filter_genome: AffyLib.o GenomeLib.o Math/
+motifmap_getcluster	Makefile	/^motifmap_getcluster: AffyLib.o GenomeLib.o MathLib/
+motifmap_getsitearound	Makefile	/^motifmap_getsitearound: AffyLib.o GenomeLib.o Math/
+motifmap_getsitearoundcs	Makefile	/^motifmap_getsitearoundcs: AffyLib.o GenomeLib.o Ma/
+motifmap_matrixintegrate_genome	Makefile	/^motifmap_matrixintegrate_genome: AffyLib.o GenomeL/
+motifmap_matrixscan	Makefile	/^motifmap_matrixscan: AffyLib.o GenomeLib.o MathLib/
+motifmap_matrixscan_genome	Makefile	/^motifmap_matrixscan_genome: AffyLib.o GenomeLib.o /
+motifmap_matrixscan_genome_enrich	Makefile	/^motifmap_matrixscan_genome_enrich: AffyLib.o Genom/
+motifmap_matrixscan_genome_getcutoff	Makefile	/^motifmap_matrixscan_genome_getcutoff: AffyLib.o Ge/
+motifmap_matrixscan_genome_summary	Makefile	/^motifmap_matrixscan_genome_summary: AffyLib.o Geno/
+motifmap_matrixscan_genomebg	Makefile	/^motifmap_matrixscan_genomebg: AffyLib.o GenomeLib./
+motifmap_matrixscan_group	Makefile	/^motifmap_matrixscan_group: AffyLib.o GenomeLib.o M/
+motifmap_multiplematrixscan_genome	Makefile	/^motifmap_multiplematrixscan_genome: AffyLib.o Geno/
+network_bind2entrez	Makefile	/^network_bind2entrez: AffyLib.o GenomeLib.o MathLib/
+network_createortholognet	Makefile	/^network_createortholognet: AffyLib.o GenomeLib.o M/
+network_getsubnet	Makefile	/^network_getsubnet: AffyLib.o GenomeLib.o MathLib.o/
+network_shortestpath	Makefile	/^network_shortestpath: AffyLib.o GenomeLib.o MathLi/
+normcdf	MathLib.c	/^double normcdf(double mu, double sigma, double dx)/
+norminv	MathLib.c	/^double norminv(double mu, double sigma, double dx)/
+normrnd	RandomLib.c	/^double normrnd(double mu, double sigma)$/
+operator<	region_overlap.cpp	/^inline bool operator<(const peak &p1, const peak &/
+pipeline_knownmotifmapping_forgenelist	genomelab.c	/^int pipeline_knownmotifmapping_forgenelist()$/
+powexpress	Makefile	/^powexpress: AffyLib.o GenomeLib.o MathLib.o Matrix/
+powexpress_getnrprobe	Makefile	/^powexpress_getnrprobe: AffyLib.o GenomeLib.o MathL/
+powexpress_getspecificprobe	Makefile	/^powexpress_getspecificprobe: AffyLib.o GenomeLib.o/
+powexpressloc	Makefile	/^powexpressloc: AffyLib.o GenomeLib.o MathLib.o Mat/
+pythag	MatrixLib.c	/^double pythag(double a, double b)$/
+rand_gamma	RandomLib.c	/^double rand_gamma(double dalpha, \/* the shape para/
+rand_u	RandomLib.c	/^double rand_u()$/
+rand_u_1	RandomLib.c	/^double rand_u_1()$/
+rand_u_1_init	RandomLib.c	/^void rand_u_1_init(long ninitstep)$/
+rand_u_2	RandomLib.c	/^double rand_u_2()$/
+rand_u_2_init	RandomLib.c	/^void rand_u_2_init(long ninitstep)$/
+rand_u_3	RandomLib.c	/^double rand_u_3()$/
+rand_u_3_init	RandomLib.c	/^void rand_u_3_init(long ninitstep)$/
+rand_u_independence_test	RandomLib.c	/^double rand_u_independence_test(void (* initfunc)(/
+rand_u_init	RandomLib.c	/^void rand_u_init(long ninitstep)$/
+rand_u_interval	RandomLib.c	/^double rand_u_interval(double (* randfunc)(), long/
+rand_u_mixture	RandomLib.c	/^double rand_u_mixture()$/
+rand_u_mixture_init	RandomLib.c	/^void rand_u_mixture_init(double (* randfunc1)(), v/
+rand_u_uniform_test	RandomLib.c	/^double rand_u_uniform_test(void (* initfunc)(long)/
+refexon_createmap	Makefile	/^refexon_createmap: AffyLib.o GenomeLib.o MathLib.o/
+refflat_encode	Makefile	/^refflat_encode: AffyLib.o GenomeLib.o MathLib.o Ma/
+refflex_getmultiortholog	Makefile	/^refflex_getmultiortholog: AffyLib.o GenomeLib.o Ma/
+refflex_getmultiortholog1way	Makefile	/^refflex_getmultiortholog1way: AffyLib.o GenomeLib./
+refgene_encode	Makefile	/^refgene_encode: AffyLib.o GenomeLib.o MathLib.o Ma/
+refgene_getaffy	Makefile	/^refgene_getaffy: AffyLib.o GenomeLib.o MathLib.o M/
+refgene_getlocationsummary	Makefile	/^refgene_getlocationsummary: AffyLib.o GenomeLib.o /
+refgene_getmatchedcontrol	Makefile	/^refgene_getmatchedcontrol: AffyLib.o GenomeLib.o M/
+refgene_getmultiortholog	Makefile	/^refgene_getmultiortholog: AffyLib.o GenomeLib.o Ma/
+refgene_getmultiortholog1way	Makefile	/^refgene_getmultiortholog1way: AffyLib.o GenomeLib./
+refgene_getmultiorthologtssaround	Makefile	/^refgene_getmultiorthologtssaround: AffyLib.o Genom/
+refgene_getmultiorthologtssaroundexonmasked	Makefile	/^refgene_getmultiorthologtssaroundexonmasked: AffyL/
+refgene_getnearestgene	Makefile	/^refgene_getnearestgene: AffyLib.o GenomeLib.o Math/
+refgene_gettssaround	Makefile	/^refgene_gettssaround: AffyLib.o GenomeLib.o MathLi/
+refgene_pickspeciesspecific	Makefile	/^refgene_pickspeciesspecific: AffyLib.o GenomeLib.o/
+reflocus_assignvalue	Makefile	/^reflocus_assignvalue: AffyLib.o GenomeLib.o MathLi/
+reflocus_createmap	Makefile	/^reflocus_createmap: AffyLib.o GenomeLib.o MathLib./
+reflocus_getneighborgenes	Makefile	/^reflocus_getneighborgenes: AffyLib.o GenomeLib.o M/
+refmicroarray_createmap	Makefile	/^refmicroarray_createmap: AffyLib.o GenomeLib.o Mat/
+region_overlap	Makefile	/^region_overlap: region_overlap.cpp$/
+reverse_buf	AffyLib.c	/^void reverse_buf(char *buf, int size)$/
+rgamma	RandomLib.c	/^void rgamma(long *seed,   \/* the random number gen/
+rnaseq_countgeneread	Makefile	/^rnaseq_countgeneread: AffyLib.o GenomeLib.o MathLi/
+rnorm	RandomLib.c	/^double rnorm(double mu, double sigma)$/
+runif	RandomLib.c	/^double runif(long *idum, double a, double b)$/
+seqclust	Makefile	/^seqclust: AffyLib.o GenomeLib.o MathLib.o MatrixLi/
+seqclust_count	Makefile	/^seqclust_count: AffyLib.o GenomeLib.o MathLib.o Ma/
+seqclust_seg	Makefile	/^seqclust_seg: AffyLib.o GenomeLib.o MathLib.o Matr/
+shhmbtest	WorkLib.c	/^int shhmbtest(int argv, char **argc)$/
+tablefile_sort	tablesorter.cpp	/^bool tablefile_sort(string infile, string outfile)/
+tablefile_sort	tablesorter_str.cpp	/^bool tablefile_sort(string infile, string outfile)/
+tablesorter	Makefile	/^tablesorter: tablesorter.cpp$/
+tablesorter_str	Makefile	/^tablesorter_str: tablesorter_str.cpp$/
+testbar	genomelab.c	/^int testbar()$/
+testcel	genomelab.c	/^int testcel()$/
+testcoding	genomelab.c	/^int testcoding()$/
+testeigen	genomelab.c	/^int testeigen()$/
+testgeneric	genomelab.c	/^int testgeneric()$/
+testloading	genomelab.c	/^int testloading()$/
+testnetwork	genomelab.c	/^int testnetwork()$/
+testnormcdf	genomelab.c	/^int testnormcdf()$/
+tilemap	Makefile	/^tilemap: AffyLib.o GenomeLib.o MathLib.o MatrixLib/
+tilemap_extract	Makefile	/^tilemap_extract: AffyLib.o GenomeLib.o MathLib.o M/
+tilemap_importaffy	Makefile	/^tilemap_importaffy: AffyLib.o GenomeLib.o MathLib./
+tilemap_norm	Makefile	/^tilemap_norm: AffyLib.o GenomeLib.o MathLib.o Matr/
+tilemapv2	Makefile	/^tilemapv2: AffyLib.o GenomeLib.o MathLib.o MatrixL/
+tilemapv2_importaffy	Makefile	/^tilemapv2_importaffy: AffyLib.o GenomeLib.o MathLi/
+tilemapv2_quantilenorm	Makefile	/^tilemapv2_quantilenorm: AffyLib.o GenomeLib.o Math/
+tilemapv2_regioninfo	Makefile	/^tilemapv2_regioninfo: AffyLib.o GenomeLib.o MathLi/
+tilemapv2_regioninfo_integral	Makefile	/^tilemapv2_regioninfo_integral: AffyLib.o GenomeLib/
+tilemapv2_txt2bar	Makefile	/^tilemapv2_txt2bar: AffyLib.o GenomeLib.o MathLib.o/
+tileprobe_barnorm	Makefile	/^tileprobe_barnorm: AffyLib.o GenomeLib.o MathLib.o/
+tileprobe_buildbarmodel	Makefile	/^tileprobe_buildbarmodel: AffyLib.o GenomeLib.o Mat/
+tileprobe_buildbarmodel_v2	Makefile	/^tileprobe_buildbarmodel_v2: AffyLib.o GenomeLib.o /
+tileprobe_buildmodel	Makefile	/^tileprobe_buildmodel: AffyLib.o GenomeLib.o MathLi/
+tileprobe_buildmodel_hmmb	Makefile	/^tileprobe_buildmodel_hmmb: AffyLib.o GenomeLib.o M/
+tileprobe_buildmodel_hmmm	Makefile	/^tileprobe_buildmodel_hmmm: AffyLib.o GenomeLib.o M/
+tileprobe_buildmodel_hmmt	Makefile	/^tileprobe_buildmodel_hmmt: AffyLib.o GenomeLib.o M/
+tileprobe_buildmodel_hmmw	Makefile	/^tileprobe_buildmodel_hmmw: AffyLib.o GenomeLib.o M/
+tileprobe_buildmodel_v2	Makefile	/^tileprobe_buildmodel_v2: AffyLib.o GenomeLib.o Mat/
+tileprobe_huberdata	Makefile	/^tileprobe_huberdata: AffyLib.o GenomeLib.o MathLib/
+tileprobe_mat	Makefile	/^tileprobe_mat: AffyLib.o GenomeLib.o MathLib.o Mat/
+tileprobe_norm	Makefile	/^tileprobe_norm: AffyLib.o GenomeLib.o MathLib.o Ma/
+tileprobe_peak	Makefile	/^tileprobe_peak: AffyLib.o GenomeLib.o MathLib.o Ma/
+tileprobe_resample	Makefile	/^tileprobe_resample: AffyLib.o GenomeLib.o MathLib./
+tqli	MatrixLib.c	/^void tqli(double d[], double e[], int n, double **/
+tred2	MatrixLib.c	/^void tred2(double **a, int n, double d[], double e/
+work_esclusgetrefflat	Makefile	/^work_esclusgetrefflat: AffyLib.o GenomeLib.o MathL/
+work_esgetpromoter	Makefile	/^work_esgetpromoter: AffyLib.o GenomeLib.o MathLib./
+work_shhmbtest	Makefile	/^work_shhmbtest: AffyLib.o GenomeLib.o MathLib.o Ma/
+write_vector_peak_2file	region_overlap.cpp	/^void write_vector_peak_2file(vector<peak>& peaks, /
