@@ -10,7 +10,7 @@ Note: I ran this script in the main rocketchip directory using:
 readtypes = ["paired"]#, "single"]
 peaktypes = ["broad"] #["narrow", "broad"]
 aligners = ["bowtie2"] #["bwa_mem", "bowtie2", "STAR"]
-peakcallers = ["cisgenome"] #["macs3", "cisgenome", "genrich", "pepr"]
+peakcallers = ["macs3"] #, "genrich", "pepr", "cisgenome"]
 deduplicators = ["no_deduplication"] #["samtools", "no_deduplication", "sambamba", "picard"]
 
 for readtype in readtypes:
