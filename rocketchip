@@ -324,6 +324,9 @@ else: GET_GENOME = f'{RULES_DIR}/get_genome/remote_genome.txt'
 with open(GET_GENOME) as fh:
     rule = fh.read()
     assert('GENOME_LOCATION' in rule and 'GENOME' in rule and 'DATA' in rule)
+    if ' ' in DATA:
+        ind = DATA.index(' ')
+        DATA = DATA[:ind] + '\\' + DATA[ind:]
     rule = rule.replace('DATA', DATA)
     if ' ' in GENOME_LOCATION:
         ind = GENOME_LOCATION.index(' ')
