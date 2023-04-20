@@ -37,7 +37,7 @@ reads_path = {
 	'input': ['/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/paired_broad/test_5/input_1.fastq.gz', '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/paired_broad/test_5/input_2.fastq.gz'],
 }
 
-src = '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip'
+src = '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip'
 
 sample_group_names = [group for group in Samples]
 control_group_names = [group for group in Controls]

@@ -281,7 +281,11 @@ if READ_SRC == 'lcr':
     lcr_path =  dict2snake(lcr, dict_type = 'paths', read_src = READ_SRC)
     snakerules.append(lcr_path)
 
-# Source direcotry
+# Source directory
+if ' ' in SRC:
+    ind = SRC.index(' ')
+    SRC = SRC[:ind] + '\\' + SRC[ind:]  
+
 snakerules.append(f'src = \'{SRC}\'\n')
 
 # Read parser
