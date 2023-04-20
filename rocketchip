@@ -325,6 +325,9 @@ with open(GET_GENOME) as fh:
     rule = fh.read()
     assert('GENOME_LOCATION' in rule and 'GENOME' in rule and 'DATA' in rule)
     rule = rule.replace('DATA', DATA)
+    if ' ' in GENOME_LOCATION:
+        ind = GENOME_LOCATION.index(' ')
+        GENOME_LOCATION = GENOME_LOCATION[:ind] + '\\' + GENOME_LOCATION[ind:]  
     rule = rule.replace('GENOME_LOCATION', GENOME_LOCATION)
     rule = rule.replace('GENOME', GENOME_NAME)
     snakerules.append(rule)

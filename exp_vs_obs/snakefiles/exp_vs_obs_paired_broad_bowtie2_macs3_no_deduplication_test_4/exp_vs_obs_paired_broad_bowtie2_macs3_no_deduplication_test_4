@@ -82,7 +82,7 @@ rule make_directories:
 		"05_bigwig_files 06_macs3_peaks"
 
 rule copy_genome:
-	input: "/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_broad/test_4/genome.fa"
+	input: "/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_broad/test_4/genome.fa"
 	output: "/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_broad/test_4/genome/genome.fa"
 	log: "00_logs/copy_genome.log"
 	run:
