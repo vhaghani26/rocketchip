@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 '''
-Note: I ran this script using:
+Note: I ran this script in the exp_vs_obs/ directory:
     python3 01_project_file_generator.py
 '''
 
