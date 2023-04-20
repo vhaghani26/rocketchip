@@ -117,18 +117,27 @@ def dict2snake(reads, dict_type, read_src):
                         read_names.append(read_name)
                     o.append(f'\t\'{group}\': {read_names},\n')
             o.append(f'}}\n')
-    
+            
     elif dict_type == 'paths':
         o.append(f'reads_path = {{\n')
         for sample in reads:
-            for item, i in zip(reads[sample], range(len(reads[sample]))):
-                if ' ' in item:
-                    ind = item.index(' ')
-                    new_item = item[:ind] + '\\' + item[ind:]  
-                    reads[sample][i] = new_item
-                    samps = "', '".join(reads[sample])
-            if type(reads[sample]) == list: o.append(f'\t\'{sample}\': [\'{samps}\'],\n')
-            else: o.append(f'\t\'{sample}\': \'[\'{samps}\']\',\n')
+            if type(reads[sample]) == list:
+                for item, i in zip(reads[sample], range(len(reads[sample]))):
+                    if ' ' in item:
+                        ind = item.index(' ')
+                        new_item = item[:ind] + '\\' + item[ind:] 
+                        reads[sample][i] = new_item
+                        samps = "', '".join(reads[sample])
+                        o.append(f'\t\'{sample}\': [\'{samps}\'],\n')
+                    else:
+                        o.append(f'\t\'{sample}\': {reads[sample]},\n')
+            else:
+                if ' ' in reads[sample]:
+                    ind = reads[sample].index(' ')
+                    new_item = item[:ind] + '\\' + item[ind:] 
+                    reads[sample] = new_item
+                o.append(f'\t\'{sample}\': \'{reads[sample]}\',\n')
+                
         o.append(f'}}\n')
         
     return ''.join(o)
