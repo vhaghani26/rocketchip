@@ -2,15 +2,15 @@ Author: Viktoria_Haghani_and_Aditi_Goyal_and_Alan_Zhang
 Project: exp_vs_obs_paired_broad_bwa_mem_pepr_no_deduplication
 Genome:
   Name: genome
-  Location: ../seq_data/paired_broad/test_1/genome.fa
+  Location: /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_broad/test_1/genome.fa
 Reads:
   Samples:
     grp1: 
-      - ../seq_data/paired_broad/test_1/exp_a
-      - ../seq_data/paired_broad/test_1/exp_b
+      - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs//seq_data/paired_broad/test_1/exp_a
+      - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs//seq_data/paired_broad/test_1/exp_b
   Controls:
     ctl1: 
-      - ../seq_data/paired_broad/test_1/input
+      - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs//seq_data/paired_broad/test_1/input
 Readtype: paired
 Peaktype: broad
 Aligner: bwa_mem
