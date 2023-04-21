@@ -1,0 +1,227 @@
+'''
+Author: Viktoria_Haghani_and_Aditi_Goyal_and_Alan_Zhang
+Project: exp_vs_obs_single_narrow_bwa_mem_pepr_picard
+Genome:
+  Name: genome
+  Location: ../seq_data/single_narrow/test_6/genome.fa
+Reads:
+  Samples:
+    grp1:
+    - ../seq_data/single_narrow/test_6/exp_a
+    - ../seq_data/single_narrow/test_6/exp_b
+  Controls:
+    ctl1:
+    - ../seq_data/single_narrow/test_6/input
+Readtype: single
+Peaktype: narrow
+Aligner: bwa_mem
+Deduplicator: picard
+Peakcaller: pepr
+Threads: 1
+'''
+
+wildcard_constraints:
+	sample='[a-zA-Z0-9_]+',
+	control='[a-zA-Z0-9_]+'
+
+Samples = {
+	'grp1': ['exp_a', 'exp_b'],
+}
+Controls = {
+	'ctl1': ['input'],
+}
+
+reads_path = {
+	'exp_a': '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/single_narrow/test_6/exp_a.fastq.gz',
+	'exp_b': '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/single_narrow/test_6/exp_b.fastq.gz',
+	'input': '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/single_narrow/test_6/input.fastq.gz',
+}
+
+src = '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip'
+
+sample_group_names = [group for group in Samples]
+control_group_names = [group for group in Controls]
+samples = []
+for group in sample_group_names:
+	for sample in Samples[group]: samples.append(sample)
+controls = []
+for group in control_group_names:
+	for sample in Controls[group]: controls.append(sample)
+
+rule all:
+	input:
+		expand("02_fastqc_analysis/{sample}_fastqc.zip", sample=samples),
+		expand("02_fastqc_analysis/{sample}_fastqc.html", sample=samples),
+		expand("02_fastqc_analysis/{sample}_fastqc.zip", sample=controls),
+		expand("02_fastqc_analysis/{sample}_fastqc.html", sample=controls),
+		expand("02_fastqc_analysis/{sample}.sorted.dedup_fastqc.zip", sample=samples),
+		expand("02_fastqc_analysis/{sample}.sorted.dedup_fastqc.html", sample=samples),
+		expand("02_fastqc_analysis/{sample}.sorted.dedup_fastqc.zip", sample=controls),
+		expand("02_fastqc_analysis/{sample}.sorted.dedup_fastqc.html", sample=controls),
+
+		expand("06_pepr_peaks/{sample}_{control}__PePr_parameters.txt",
+			sample=sample_group_names, control=control_group_names),
+
+		expand("05_bigwig_files/{sample}.bw", sample=samples)
+
+rule make_directories:
+	output:
+		directory("00_logs/"),
+		directory("01_raw_data/"),
+		directory("02_fastqc_analysis/"),
+		directory("03_sam_files/"),
+		directory("04_bam_files/"),
+		directory("05_bigwig_files/"),
+		directory("06_pepr_peaks/")
+	shell:
+		"mkdir 00_logs 01_raw_data 02_fastqc_analysis 03_sam_files 04_bam_files "
+		"05_bigwig_files 06_pepr_peaks"
+
+rule copy_genome:
+	input: "/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_6/genome.fa"
+	output: "/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_6/genome/genome.fa"
+	log: "00_logs/copy_genome.log"
+	run:
+		shell("mkdir '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_6/genome' -p")
+		shell("cp '{input}' '{output}'")
+
+rule index_genome:
+	input: "/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_6/genome/genome.fa"
+	output:
+		fa = "/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_6/genome/bwa_indexed_genome/genome.fa",
+		indexers = multiext("/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_6/genome/bwa_indexed_genome/genome", ".amb", ".ann", ".bwt", ".pac", ".sa")
+	log: "00_logs/index_genome.log"
+	run:
+		shell("bwa index -p '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_6/genome/bwa_indexed_genome/genome' -a bwtsw '{input}' 2> '{log}'")
+		shell("ln -sf '{input}' '{output.fa}'")
+		
+rule link_indexed_genome:
+	input: multiext("/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_6/genome/bwa_indexed_genome/genome", ".amb", ".ann", ".bwt", ".pac", ".sa", ".fa")
+	output: multiext("01_raw_data/genome", ".amb", ".ann", ".bwt", ".pac", ".sa", ".fa")
+	log: "00_logs/link_indexed_genome.log"
+	run:
+		shell("ln -sf '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_6/genome/bwa_indexed_genome/genome.amb' '01_raw_data/genome.amb' 2> {log}")
+		shell("ln -sf '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_6/genome/bwa_indexed_genome/genome.ann' '01_raw_data/genome.ann'")
+		shell("ln -sf '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_6/genome/bwa_indexed_genome/genome.bwt' '01_raw_data/genome.bwt'")
+		shell("ln -sf '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_6/genome/bwa_indexed_genome/genome.pac' '01_raw_data/genome.pac'")
+		shell("ln -sf '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_6/genome/bwa_indexed_genome/genome.sa' '01_raw_data/genome.sa'")
+		shell("ln -sf '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_6/genome/bwa_indexed_genome/genome.fa' '01_raw_data/genome.fa'")
+
+def get_path(wildcards, paths = reads_path):
+	return paths[wildcards.sample]
+
+rule link_reads:
+	input: get_path
+	output: "01_raw_data/{sample}.fastq.gz"
+	log: "00_logs/{sample}_link_reads.log"
+	shell:
+		"ln -sf '{input}' '{output}' 2> '{log}'"
+
+rule fastqc_preprocessing:
+	input:
+		"01_raw_data/{sample}.fastq.gz"
+	output:
+		"02_fastqc_analysis/{sample}_fastqc.html",
+		"02_fastqc_analysis/{sample}_fastqc.zip"
+	log:
+		"00_logs/{sample}_fastqc_precheck.log"
+	shell:
+		"fastqc '{input}' --outdir 02_fastqc_analysis/ 2> '{log}'"
+
+rule align_reads:
+	input:
+		genome = multiext("01_raw_data/genome", ".amb", ".ann", ".bwt", ".pac", ".sa"),
+		r = "01_raw_data/{sample}.fastq.gz"
+	output: "03_sam_files/{sample}.sam"
+	log: "00_logs/{sample}_align_reads_err.log"
+	shell:
+		"bwa mem -t 1 '01_raw_data/genome' '{input.r}' > '{output}' 2> '{log}'"
+
+rule sam_to_bam:
+	input: "03_sam_files/{sample}.sam"
+	output: "04_bam_files/{sample}.bam"
+	log: "00_logs/{sample}_sam_to_bam.log"
+	shell: "samtools view -@ 1 -Sb '{input}' > '{output}' 2> '{log}'"
+
+rule sam_fixmate:
+	input: "04_bam_files/{sample}.bam"
+	output: "04_bam_files/{sample}.fixmate.bam"
+	log: "00_logs/{sample}_sam_fixmate.log"
+	shell: "samtools fixmate -@ 1 -rcm -O bam '{input}' '{output}' 2> '{log}'"
+		
+rule sam_sort:
+	input: "04_bam_files/{sample}.fixmate.bam"
+	output: "04_bam_files/{sample}.sorted.fixmate.bam"
+	log: "00_logs/{sample}_sam_sort.log"
+	shell: "samtools sort -@ 1 -O bam '{input}' > '{output}' 2> '{log}'"
+
+rule markdup:
+	input: "04_bam_files/{sample}.sorted.fixmate.bam"
+	output: "04_bam_files/{sample}.sorted.dedup.bam"
+	log: "00_logs/{sample}_sam_markdup.log"
+	run:
+		shell("picard MarkDuplicates --REMOVE_DUPLICATES true -I '{input}' "
+		"-M '{wildcards.sample}.dup_metrics' -O '{output}' 2> '{log}'")
+		shell("mv '{wildcards.sample}.dup_metrics' 04_bam_files/")
+
+rule bam_index:
+	input: "04_bam_files/{sample}.sorted.dedup.bam"
+	output: "04_bam_files/{sample}.sorted.dedup.bam.bai"
+	log: "00_logs/{sample}_bam_index.log"
+	shell: "samtools index -@ 1 '{input}' 2> '{log}'"
+
+rule bam_to_bigwig:
+	input:
+		index = "04_bam_files/{sample}.sorted.dedup.bam.bai",
+		bam = "04_bam_files/{sample}.sorted.dedup.bam"
+	output: "05_bigwig_files/{sample}.bw"
+	log: "00_logs/{sample}_bam_to_bigwig.log"
+	shell:
+		"bamCoverage -b '{input.bam}' -o '{output}' 2> '{log}'"
+
+def sample_group(wildcards):
+	group = Samples[wildcards.sample]
+	return expand("04_bam_files/{sample}.sorted.dedup.bam", sample = group)
+
+def sample_index_group(wildcards):
+	group = Samples[wildcards.sample]
+	return expand("04_bam_files/{sample}.sorted.dedup.bam.bai", sample = group)
+
+def control_group(wildcards):
+	group = Controls[wildcards.control]
+	return expand("04_bam_files/{sample}.sorted.dedup.bam", sample = group)
+
+def control_index_group(wildcards):
+	group = Controls[wildcards.control]
+	return expand("04_bam_files/{sample}.sorted.dedup.bam.bai", sample = group)
+		
+rule call_peaks:
+	input:
+		s = sample_group,
+		c = control_group,
+		si = sample_index_group,
+		ci = control_index_group
+	output: "06_pepr_peaks/{sample}_{control}__PePr_parameters.txt"
+	log: "00_logs/{sample}_{control}_pepr_peaks.log"
+	run:
+		sample_list = []
+		control_list = []
+		for input_file in input.s: sample_list.append(f'\'{input_file}\'')
+		for control_file in input.c: control_list.append(f'\'{control_file}\'')
+		sample_input = ','.join(sample_list)
+		control_input = ','.join(control_list)
+		
+		shell("PePr -f bam --peaktype sharp --num-processors 1 "
+			"-c {sample_input} -i {control_input} --output-directory 06_pepr_peaks "
+			"-n '{wildcards.sample}_{wildcards.control}' 2> '{log}'")
+
+rule fastqc_postprocessing:
+	input:
+		"04_bam_files/{sample}.sorted.dedup.bam"
+	output:
+		"02_fastqc_analysis/{sample}.sorted.dedup_fastqc.html",
+		"02_fastqc_analysis/{sample}.sorted.dedup_fastqc.zip"
+	log:
+		"00_logs/{sample}_fastqc_postprocessing.log"
+	shell:
+		"fastqc '{input}' --outdir 02_fastqc_analysis/ 2> '{log}'"
