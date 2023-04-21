@@ -33,11 +33,8 @@ Controls = {
 
 reads_path = {
 	'exp_a': ['/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/paired_broad/test_2/exp_a_1.fastq.gz', '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/paired_broad/test_2/exp_a_2.fastq.gz'],
-	'exp_a': ['/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/paired_broad/test_2/exp_a_1.fastq.gz', '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/paired_broad/test_2/exp_a_2.fastq.gz'],
 	'exp_b': ['/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/paired_broad/test_2/exp_b_1.fastq.gz', '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/paired_broad/test_2/exp_b_2.fastq.gz'],
-	'exp_b': ['/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/paired_broad/test_2/exp_b_1.fastq.gz', '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/paired_broad/test_2/exp_b_2.fastq.gz'],
 	'input': ['/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/paired_broad/test_2/input_1.fastq.gz', '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/paired_broad/test_2/input_2.fastq.gz'],
-	'input': ['/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/paired_broad/test_2/input_1.fastq.gz', '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/paired_broad/test_2/input_2.fastq.gz'],
 }
 
 src = '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip'

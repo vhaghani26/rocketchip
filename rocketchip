@@ -129,8 +129,10 @@ def dict2snake(reads, dict_type, read_src):
                         reads[sample][i] = new_item
                         samps = "', '".join(reads[sample])
                         o.append(f'\t\'{sample}\': [\'{samps}\'],\n')
+                        break
                     else:
                         o.append(f'\t\'{sample}\': {reads[sample]},\n')
+                        break
             else:
                 if ' ' in reads[sample]:
                     ind = reads[sample].index(' ')
