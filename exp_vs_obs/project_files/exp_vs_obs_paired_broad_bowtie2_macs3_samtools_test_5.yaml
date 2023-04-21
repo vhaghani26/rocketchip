@@ -6,11 +6,11 @@ Genome:
 Reads:
   Samples:
     grp1: 
-      - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs//seq_data/paired_broad/test_5/exp_a
-      - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs//seq_data/paired_broad/test_5/exp_b
+      - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_broad/test_5/exp_a
+      - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_broad/test_5/exp_b
   Controls:
     ctl1: 
-      - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs//seq_data/paired_broad/test_5/input
+      - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_broad/test_5/input
 Readtype: paired
 Peaktype: broad
 Aligner: bowtie2
