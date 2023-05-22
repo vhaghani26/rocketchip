@@ -7,7 +7,7 @@ Note: I ran this script in the main rocketchip directory using:
 
 import os
 
-readtypes = ["paired", "single"]
+readtypes = ["paired"]#, "single"]
 peaktypes = ["narrow", "broad"]
 aligners = ["bwa_mem", "bowtie2", "STAR"]
 peakcallers = ["macs3", "cisgenome", "genrich", "pepr"]
