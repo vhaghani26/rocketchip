@@ -186,7 +186,7 @@ RULES_DIR       = f'{SRC}/rules'
 #####################
 
 config = None
-with open(CONFIGFILE_PATH, 'r') as yamlfile: config = yaml.safe_load(yamlfile)
+with open(arg.configfile, 'r') as yamlfile: config = yaml.safe_load(yamlfile)
 (GENOME_NAME, GENOME_LOCATION, READTYPE, PEAKTYPE,
 ALIGNER, DEDUPLICATOR, PEAKCALLER, CONTROL, THREADS) = read_config(config)
 
@@ -210,9 +210,10 @@ for sample_type in config['Reads']:
     for group in config['Reads'][sample_type]:
         for read in config['Reads'][sample_type][group]:
             read_dir  = os.path.dirname(read)
-            read_dir = re.sub(' ', '\ ', read_dir)
+            #read_dir = re.sub(' ', '\ ', read_dir)
             read_name = os.path.basename(read)
             read_name = re.sub(' ', '\ ', read_name)
+            # Handle SRA entries
             if read_name.startswith(('SRR', 'ERR', 'DRR')):
                 if read_name in sra: continue
                 sys.stderr.write(f'SRA entry detected... assessing read type (paired/single) for {read_name}\n')
@@ -230,6 +231,7 @@ for sample_type in config['Reads']:
                     sys.exit(f'Inconsistent read type...\n{read_name} has type: {readtype} while config file input is Readtype: {READTYPE}')
                 sys.stderr.write(f'{read_name} has read type: {readtype}\n')
                 sra.append(read_name)
+            # Handle local data
             elif os.path.isdir(f'{CONFIGFILE_DIR}/{read_dir}') or os.path.isabs(read_dir):
                 if READTYPE == 'single':
                     if os.path.isabs(read_dir):
@@ -247,12 +249,17 @@ for sample_type in config['Reads']:
                     else:
                         read_1_path = f'{CONFIGFILE_DIR}/{read_dir}/{read_name}_1.fastq.gz'
                         read_2_path = f'{CONFIGFILE_DIR}/{read_dir}/{read_name}_2.fastq.gz'
-                    two_reads = os.path.isfile(read_1_path) and os.path.isfile(read_2_path)
+                    tmp_read_1_path = re.sub('\ ', ' ', read_1_path)
+                    tmp_read_2_path = re.sub('\ ', ' ', read_2_path)
+                    two_reads = os.path.isfile(tmp_read_1_path) and os.path.isfile(tmp_read_2_path)
+                    print(two_reads)
                     if two_reads:
+                        print("Number 3")
                         if read_name not in lcr:
                             lcr[read_name] = [read_1_path, read_2_path]
                     else:
-                        sys.exit(f'Error: Missing one of or both reads from {read_name} in {read_dir}; Double check input for Readtype or Reads')
+                        print("Number 4")
+                        sys.exit(f'Error: Missing one or both reads from {read_name} in {read_dir}; Double check input for Readtype or Reads')
                 else:
                     sys.exit(f'Error: Invalid read type: {READTYPE}')
             else:
