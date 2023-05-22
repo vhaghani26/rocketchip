@@ -210,7 +210,6 @@ for sample_type in config['Reads']:
     for group in config['Reads'][sample_type]:
         for read in config['Reads'][sample_type][group]:
             read_dir  = os.path.dirname(read)
-            #read_dir = re.sub(' ', '\ ', read_dir)
             read_name = os.path.basename(read)
             read_name = re.sub(' ', '\ ', read_name)
             # Handle SRA entries
@@ -249,16 +248,12 @@ for sample_type in config['Reads']:
                     else:
                         read_1_path = f'{CONFIGFILE_DIR}/{read_dir}/{read_name}_1.fastq.gz'
                         read_2_path = f'{CONFIGFILE_DIR}/{read_dir}/{read_name}_2.fastq.gz'
-                    tmp_read_1_path = re.sub('\ ', ' ', read_1_path)
-                    tmp_read_2_path = re.sub('\ ', ' ', read_2_path)
-                    two_reads = os.path.isfile(tmp_read_1_path) and os.path.isfile(tmp_read_2_path)
+                    two_reads = os.path.exists(read_1_path) and os.path.exists(read_2_path)
                     print(two_reads)
                     if two_reads:
-                        print("Number 3")
                         if read_name not in lcr:
                             lcr[read_name] = [read_1_path, read_2_path]
                     else:
-                        print("Number 4")
                         sys.exit(f'Error: Missing one or both reads from {read_name} in {read_dir}; Double check input for Readtype or Reads')
                 else:
                     sys.exit(f'Error: Invalid read type: {READTYPE}')
