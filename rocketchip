@@ -6,6 +6,11 @@ import yaml
 import sys
 import os
 import re
+'''
+import re
+s = "with multiple spaces"
+n = re.sub(' ', '\ ', s)
+'''
 
 parser = argparse.ArgumentParser(description='Make Snakefiles')
 parser.add_argument('configfile', type=str, metavar='<path>',
