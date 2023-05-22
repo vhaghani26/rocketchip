@@ -6,11 +6,6 @@ import yaml
 import sys
 import os
 import re
-'''
-import re
-s = "with multiple spaces"
-n = re.sub(' ', '\ ', s)
-'''
 
 parser = argparse.ArgumentParser(description='Make Snakefiles')
 parser.add_argument('configfile', type=str, metavar='<path>',
@@ -105,6 +100,7 @@ def dict2snake(reads, dict_type, read_src):
                 read_names = []
                 for read in reads[s][group]:
                     read_name = os.path.basename(read)
+                    read_name = re.sub(' ', '\ ', read_name)
                     read_names.append(read_name)
                 o.append(f'\t\'{group}\': {read_names},\n')
         o.append(f'}}\n')
@@ -119,6 +115,7 @@ def dict2snake(reads, dict_type, read_src):
                     read_names = []
                     for read in reads[c][group]:
                         read_name = os.path.basename(read)
+                        read_name = re.sub(' ', '\ ', read_name)
                         read_names.append(read_name)
                     o.append(f'\t\'{group}\': {read_names},\n')
             o.append(f'}}\n')
@@ -159,20 +156,29 @@ if 'ROCKETCHIP_DATA' not in os.environ:
 if not os.path.isdir(os.environ['ROCKETCHIP_DATA']):
     sys.exit('Error: ROCKETCHIP_DATA is not a directory')
 DATA = os.path.abspath(os.environ['ROCKETCHIP_DATA'])
+DATA = re.sub(' ', '\ ', DATA)
 
 # Source environment
 if arg.src: os.environ['ROCKETCHIP_SRC'] = arg.src
 if 'ROCKETCHIP_SRC' not in os.environ:
     sys.exit('Error: ROCKETCHIP_SRC not in environment; set ROCKETCHIP_SRC or use --src')
 testrule = f'{os.environ["ROCKETCHIP_SRC"]}/rules/parse_reads/parse_reads_with_control.txt'
+testrule = re.sub(' ', '\ ', testrule)
 if not os.path.isfile(testrule):
     sys.exit('Error: Incorrect ROCKETCHIP_SRC')
 SRC = os.path.abspath(os.environ['ROCKETCHIP_SRC'])
+SRC = re.sub(' ', '\ ', SRC)
 
 # Current and config file locaitons
 CURRENT_DIR     = os.getcwd()
+CURRENT_DIR = re.sub(' ', '\ ', CURRENT_DIR)
+
 CONFIGFILE_PATH = os.path.abspath(arg.configfile)
+CONFIGFILE_PATH = re.sub(' ', '\ ', CONFIGFILE_PATH)
+
 CONFIGFILE_DIR  = os.path.dirname(CONFIGFILE_PATH)
+CONFIGFILE_DIR = re.sub(' ', '\ ', CONFIGFILE_DIR)
+
 RULES_DIR       = f'{SRC}/rules'
 
 #####################
@@ -180,7 +186,7 @@ RULES_DIR       = f'{SRC}/rules'
 #####################
 
 config = None
-with open(arg.configfile, 'r') as yamlfile: config = yaml.safe_load(yamlfile)
+with open(CONFIGFILE_PATH, 'r') as yamlfile: config = yaml.safe_load(yamlfile)
 (GENOME_NAME, GENOME_LOCATION, READTYPE, PEAKTYPE,
 ALIGNER, DEDUPLICATOR, PEAKCALLER, CONTROL, THREADS) = read_config(config)
 
@@ -189,6 +195,7 @@ ALIGNER, DEDUPLICATOR, PEAKCALLER, CONTROL, THREADS) = read_config(config)
 #######################
 if os.path.isfile(f'{CONFIGFILE_DIR}/{GENOME_LOCATION}'):
     GENOME_LOCATION = os.path.abspath(f'{CONFIGFILE_DIR}/{GENOME_LOCATION}')
+    GENOME_LOCATION = re.sub(' ', '\ ', GENOME_LOCATION)
 if not os.path.isabs(GENOME_LOCATION) and not GENOME_LOCATION.startswith(('http://', 'https://')):
     sys.exit('Error: Invalid path to local genome or url to remote genome in configfile in section Genome: Location')
 
@@ -203,10 +210,12 @@ for sample_type in config['Reads']:
     for group in config['Reads'][sample_type]:
         for read in config['Reads'][sample_type][group]:
             read_dir  = os.path.dirname(read)
+            read_dir = re.sub(' ', '\ ', read_dir)
             read_name = os.path.basename(read)
+            read_name = re.sub(' ', '\ ', read_name)
             if read_name.startswith(('SRR', 'ERR', 'DRR')):
                 if read_name in sra: continue
-                sys.stderr.write(f'sra entry detected... assessing read type (paired/single) for {read_name}\n')
+                sys.stderr.write(f'SRA entry detected... assessing read type (paired/single) for {read_name}\n')
                 page = urllib.request.urlopen(f'https://www.ncbi.nlm.nih.gov/sra/?term={read_name}')
                 html = page.read().decode('UTF-8')
                 page.close()
@@ -296,11 +305,6 @@ if READ_SRC == 'lcr':
     lcr_path =  dict2snake(lcr, dict_type = 'paths', read_src = READ_SRC)
     snakerules.append(lcr_path)
 
-# Source directory
-if ' ' in SRC:
-    ind = SRC.index(' ')
-    SRC = SRC[:ind] + '\\' + SRC[ind:]  
-
 snakerules.append(f'src = \'{SRC}\'\n')
 
 # Read parser
@@ -339,13 +343,7 @@ else: GET_GENOME = f'{RULES_DIR}/get_genome/remote_genome.txt'
 with open(GET_GENOME) as fh:
     rule = fh.read()
     assert('GENOME_LOCATION' in rule and 'GENOME' in rule and 'DATA' in rule)
-    if ' ' in DATA:
-        ind = DATA.index(' ')
-        DATA = DATA[:ind] + '\\' + DATA[ind:]
     rule = rule.replace('DATA', DATA)
-    if ' ' in GENOME_LOCATION:
-        ind = GENOME_LOCATION.index(' ')
-        GENOME_LOCATION = GENOME_LOCATION[:ind] + '\\' + GENOME_LOCATION[ind:]  
     rule = rule.replace('GENOME_LOCATION', GENOME_LOCATION)
     rule = rule.replace('GENOME', GENOME_NAME)
     snakerules.append(rule)
@@ -464,4 +462,4 @@ if arg.output_file:
     with open(arg.output_file, 'w') as fh: fh.write('\n'.join(snakerules))
 else:
     print('\n'.join(snakerules))
-
+    
