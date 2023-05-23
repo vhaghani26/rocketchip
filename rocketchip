@@ -126,9 +126,7 @@ def dict2snake(reads, dict_type, read_src):
             if type(reads[sample]) == list:
                 for item, i in zip(reads[sample], range(len(reads[sample]))):
                     if ' ' in item:
-                        ind = item.index(' ')
-                        new_item = item[:ind] + '\\' + item[ind:] 
-                        reads[sample][i] = new_item
+                        reads[sample][i] = item
                         samps = "', '".join(reads[sample])
                 if ' ' in reads[sample][0]:
                     o.append(f'\t\'{sample}\': [\'{samps}\'],\n')
