@@ -248,13 +248,11 @@ for sample_type in config['Reads']:
                     else:
                         read_1_path = f'{CONFIGFILE_DIR}/{read_dir}/{read_name}_1.fastq.gz'
                         read_2_path = f'{CONFIGFILE_DIR}/{read_dir}/{read_name}_2.fastq.gz'
-                    print(read_1_path.split(r'\ '))
-                    print(read_1_path.join)
-                    two_reads = os.path.exists(read_1_path) and os.path.exists(read_2_path)
-                    print("Read path 1: ", read_1_path)
-                    print("Read 1 exists: ", os.path.exists(read_1_path))
-                    print("Read path 2: ", read_2_path)
-                    print("Read 2 exists: ", os.path.exists(read_2_path))
+                    tmp_read_1_path = read_1_path.split(r'\ ')
+                    tmp_read_1_path = ' '.join(tmp_read_1_path)
+                    tmp_read_2_path = read_2_path.split(r'\ ')
+                    tmp_read_2_path = ' '.join(tmp_read_2_path)
+                    two_reads = os.path.exists(tmp_read_1_path) and os.path.exists(tmp_read_2_path)
                     if two_reads:
                         if read_name not in lcr:
                             lcr[read_name] = [read_1_path, read_2_path]
