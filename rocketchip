@@ -237,7 +237,9 @@ for sample_type in config['Reads']:
                         read_path = f'{read_dir}/{read_name}.fastq.gz'
                     else:
                         read_path = f'{CONFIGFILE_DIR}/{read_dir}/{read_name}.fastq.gz'
-                    if os.path.isfile(read_path):
+                    tmp_read_path = read_path.split(r'\ ')
+                    tmp_read_path = ' '.join(tmp_read_path)                    
+                    if os.path.isfile(tmp_read_path):
                         if read_name not in lcr: lcr[read_name] = read_path
                     else:
                         sys.exit(f'Error: Missing {read_name}.fastq.gz in {read_dir}; Double check input for Readtype or Reads')

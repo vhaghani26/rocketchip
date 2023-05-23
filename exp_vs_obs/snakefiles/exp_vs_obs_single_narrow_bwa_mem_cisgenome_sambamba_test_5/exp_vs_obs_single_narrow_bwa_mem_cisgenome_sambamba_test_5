@@ -3,15 +3,15 @@ Author: Viktoria_Haghani_and_Aditi_Goyal_and_Alan_Zhang
 Project: exp_vs_obs_single_narrow_bwa_mem_cisgenome_sambamba
 Genome:
   Name: genome
-  Location: ../seq_data/single_narrow/test_5/genome.fa
+  Location: /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome.fa
 Reads:
   Samples:
     grp1:
-    - ../seq_data/single_narrow/test_5/exp_a
-    - ../seq_data/single_narrow/test_5/exp_b
+    - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/exp_a
+    - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/exp_b
   Controls:
     ctl1:
-    - ../seq_data/single_narrow/test_5/input
+    - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/input
 Readtype: single
 Peaktype: narrow
 Aligner: bwa_mem
@@ -32,9 +32,9 @@ Controls = {
 }
 
 reads_path = {
-	'exp_a': '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/single_narrow/test_5/exp_a.fastq.gz',
-	'exp_b': '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/single_narrow/test_5/exp_b.fastq.gz',
-	'input': '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/project_files/../seq_data/single_narrow/test_5/input.fastq.gz',
+	'exp_a': '/mnt/c/Users/Viki\\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/exp_a.fastq.gz',
+	'exp_b': '/mnt/c/Users/Viki\\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/exp_b.fastq.gz',
+	'input': '/mnt/c/Users/Viki\\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/input.fastq.gz',
 }
 
 src = '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip'
