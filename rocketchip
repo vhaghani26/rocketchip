@@ -133,10 +133,6 @@ def dict2snake(reads, dict_type, read_src):
                 else:
                     o.append(f'\t\'{sample}\': {reads[sample]},\n')
             else:
-                if ' ' in reads[sample]:
-                    ind = reads[sample].index(' ')
-                    new_item = reads[sample][:ind] + '\\' + reads[sample][ind:] 
-                    reads[sample] = new_item
                 o.append(f'\t\'{sample}\': \'{reads[sample]}\',\n')
                 
         o.append(f'}}\n')
