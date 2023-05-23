@@ -32,9 +32,9 @@ Controls = {
 }
 
 reads_path = {
-	'exp_a': '/mnt/c/Users/Viki\\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_6/exp_a.fastq.gz',
-	'exp_b': '/mnt/c/Users/Viki\\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_6/exp_b.fastq.gz',
-	'input': '/mnt/c/Users/Viki\\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_6/input.fastq.gz',
+	'exp_a': '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_6/exp_a.fastq.gz',
+	'exp_b': '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_6/exp_b.fastq.gz',
+	'input': '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_broad/test_6/input.fastq.gz',
 }
 
 src = '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip'
