@@ -333,11 +333,15 @@ else:
     RULE_ALL_FASTQ = f'{RULES_DIR}/rule_all/fastq/fastq_no_control_{READTYPE}.txt'
     RULE_ALL_PEAKCALLER = f'{RULES_DIR}/rule_all/peaks/{PEAKCALLER}_no_control.txt'
 for rule in (RULE_ALL_FASTQ, RULE_ALL_PEAKCALLER, RULE_ALL_BIGWIG):
-    with open(rule) as fh: snakerules.append(fh.read())
+    tmp_rule = rule.split(r'\ ')
+    tmp_rule = ' '.join(tmp_rule)
+    with open(tmp_rule) as fh: snakerules.append(fh.read())
 
 # Make directories
 MAKE_DIR = f'{RULES_DIR}/make_dir/make_dir.txt'
-with open(MAKE_DIR) as fh:
+tmp_MAKE_DIR = MAKE_DIR.split(r'\ ')
+tmp_MAKE_DIR = ' '.join(tmp_MAKE_DIR)
+with open(tmp_MAKE_DIR) as fh:
     rule = fh.read()
     assert('PEAKCALLER' in rule)
     rule = rule.replace('PEAKCALLER', PEAKCALLER)
@@ -347,7 +351,9 @@ with open(MAKE_DIR) as fh:
 GET_GENOME = None
 if os.path.isabs(GENOME_LOCATION): GET_GENOME = f'{RULES_DIR}/get_genome/local_genome.txt'
 else: GET_GENOME = f'{RULES_DIR}/get_genome/remote_genome.txt'
-with open(GET_GENOME) as fh:
+tmp_GET_GENOME = GET_GENOME.split(r'\ ')
+tmp_GET_GENOME = ' '.join(tmp_GET_GENOME)
+with open(tmp_GET_GENOME) as fh:
     rule = fh.read()
     assert('GENOME_LOCATION' in rule and 'GENOME' in rule and 'DATA' in rule)
     rule = rule.replace('DATA', DATA)
