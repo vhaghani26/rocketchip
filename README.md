@@ -12,7 +12,7 @@ Rocketchip is an automated bioinformatics workflow that is capable of analyzing 
 
 Rocketchip was created using the Python-based workflow manager, Snakemake. Both single- and paired-end data can be used, albiet they must be run separately. Public ChIP-seq data is downloaded directly from the SRA using the SRA Toolkit (sra-tools, v2.10.9). The raw sequence read file is then split into its respective paired-end read files by the SRA Toolkit (if the data is paired-end) and converted into FASTQ file format (sra-tools, v2.10.9). Reads are aligned to the genome of the user's choice from the UCSC Genome Browser using the Burrows-Wheeler Algorithm (BWA) Maximal Exact Match (MEM) software (bwa, v0.7.17). Samtools (samtools, v1.12) is used for file format conversion and deduplication of sequence data. Deeptools (deeptools, v3.5.1) is used to convert data to the bigwig file format, which can be used for visualization of ChIP-seq data in the UCSC Genome Browser or other visualization tools. Peaks are called using MACS2 (macs2, v2.2.7.1). FastQC (fastqc, v0.11.9) carries out a sequence quality control analysis pre-processing, on the raw sequence data, and post-processing, after sequence alignment takes place. Overall, this workflow carries out the major steps of ChIP-seq data analysis and generates output files to be used as figures and to be used in further analysis.
 
-![Workflow](https://github.com/vhaghani26/rocketchip/blob/main/Rocketchip_Workflow.png)
+![Workflow](https://github.com/vhaghani26/rocketchip/blob/main/rocketchip_workflow.png)
 
 ## Getting Started
 
