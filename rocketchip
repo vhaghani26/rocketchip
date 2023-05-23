@@ -318,7 +318,9 @@ if CONTROL:
     READ_PARSER = f'{RULES_DIR}/parse_reads/parse_reads_with_control.txt'
 else:
     READ_PARSER = f'{RULES_DIR}/parse_reads/parse_reads_no_control.txt'
-with open(READ_PARSER) as fh: snakerules.append(fh.read())
+tmp_READ_PARSER = READ_PARSER.split(r'\ ')
+tmp_READ_PARSER = ' '.join(tmp_READ_PARSER)
+with open(tmp_READ_PARSER) as fh: snakerules.append(fh.read())
 
 # Rule all: fastq files, peak files, bigwig file
 RULE_ALL_FASTQ = None
@@ -467,4 +469,3 @@ if arg.output_file:
     with open(arg.output_file, 'w') as fh: fh.write('\n'.join(snakerules))
 else:
     print('\n'.join(snakerules))
-    
