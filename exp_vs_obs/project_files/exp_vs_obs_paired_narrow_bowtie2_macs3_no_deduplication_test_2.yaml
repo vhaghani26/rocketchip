@@ -2,15 +2,15 @@ Author: Viktoria_Haghani_and_Aditi_Goyal_and_Alan_Zhang
 Project: exp_vs_obs_paired_narrow_bowtie2_macs3_no_deduplication
 Genome:
   Name: genome
-  Location: '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_2/genome.fa'
+  Location: /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_2/genome.fa
 Reads:
   Samples:
     grp1: 
-      - '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_2/exp_a'
-      - '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_2/exp_b'
+      - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_2/exp_a
+      - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_2/exp_b
   Controls:
     ctl1: 
-      - '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_2/input'
+      - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_2/input
 Readtype: paired
 Peaktype: narrow
 Aligner: bowtie2
