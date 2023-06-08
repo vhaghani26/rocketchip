@@ -25,15 +25,15 @@ for readtype in readtypes:
                         Project: exp_vs_obs_{readtype}_{peaktype}_{aligner}_{peakcaller}_{deduplicator}
                         Genome:
                           Name: genome
-                          Location: '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/{readtype}_{peaktype}/test_{i}/genome.fa'
+                          Location: /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/{readtype}_{peaktype}/test_{i}/genome.fa
                         Reads:
                           Samples:
                             grp1: 
-                              - '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/{readtype}_{peaktype}/test_{i}/exp_a'
-                              - '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/{readtype}_{peaktype}/test_{i}/exp_b'
+                              - /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/{readtype}_{peaktype}/test_{i}/exp_a
+                              - /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/{readtype}_{peaktype}/test_{i}/exp_b
                           Controls:
                             ctl1: 
-                              - '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/{readtype}_{peaktype}/test_{i}/input'
+                              - /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/{readtype}_{peaktype}/test_{i}/input
                         Readtype: {readtype}
                         Peaktype: {peaktype}
                         Aligner: {aligner}

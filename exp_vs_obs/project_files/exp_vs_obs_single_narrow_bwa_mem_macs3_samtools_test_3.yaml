@@ -2,15 +2,15 @@ Author: Viktoria_Haghani_and_Aditi_Goyal_and_Alan_Zhang
 Project: exp_vs_obs_single_narrow_bwa_mem_macs3_samtools
 Genome:
   Name: genome
-  Location: '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_3/genome.fa'
+  Location: /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_3/genome.fa
 Reads:
   Samples:
     grp1: 
-      - '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_3/exp_a'
-      - '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_3/exp_b'
+      - /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_3/exp_a
+      - /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_3/exp_b
   Controls:
     ctl1: 
-      - '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_3/input'
+      - /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_3/input
 Readtype: single
 Peaktype: narrow
 Aligner: bwa_mem
