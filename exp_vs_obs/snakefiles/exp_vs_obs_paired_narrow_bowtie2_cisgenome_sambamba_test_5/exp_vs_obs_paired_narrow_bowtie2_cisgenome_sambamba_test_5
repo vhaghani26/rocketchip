@@ -3,15 +3,15 @@ Author: Viktoria_Haghani_and_Aditi_Goyal_and_Alan_Zhang
 Project: exp_vs_obs_paired_narrow_bowtie2_cisgenome_sambamba
 Genome:
   Name: genome
-  Location: /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/genome.fa
+  Location: /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/genome.fa
 Reads:
   Samples:
     grp1:
-    - /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/exp_a
-    - /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/exp_b
+    - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/exp_a
+    - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/exp_b
   Controls:
     ctl1:
-    - /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/input
+    - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/input
 Readtype: paired
 Peaktype: narrow
 Aligner: bowtie2
@@ -32,9 +32,9 @@ Controls = {
 }
 
 reads_path = {
-	'exp_a': ['/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/exp_a_1.fastq.gz', '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/exp_a_2.fastq.gz'],
-	'exp_b': ['/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/exp_b_1.fastq.gz', '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/exp_b_2.fastq.gz'],
-	'input': ['/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/input_1.fastq.gz', '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/input_2.fastq.gz'],
+	'exp_a': ['/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/exp_a_1.fastq.gz', '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/exp_a_2.fastq.gz'],
+	'exp_b': ['/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/exp_b_1.fastq.gz', '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/exp_b_2.fastq.gz'],
+	'input': ['/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/input_1.fastq.gz', '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/input_2.fastq.gz'],
 }
 
 src = '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip'
@@ -82,7 +82,7 @@ rule make_directories:
 		"05_bigwig_files 06_cisgenome_peaks"
 
 rule copy_genome:
-	input: "/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/genome.fa"
+	input: "/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/genome.fa"
 	output: "/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/paired_narrow/test_5/genome/genome.fa"
 	log: "00_logs/copy_genome.log"
 	run:
