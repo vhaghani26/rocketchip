@@ -3,15 +3,15 @@ Author: Viktoria_Haghani_and_Aditi_Goyal_and_Alan_Zhang
 Project: exp_vs_obs_single_narrow_bwa_mem_macs3_samtools
 Genome:
   Name: genome
-  Location: /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome.fa
+  Location: /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome.fa
 Reads:
   Samples:
     grp1:
-    - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/exp_a
-    - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/exp_b
+    - /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/exp_a
+    - /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/exp_b
   Controls:
     ctl1:
-    - /mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/input
+    - /mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/input
 Readtype: single
 Peaktype: narrow
 Aligner: bwa_mem
@@ -32,12 +32,12 @@ Controls = {
 }
 
 reads_path = {
-	'exp_a': '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/exp_a.fastq.gz',
-	'exp_b': '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/exp_b.fastq.gz',
-	'input': '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/input.fastq.gz',
+	'exp_a': '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/exp_a.fastq.gz',
+	'exp_b': '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/exp_b.fastq.gz',
+	'input': '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/input.fastq.gz',
 }
 
-src = '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip'
+src = '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip'
 
 sample_group_names = [group for group in Samples]
 control_group_names = [group for group in Controls]
@@ -78,34 +78,34 @@ rule make_directories:
 		"05_bigwig_files 06_macs3_peaks"
 
 rule copy_genome:
-	input: "/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome.fa"
-	output: "/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/genome.fa"
+	input: "/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome.fa"
+	output: "/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/genome.fa"
 	log: "00_logs/copy_genome.log"
 	run:
-		shell("mkdir '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome' -p")
+		shell("mkdir '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome' -p")
 		shell("cp '{input}' '{output}'")
 
 rule index_genome:
-	input: "/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/genome.fa"
+	input: "/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/genome.fa"
 	output:
-		fa = "/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome.fa",
-		indexers = multiext("/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome", ".amb", ".ann", ".bwt", ".pac", ".sa")
+		fa = "/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome.fa",
+		indexers = multiext("/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome", ".amb", ".ann", ".bwt", ".pac", ".sa")
 	log: "00_logs/index_genome.log"
 	run:
-		shell("bwa index -p '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome' -a bwtsw '{input}' 2> '{log}'")
+		shell("bwa index -p '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome' -a bwtsw '{input}' 2> '{log}'")
 		shell("ln -sf '{input}' '{output.fa}'")
 		
 rule link_indexed_genome:
-	input: multiext("/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome", ".amb", ".ann", ".bwt", ".pac", ".sa", ".fa")
+	input: multiext("/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome", ".amb", ".ann", ".bwt", ".pac", ".sa", ".fa")
 	output: multiext("01_raw_data/genome", ".amb", ".ann", ".bwt", ".pac", ".sa", ".fa")
 	log: "00_logs/link_indexed_genome.log"
 	run:
-		shell("ln -sf '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome.amb' '01_raw_data/genome.amb' 2> {log}")
-		shell("ln -sf '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome.ann' '01_raw_data/genome.ann'")
-		shell("ln -sf '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome.bwt' '01_raw_data/genome.bwt'")
-		shell("ln -sf '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome.pac' '01_raw_data/genome.pac'")
-		shell("ln -sf '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome.sa' '01_raw_data/genome.sa'")
-		shell("ln -sf '/mnt/c/Users/Viki\ Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome.fa' '01_raw_data/genome.fa'")
+		shell("ln -sf '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome.amb' '01_raw_data/genome.amb' 2> {log}")
+		shell("ln -sf '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome.ann' '01_raw_data/genome.ann'")
+		shell("ln -sf '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome.bwt' '01_raw_data/genome.bwt'")
+		shell("ln -sf '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome.pac' '01_raw_data/genome.pac'")
+		shell("ln -sf '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome.sa' '01_raw_data/genome.sa'")
+		shell("ln -sf '/mnt/c/Users/Viki Haghani/Documents/Github/rocketchip/exp_vs_obs/seq_data/single_narrow/test_5/genome/bwa_indexed_genome/genome.fa' '01_raw_data/genome.fa'")
 
 def get_path(wildcards, paths = reads_path):
 	return paths[wildcards.sample]
