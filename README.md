@@ -4,6 +4,96 @@ v0.0.3
 
 **Rocketchip is currently being redone. The README.md will be redone shortly to include updated usage instructions and a tutorial for getting started.**
 
+_______________________________________________________________________________________________
+
+## Table of Contents
+
+* [Project Set-Up](#project-set-up)
+	* [Setting Up Your Project Directory](#setting-up-your-project-directory)
+	* [Installation](#installation)
+* [Running `rocketchip`](#running-rocketchip)
+	* [Making a Project File](#making-a-project-file)
+	* [Running `rocketchip` Locally](#running-rocketchip-Locally)
+	* [Running `rocketchip` on SLURM (Recommended)](#Running-rocketchip-on-SLURM-Recommended)
+* [Tutorial](#tutorial)
+* [Interpretting Outputs](#Interpretting-Outputs)
+
+## Project Set-Up
+
+### Setting Up Your Project Directory
+
+Clone the repository using your project name in the directory you plan to host the project:
+
+```
+git clone https://github.com/vhaghani26/rocketchip {project_name}
+```
+
+Enter the directory
+
+```
+cd {project_name}
+```
+
+### Installation
+
+Run the following command in your project directory. It will clone the conda environment with all dependencies needed in order to run the workflow outlined here. This creates an environment called `rocketchip`. If you would like to change the name, feel free to do so where the command says `rocketchip`. Please note that this may take quite a few minutes to run.
+
+```
+conda env create -f 00_software/environment.yml --name rocketchip
+```
+
+Activate your environment using
+
+```
+conda activate rocketchip
+```
+
+Run everything downstream of this point in this conda environment. Note that you must activate this environment every time you restart your terminal.
+
+## Running `rocketchip`
+
+### Making a Project File
+
+### Running `rocketchip` Locally
+
+### Running `rocketchip` on SLURM (Recommended)
+
+## Tutorial
+
+## Interpretting Outputs
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+_______________________________________________________________________________________________
+
 ## What is Rocketchip?
 
 Rocketchip is an automated bioinformatics workflow that is capable of analyzing local ChIP-seq data or ChIP-seq data from the National Center for Biotechnology Information (NCBI) Sequence Read Archive (SRA), the largest publicly available sequence data database. Rocketchip takes raw data inputs and generates the files required for data visualization and peak delineation.
