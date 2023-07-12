@@ -7,4 +7,5 @@
 05_bigwig_files/
 06_macs2_peaks/
 exp_vs_obs/
+tools/cisgenome/
 __pycache__
