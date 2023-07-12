@@ -42,7 +42,7 @@ cd {project_name}
 Run the following command in your project directory. It will clone the conda environment with all dependencies needed in order to run the workflow outlined here. This creates an environment called `rocketchip`. If you would like to change the name, feel free to do so where the command says `rocketchip`. Please note that this may take quite a few minutes to run.
 
 ```
-conda env create -f 00_software/environment.yml --name rocketchip
+conda env create -f environment.yml --name rocketchip
 ```
 
 Activate your environment using
