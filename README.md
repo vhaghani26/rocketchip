@@ -50,6 +50,10 @@ conda activate rocketchip
 
 Run everything downstream of this point in this conda environment. Note that you must activate this environment every time you restart your terminal.
 
+**Installing Cisgenome**
+
+If you are using Cisgenome as your peak caller, you will need to install it [separately](https://www.biostat.jhsph.edu/~hji/cisgenome/index_files/download.htm), as it is not available through Conda. Rocketchip is compatible with version 2.0.
+
 ## Running `rocketchip`
 
 ### Making a Project File
