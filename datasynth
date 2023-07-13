@@ -115,9 +115,11 @@ for pos in locs:
 		write_fastq(fp1, n, seq1)
 		write_fastq(fp2, n, seq2)
 	else:
-		seq = genome[pos-half:pos+half]
+		if random.getrandbits(1):
+			seq = genome[pos-half:pos+half]
+		else:
+			seq = revcomp(genome[pos-half:pos+half])
 		write_fastq(fp, n, seq)
-
 
 ####################
 ## Create control ##
@@ -142,7 +144,10 @@ if arg.control:
 			write_fastq(fc1, n, seq1)
 			write_fastq(fc2, n, seq2)
 		else:
-			seq = genome[pos-half:pos+half]
+			if random.getrandbits(1):
+				seq = genome[pos-half:pos+half]
+			else:
+				seq = revcomp(genome[pos-half:pos+half])
 			write_fastq(fc, n, seq)
 
 #####################
