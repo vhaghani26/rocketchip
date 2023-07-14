@@ -75,43 +75,45 @@ PATH="$PATH:$ROCKETCHIP_SRC"
 
 If you are using Cisgenome as your peak caller, you will need to install it [separately](https://www.biostat.jhsph.edu/~hji/cisgenome/index_files/download.htm), as it is not available through Conda. `rocketchip` is compatible with version 2.0.
 
-To install it, enter the directory of your choice and carry out the following commands.
+To install it, enter the `tools/` directory or the directory of your choice (if so, just change the paths appropriately) and carry out the following commands.
 
 1. Download Cisgenome v2.0
 
 ```
-wget jilab.biostat.jhsph.edu/software/cisgenome/executables/cisgenome-2.0-unix.tar.gz
+wget http://jilab.biostat.jhsph.edu/software/cisgenome/executables/cisgenome_v2.0_linux.tar.gz
 ```
 
 2. Unzip and untar the file
 
 ```
-tar zvfx cisgenome-2.0-unix.tar.gz
+tar zvfx cisgenome_v2.0_linux.tar.gz
 ```
 
 3. Enter the Cisgenome folder
 
 ```
-cd cisGenome-2.0/src/
+cd cisgenome_project/
 ```
 
 4. Run 
 
 ```
-make
+./makefile
 ```
 
-5. Compile Cisgenome and copy it to the bin directory
+Fortunately, the executables work after unzipping and untarring, so if this last step fails, then you can instead add the `bin` directory to your configuration file (e.g. `.bashrc`, `.bash_profile`, `.profile`) like so, making sure to edit the part that says {your_directory} to reflect your directory structure:
 
 ```
-make bin
+export PATH=$PATH:{your_directory}/rocketchip/tools/cisgenome_project/bin
 ```
 
-6. Clean up the source directory
+Now, either source your configuration file or restart your terminal.  To confirm proper installation, you can run:
 
 ```
-make clean
+seqpeak
 ```
+
+This will display the options available for use, indicating that you are able to execute it.
 
 ## Running `rocketchip`
 
