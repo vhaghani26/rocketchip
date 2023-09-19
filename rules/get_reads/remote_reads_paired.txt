@@ -1,7 +1,7 @@
 rule download_samples:
 	output: "DATA/paired/{sample}/{sample}.sra"
 	log: "00_logs/{sample}_download_data.log"
-	shell: "prefetch {wildcards.sample} -O 'DATA/paired/' > '{log}'"
+	shell: "prefetch {wildcards.sample} -O 'DATA/paired/' 2> '{log}'"
 
 rule sra_to_fastq:
 	input: "DATA/paired/{sample}/{sample}.sra"
