@@ -157,6 +157,16 @@ Write the name of your project. (Spaces allowed?)
 
 #### Genome
 
+| Organism  | Genome   | Link                                                                       |
+| :-------: | :------: | :------------------------------------------------------------------------: |
+| Fruitfly  | dm6      | https://hgdownload.soe.ucsc.edu/goldenPath/dm6/bigZips/dm6.fa.gz           |
+| Human     | hg19     | https://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz     |
+| Mouse     | mm10     | https://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/chromFa.tar.gz     |
+| Rat       | rn6      | https://hgdownload.cse.ucsc.edu/goldenPath/rn6/bigZips/rn6.fa.gz           |
+| Worm      | ce11     | https://hgdownload.soe.ucsc.edu/goldenPath/ce11/bigZips/chromFa.tar.gz     |
+| Yeast     | sacCer3  | https://hgdownload.cse.ucsc.edu/goldenPath/sacCer3/bigZips/chromFa.tar.gz  |
+| Zebrafish | danRer11 | https://hgdownload.cse.ucsc.edu/goldenPath/danRer11/bigZips/danRer11.fa.gz |
+
 #### Name
 
 #### Location
