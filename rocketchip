@@ -346,7 +346,8 @@ with open(tmp_MAKE_DIR) as fh:
 # Download/copy genome:
 GET_GENOME = None
 if os.path.isabs(GENOME_LOCATION): GET_GENOME = f'{RULES_DIR}/get_genome/local_genome.txt'
-else: GET_GENOME = f'{RULES_DIR}/get_genome/remote_genome.txt'
+elif GENOME_LOCATION.endswith('fa.gz'): GET_GENOME = f'{RULES_DIR}/get_genome/remote_fa_gz_genome.txt'
+else: GET_GENOME = f'{RULES_DIR}/get_genome/remote_tar_gz_genome.txt'
 tmp_GET_GENOME = GET_GENOME.split(r'\ ')
 tmp_GET_GENOME = ' '.join(tmp_GET_GENOME)
 with open(tmp_GET_GENOME) as fh:

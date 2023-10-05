@@ -1,0 +1,13 @@
+rule download_genome:
+	output: "DATA/GENOME/GENOME.fa.gz"
+	log: "00_logs/download_genome.log"
+	run:
+		shell("mkdir 'DATA/GENOME' -p")
+		shell("wget 'GENOME_LOCATION' -O '{output}' 2> '{log}'")
+
+rule process_genome:
+	input: "DATA/GENOME/GENOME.fa.gz"
+	output: "DATA/GENOME/GENOME.fa"
+	log: "00_logs/process_genome.log"
+	shell: "gunzip -f '{input}'"
+    
