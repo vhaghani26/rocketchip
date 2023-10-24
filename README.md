@@ -1,10 +1,6 @@
 # Rocketchip: A Comprehensive Bioinformatics Workflow for ChIP-Seq Data Analysis
 
-v0.0.3
-
-**Rocketchip is currently being redone. The README.md will be redone shortly to include updated usage instructions and a tutorial for getting started.**
-
-_______________________________________________________________________________________________
+Current Version: 0.0.3
 
 ## Table of Contents
 
