@@ -6,7 +6,6 @@ Genome:
 Reads:
   Samples:
     grp1: 
-    grp2:
   Controls:
     ctl1: 
 Readtype: 
