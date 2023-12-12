@@ -4,6 +4,6 @@ rule markdup:
 	log: "00_logs/{sample}_sam_markdup.log"
 	shell:
 		"""
-		picard MarkDuplicates REMOVE_DUPLICATES=true I='{input}' M='{wildcards.sample}.dup_metrics' O='{output}' 2> '{log}'
+		picard MarkDuplicates -REMOVE_DUPLICATES true -I '{input}' -M '{wildcards.sample}.dup_metrics' -O '{output}' 2> '{log}'
 		mv '{wildcards.sample}.dup_metrics' 04_bam_files/
 		"""
