@@ -9,7 +9,11 @@ rule sra_to_fastq:
 		"DATA/paired/{sample}_1.fastq.gz",
 		"DATA/paired/{sample}_2.fastq.gz"
 	log: "00_logs/{sample}_sra_to_fastq.log"
-	shell: "fastq-dump '{input}' --split-files --gzip --outdir 'DATA/paired/' 2> '{log}'"
+	shell: """
+	fasterq-dump '{input}' --split-files --outdir 'DATA/paired/' 2> '{log}'
+	gzip 'DATA/paired/{wildcards.sample}_1.fastq'
+	gzip 'DATA/paired/{wildcards.sample}_2.fastq'
+	"""
 	
 rule link_reads:
 	input:
