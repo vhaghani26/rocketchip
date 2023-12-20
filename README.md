@@ -78,16 +78,17 @@ Threads:
     * Name - write the name of the genome you are using (see examples below)
     * Location - if you have a local copy of the genome, put the path to the genome here, otherwise put the link corresponding to whatever genome you are using. Here are some commonly used genomes and links that have been proven to work with Rocketchip: 
 
-| Organism  | Genome   | Link                                                                       |
-| :-------: | :------: | :------------------------------------------------------------------------: |
-| Fruitfly  | dm6      | https://hgdownload.soe.ucsc.edu/goldenPath/dm6/bigZips/dm6.fa.gz           |
-| Human     | hg19     | https://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz     |
-| Mouse     | mm9      | https://hgdownload.soe.ucsc.edu/goldenPath/mm9/bigZips/chromFa.tar.gz      |
-| Mouse     | mm10     | https://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/chromFa.tar.gz     |
-| Rat       | rn6      | https://hgdownload.cse.ucsc.edu/goldenPath/rn6/bigZips/rn6.fa.gz           |
-| Worm      | ce11     | https://hgdownload.soe.ucsc.edu/goldenPath/ce11/bigZips/chromFa.tar.gz     |
-| Yeast     | sacCer3  | https://hgdownload.cse.ucsc.edu/goldenPath/sacCer3/bigZips/chromFa.tar.gz  |
-| Zebrafish | danRer11 | https://hgdownload.cse.ucsc.edu/goldenPath/danRer11/bigZips/danRer11.fa.gz |
+| Organism  | Genome   | Link                                                                        |
+| :-------: | :------: | :------------------------------------------------------------------------:  |
+| Fruitfly  | dm6      | https://hgdownload.soe.ucsc.edu/goldenPath/dm6/bigZips/dm6.fa.gz            |
+| Human     | hg19     | https://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz      |
+| Human     | hg38     | https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.chromFa.tar.gz |
+| Mouse     | mm9      | https://hgdownload.soe.ucsc.edu/goldenPath/mm9/bigZips/chromFa.tar.gz       |
+| Mouse     | mm10     | https://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/chromFa.tar.gz      |
+| Rat       | rn6      | https://hgdownload.cse.ucsc.edu/goldenPath/rn6/bigZips/rn6.fa.gz            |
+| Worm      | ce11     | https://hgdownload.soe.ucsc.edu/goldenPath/ce11/bigZips/chromFa.tar.gz      |
+| Yeast     | sacCer3  | https://hgdownload.cse.ucsc.edu/goldenPath/sacCer3/bigZips/chromFa.tar.gz   |
+| Zebrafish | danRer11 | https://hgdownload.cse.ucsc.edu/goldenPath/danRer11/bigZips/danRer11.fa.gz  |
 
 * Reads - leave blank
     * Samples - leave blank
