@@ -126,6 +126,14 @@ export ROCKETCHIP_DATA="/share/mylab/raw_data/"
 export ROCKETCHIP_SRC="path/to/the/rocketchip/source/code/"
 ```
 
+In addition to adding or defining a source code location for Rocketchip, you should also export the path:
+
+```
+export PATH="path/to/the/rocketchip/source/code:$PATH"
+```
+
+Both of these paths should be the same, and they should lead to the directory containing the `rocketchip` script, not the script itself. This will allow Rocketchip to be executed from anywhere at your terminal.
+
 ### Executing Rocketchip
 
 1. **Export Rocketchip Path**
