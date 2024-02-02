@@ -1,4 +1,4 @@
-name: rocketchip_test
+name: rocketchip
 channels:
   - anaconda
   - bioconda
