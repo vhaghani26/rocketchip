@@ -76,7 +76,7 @@ Threads:
 * Project - write the name of the project
 * Genome - leave blank
     * Name - write the name of the genome you are using (see examples below)
-    * Location - if you have a local copy of the genome, put the path to the genome here, otherwise put the link corresponding to whatever genome you are using. Here are some commonly used genomes and links that have been proven to work with Rocketchip: 
+    * Location - if you have a local copy of the genome, put the path to the genome here (e.g. absolute/path/to/my/genome.fa), otherwise put the link corresponding to whatever genome you are using. Here are some commonly used genomes and links that have been proven to work with Rocketchip: 
 
 | Organism  | Genome   | Link                                                                        |
 | :-------: | :------: | :------------------------------------------------------------------------:  |
@@ -92,9 +92,9 @@ Threads:
 
 * Reads - leave blank
     * Samples - leave blank
-        * Sample Groups - put all replicates of a sample in one group, separating samples by group (grp1, grp2, grp3, ...)
+        * Sample Groups - put all replicates of a sample in one group, separating samples by group (grp1, grp2, grp3, ...). See note
     * Controls - leave blank
-        * Control Groups - leave blank if you are not using a control; if you are using a control, put the replicates of the control in one group
+        * Control Groups - leave blank if you are not using a control; if you are using a control, put the replicates of the control in one group. See note
 * Readtype - the endedness of the data; options include `single` or `paired`
 * Peaktype - this is determined based on whatever element your antibody targets; options include `narrow` or `broad`
     * Note that the only peak-caller explicitly written to handle broad-peak calling is MACS3
@@ -103,6 +103,8 @@ Threads:
 * Peakcaller - software to be used for peak-calling; options include `macs3`, `genrich`, `pepr`, or `cisgenome`
     * Note that if you are using Cisgenome, it will need to be installed separately (see provided instructions titled "Installing Cisgenome")
 * Threads - the number of threads to be used in subsequent analysis steps
+
+Note: For local read data, use the absolute paths as entries. For example, the read path can be `absolute/path/to/my/sample_id`. Do not put the `fq.gz` extension or the read direction (forward vs. reverse) in the path to your read names. Just end the path at the sample name. Based on if you tell Rocketchip whether the data is single- or paired-end, it will match the appropriate files automatically. For read data from the SRA, use the SRA ID for the sample instead of a path. This goes for both the samples and controls.
 
 Here are various examples of project yaml files:
 * [One sample with one replicate, no control](https://github.com/vhaghani26/rocketchip_tests/blob/main/run_times/human/human_SRR17409984.yaml)
