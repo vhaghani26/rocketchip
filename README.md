@@ -92,9 +92,9 @@ Threads:
 
 * Reads - leave blank
     * Samples - leave blank
-        * Sample Groups - 
+        * Sample Groups - put all replicates of a sample in one group, separating samples by group (grp1, grp2, grp3, ...)
     * Controls - leave blank
-        * Control Groups
+        * Control Groups - leave blank if you are not using a control; if you are using a control, put the replicates of the control in one group
 * Readtype - the endedness of the data; options include `single` or `paired`
 * Peaktype - this is determined based on whatever element your antibody targets; options include `narrow` or `broad`
     * Note that the only peak-caller explicitly written to handle broad-peak calling is MACS3
@@ -103,6 +103,13 @@ Threads:
 * Peakcaller - software to be used for peak-calling; options include `macs3`, `genrich`, `pepr`, or `cisgenome`
     * Note that if you are using Cisgenome, it will need to be installed separately (see provided instructions titled "Installing Cisgenome")
 * Threads - the number of threads to be used in subsequent analysis steps
+
+Here are various examples of project yaml files:
+* [One sample with one replicate, no control](https://github.com/vhaghani26/rocketchip_tests/blob/main/run_times/human/human_SRR17409984.yaml)
+* [Two samples with three replicates each, no control](https://github.com/vhaghani26/rocketchip_tests/blob/main/cut_and_tag_run/cut_and_tag.yaml)
+* [Three samples with two replicates each, no control](https://github.com/vhaghani26/rocketchip_tests/blob/main/cut_and_tag_run/cut_and_run_se.yaml)
+* [One sample with two replicates, one control with one replicate](https://github.com/vhaghani26/rocketchip_tests/blob/main/cut_and_tag_run/cut_and_run_pe.yaml)
+* [One sample with two replicates, one control with two replicates](https://github.com/vhaghani26/rocketchip_tests/blob/main/replicability/replicability.yaml)
 
 ## Running Rocketchip
 
@@ -174,9 +181,7 @@ Now, you will run Snakemake. This follows Snakemake's command line usage, but at
 snakemake -j 1 -s {output_file_name}
 ```
 
-
-
-
+Increase `-j` to match the number of jobs you would like to parallelize.
 
 ## Tutorial
 
