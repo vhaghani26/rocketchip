@@ -1,6 +1,6 @@
 # Rocketchip: A Comprehensive Bioinformatics Workflow for ChIP-Seq Data Analysis
 
-Rocketchip (v0.0.3) is an automated bioinformatics workflow that is capable of analyzing local ChIP-seq data or ChIP-seq data from the National Center for Biotechnology Information (NCBI) Sequence Read Archive (SRA), the largest publicly available sequence data database. `rocketchip` takes raw data inputs and generates the files required for data visualization and peak delineation.
+Rocketchip (v1.0.0) is an automated bioinformatics workflow that is capable of analyzing local ChIP-seq data or ChIP-seq data from the National Center for Biotechnology Information (NCBI) Sequence Read Archive (SRA), the largest publicly available sequence data database. `rocketchip` takes raw data inputs and generates the files required for data visualization and peak delineation.
 
 ![Workflow](https://github.com/vhaghani26/rocketchip/blob/main/rocketchip_flowchart.png)
 
@@ -127,6 +127,8 @@ If you are using your own data, then use the `--data` option at the command line
 export ROCKETCHIP_DATA="/share/mylab/raw_data/"
 ```
 
+If this sounds too complicated, no worries! To keep it simple, just enter your project directory and run Rocketchip with the flag `--data .`, which will store the data in the project directory that you are working in. 
+
 2. `--src`, `ROCKETCHIP_SRC`
 
 `ROCKETCHIP_SRC` refers to where the Rocketchip source code is maintained. Essentially, this should just be the path to the `rocketchip` script. You can use the `--src` flag and set the path yourself (i.e. `--src path/to/the/rocketchip/source/code/`). Alternatively, if you plan to use Rocketchip for several projects, it can be helpful to put this in a designated location and export the source code path so you don't have to use the command line argument or reinstall Rocketchip in the future. To do so, add the `ROCKETCHIP_SRC` variable to your configuration file (`.bashrc`, `.profile`, or whatever file your system uses) like so, ensuring that you change the path to wherever you want to store your data:
@@ -138,28 +140,14 @@ export ROCKETCHIP_SRC="path/to/the/rocketchip/source/code/"
 In addition to adding or defining a source code location for Rocketchip, you should also export the path:
 
 ```
-export PATH="path/to/the/rocketchip/source/code:$PATH"
+export PATH="$PATH:$ROCKETCHIP_SRC"
 ```
 
-Both of these paths should be the same, and they should lead to the directory containing the `rocketchip` script, not the script itself. This will allow Rocketchip to be executed from anywhere at your terminal.
+The path should lead to the directory containing the `rocketchip` script, not the script itself. This will allow Rocketchip to be executed from anywhere at your terminal.
 
 ### Executing Rocketchip
 
-1. **Export Rocketchip Path**
-
-First, you should add Rocketchip to your path so you can execute it. If you have already set `ROCKETCHIP_SRC`, add the following below it:
-
-```
-PATH="$PATH:$ROCKETCHIP_SRC"
-```
-
-If you have not set `ROCKETCHIP_SRC`, add the following to your configuration file (`.bashrc`, `.profile`, or whatever file your system uses) like so:
-
-```
-PATH="$PATH:path/to/the/rocketchip/source/code/"
-```
-
-2. **Run Rocketchip**
+1. **Run Rocketchip**
 
 Enter the directory containing the `project_file.yaml` that you have set up (you can rename this, just make sure to change the name in the command below). Assuming you have set `ROCKETCHIP_DATA` and `ROCKETCHIP_SRC`, all you need to do is run the following:
 
@@ -175,7 +163,7 @@ rocketchip project_file.yaml --output_file {output_file_name} --data {directory_
 
 This will generate the Snakefile you have named `{output_file_name}` that we will run in the next step.
 
-3. **Run Snakemake**
+2. **Run Snakemake**
 
 Now, you will run Snakemake. This follows Snakemake's command line usage, but at it's simplest, you can run:
 
@@ -184,8 +172,6 @@ snakemake -j 1 -s {output_file_name}
 ```
 
 Increase `-j` to match the number of jobs you would like to parallelize.
-
-## Tutorial
 
 ## Interpretting Outputs
 
