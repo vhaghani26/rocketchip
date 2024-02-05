@@ -145,6 +145,23 @@ export PATH="$PATH:$ROCKETCHIP_SRC"
 
 The path should lead to the directory containing the `rocketchip` script, not the script itself. This will allow Rocketchip to be executed from anywhere at your terminal.
 
+To test if you have set up `ROCKETCHIP_SRC` correctly, restart your terminal or source `.bashrc`/`.profile` or whatever file you typically source from, then run `rocketchip --help`. This should show something like this:
+
+```
+usage: rocketchip [-h] [--data <str>] [--src <str>] [--output_file <str>] <path>
+
+Make Snakefiles
+
+positional arguments:
+  <path>               Path to configuration file. See README for details
+
+options:
+  -h, --help           show this help message and exit
+  --data <str>         override/set current ROCKETCHIP_DATA environment variable
+  --src <str>          override/set current ROCKETCHIP_SRC environment variable
+  --output_file <str>  output snakefile name (default: STDOUT)
+``` 
+
 ### Executing Rocketchip
 
 1. **Run Rocketchip**
