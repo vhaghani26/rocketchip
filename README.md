@@ -13,7 +13,6 @@ Rocketchip (v1.0.0) is an automated bioinformatics workflow that is capable of a
  * [Running Rocketchip](#running-rocketchip)   
     * [Data Storage and Source Code Storage](#data-storage-and-source-code-storage)
     * [Executing Rocketchip](#executing-rocketchip)
-* [Tutorial](#tutorial)
 * [Interpretting Outputs](#Interpretting-Outputs)
 * [Installing Cisgenome](#installing-cisgenome)
 
