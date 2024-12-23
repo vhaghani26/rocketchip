@@ -1,0 +1,20 @@
+name: rocketchip
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bowtie2
+  - bwa
+  - deeptools
+  - fastqc
+  - genrich
+  - pepr
+  - picard
+  - pyyaml
+  - sambamba
+  - samtools
+  - snakemake-minimal
+  - sra-tools
+  - star
+  - macs3
