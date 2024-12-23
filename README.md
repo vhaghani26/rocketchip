@@ -9,8 +9,8 @@ Rocketchip (v1.0.0) is an automated bioinformatics workflow that is capable of a
 * [Installation](#installation)
     * [Setting Up Your Project Directory](#setting-up-your-project-directory)
     * [Creating the Rocketchip Environment](#creating-the-rocketchip-environment)
- 	* [Making a Project File](#making-a-project-file)   
- * [Running Rocketchip](#running-rocketchip)   
+ 	* [Making a Project File](#making-a-project-file)
+ * [Running Rocketchip](#running-rocketchip)
     * [Data Storage and Source Code Storage](#data-storage-and-source-code-storage)
     * [Executing Rocketchip](#executing-rocketchip)
 * [Interpretting Outputs](#Interpretting-Outputs)
@@ -37,7 +37,7 @@ cd {project_name}
 Prior to starting this, make sure you have Conda installed. Run the following command in your project directory. It will clone the Conda environment with all dependencies needed in order to run the workflow outlined here. This creates an environment called `rocketchip`. If you would like to change the name, feel free to do so where the command says `rocketchip`. Please note that this may take quite a few minutes to run.
 
 ```
-conda env create -f environment.yml --name rocketchip
+conda env create -f environment.yml
 ```
 
 Activate your environment using
@@ -53,29 +53,29 @@ Run everything downstream of this point in this Conda environment. Note that you
 In order to run Rocketchip, you will need to create a project file. A template, `project_file.yaml`, is included in this repository. The contents should look like this:
 
 ```
-Author: 
-Project: 
+Author:
+Project:
 Genome:
-  Name: 
-  Location: 
+  Name:
+  Location:
 Reads:
   Samples:
-    grp1: 
+    grp1:
   Controls:
-    ctl1: 
-Readtype: 
-Peaktype: 
-Aligner: 
-Deduplicator: 
-Peakcaller: 
-Threads: 
+    ctl1:
+Readtype:
+Peaktype:
+Aligner:
+Deduplicator:
+Peakcaller:
+Threads:
 ```
 
-* Author - write your name and collaborators' names (if any), but do not exceed one line 
+* Author - write your name and collaborators' names (if any), but do not exceed one line
 * Project - write the name of the project
 * Genome - leave blank
     * Name - write the name of the genome you are using (see examples below)
-    * Location - if you have a local copy of the genome, put the path to the genome here (e.g. absolute/path/to/my/genome.fa), otherwise put the link corresponding to whatever genome you are using. Here are some commonly used genomes and links that have been proven to work with Rocketchip: 
+    * Location - if you have a local copy of the genome, put the path to the genome here (e.g. absolute/path/to/my/genome.fa), otherwise put the link corresponding to whatever genome you are using. Here are some commonly used genomes and links that have been proven to work with Rocketchip:
 
 | Organism  | Genome   | Link                                                                        |
 | :-------: | :------: | :------------------------------------------------------------------------:  |
@@ -126,7 +126,7 @@ If you are using your own data, then use the `--data` option at the command line
 export ROCKETCHIP_DATA="/share/mylab/raw_data/"
 ```
 
-If this sounds too complicated, no worries! To keep it simple, just enter your project directory and run Rocketchip with the flag `--data .`, which will store the data in the project directory that you are working in. 
+If this sounds too complicated, no worries! To keep it simple, just enter your project directory and run Rocketchip with the flag `--data .`, which will store the data in the project directory that you are working in.
 
 2. `--src`, `ROCKETCHIP_SRC`
 
@@ -159,7 +159,7 @@ options:
   --data <str>         override/set current ROCKETCHIP_DATA environment variable
   --src <str>          override/set current ROCKETCHIP_SRC environment variable
   --output_file <str>  output snakefile name (default: STDOUT)
-``` 
+```
 
 ### Executing Rocketchip
 
@@ -209,7 +209,7 @@ FastQC analysis (quality control) is carried out on raw sequence data, specifica
 All BAM files are stored in this folder, including intermediates of samtools flagging, sorting, and deduplication. Steps are labeled using tags in the file name.
 
 ### 05_bigwig_files
-Bigwig files are used for visualization of ChIP-seq data and are one of the final products of the analysis. 
+Bigwig files are used for visualization of ChIP-seq data and are one of the final products of the analysis.
 
 ### 06_{peakcaller}_peaks
 This directory contains the files delineating the peaks. These peaks will be used in answering the biological question you are asking using the data. In many instances, the peaks correspond to the binding sites of a protein of interest.
@@ -238,7 +238,7 @@ tar zvfx cisgenome_v2.0_linux.tar.gz
 cd cisgenome_project/
 ```
 
-4. Run 
+4. Run
 
 ```
 ./makefile
