@@ -1,0 +1,9 @@
+rule markdup:
+	input: "04_bam_files/{sample}.sorted.fixmate.bam"
+	output: "04_bam_files/{sample}.sorted.dedup.bam"
+	log: "00_logs/{sample}_sam_markdup.log"
+	shell:
+		"""
+		picard MarkDuplicates -REMOVE_DUPLICATES true -I '{input}' -M '{wildcards.sample}.dup_metrics' -O '{output}' 2> '{log}'
+		mv '{wildcards.sample}.dup_metrics' 04_bam_files/
+		"""

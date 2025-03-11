@@ -1,0 +1,21 @@
+rule index_genome:
+	input: "DATA/GENOME/GENOME.fa"
+	output:
+		fa = "DATA/GENOME/bwa_indexed_GENOME/GENOME.fa",
+		indexers = multiext("DATA/GENOME/bwa_indexed_GENOME/GENOME", ".amb", ".ann", ".bwt", ".pac", ".sa")
+	log: "00_logs/index_genome.log"
+	run:
+		shell("bwa index -p 'DATA/GENOME/bwa_indexed_GENOME/GENOME' -a bwtsw '{input}' 2> '{log}'")
+		shell("ln -sf '{input}' '{output.fa}'")
+		
+rule link_indexed_genome:
+	input: multiext("DATA/GENOME/bwa_indexed_GENOME/GENOME", ".amb", ".ann", ".bwt", ".pac", ".sa", ".fa")
+	output: multiext("01_raw_data/GENOME", ".amb", ".ann", ".bwt", ".pac", ".sa", ".fa")
+	log: "00_logs/link_indexed_genome.log"
+	run:
+		shell("ln -sf 'DATA/GENOME/bwa_indexed_GENOME/GENOME.amb' '01_raw_data/GENOME.amb' 2> {log}")
+		shell("ln -sf 'DATA/GENOME/bwa_indexed_GENOME/GENOME.ann' '01_raw_data/GENOME.ann'")
+		shell("ln -sf 'DATA/GENOME/bwa_indexed_GENOME/GENOME.bwt' '01_raw_data/GENOME.bwt'")
+		shell("ln -sf 'DATA/GENOME/bwa_indexed_GENOME/GENOME.pac' '01_raw_data/GENOME.pac'")
+		shell("ln -sf 'DATA/GENOME/bwa_indexed_GENOME/GENOME.sa' '01_raw_data/GENOME.sa'")
+		shell("ln -sf 'DATA/GENOME/bwa_indexed_GENOME/GENOME.fa' '01_raw_data/GENOME.fa'")

@@ -1,0 +1,2 @@
+		expand("06_peakseq_peaks/{sample}_{control}.narrowPeak",
+			sample=sample_group_names, control=control_group_names),

@@ -1,0 +1,35 @@
+def sample_group(wildcards):
+	group = Samples[wildcards.sample]
+	return expand("04_bam_files/{sample}.sorted.dedup.bam", sample = group)
+
+def sample_index_group(wildcards):
+	group = Samples[wildcards.sample]
+	return expand("04_bam_files/{sample}.sorted.dedup.bam.bai", sample = group)
+
+def control_group(wildcards):
+	group = Controls[wildcards.control]
+	return expand("04_bam_files/{sample}.sorted.dedup.bam", sample = group)
+
+def control_index_group(wildcards):
+	group = Controls[wildcards.control]
+	return expand("04_bam_files/{sample}.sorted.dedup.bam.bai", sample = group)
+		
+rule call_peaks:
+	input:
+		s = sample_group,
+		c = control_group,
+		si = sample_index_group,
+		ci = control_index_group
+	output: "06_pepr_peaks/{sample}_{control}__PePr_parameters.txt"
+	log: "00_logs/{sample}_{control}_pepr_peaks.log"
+	run:
+		sample_list = []
+		control_list = []
+		for input_file in input.s: sample_list.append(f'\'{input_file}\'')
+		for control_file in input.c: control_list.append(f'\'{control_file}\'')
+		sample_input = ','.join(sample_list)
+		control_input = ','.join(control_list)
+		
+		shell("PePr -f PEPR_READ_TYPE --peaktype PEPR_PEAK_TYPE --num-processors THREADS "
+			"-c {sample_input} -i {control_input} --output-directory 06_pepr_peaks "
+			"-n '{wildcards.sample}_{wildcards.control}' 2> '{log}'")

@@ -1,0 +1,5 @@
+include LICENSE
+recursive-include rocketchip_pkg/rules *
+recursive-include rocketchip_pkg/tools *
+recursive-include rocketchip_pkg/tests *
+recursive-include rocketchip_pkg/tests/seq_data *

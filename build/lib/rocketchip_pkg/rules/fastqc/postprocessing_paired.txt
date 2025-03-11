@@ -1,0 +1,10 @@
+rule fastqc_postprocessing:
+	input:
+		"04_bam_files/{sample}.sorted.dedup.bam"
+	output:
+		"02_fastqc_analysis/{sample}.sorted.dedup_fastqc.html",
+		"02_fastqc_analysis/{sample}.sorted.dedup_fastqc.zip"
+	log:
+		"00_logs/{sample}_fastqc_postprocessing.log"
+	shell:
+		"fastqc '{input}' --outdir 02_fastqc_analysis/ 2> '{log}'"

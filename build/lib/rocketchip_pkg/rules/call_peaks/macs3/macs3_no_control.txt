@@ -1,0 +1,16 @@
+def sample_group(wildcards):
+	group = Samples[wildcards.sample]
+	return expand("04_bam_files/{sample}.sorted.dedup.bam", sample = group)
+
+rule call_peaks:
+	input:
+		s = sample_group
+	output: "06_macs3_peaks/{sample}_peaks.xls"
+	log: "00_logs/{sample}_macs3_peaks.log"
+	run:
+		sample_list = []
+		for input_file in input.s: sample_list.append(f'\'{input_file}\'')
+		sample_input = ' '.join(sample_list)
+		
+		shell("macs3 callpeak -t {sample_input} -f MACS3_READ_TYPE -n '{wildcards.sample}' "
+			"--bdg --outdir 06_macs3_peaks/ MACS3_PEAK_TYPE 2> '{log}'")

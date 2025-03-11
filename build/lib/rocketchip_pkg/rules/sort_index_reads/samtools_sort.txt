@@ -1,0 +1,17 @@
+rule sam_to_bam:
+	input: "03_sam_files/{sample}.sam"
+	output: "04_bam_files/{sample}.bam"
+	log: "00_logs/{sample}_sam_to_bam.log"
+	shell: "samtools view -@ THREADS -Sb '{input}' > '{output}' 2> '{log}'"
+
+rule sam_fixmate:
+	input: "04_bam_files/{sample}.bam"
+	output: "04_bam_files/{sample}.fixmate.bam"
+	log: "00_logs/{sample}_sam_fixmate.log"
+	shell: "samtools fixmate -@ THREADS -rcm -O bam '{input}' '{output}' 2> '{log}'"
+		
+rule sam_sort:
+	input: "04_bam_files/{sample}.fixmate.bam"
+	output: "04_bam_files/{sample}.sorted.fixmate.bam"
+	log: "00_logs/{sample}_sam_sort.log"
+	shell: "samtools sort -@ THREADS -O bam '{input}' > '{output}' 2> '{log}'"

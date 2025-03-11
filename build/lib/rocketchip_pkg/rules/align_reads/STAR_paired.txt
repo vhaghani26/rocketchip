@@ -1,0 +1,13 @@
+rule align_reads:
+	input:
+		genome = "01_raw_data/GENOME",
+		r1 = "01_raw_data/{sample}_1.fastq.gz",
+		r2 = "01_raw_data/{sample}_2.fastq.gz"
+	output:
+		"03_sam_files/{sample}.sam"
+	log: "00_logs/{sample}_align_reads_err.log"
+	run:
+		shell("STAR --runThreadN THREADS --genomeDir '{input.genome}' "
+		"--readFilesIn '{input.r1}' '{input.r2}' --readFilesCommand gunzip -c "
+		"--outFileNamePrefix '{wildcards.sample}' --outStd SAM > '{output}' 2> '{log}'")
+		shell("mv '{wildcards.sample}Log'.* '{wildcards.sample}SJ.out.tab' 03_sam_files/")

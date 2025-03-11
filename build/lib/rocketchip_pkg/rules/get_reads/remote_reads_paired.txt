@@ -1,0 +1,28 @@
+rule download_samples:
+	output: "DATA/paired/{sample}/{sample}.sra"
+	log: "00_logs/{sample}_download_data.log"
+	shell: "prefetch {wildcards.sample} -O 'DATA/paired/' 2> '{log}'"
+
+rule sra_to_fastq:
+	input: "DATA/paired/{sample}/{sample}.sra"
+	output:
+		"DATA/paired/{sample}_1.fastq.gz",
+		"DATA/paired/{sample}_2.fastq.gz"
+	log: "00_logs/{sample}_sra_to_fastq.log"
+	shell: """
+	fasterq-dump '{input}' --split-files --outdir 'DATA/paired/' 2> '{log}'
+	gzip 'DATA/paired/{wildcards.sample}_1.fastq'
+	gzip 'DATA/paired/{wildcards.sample}_2.fastq'
+	"""
+	
+rule link_reads:
+	input:
+		r1 = "DATA/paired/{sample}_1.fastq.gz",
+		r2 = "DATA/paired/{sample}_2.fastq.gz"
+	output:
+		o1 = "01_raw_data/{sample}_1.fastq.gz",
+		o2 = "01_raw_data/{sample}_2.fastq.gz"
+	log: "00_logs/{sample}_link_reads.log"
+	run:
+		shell("ln -sf '{input.r1}' '{output.o1}'")
+		shell("ln -sf '{input.r2}' '{output.o2}'")

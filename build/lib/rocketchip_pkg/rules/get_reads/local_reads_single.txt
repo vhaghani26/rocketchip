@@ -1,0 +1,9 @@
+def get_path(wildcards, paths = reads_path):
+	return paths[wildcards.sample]
+
+rule link_reads:
+	input: get_path
+	output: "01_raw_data/{sample}.fastq.gz"
+	log: "00_logs/{sample}_link_reads.log"
+	shell:
+		"ln -sf '{input}' '{output}' 2> '{log}'"

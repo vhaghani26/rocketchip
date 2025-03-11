@@ -1,0 +1,20 @@
+rule download_samples:
+	output: "DATA/single/{sample}/{sample}.sra"
+	log: "00_logs/{sample}_download_data.log"
+	shell: "prefetch {wildcards.sample} -O 'DATA/single/' 2> '{log}'"
+	
+rule sra_to_fastq:
+	input: "DATA/single/{sample}/{sample}.sra"
+	output: "DATA/single/{sample}.fastq.gz"
+	log: "00_logs/{sample}_sra_to_fastq.log"
+	shell: """
+	fasterq-dump '{input}' --outdir 'DATA/single/' 2> '{log}'
+	gzip 'DATA/single/{wildcards.sample}.fastq'
+	"""
+
+rule link_reads:
+	input: "DATA/single/{sample}.fastq.gz"
+	output: "01_raw_data/{sample}.fastq.gz"
+	log: "00_logs/{sample}_link_reads.log"
+	shell: "ln -sf '{input}' '{output}'"
+		

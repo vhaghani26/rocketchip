@@ -1,0 +1,9 @@
+rule align_reads:
+	input:
+		genome = multiext("01_raw_data/GENOME", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2",
+			".rev.1.bt2", ".rev.2.bt2"),
+		r = "01_raw_data/{sample}.fastq.gz"
+	output: "03_sam_files/{sample}.sam"
+	log: "00_logs/{sample}_align_reads_err.log"
+	shell:
+		"bowtie2 -p THREADS -x '01_raw_data/GENOME' -U '{input.r}' > '{output}' 2> '{log}'"

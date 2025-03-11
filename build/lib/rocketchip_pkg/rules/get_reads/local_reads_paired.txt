@@ -1,0 +1,19 @@
+def get_path_1(wildcards, paths = reads_path):
+	return paths[wildcards.sample][0]
+	
+def get_path_2(wildcards, paths = reads_path):
+	return paths[wildcards.sample][1]
+	
+rule link_reads:
+	input:
+		r1 = get_path_1,
+		r2 = get_path_2
+	output:
+		o1 = "01_raw_data/{sample}_1.fastq.gz",
+		o2 = "01_raw_data/{sample}_2.fastq.gz"
+	log:
+		r1 = "00_logs/{sample}_link_reads_1.log",
+		r2 = "00_logs/{sample}_link_reads_2.log"
+	run:
+		shell("ln -sf '{input.r1}' '{output.o1}' 2> '{log.r1}'")
+		shell("ln -sf '{input.r2}' '{output.o2}' 2> '{log.r2}'")

@@ -1,0 +1,86 @@
+rule bam_to_sam:
+	input: "04_bam_files/{sample}.sorted.dedup.bam"
+	output: "03_sam_files/{sample}.sorted.dedup.sam"
+	log: "00_logs/{sample}_bam_to_sam.log"
+	shell: "samtools view -@ THREADS '{input}' > '{output}' 2> '{log}'"
+		
+rule sam_to_aln:
+	input: "03_sam_files/{sample}.sorted.dedup.sam"
+	output: "06_cisgenome_files/{sample}.aln"
+	log: "00_logs/{sample}_sam_to_aln.log"
+	shell: "'{src}'/tools/sam2aln -i '{input}' > '{output}' 2> '{log}'"
+
+rule aln_to_bar:
+	input: "06_cisgenome_files/{sample}.aln"
+	output:
+		"06_cisgenome_files/{sample}.bar",
+		"06_cisgenome_files/{sample}.bar_F.bar",
+		"06_cisgenome_files/{sample}.bar_R.bar"
+	log: "00_logs/{sample}_aln_to_bar.log"
+	shell: "hts_aln2barv2 -i '{input}' -o '06_cisgenome_files/{wildcards.sample}.bar' 2> '{log}'"
+
+rule get_chrinfo:
+	input: "01_raw_data/GENOME.fa"
+	output: 
+		"06_cisgenome_files/GENOME_chrlist.txt",
+		"06_cisgenome_files/GENOME_chrlen.txt"
+	log: "00_logs/get_chroinfo.log"
+	shell: "'{src}/tools/chrominfo' '{input}' 06_cisgenome_files 2> '{log}'"
+
+rule summary_1:
+	input:
+		bar = "06_cisgenome_files/{sample}.bar",
+		chrlist = "06_cisgenome_files/GENOME_chrlist.txt",
+		chrlen  = "06_cisgenome_files/GENOME_chrlen.txt"
+	output: "06_cisgenome_files/{sample}_summary_1.txt"
+	log: "00_logs/{sample}_summary_1.log"
+	shell:
+		"hts_windowsummaryv2 -i '{input.bar}' -g '{input.chrlist}' -l '{input.chrlen}' "
+		"-w 100 -o '{output}' 2> '{log}'"
+
+rule call_peaks_1:
+	input: "06_cisgenome_files/{sample}.bar"
+	output:
+		multiext("06_cisgenome_peaks_1/{sample}", ".cod", ".bar", ".cgw", "_F.bar",
+		"_R.bar", "_F.cgw", "_R.cgw"),
+		touch("06_cisgenome_files/flags/{sample}_call_peaks_1.flag")
+	log: "00_logs/{sample}_cisgenome_peaks_1.log"
+	shell:
+		"hts_peakdetectorv2 -i '{input}' -d 06_cisgenome_peaks_1 -o '{wildcards.sample}' "
+		"-w 100 -s 25 -c 10 -br 1 -brl 30 -ssf 1 2> '{log}'"
+		
+rule shift_reads:
+	input:
+		"06_cisgenome_files/flags/{sample}_call_peaks_1.flag",
+		bar = "06_cisgenome_files/{sample}.bar"
+	output:
+		"06_cisgenome_files/{sample}.bar_C.bar",
+		touch("06_cisgenome_files/flags/{sample}_shift_reads.flag")
+	log: "00_logs/{sample}_cisgenome_shift_reads.log"
+	shell: "hts_alnshift2bar -i '{input.bar}' -s 35 2> '{log}'"
+
+rule summary_2:
+	input:
+		"06_cisgenome_files/flags/{sample}_shift_reads.flag",
+		bar = "06_cisgenome_files/{sample}.bar",
+		chrlist = "06_cisgenome_files/GENOME_chrlist.txt",
+		chrlen  = "06_cisgenome_files/GENOME_chrlen.txt"
+	output:
+		touch("06_cisgenome_files/flags/{sample}_summary_2.flag"),
+		summary = "06_cisgenome_files/{sample}_summary_2.txt"
+	log: "00_logs/{sample}_summary_2.log"
+	shell:
+		"hts_windowsummaryv2 -i '{input.bar}' -g '{input.chrlist}' -l '{input.chrlen}' "
+		"-w 100 -o '{output.summary}' -z 1 2> '{log}'"
+
+rule call_peaks_2:
+	input:
+		"06_cisgenome_files/flags/{sample}_summary_2.flag",
+		bar = "06_cisgenome_files/{sample}.bar"
+	output:
+		multiext("06_cisgenome_peaks_2/{sample}", ".cod", ".bar", ".cgw", "_F.bar",
+		"_R.bar", "_F.cgw", "_R.cgw")
+	log: "00_logs/{sample}_cisgenome_peaks_2.log"
+	shell:
+		"hts_peakdetectorv2 -i '{input.bar}' -d 06_cisgenome_peaks_2 "
+		"-o '{wildcards.sample}' -w 100 -s 25 -c 10 -br 1 -brl 30 -ssf 1 2> '{log}'"

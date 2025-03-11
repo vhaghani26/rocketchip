@@ -1,0 +1,5 @@
+		expand("06_cisgenome_files/{sample}_summary_1.txt",sample=samples),
+		expand("06_cisgenome_peaks_1/{sample}.cod",sample=samples),
+		expand("06_cisgenome_files/{sample}.bar_C.bar",sample=samples),
+		expand("06_cisgenome_files/{sample}_summary_2.txt",sample=samples),
+		expand("06_cisgenome_peaks_2/{sample}.cod",sample=samples),

@@ -1,0 +1,31 @@
+rule index_genome:
+	input: "DATA/GENOME/GENOME.fa"
+	output:
+		out = directory("DATA/GENOME/STAR_indexed_GENOME"),
+		indexers = multiext("DATA/GENOME/STAR_indexed_GENOME/", "chrLength.txt",  "chrNameLength.txt",  "chrName.txt",  "chrStart.txt",  "Genome", "genomeParameters.txt",  "Log.out",  "SA",  "SAindex")
+	log: "00_logs/index_genome.log"
+	shell:
+		"STAR --runMode genomeGenerate --genomeDir '{output.out}' "
+		"--genomeFastaFiles '{input}' 2> '{log}'"
+
+rule link_indexed_genome:
+	input:
+		indexers = multiext("DATA/GENOME/STAR_indexed_GENOME/", "chrLength.txt",  "chrNameLength.txt",  "chrName.txt",  "chrStart.txt",  "Genome", "genomeParameters.txt",  "Log.out",  "SA",  "SAindex"),
+		fa = "DATA/GENOME/GENOME.fa"
+	output:
+		directory("01_raw_data/GENOME/"),
+		indexers = multiext("01_raw_data/GENOME/", "chrLength.txt",  "chrNameLength.txt",  "chrName.txt",  "chrStart.txt",  "Genome", "genomeParameters.txt",  "Log.out",  "SA",  "SAindex"),
+		fa = "01_raw_data/GENOME/GENOME.fa"
+	log: "00_logs/link_indexed_genome.log"
+	run:
+		shell("mkdir 01_raw_data/GENOME")
+		shell("ln -sf 'DATA/GENOME/STAR_indexed_GENOME/chrLength.txt' '01_raw_data/GENOME/chrLength.txt' 2> '{log}'")
+		shell("ln -sf 'DATA/GENOME/STAR_indexed_GENOME/chrNameLength.txt' '01_raw_data/GENOME/chrNameLength.txt'")
+		shell("ln -sf 'DATA/GENOME/STAR_indexed_GENOME/chrName.txt' '01_raw_data/GENOME/chrName.txt'")
+		shell("ln -sf 'DATA/GENOME/STAR_indexed_GENOME/chrStart.txt' '01_raw_data/GENOME/chrStart.txt'")
+		shell("ln -sf 'DATA/GENOME/STAR_indexed_GENOME/Genome' '01_raw_data/GENOME/Genome'")
+		shell("ln -sf 'DATA/GENOME/STAR_indexed_GENOME/genomeParameters.txt' '01_raw_data/GENOME/genomeParameters.txt'")
+		shell("ln -sf 'DATA/GENOME/STAR_indexed_GENOME/Log.out' '01_raw_data/GENOME/Log.out'")
+		shell("ln -sf 'DATA/GENOME/STAR_indexed_GENOME/SA' '01_raw_data/GENOME/SA'")
+		shell("ln -sf 'DATA/GENOME/STAR_indexed_GENOME/SAindex' '01_raw_data/GENOME/SAindex'")
+		shell("ln -sf 'DATA/GENOME/GENOME.fa' '01_raw_data/GENOME/GENOME.fa'")

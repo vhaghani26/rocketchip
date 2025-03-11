@@ -1,0 +1,5 @@
+rule bam_index:
+	input: "04_bam_files/{sample}.sorted.dedup.bam"
+	output: "04_bam_files/{sample}.sorted.dedup.bam.bai"
+	log: "00_logs/{sample}_bam_index.log"
+	shell: "samtools index -@ THREADS '{input}' 2> '{log}'"

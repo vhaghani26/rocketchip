@@ -1,0 +1,5 @@
+rule markdup:
+	input: "04_bam_files/{sample}.sorted.fixmate.bam"
+	output: "04_bam_files/{sample}.sorted.dedup.bam"
+	log: "00_logs/{sample}_sam_markdup.log"
+	shell: "samtools markdup -@ THREADS -r --mode s '{input}' '{output}' 2> '{log}'"

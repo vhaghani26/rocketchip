@@ -1,0 +1,2 @@
+		expand("06_macs3_peaks/{sample}_{control}_peaks.xls", sample=sample_group_names,
+			control=control_group_names),

@@ -1,0 +1,15 @@
+rule download_genome:
+	output: "DATA/GENOME/chromFa.tar.gz"
+	log: "00_logs/download_genome.log"
+	run:
+		shell("mkdir 'DATA/GENOME' -p")
+		shell("wget 'GENOME_LOCATION' -O '{output}' 2> '{log}'")
+
+rule process_genome:
+	input: "DATA/GENOME/chromFa.tar.gz"
+	output: "DATA/GENOME/GENOME.fa"
+	log: "00_logs/process_genome.log"
+	run:
+		shell("tar -xzf {input} -C DATA/GENOME/")
+		shell("cat DATA/GENOME/*.fa > {output} 2> {log}")
+		shell("rm DATA/GENOME/chr*.fa")

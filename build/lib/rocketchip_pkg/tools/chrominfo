@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+import sys
+
+chrlist = open('chrlist.txt', 'w')
+chrlen  = open('chrlen.txt', 'w')
+
+length = 0
+with open(sys.argv[1]) as fh:
+	while True:
+		line = fh.readline()
+		if line == '': break
+		line = line.rstrip()
+		if line.startswith('>'):
+			if length > 0: 
+				chrlen.write(f'{length}\n')
+				chrlist.write(f'{line[1:]}\n')
+				length = 0
+			else:
+				chrlist.write(f'{line[1:]}\n')
+		else:
+			length += len(line)
+	chrlen.write(f'{length}\n')

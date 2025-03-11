@@ -1,0 +1,7 @@
+rule copy_genome:
+	input: "GENOME_LOCATION"
+	output: "DATA/GENOME/GENOME.fa"
+	log: "00_logs/copy_genome.log"
+	run:
+		shell("mkdir 'DATA/GENOME' -p")
+		shell("cp '{input}' '{output}'")

@@ -1,0 +1,4 @@
+sample_group_names = [group for group in Samples]
+samples = []
+for group in sample_group_names:
+	for sample in Samples[group]: samples.append(sample)

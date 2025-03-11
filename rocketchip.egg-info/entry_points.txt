@@ -1,0 +1,2 @@
+[console_scripts]
+rocketchip = rocketchip_pkg.rocketchip:main

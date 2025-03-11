@@ -1,0 +1,14 @@
+rule all:
+	input:
+		expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=samples),
+		expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=samples),
+		expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=samples),
+		expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=samples),
+		expand("02_fastqc_analysis/{sample}_1_fastqc.zip", sample=controls),
+		expand("02_fastqc_analysis/{sample}_2_fastqc.zip", sample=controls),
+		expand("02_fastqc_analysis/{sample}_1_fastqc.html", sample=controls),
+		expand("02_fastqc_analysis/{sample}_2_fastqc.html", sample=controls),
+		expand("02_fastqc_analysis/{sample}.sorted.dedup_fastqc.zip", sample=samples),
+		expand("02_fastqc_analysis/{sample}.sorted.dedup_fastqc.html", sample=samples),
+		expand("02_fastqc_analysis/{sample}.sorted.dedup_fastqc.zip", sample=controls),
+		expand("02_fastqc_analysis/{sample}.sorted.dedup_fastqc.html", sample=controls),

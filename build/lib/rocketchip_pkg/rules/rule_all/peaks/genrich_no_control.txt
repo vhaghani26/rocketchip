@@ -1,0 +1,1 @@
+		expand("06_genrich_peaks/{sample}_peak.narrowPeak",sample=sample_group_names),

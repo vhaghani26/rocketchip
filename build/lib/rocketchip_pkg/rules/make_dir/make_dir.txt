@@ -1,0 +1,12 @@
+rule make_directories:
+	output:
+		directory("00_logs/"),
+		directory("01_raw_data/"),
+		directory("02_fastqc_analysis/"),
+		directory("03_sam_files/"),
+		directory("04_bam_files/"),
+		directory("05_bigwig_files/"),
+		directory("06_PEAKCALLER_peaks/")
+	shell:
+		"mkdir 00_logs 01_raw_data 02_fastqc_analysis 03_sam_files 04_bam_files "
+		"05_bigwig_files 06_PEAKCALLER_peaks"

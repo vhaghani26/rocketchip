@@ -1,0 +1,23 @@
+rule index_genome:
+	input: "DATA/GENOME/GENOME.fa"
+	output:
+		fa = "DATA/GENOME/bowtie2_indexed_GENOME/GENOME.fa",
+		indexers = multiext("DATA/GENOME/bowtie2_indexed_GENOME/GENOME", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2", ".rev.1.bt2", ".rev.2.bt2")
+	log: "00_logs/index_genome.log"
+	run:
+		shell("mkdir 'DATA/GENOME/bowtie2_indexed_GENOME'")
+		shell("bowtie2-build '{input}' 'DATA/GENOME/bowtie2_indexed_GENOME/GENOME' 2> '{log}'")
+		shell("ln -sf '{input}' '{output.fa}'")
+
+rule link_indexed_genome:
+	input: multiext("DATA/GENOME/bowtie2_indexed_GENOME/GENOME", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2", ".rev.1.bt2", ".rev.2.bt2", ".fa")
+	output: multiext("01_raw_data/GENOME", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2", ".rev.1.bt2", ".rev.2.bt2", ".fa")
+	log: "00_logs/link_indexed_genome.log"
+	run:
+		shell("ln -sf 'DATA/GENOME/bowtie2_indexed_GENOME/GENOME.1.bt2' '01_raw_data/GENOME.1.bt2' 2> '{log}'")
+		shell("ln -sf 'DATA/GENOME/bowtie2_indexed_GENOME/GENOME.2.bt2' '01_raw_data/GENOME.2.bt2'")
+		shell("ln -sf 'DATA/GENOME/bowtie2_indexed_GENOME/GENOME.3.bt2' '01_raw_data/GENOME.3.bt2'")
+		shell("ln -sf 'DATA/GENOME/bowtie2_indexed_GENOME/GENOME.4.bt2' '01_raw_data/GENOME.4.bt2'")
+		shell("ln -sf 'DATA/GENOME/bowtie2_indexed_GENOME/GENOME.rev.1.bt2' '01_raw_data/GENOME.rev.1.bt2'")
+		shell("ln -sf 'DATA/GENOME/bowtie2_indexed_GENOME/GENOME.rev.2.bt2' '01_raw_data/GENOME.rev.2.bt2'")
+		shell("ln -sf 'DATA/GENOME/bowtie2_indexed_GENOME/GENOME.fa' '01_raw_data/GENOME.fa'")

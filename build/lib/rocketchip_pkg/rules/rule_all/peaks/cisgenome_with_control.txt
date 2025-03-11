@@ -1,0 +1,2 @@
+		expand("06_cisgenome_peaks/{sample}_{control}_peak.cod",
+			sample=sample_group_names, control=control_group_names),

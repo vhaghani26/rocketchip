@@ -1,3 +1,18 @@
+Metadata-Version: 2.1
+Name: rocketchip
+Version: 2.0.1
+Summary: A pip-installable package for Rocketchip
+Home-page: https://github.com/vhaghani26/rocketchip
+Author: Viktoria Haghani
+Author-email: vhaghani@ucdavis.edu
+License: MIT
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
 # Rocketchip: A Comprehensive Bioinformatics Workflow for ChIP-Seq Data Analysis
 
 Rocketchip (v1.0.0) is an automated bioinformatics workflow that is capable of analyzing local ChIP-seq data or ChIP-seq data from the National Center for Biotechnology Information (NCBI) Sequence Read Archive (SRA), the largest publicly available sequence data database. `rocketchip` takes raw data inputs and generates the files required for data visualization and peak delineation.
