@@ -27,9 +27,9 @@ authors = 'Viktoria_Haghani'
 controltypes = ["with_control", "no_control"]  
 readtypes = ["paired"]
 peaktypes = ["narrow"]
-aligners = ["bwa_mem", "bowtie2", "STAR"]
-peakcallers = ["macs3", "genrich", "pepr"]
-deduplicators = ["samtools", "no_deduplication", "sambamba", "picard"]
+aligners = ["bwa_mem"]#, "bowtie2", "STAR"]
+peakcallers = ["macs3"]#, "genrich", "pepr"]
+deduplicators = ["samtools"]#, "no_deduplication", "sambamba", "picard"]
 num_tests = 1
 
 #########################

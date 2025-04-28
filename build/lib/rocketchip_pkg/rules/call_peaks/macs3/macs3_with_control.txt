@@ -15,11 +15,11 @@ rule call_peaks:
 	run:
 		sample_list = []
 		control_list = []
-		for input_file in input.s: sample_list.append(f'\'{input_file}\'')
-		for control_file in input.c: control_list.append(f'\'{control_file}\'')		
+		for input_file in input.s: sample_list.append(input_file)
+		for control_file in input.c: control_list.append(control_file)
 		sample_input = ' '.join(sample_list)
 		control_input = ' '.join(control_list)
-		
+
 		shell("macs3 callpeak -t {sample_input} -c {control_input} -f MACS3_READ_TYPE "
-			"-n '{wildcards.sample}_{wildcards.control}' --bdg "
-			"--outdir 06_macs3_peaks/ MACS3_PEAK_TYPE 2> '{log}'")
+			  "-n '{wildcards.sample}_{wildcards.control}' --bdg "
+			  "--outdir 06_macs3_peaks/ MACS3_PEAK_TYPE 2> '{log}'")

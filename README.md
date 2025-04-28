@@ -1,40 +1,37 @@
 # Rocketchip: A Comprehensive Bioinformatics Workflow for ChIP-Seq Data Analysis
 
-Rocketchip (v1.0.0) is an automated bioinformatics workflow that is capable of analyzing local ChIP-seq data or ChIP-seq data from the National Center for Biotechnology Information (NCBI) Sequence Read Archive (SRA), the largest publicly available sequence data database. `rocketchip` takes raw data inputs and generates the files required for data visualization and peak delineation.
+Rocketchip is an automated bioinformatics workflow that is capable of analyzing local ChIP-seq data or ChIP-seq data from the National Center for Biotechnology Information (NCBI) Sequence Read Archive (SRA), the largest publicly available sequence data database. `rocketchip` takes raw data inputs and generates the files required for data visualization and peak delineation.
 
 ![Workflow](https://github.com/vhaghani26/rocketchip/blob/main/rocketchip_flowchart.png)
 
 ## Table of Contents
 
 * [Installation](#installation)
-    * [Setting Up Your Project Directory](#setting-up-your-project-directory)
-    * [Creating the Rocketchip Environment](#creating-the-rocketchip-environment)
- 	* [Making a Project File](#making-a-project-file)
+    * [Dependencies](#dependencies)
  * [Running Rocketchip](#running-rocketchip)
-    * [Data Storage and Source Code Storage](#data-storage-and-source-code-storage)
+	* [Data Storage](#data-storage)
+  	* [Making a Project File](#making-a-project-file)
     * [Executing Rocketchip](#executing-rocketchip)
 * [Interpretting Outputs](#Interpretting-Outputs)
 * [Installing Cisgenome](#installing-cisgenome)
 
 ## Installation
 
-### Setting Up Your Project Directory
-
-Clone the repository using your project name in the directory you plan to host the project:
+In order to install the `rocketchip` source code, please run:
 
 ```
-git clone https://github.com/vhaghani26/rocketchip {project_name}
+pip install rocketchip
 ```
 
-Enter the directory
+To confirm successful installation, confirm by running:
 
 ```
-cd {project_name}
+rocketchip --version
 ```
 
-### Creating the Rocketchip Environment
+### Dependencies
 
-Prior to starting this, make sure you have Conda installed. Run the following command in your project directory. It will clone the Conda environment with all dependencies needed in order to run the workflow outlined here. This creates an environment called `rocketchip`. If you would like to change the name, feel free to do so where the command says `rocketchip`. Please note that this may take quite a few minutes to run.
+Prior to installing the necessary dependencies, make sure you have Conda installed. Run the following command in your project directory. It will clone the Conda environment with all dependencies needed in order to run the workflow using all software options available. This creates an environment called `rocketchip` (you may change the name). Please note that this may take quite a few minutes to run.
 
 ```
 conda env create -f environment.yml
@@ -46,7 +43,53 @@ Activate your environment using
 conda activate rocketchip
 ```
 
-Run everything downstream of this point in this Conda environment. Note that you must activate this environment every time you restart your terminal.
+Run everything downstream of this point in this Conda environment. Note that you must activate this environment every time you run the workflow. Please note that you can also modify the environment file as well. For instance, if you are only using `samtools` for deduplication, then you can remove options to install `sambamba` and `picard` to save space and make installation quicker.
+
+## Running Rocketchip
+
+### Data Storage
+
+You have two options for managing data storate locations.
+
+#### Option 1: Export `ROCKETCHIP_DATA`
+
+**Purpose**: This method ensures that your raw data is consistently stored in a single location. It is particularly useful for labs that utilize public data or share the same raw data across multiple analyses.
+
+**Benefits**
+
+* Data is stored in a designated location for all analyses using Rocketchip
+* Files are aliased into the project directory, preventing duplication. This is advantageous if you are using the same genome or sample data for multiple analyses, as it saves both time and storage
+
+**How to Set It Up**
+
+Add the `ROCKETCHIP_DATA` variable to your configuration file (e.g. `.bashrc`, `.profile`, or another file appropriate for your file system) and set the path to your desired data storage location. For instance:
+
+```
+export ROCKETCHIP_DATA="/shared_drive/your_lab/raw_data/"
+```
+
+#### Option 2: Use the `--data` Argument
+
+**Purpose**: This method allows you to specify the data directory directly when running Rocketchip from the command line.
+
+**Benefits**
+
+* Easier to implement, especially for individual/one-time analyses
+* Allows for personalized organization 
+
+**How to Set It Up**
+
+You run it during the `rocketchip` command like so for the current working directory:
+
+```
+rocketchip --data .
+```
+
+Alternatively, you can specify another path:
+
+```
+rocketchip --data /shared_drive/your_lab/raw_data/
+```
 
 ### Making a Project File
 
@@ -112,69 +155,20 @@ Here are various examples of project yaml files:
 * [One sample with two replicates, one control with one replicate](https://github.com/vhaghani26/rocketchip_tests/blob/main/cut_and_tag_run/cut_and_run_pe.yaml)
 * [One sample with two replicates, one control with two replicates](https://github.com/vhaghani26/rocketchip_tests/blob/main/replicability/replicability.yaml)
 
-## Running Rocketchip
-
-### Data Storage and Source Code Storage
-
-There are a few considerations to make regarding data storage and source code storage. Briefly, you can either choose to export the `ROCKETCHIP_DATA` and `ROCKETCHIP_SRC` variables, or you can simply use the flags at the command line (the former being more useful, but the latter being easier).
-
-1. `--data`, `ROCKETCHIP_DATA`
-
-If you are using your own data, then use the `--data` option at the command line when you run Rocketchip and set the path to the raw data as the argument (i.e. `--data path/to/your/raw/data/`). If you are planning to use data from the NCBI SRA, then you can either set the `--data` option to whatever directory you want the data to get stored in or you can export `ROCKETCHIP_DATA`. The benefit of exporting `ROCKETCHIP_DATA` is that the data will be stored in the location you designate for whatever analyses you use Rocketchip for. For individual analyses, these files get aliased into the project directory. This means that if you are using the same genome or sample data for multiple analyses, the data is only stored once and not duplicated. This can save both time and storage. To do so, add the `ROCKETCHIP_DATA` variable to your configuration file (`.bashrc`, `.profile`, or whatever file your system uses) like so, ensuring that you change the path to wherever you want to store your data:
-
-```
-export ROCKETCHIP_DATA="/share/mylab/raw_data/"
-```
-
-If this sounds too complicated, no worries! To keep it simple, just enter your project directory and run Rocketchip with the flag `--data .`, which will store the data in the project directory that you are working in.
-
-2. `--src`, `ROCKETCHIP_SRC`
-
-`ROCKETCHIP_SRC` refers to where the Rocketchip source code is maintained. Essentially, this should just be the path to the `rocketchip` script. You can use the `--src` flag and set the path yourself (i.e. `--src path/to/the/rocketchip/source/code/`). Alternatively, if you plan to use Rocketchip for several projects, it can be helpful to put this in a designated location and export the source code path so you don't have to use the command line argument or reinstall Rocketchip in the future. To do so, add the `ROCKETCHIP_SRC` variable to your configuration file (`.bashrc`, `.profile`, or whatever file your system uses) like so, ensuring that you change the path to wherever you want to store your data:
-
-```
-export ROCKETCHIP_SRC="path/to/the/rocketchip/source/code/"
-```
-
-In addition to adding or defining a source code location for Rocketchip, you should also export the path:
-
-```
-export PATH="$PATH:$ROCKETCHIP_SRC"
-```
-
-The path should lead to the directory containing the `rocketchip` script, not the script itself. This will allow Rocketchip to be executed from anywhere at your terminal.
-
-To test if you have set up `ROCKETCHIP_SRC` correctly, restart your terminal or source `.bashrc`/`.profile` or whatever file you typically source from, then run `rocketchip --help`. This should show something like this:
-
-```
-usage: rocketchip [-h] [--data <str>] [--src <str>] [--output_file <str>] <path>
-
-Make Snakefiles
-
-positional arguments:
-  <path>               Path to configuration file. See README for details
-
-options:
-  -h, --help           show this help message and exit
-  --data <str>         override/set current ROCKETCHIP_DATA environment variable
-  --src <str>          override/set current ROCKETCHIP_SRC environment variable
-  --output_file <str>  output snakefile name (default: STDOUT)
-```
-
 ### Executing Rocketchip
 
 1. **Run Rocketchip**
 
-Enter the directory containing the `project_file.yaml` that you have set up (you can rename this, just make sure to change the name in the command below). Assuming you have set `ROCKETCHIP_DATA` and `ROCKETCHIP_SRC`, all you need to do is run the following:
+Enter the directory containing the `project_file.yaml` that you have set up (you can rename this, just make sure to change the name in the command below). Assuming you have set `ROCKETCHIP_DATA`, all you need to do is run the following:
 
 ```
 rocketchip project_file.yaml --output_file {output_file_name}
 ```
 
-If you have not set `ROCKETCHIP_DATA` and `ROCKETCHIP_SRC`, you will need to set them at the command line:
+If you have not set `ROCKETCHIP_DATA`, you will need to specify it at the command line:
 
 ```
-rocketchip project_file.yaml --output_file {output_file_name} --data {directory_to_store_the_data} --src {directory_containing_source_code}
+rocketchip project_file.yaml --output_file {output_file_name} --data {directory_to_store_the_data}
 ```
 
 This will generate the Snakefile you have named `{output_file_name}` that we will run in the next step.
@@ -194,31 +188,38 @@ Increase `-j` to match the number of jobs you would like to parallelize.
 There are several output directories, each containing a component of the analysis. These directories are automatically generated when the analysis is run and outputs are automatically sorted into each directory.
 
 ### 00_logs
+
 The `00_logs` directory contains output logs. Each log is labeled based on the sample name and rule. The logs can be referenced if the analysis fails at a specific rule. It will contain the run information to be referenced.
 
 ### 01_raw_data
+
 All sequence data for both the samples and reference genome, including reference genome alignment files, are aliased in this directory. The files are aliased to the files downloaded in `ROCKETCHIP_DATA` so that downloading and processing only occurs once per genome/sample. Aliases in the local directly allow the user to see the samples and genome used in a specific project's analysis. These aliases are required for Rocketchip to correctly carry out the workflow.
 
 ### 02_fastqc_analysis
+
 FastQC analysis (quality control) is carried out on raw sequence data, specifically after conversion from an SRA file to FASTQ file, and again after sequence alignment and processing.
 
 ### 03_sam_files
+
 `03_SAM_files` contains the SAM files generated for each sample by the reference genome alignment.
 
 ### 04_bam_files
+
 All BAM files are stored in this folder, including intermediates of samtools flagging, sorting, and deduplication. Steps are labeled using tags in the file name.
 
 ### 05_bigwig_files
+
 Bigwig files are used for visualization of ChIP-seq data and are one of the final products of the analysis.
 
 ### 06_{peakcaller}_peaks
+
 This directory contains the files delineating the peaks. These peaks will be used in answering the biological question you are asking using the data. In many instances, the peaks correspond to the binding sites of a protein of interest.
 
 ## Installing Cisgenome
 
 If you are using Cisgenome as your peak caller, you will need to install it [separately](https://www.biostat.jhsph.edu/~hji/cisgenome/index_files/download.htm), as it is not available through Conda. Rocketchip is compatible with version 2.0.
 
-To install it, enter the `tools/` directory of this repository or the directory of your choice (if so, just change the paths appropriately) and carry out the following commands.
+To install it, you can carry out the following commands.
 
 1. Download Cisgenome v2.0
 
@@ -247,7 +248,7 @@ cd cisgenome_project/
 Fortunately, the executables work after unzipping and untarring, so if this last step fails, then you can instead add the `bin` directory to your configuration file (e.g. `.bashrc`, `.bash_profile`, `.profile`) like so, making sure to edit the part that says {your_directory} to reflect your directory structure:
 
 ```
-export PATH=$PATH:{your_directory}/rocketchip/tools/cisgenome_project/bin
+export PATH=$PATH:{your_directory}/cisgenome_project/bin
 ```
 
 Now, either source your configuration file or restart your terminal.  To confirm proper installation, you can run:

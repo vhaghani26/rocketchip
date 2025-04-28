@@ -8,6 +8,18 @@ import sys
 import os
 import re
 
+try:
+    from importlib.metadata import version # For Python > 3.8
+except ImportError:
+    from importlib_metadata import version  # For Python < 3.8
+
+# Get the version
+def get_version():
+    try:
+        return version("rocketchip")
+    except Exception:
+        return "unknown"
+        
 # Define the argument parser
 parser = argparse.ArgumentParser(description='Make Snakefiles')
 parser.add_argument('configfile', type=str, metavar='<path>',
@@ -16,6 +28,8 @@ parser.add_argument('--data', type=str, metavar='<str>', required=False, default
     help='Location to store data files (i.e. genome and raw read files); default: current working directory')
 parser.add_argument('--output_file', type=str, metavar='<str>', required=False,
     help='Output snakefile name (default: STDOUT)')
+parser.add_argument('--version', action='version', version=f'%(prog)s {get_version()}',
+                   help='Print the version and exit')
 
 # Fix SSL Certificate bug (https://stackoverflow.com/questions/27835619/urllib-and-ssl-certificate-verify-failed-error, https://stackoverflow.com/questions/35569042/ssl-certificate-verify-failed-with-python3)
 context = ssl._create_unverified_context()
@@ -24,7 +38,7 @@ context = ssl._create_unverified_context()
 ###############
 ## Functions ##
 ###############
-
+   
 # Check for any invalid titles in config file
 def read_config(config):
     # Titles

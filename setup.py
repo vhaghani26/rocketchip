@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="rocketchip",  
-    version="2.0.1",
+    version="2.0.2",
     packages=find_packages(),
     include_package_data=True,
     package_data={
@@ -23,7 +23,7 @@ setup(
             "rocketchip=rocketchip_pkg.rocketchip:main",
         ],
     },
-    description="A pip-installable package for Rocketchip",
+    description="Rocketchip: chromatin immunoprecipitation data analysis",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     author="Viktoria Haghani",
