@@ -6,6 +6,7 @@ Rocketchip is an automated bioinformatics workflow that is capable of analyzing 
 
 ## Table of Contents
 
+* [Citation](#citation)
 * [Installation](#installation)
     * [Dependencies](#dependencies)
  * [Running Rocketchip](#running-rocketchip)
@@ -15,6 +16,12 @@ Rocketchip is an automated bioinformatics workflow that is capable of analyzing 
 * [Interpretting Outputs](#Interpretting-Outputs)
 * [Installing Cisgenome](#installing-cisgenome)
 
+## Citation
+
+If you use Rocketchip, please cite it using the following:
+
+ Haghani V, Goyal A, Zhang A et al. Improving rigor and reproducibility in chromatin immunoprecipitation assay data analysis workflows with Rocketchip [version 1; peer review: awaiting peer review]. F1000Research 2025, 14:625 (https://doi.org/10.12688/f1000research.164319.1) 
+ 
 ## Installation
 
 In order to install the `rocketchip` source code, please run:
