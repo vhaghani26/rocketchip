@@ -14,6 +14,7 @@ setup(
         ],
     },
     install_requires=[
+        "pandas>=2.2.0",
         "pyyaml>=6.0.1",
         "snakemake>=7.32.4",
         "macs3>=3.0.0b3",
