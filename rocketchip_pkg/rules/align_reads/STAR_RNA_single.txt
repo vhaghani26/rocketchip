@@ -9,4 +9,3 @@ rule align_reads:
 		"--readFilesIn '{input.r}' --readFilesCommand gunzip -c "
 		"--outFileNamePrefix '{wildcards.sample}' --outStd SAM > '{output}' 2> '{log}'")
 		shell("mv '{wildcards.sample}Log'.* '{wildcards.sample}SJ.out.tab' 03_sam_files/")
-

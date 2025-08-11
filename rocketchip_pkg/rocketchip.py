@@ -43,7 +43,7 @@ context = ssl._create_unverified_context()
 def read_config(config):
     # Titles
     titles = ['Author', 'Project', 'Genome', 'Reads', 'Readtype', 'Peaktype',
-    'Aligner', 'Deduplicator', 'Peakcaller', 'Threads']
+    'Aligner', 'Deduplicator', 'Peakcaller', 'Threads', 'Molecule']
     for title in config:
         if title not in titles:
             sys.exit(f'Error: Invalid title in configfile: {title}')
@@ -91,6 +91,10 @@ def read_config(config):
         if user_input not in options[option]:
             sys.exit(f'Error: Invalid {option} in configfile: {user_input}\nInput one of the following {option}s: {options[option]} (case sensitive)')
 
+    # Molecule
+    molecule = config.get('Molecule', 'DNA').upper()
+    if molecule not in ['DNA', 'RNA']:
+        molecule = 'DNA'
     
     return (
         config['Genome']['Name'].replace(' ', '_'),
@@ -101,7 +105,8 @@ def read_config(config):
         config['Deduplicator'],
         config['Peakcaller'],
         config['Reads']['Controls'] is not None,
-        config['Threads']
+        config['Threads'],
+        molecule
     )
 
 
@@ -409,7 +414,12 @@ def main():
     with open(tmp_FASTQ_PREPROCESS) as fh: snakerules.append(fh.read())
 
     # Align reads
-    ALIGN_READS = f'{RULES_DIR}/align_reads/{ALIGNER}_{READTYPE}.txt'
+    if ALIGNER == 'STAR':
+        molecule_type = 'RNA' if molecule == 'RNA' else 'DNA'
+        ALIGN_READS = f'{RULES_DIR}/align_reads/STAR_{molecule_type}_{READTYPE}.txt'
+    else:
+        ALIGN_READS = f'{RULES_DIR}/align_reads/{ALIGNER}_{READTYPE}.txt'
+    
     tmp_ALIGN_READS = ALIGN_READS.split(r'\ ')
     tmp_ALIGN_READS = ' '.join(tmp_ALIGN_READS)
     with open(tmp_ALIGN_READS) as fh:
