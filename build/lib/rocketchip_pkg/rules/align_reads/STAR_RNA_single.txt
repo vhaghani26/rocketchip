@@ -1,6 +1,6 @@
 rule align_reads:
 	input:
-		genome = multiext("01_raw_data/GENOME", ".amb", ".ann", ".bwt", ".pac", ".sa"),
+		genome = "01_raw_data/GENOME",
 		r = "01_raw_data/{sample}.fastq.gz"
 	output: "03_sam_files/{sample}.sam"
 	log: "00_logs/{sample}_align_reads_err.log"
@@ -9,5 +9,8 @@ rule align_reads:
 		time = 60 * 24 * 3, # Last number is days
 		#account = "publicgrp", # Placeholder for SLURM submission
 		#partition = "high", # Placeholder for SLURM submission
-	shell:
-		"bwa mem -t THREADS '01_raw_data/GENOME' '{input.r}' > '{output}' 2> '{log}'"
+	run:
+		shell("STAR --runThreadN THREADS --genomeDir '{input.genome}' "
+		"--readFilesIn '{input.r}' --readFilesCommand gunzip -c "
+		"--outFileNamePrefix '{wildcards.sample}' --outStd SAM > '{output}' 2> '{log}'")
+		shell("mv '{wildcards.sample}Log'.* '{wildcards.sample}SJ.out.tab' 03_sam_files/")

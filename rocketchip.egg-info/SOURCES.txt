@@ -18,8 +18,10 @@ rocketchip.egg-info/requires.txt
 rocketchip.egg-info/top_level.txt
 rocketchip_pkg/__init__.py
 rocketchip_pkg/rocketchip.py
-rocketchip_pkg/rules/align_reads/STAR_paired.txt
-rocketchip_pkg/rules/align_reads/STAR_single.txt
+rocketchip_pkg/rules/align_reads/STAR_DNA_paired.txt
+rocketchip_pkg/rules/align_reads/STAR_DNA_single.txt
+rocketchip_pkg/rules/align_reads/STAR_RNA_paired.txt
+rocketchip_pkg/rules/align_reads/STAR_RNA_single.txt
 rocketchip_pkg/rules/align_reads/bowtie2_paired.txt
 rocketchip_pkg/rules/align_reads/bowtie2_single.txt
 rocketchip_pkg/rules/align_reads/bwa_mem_paired.txt

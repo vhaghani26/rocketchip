@@ -2,6 +2,11 @@ rule name_sort_for_genrich:
 	input: "04_bam_files/{sample}.sorted.dedup.bam"
 	output: "04_bam_files/{sample}.namesorted_for_genrich.bam"
 	log: "00_logs/{sample}_bam_namesort.log"
+	resources:
+		mem_mb = 1024 * 25, # Last number is memory in GB
+		time = 60 * 24 * 2, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	shell: "samtools sort -n -@ THREADS -O BAM '{input}' > '{output}' 2> '{log}'"
 		
 def sample_group(wildcards):
@@ -16,6 +21,11 @@ rule call_peaks:
 		reads  = "06_genrich_peaks/{sample}_reads.bed",
 		pileup = "06_genrich_peaks/{sample}_pileup"
 	log: "00_logs/{sample}_genrich_peaks.log"
+	resources:
+		mem_mb = 1024 * 25, # Last number is memory in GB
+		time = 60 * 24 * 2, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	run:
 		sample_list = []
 		for input_file in input.s: sample_list.append(f'\'{input_file}\'')

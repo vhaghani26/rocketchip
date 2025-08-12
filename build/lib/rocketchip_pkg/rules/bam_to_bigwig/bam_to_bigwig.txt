@@ -4,5 +4,10 @@ rule bam_to_bigwig:
 		bam = "04_bam_files/{sample}.sorted.dedup.bam"
 	output: "05_bigwig_files/{sample}.bw"
 	log: "00_logs/{sample}_bam_to_bigwig.log"
+	resources:
+		mem_mb = 1024 * 16, # Last number is memory in GB
+		time = 60 * 24 * 2, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	shell:
 		"bamCoverage -b '{input.bam}' -o '{output}' 2> '{log}'"

@@ -7,6 +7,11 @@ rule call_peaks:
 		s = sample_group
 	output: "06_macs3_peaks/{sample}_peaks.xls"
 	log: "00_logs/{sample}_macs3_peaks.log"
+	resources:
+		mem_mb = 1024 * 25, # Last number is memory in GB
+		time = 60 * 24 * 2, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	run:
 		sample_list = []
 		for input_file in input.s: sample_list.append(f'\'{input_file}\'')

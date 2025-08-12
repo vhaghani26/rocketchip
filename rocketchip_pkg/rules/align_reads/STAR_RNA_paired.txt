@@ -6,6 +6,11 @@ rule align_reads:
 	output:
 		"03_sam_files/{sample}.sam"
 	log: "00_logs/{sample}_align_reads_err.log"
+	resources:
+		mem_mb = 1024 * 50, # Last number is memory in GB
+		time = 60 * 24 * 3, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	run:
 		shell("STAR --runThreadN THREADS --genomeDir '{input.genome}' "
 		"--readFilesIn '{input.r1}' '{input.r2}' --readFilesCommand gunzip -c "

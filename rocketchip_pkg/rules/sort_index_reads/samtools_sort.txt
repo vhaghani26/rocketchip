@@ -2,16 +2,31 @@ rule sam_to_bam:
 	input: "03_sam_files/{sample}.sam"
 	output: "04_bam_files/{sample}.bam"
 	log: "00_logs/{sample}_sam_to_bam.log"
+	resources:
+		mem_mb = 1024 * 20, # Last number is memory in GB
+		time = 60 * 24 * 2, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	shell: "samtools view -@ THREADS -Sb '{input}' > '{output}' 2> '{log}'"
 
 rule sam_fixmate:
 	input: "04_bam_files/{sample}.bam"
 	output: "04_bam_files/{sample}.fixmate.bam"
 	log: "00_logs/{sample}_sam_fixmate.log"
+	resources:
+		mem_mb = 1024 * 25, # Last number is memory in GB
+		time = 60 * 24 * 2, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	shell: "samtools fixmate -@ THREADS -rcm -O bam '{input}' '{output}' 2> '{log}'"
 		
 rule sam_sort:
 	input: "04_bam_files/{sample}.fixmate.bam"
 	output: "04_bam_files/{sample}.sorted.fixmate.bam"
 	log: "00_logs/{sample}_sam_sort.log"
+	resources:
+		mem_mb = 1024 * 25, # Last number is memory in GB
+		time = 60 * 24 * 2, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	shell: "samtools sort -@ THREADS -O bam '{input}' > '{output}' 2> '{log}'"

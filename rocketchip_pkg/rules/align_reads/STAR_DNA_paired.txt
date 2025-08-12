@@ -1,0 +1,22 @@
+rule align_reads:
+	input:
+		genome = "01_raw_data/GENOME",
+		r1 = "01_raw_data/{sample}_1.fastq.gz",
+		r2 = "01_raw_data/{sample}_2.fastq.gz"
+	output:
+		"03_sam_files/{sample}.sam"
+	log: "00_logs/{sample}_align_reads_err.log"
+	resources:
+		mem_mb = 1024 * 50, # Last number is memory in GB
+		time = 60 * 24 * 3, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
+	run:
+		shell("STAR --runThreadN THREADS --genomeDir '{input.genome}' "
+		"--readFilesIn '{input.r1}' '{input.r2}' --readFilesCommand gunzip -c "
+		"--outFileNamePrefix '{wildcards.sample}' "
+		"--alignIntronMax 1 "
+		"--outFilterMultimapNmax 1 "
+		"--outFilterMismatchNmax 2 " 
+		"--outStd SAM > '{output}' 2> '{log}'")
+		shell("mv '{wildcards.sample}Log'.* '{wildcards.sample}SJ.out.tab' 03_sam_files/")

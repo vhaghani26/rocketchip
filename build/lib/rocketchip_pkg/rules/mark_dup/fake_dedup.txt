@@ -2,4 +2,9 @@ rule markdup:
 	input: "04_bam_files/{sample}.sorted.fixmate.bam"
 	output: "04_bam_files/{sample}.sorted.dedup.bam"
 	log: "00_logs/{sample}_sam_markdup.log"
+	resources:
+		mem_mb = 1024 * 5, # Last number is memory in GB
+		time = 60 * 24 * 1, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	shell: "cat '{input}' > '{output}' 2> '{log}'"

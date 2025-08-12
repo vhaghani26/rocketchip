@@ -14,6 +14,11 @@ rule link_reads:
 	log:
 		r1 = "00_logs/{sample}_link_reads_1.log",
 		r2 = "00_logs/{sample}_link_reads_2.log"
+	resources:
+		mem_mb = 1024 * 5, # Last number is memory in GB
+		time = 60 * 24 * 1, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	run:
 		shell("ln -sf '{input.r1}' '{output.o1}' 2> '{log.r1}'")
 		shell("ln -sf '{input.r2}' '{output.o2}' 2> '{log.r2}'")

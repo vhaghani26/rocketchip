@@ -1,0 +1,28 @@
+cluster:
+  sbatch
+    --cpus-per-task={threads}
+    --mem={resources.mem_mb}
+    --time={resources.time}
+    --job-name=rocketchip-{rule}
+    --ntasks={resources.nodes}
+    --nodes={resources.nodes}
+    --parsable
+    {resources.partition:--partition=low}
+    {resources.account:--account=$USER}
+default-resources:
+  - mem_mb=2000
+  - time=60
+  - threads=1
+jobs: 50
+latency-wait: 90
+local-cores: 1
+restart-times: 1
+max-jobs-per-second: 100
+max-status-checks-per-second: 20
+keep-going: True
+rerun-incomplete: True
+printshellcmds: True
+scheduler: greedy
+use-conda: True
+conda-frontend: conda
+cluster-status: slurm/slurm-status.py

@@ -4,6 +4,11 @@ rule index_genome:
 		fa = "DATA/GENOME/bwa_indexed_GENOME/GENOME.fa",
 		indexers = multiext("DATA/GENOME/bwa_indexed_GENOME/GENOME", ".amb", ".ann", ".bwt", ".pac", ".sa")
 	log: "00_logs/index_genome.log"
+	resources:
+		mem_mb = 1024 * 25, # Last number is memory in GB
+		time = 60 * 24 * 5, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	run:
 		shell("bwa index -p 'DATA/GENOME/bwa_indexed_GENOME/GENOME' -a bwtsw '{input}' 2> '{log}'")
 		shell("ln -sf '{input}' '{output.fa}'")
@@ -12,6 +17,11 @@ rule link_indexed_genome:
 	input: multiext("DATA/GENOME/bwa_indexed_GENOME/GENOME", ".amb", ".ann", ".bwt", ".pac", ".sa", ".fa")
 	output: multiext("01_raw_data/GENOME", ".amb", ".ann", ".bwt", ".pac", ".sa", ".fa")
 	log: "00_logs/link_indexed_genome.log"
+	resources:
+		mem_mb = 1024 * 5, # Last number is memory in GB
+		time = 60 * 24 * 1, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	run:
 		shell("ln -sf 'DATA/GENOME/bwa_indexed_GENOME/GENOME.amb' '01_raw_data/GENOME.amb' 2> {log}")
 		shell("ln -sf 'DATA/GENOME/bwa_indexed_GENOME/GENOME.ann' '01_raw_data/GENOME.ann'")

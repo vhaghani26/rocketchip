@@ -2,6 +2,11 @@ rule copy_genome:
 	input: "GENOME_LOCATION"
 	output: "DATA/GENOME/GENOME.fa"
 	log: "00_logs/copy_genome.log"
+	resources:
+		mem_mb = 1024 * 5, # Last number is memory in GB
+		time = 60 * 24 * 1, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	run:
 		shell("mkdir 'DATA/GENOME' -p")
 		shell("cp '{input}' '{output}'")

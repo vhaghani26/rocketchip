@@ -10,6 +10,11 @@ rule fastqc_preprocessing:
 	log:
 		r1 = "00_logs/{sample}_fastqc_precheck_r1.log",
 		r2 = "00_logs/{sample}_fastqc_precheck_r2.log"
+	resources:
+		mem_mb = 1024 * 16, # Last number is memory in GB
+		time = 60 * 24 * 1, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	run:
 		shell("fastqc '{input.r1}' --outdir 02_fastqc_analysis/ 2> '{log.r1}'")
 		shell("fastqc '{input.r2}' --outdir 02_fastqc_analysis/ 2> '{log.r2}'")

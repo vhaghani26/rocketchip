@@ -7,6 +7,7 @@ import yaml
 import sys
 import os
 import re
+import glob
 
 try:
     from importlib.metadata import version # For Python > 3.8
@@ -43,7 +44,7 @@ context = ssl._create_unverified_context()
 def read_config(config):
     # Titles
     titles = ['Author', 'Project', 'Genome', 'Reads', 'Readtype', 'Peaktype',
-    'Aligner', 'Deduplicator', 'Peakcaller', 'Threads']
+    'Aligner', 'Deduplicator', 'Peakcaller', 'Threads', 'Molecule']
     for title in config:
         if title not in titles:
             sys.exit(f'Error: Invalid title in configfile: {title}')
@@ -91,6 +92,10 @@ def read_config(config):
         if user_input not in options[option]:
             sys.exit(f'Error: Invalid {option} in configfile: {user_input}\nInput one of the following {option}s: {options[option]} (case sensitive)')
 
+    # Molecule
+    molecule = config.get('Molecule', 'DNA').upper()
+    if molecule not in ['DNA', 'RNA']:
+        molecule = 'DNA'
     
     return (
         config['Genome']['Name'].replace(' ', '_'),
@@ -101,9 +106,44 @@ def read_config(config):
         config['Deduplicator'],
         config['Peakcaller'],
         config['Reads']['Controls'] is not None,
-        config['Threads']
+        config['Threads'],
+        molecule
     )
 
+def get_read_pair(sample_id, read_dir, readtype):
+    patterns = [
+        # Common paired end patterns
+        (f'{sample_id}_1.fastq.gz', f'{sample_id}_2.fastq.gz'),
+        (f'{sample_id}_R1.fastq.gz', f'{sample_id}_R2.fastq.gz'),
+        (f'{sample_id}_1.fq.gz', f'{sample_id}_2.fq.gz'),
+        (f'{sample_id}_R1.fq.gz', f'{sample_id}_R2.fq.gz'),
+        (f'{sample_id}_R1_001.fastq.gz', f'{sample_id}_R2_001.fastq.gz'),
+        (f'{sample_id}_R1_001.fq.gz', f'{sample_id}_R2_001.fq.gz'),
+        # Flexible paired end patterns
+        (f'{sample_id}*_1.fastq.gz', f'{sample_id}*_2.fastq.gz'),
+        (f'{sample_id}*_R1.fastq.gz', f'{sample_id}*_R2.fastq.gz'),
+        (f'{sample_id}*_1.fq.gz', f'{sample_id}*_2.fq.gz'),
+        (f'{sample_id}*_R1.fq.gz', f'{sample_id}*_R2.fq.gz'),
+        (f'{sample_id}*_R1_001.fastq.gz', f'{sample_id}*_R2_001.fastq.gz'),
+        (f'{sample_id}*_R1_001.fq.gz', f'{sample_id}*_R2_001.fq.gz'),
+        # Common single end patterns
+        (f'{sample_id}.fastq.gz', None),
+        (f'{sample_id}.fq.gz', None),
+        # Flexible single end patterns
+        (f'{sample_id}*.fastq.gz', None),
+        (f'{sample_id}*.fq.gz', None),
+    ]
+    
+    for r1_pattern, r2_pattern in patterns:
+        r1_matches = glob.glob(os.path.join(read_dir, r1_pattern))
+        if r1_matches:
+            if readtype == 'paired' and r2_pattern:
+                r2_matches = glob.glob(os.path.join(read_dir, r2_pattern))
+                if r2_matches:
+                    return (r1_matches[0], r2_matches[0])
+            else:
+                return (r1_matches[0], None)
+    return (None, None)
 
 def dict2snake(reads, dict_type, read_src):
     o = []
@@ -156,7 +196,10 @@ def dict2snake(reads, dict_type, read_src):
     
     return ''.join(o)
 
-# Main function
+####################
+## Main Execution ##
+####################
+
 def main():
     arg = parser.parse_args()
 
@@ -201,6 +244,7 @@ def main():
     #######################
     ## Genome Management ##
     #######################
+    
     if os.path.isfile(f'{CONFIGFILE_DIR}/{GENOME_LOCATION}'):
         GENOME_LOCATION = os.path.abspath(f'{CONFIGFILE_DIR}/{GENOME_LOCATION}')
         GENOME_LOCATION = re.sub(' ', '\ ', GENOME_LOCATION)
@@ -210,21 +254,27 @@ def main():
     ######################
     ## Reads Management ##
     ######################
-    lcr  = {}
+    
+    lcr = {}
     sra = []
     READ_SRC = None
+    sample_reads = {}
+
     for sample_type in config['Reads']:
-        if config['Reads'][sample_type] is None: continue
+        if config['Reads'][sample_type] is None:
+            continue
+            
         for group in config['Reads'][sample_type]:
+            sample_reads[group] = {}  # Initialize group
             for read in config['Reads'][sample_type][group]:
-                read_dir  = os.path.dirname(read)
-                read_name = os.path.basename(read)
-                read_name = re.sub(' ', '\ ', read_name)
+                read_id = read  # Use consistent variable name
+                read_name = os.path.basename(read_id)  # For SRA handling
+                
                 # Handle SRA entries
                 if read_name.startswith(('SRR', 'ERR', 'DRR')):
                     if read_name in sra: continue
                     sys.stderr.write(f'SRA entry detected... assessing read type (paired/single) for {read_name}\n')
-                    page = urllib.request.urlopen(f'https://www.ncbi.nlm.nih.gov/sra/?term={read_name}', context = context)
+                    page = urllib.request.urlopen(f'https://www.ncbi.nlm.nih.gov/sra/?term={read_name}', context=context)
                     html = page.read().decode('UTF-8')
                     page.close()
                     match = re.search('Layout: <span>(.{6})</span>', html)
@@ -238,59 +288,93 @@ def main():
                         sys.exit(f'Inconsistent read type...\n{read_name} has type: {readtype} while config file input is Readtype: {READTYPE}')
                     sys.stderr.write(f'{read_name} has read type: {readtype}\n')
                     sra.append(read_name)
-                # Handle local data
-                elif os.path.isdir(f'{CONFIGFILE_DIR}/{read_dir}') or os.path.isabs(read_dir):
-                    if READTYPE == 'single':
-                        if os.path.isabs(read_dir):
-                            read_path = f'{read_dir}/{read_name}.fastq.gz'
-                        else:
-                            read_path = f'{CONFIGFILE_DIR}/{read_dir}/{read_name}.fastq.gz'
-                        tmp_read_path = read_path.split(r'\ ')
-                        tmp_read_path = ' '.join(tmp_read_path)                    
-                        if os.path.isfile(tmp_read_path):
-                            if read_name not in lcr: lcr[read_name] = read_path
-                        else:
-                            sys.exit(f'Error: Missing {read_name}.fastq.gz in {read_dir}; Double check input for Readtype or Reads')
-                    elif READTYPE == 'paired':
-                        if os.path.isabs(read_dir):
-                            read_1_path = f'{read_dir}/{read_name}_1.fastq.gz'
-                            read_2_path = f'{read_dir}/{read_name}_2.fastq.gz'
-                        else:
-                            read_1_path = f'{CONFIGFILE_DIR}/{read_dir}/{read_name}_1.fastq.gz'
-                            read_2_path = f'{CONFIGFILE_DIR}/{read_dir}/{read_name}_2.fastq.gz'
-                        tmp_read_1_path = read_1_path.split(r'\ ')
-                        tmp_read_1_path = ' '.join(tmp_read_1_path)
-                        tmp_read_2_path = read_2_path.split(r'\ ')
-                        tmp_read_2_path = ' '.join(tmp_read_2_path)
-                        two_reads = os.path.exists(tmp_read_1_path) and os.path.exists(tmp_read_2_path)
-                        if two_reads:
-                            if read_name not in lcr:
-                                lcr[read_name] = [read_1_path, read_2_path]
-                        else:
-                            sys.exit(f'Error: Missing one or both reads from {read_name} in {read_dir}; Double check input for Readtype or Reads')
+                    continue
+                    
+                # Handle local files
+                read_dir = os.path.dirname(read_id) if os.path.isabs(read_id) else os.path.join(CONFIGFILE_DIR, os.path.dirname(read_id))
+                sample_id = os.path.basename(read_id)
+                
+                # First try exact matching
+                r1, r2 = get_read_pair(sample_id, read_dir, READTYPE)
+                
+                # If no matches, try more flexible matching
+                if r1 is None:
+                    all_files = [f for f in os.listdir(read_dir) 
+                               if f.endswith(('.fastq.gz', '.fq.gz'))]
+                    matching_files = [f for f in all_files 
+                                    if f.startswith(sample_id)]
+                    
+                    if READTYPE == 'paired':
+                        r1_candidates = [f for f in matching_files 
+                                       if '_1.' in f or '_R1.' in f]
+                        r2_candidates = [f for f in matching_files 
+                                       if '_2.' in f or '_R2.' in f]
+                        if r1_candidates and r2_candidates:
+                            r1 = os.path.join(read_dir, r1_candidates[0])
+                            r2 = os.path.join(read_dir, r2_candidates[0])
                     else:
-                        sys.exit(f'Error: Invalid read type: {READTYPE}')
+                        r1_candidates = [f for f in matching_files 
+                                        if not ('_2.' in f or '_R2.' in f)]
+                        if r1_candidates:
+                            r1 = os.path.join(read_dir, r1_candidates[0])
+                
+                # Verify files are found
+                if r1 is None:
+                    sys.exit(f'Error: Could not find read files for sample {sample_id} in {read_dir}')
+                    
+                # Store for verification and processing
+                sample_reads[group][sample_id] = {
+                    'forward': r1,
+                    'reverse': r2 if READTYPE == 'paired' else None
+                }
+                
+                # Store in lcr dict
+                if READTYPE == 'paired':
+                    lcr[sample_id] = [r1, r2]
                 else:
-                    sys.exit(f'Error: Invalid read: {read_name}; neither SRA identifier nor detected as local read')
+                    lcr[sample_id] = r1
+
+    ##########################
+    ## Verify File Matching ##
+    ##########################
+
+    print("\nSample File Assignment Verification:\n")
+    print(f"Read Type: {READTYPE}\n")
+
+    for group, samples in sample_reads.items():
+        print(f"Group: {group}")
+        for sample_id, reads in samples.items():
+            print(f"  Sample ID: {sample_id}")
+            print(f"    Forward Reads: {reads['forward']}")
+            if reads['reverse']:
+                print(f"    Reverse Reads: {reads['reverse']}")
+        print()
+
+    confirm = input("Are these file assignments correct? (y/n) ").lower()
+    if confirm not in ('y', 'yes'):
+        print("Please edit the names of your input files (dirty fix) or config file (recommended fix), then try again.")
+        sys.exit(1)
 
     if len(lcr) > 0 and len(sra) > 0:
         sys.exit(f'Error: Mix of local fastq reads and remote SRR identifiers detected')
     if len(lcr) <= 0 and len(sra) <= 0:
         sys.exit(f'Error: 0 reads detected')
-    if len(lcr) > 0: READ_SRC = 'lcr'
-    else: READ_SRC = 'sra'
+    if len(lcr) > 0: 
+        READ_SRC = 'lcr'
+    else: 
+        READ_SRC = 'sra'
 
     #########################################
     ## Check for peakcaller specific erros ##
     #########################################
 
-    # cisgenome
+    # Cisgenome
     if PEAKCALLER == 'cisgenome':
-        # accept no replicates when there is 0 control
+        # Accept no replicates when there is 0 control
         if config['Reads']['Controls'] is None:
             sys.exit(f'Error: cisgenome requires at least 1 control sample; no control sample detected')
                     
-    # pepr
+    # PePr
     if PEAKCALLER == 'pepr':
         for spl_group in config['Reads']['Samples']:
             num_samples = len(config['Reads']['Samples'][spl_group])
@@ -409,7 +493,12 @@ def main():
     with open(tmp_FASTQ_PREPROCESS) as fh: snakerules.append(fh.read())
 
     # Align reads
-    ALIGN_READS = f'{RULES_DIR}/align_reads/{ALIGNER}_{READTYPE}.txt'
+    if ALIGNER == 'STAR':
+        molecule_type = 'RNA' if molecule == 'RNA' else 'DNA'
+        ALIGN_READS = f'{RULES_DIR}/align_reads/STAR_{molecule_type}_{READTYPE}.txt'
+    else:
+        ALIGN_READS = f'{RULES_DIR}/align_reads/{ALIGNER}_{READTYPE}.txt'
+    
     tmp_ALIGN_READS = ALIGN_READS.split(r'\ ')
     tmp_ALIGN_READS = ' '.join(tmp_ALIGN_READS)
     with open(tmp_ALIGN_READS) as fh:

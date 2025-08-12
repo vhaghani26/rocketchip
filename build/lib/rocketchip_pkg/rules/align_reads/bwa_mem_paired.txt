@@ -5,6 +5,11 @@ rule align_reads:
 		r2 = "01_raw_data/{sample}_2.fastq.gz"
 	output: "03_sam_files/{sample}.sam"
 	log: "00_logs/{sample}_align_reads_err.log"
+	resources:
+		mem_mb = 1024 * 50, # Last number is memory in GB
+		time = 60 * 24 * 3, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	shell:
 		"bwa mem -t THREADS '01_raw_data/GENOME' '{input.r1}' '{input.r2}' > '{output}' "
 		"2> '{log}'"

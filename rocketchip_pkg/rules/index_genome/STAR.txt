@@ -4,6 +4,11 @@ rule index_genome:
 		out = directory("DATA/GENOME/STAR_indexed_GENOME"),
 		indexers = multiext("DATA/GENOME/STAR_indexed_GENOME/", "chrLength.txt",  "chrNameLength.txt",  "chrName.txt",  "chrStart.txt",  "Genome", "genomeParameters.txt",  "Log.out",  "SA",  "SAindex")
 	log: "00_logs/index_genome.log"
+	resources:
+		mem_mb = 1024 * 25, # Last number is memory in GB
+		time = 60 * 24 * 5, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	shell:
 		"STAR --runMode genomeGenerate --genomeDir '{output.out}' "
 		"--genomeFastaFiles '{input}' 2> '{log}'"
@@ -17,6 +22,11 @@ rule link_indexed_genome:
 		indexers = multiext("01_raw_data/GENOME/", "chrLength.txt",  "chrNameLength.txt",  "chrName.txt",  "chrStart.txt",  "Genome", "genomeParameters.txt",  "Log.out",  "SA",  "SAindex"),
 		fa = "01_raw_data/GENOME/GENOME.fa"
 	log: "00_logs/link_indexed_genome.log"
+	resources:
+		mem_mb = 1024 * 5, # Last number is memory in GB
+		time = 60 * 24 * 1, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	run:
 		shell("mkdir 01_raw_data/GENOME")
 		shell("ln -sf 'DATA/GENOME/STAR_indexed_GENOME/chrLength.txt' '01_raw_data/GENOME/chrLength.txt' 2> '{log}'")

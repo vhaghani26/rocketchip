@@ -22,6 +22,11 @@ rule call_peaks:
 		ci = control_index_group
 	output: "06_pepr_peaks/{sample}_{control}__PePr_parameters.txt"
 	log: "00_logs/{sample}_{control}_pepr_peaks.log"
+	resources:
+		mem_mb = 1024 * 25, # Last number is memory in GB
+		time = 60 * 24 * 2, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	run:
 		sample_list = []
 		control_list = []

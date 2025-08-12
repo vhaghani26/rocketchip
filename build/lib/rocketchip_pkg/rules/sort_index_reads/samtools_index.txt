@@ -2,4 +2,9 @@ rule bam_index:
 	input: "04_bam_files/{sample}.sorted.dedup.bam"
 	output: "04_bam_files/{sample}.sorted.dedup.bam.bai"
 	log: "00_logs/{sample}_bam_index.log"
+	resources:
+		mem_mb = 1024 * 20, # Last number is memory in GB
+		time = 60 * 24 * 2, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	shell: "samtools index -@ THREADS '{input}' 2> '{log}'"
