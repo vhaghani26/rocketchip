@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="rocketchip",  
-    version="2.0.2",
+    version="2.1.0",
     packages=find_packages(),
     include_package_data=True,
     package_data={
@@ -28,7 +28,7 @@ setup(
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     author="Viktoria Haghani",
-    author_email="vhaghani@ucdavis.edu",
+    author_email="vhaghani@health.ucdavis.edu",
     url="https://github.com/vhaghani26/rocketchip",
     license="MIT",
     classifiers=[

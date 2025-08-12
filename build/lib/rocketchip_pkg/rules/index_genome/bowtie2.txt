@@ -4,6 +4,11 @@ rule index_genome:
 		fa = "DATA/GENOME/bowtie2_indexed_GENOME/GENOME.fa",
 		indexers = multiext("DATA/GENOME/bowtie2_indexed_GENOME/GENOME", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2", ".rev.1.bt2", ".rev.2.bt2")
 	log: "00_logs/index_genome.log"
+	resources:
+		mem_mb = 1024 * 25, # Last number is memory in GB
+		time = 60 * 24 * 5, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	run:
 		shell("mkdir 'DATA/GENOME/bowtie2_indexed_GENOME'")
 		shell("bowtie2-build '{input}' 'DATA/GENOME/bowtie2_indexed_GENOME/GENOME' 2> '{log}'")
@@ -13,6 +18,11 @@ rule link_indexed_genome:
 	input: multiext("DATA/GENOME/bowtie2_indexed_GENOME/GENOME", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2", ".rev.1.bt2", ".rev.2.bt2", ".fa")
 	output: multiext("01_raw_data/GENOME", ".1.bt2", ".2.bt2", ".3.bt2", ".4.bt2", ".rev.1.bt2", ".rev.2.bt2", ".fa")
 	log: "00_logs/link_indexed_genome.log"
+	resources:
+		mem_mb = 1024 * 5, # Last number is memory in GB
+		time = 60 * 24 * 1, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	run:
 		shell("ln -sf 'DATA/GENOME/bowtie2_indexed_GENOME/GENOME.1.bt2' '01_raw_data/GENOME.1.bt2' 2> '{log}'")
 		shell("ln -sf 'DATA/GENOME/bowtie2_indexed_GENOME/GENOME.2.bt2' '01_raw_data/GENOME.2.bt2'")

@@ -316,4 +316,4 @@ This will display the options available for use, indicating that you are able to
 
 ## Questions, Comments, or Concerns?
 
-Feel free to contact me at [vhaghani@ucdavis.edu](vhaghani@ucdavis.edu), and I will get back to you as soon as possible.
+Feel free to contact me at [vhaghani@health.ucdavis.edu](vhaghani@health.ucdavis.edu), and I will get back to you as soon as possible.

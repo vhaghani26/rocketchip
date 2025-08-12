@@ -1,10 +1,10 @@
-Metadata-Version: 2.1
+Metadata-Version: 2.4
 Name: rocketchip
-Version: 2.0.2
+Version: 2.1.0
 Summary: Rocketchip: chromatin immunoprecipitation data analysis
 Home-page: https://github.com/vhaghani26/rocketchip
 Author: Viktoria Haghani
-Author-email: vhaghani@ucdavis.edu
+Author-email: vhaghani@health.ucdavis.edu
 License: MIT
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
@@ -12,9 +12,21 @@ Classifier: Operating System :: OS Independent
 Requires-Python: >=3.6
 Description-Content-Type: text/markdown
 License-File: LICENSE
+Requires-Dist: pandas>=2.2.0
 Requires-Dist: pyyaml>=6.0.1
 Requires-Dist: snakemake>=7.32.4
 Requires-Dist: macs3>=3.0.0b3
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
 
 # Rocketchip: A Comprehensive Bioinformatics Workflow for ChIP-Seq Data Analysis
 
@@ -24,15 +36,23 @@ Rocketchip is an automated bioinformatics workflow that is capable of analyzing 
 
 ## Table of Contents
 
+* [Citation](#citation)
 * [Installation](#installation)
     * [Dependencies](#dependencies)
  * [Running Rocketchip](#running-rocketchip)
 	* [Data Storage](#data-storage)
   	* [Making a Project File](#making-a-project-file)
-    * [Executing Rocketchip](#executing-rocketchip)
+    * [Executing Rocketchip Locally](#executing-rocketchip-locally)
+	* [Executing Rocketchip via SLURM Submission](#executing-rocketchip-via-slurm-submission)
 * [Interpretting Outputs](#Interpretting-Outputs)
 * [Installing Cisgenome](#installing-cisgenome)
 
+## Citation
+
+If you use Rocketchip, please cite it using the following:
+
+Haghani V, Goyal A, Zhang A et al. Improving rigor and reproducibility in chromatin immunoprecipitation assay data analysis workflows with Rocketchip [version 1; peer review: 1 approved, 1 approved with reservations]. F1000Research 2025, 14:625 (https://doi.org/10.12688/f1000research.164319.1) 
+ 
 ## Installation
 
 In order to install the `rocketchip` source code, please run:
@@ -163,6 +183,8 @@ Threads:
 * Peakcaller - software to be used for peak-calling; options include `macs3`, `genrich`, `pepr`, or `cisgenome`
     * Note that if you are using Cisgenome, it will need to be installed separately (see provided instructions titled "Installing Cisgenome")
 * Threads - the number of threads to be used in subsequent analysis steps
+* Molecule (optional) - if you are interested in running Rocketchip for RIP-seq, then you should specify "RNA" here (e.g. `Molecule: RNA`), otherwise you can say "DNA" or leave it blank (it defaults to DNA)
+	* Note that if you are using Rocketchip with RNA, it is recommended to use the STAR aligner
 
 Note: For local read data, use the absolute paths as entries. For example, the read path can be `absolute/path/to/my/sample_id`. Do not put the `fq.gz` extension or the read direction (forward vs. reverse) in the path to your read names. Just end the path at the sample name. Based on if you tell Rocketchip whether the data is single- or paired-end, it will match the appropriate files automatically. For read data from the SRA, use the SRA ID for the sample instead of a path. This goes for both the samples and controls.
 
@@ -173,7 +195,7 @@ Here are various examples of project yaml files:
 * [One sample with two replicates, one control with one replicate](https://github.com/vhaghani26/rocketchip_tests/blob/main/cut_and_tag_run/cut_and_run_pe.yaml)
 * [One sample with two replicates, one control with two replicates](https://github.com/vhaghani26/rocketchip_tests/blob/main/replicability/replicability.yaml)
 
-### Executing Rocketchip
+### Executing Rocketchip Locally
 
 1. **Run Rocketchip**
 
@@ -200,6 +222,51 @@ snakemake -j 1 -s {output_file_name}
 ```
 
 Increase `-j` to match the number of jobs you would like to parallelize.
+
+### Executing Rocketchip via SLURM Submission
+
+Running Rocketchip via SLURM provides several advantages over running it locally:
+
+- **Resource Management**: SLURM allows for individual job submissions, helping to allocate resources effectively without overwhelming your local machine
+- **Job Scheduling**: It manages job scheduling and monitoring, reducing the risk of disconnections and failures
+- **Efficiency**: By optimizing resource allocation, SLURM ensures smoother and more efficient execution of Rocketchip
+- **Reduced Failures**: If a job fails, SLURM can handle retries and manage job states, minimizing the need for manual intervention
+
+Overall, using SLURM enhances the reliability and performance of running Rocketchip, especially when dealing with resource-intensive tasks and large sample numbers.
+
+1. **Run Rocketchip**
+
+This step is not resource intensive, so you may run it by doing the following. Enter the directory containing the `project_file.yaml` that you have set up (you can rename this, just make sure to change the name in the command below). Assuming you have set `ROCKETCHIP_DATA`, run:
+
+```
+rocketchip project_file.yaml --output_file {output_file_name}
+```
+
+If you have not set `ROCKETCHIP_DATA`, you will need to specify it at the command line:
+
+```
+rocketchip project_file.yaml --output_file {output_file_name} --data {directory_to_store_the_data}
+```
+
+This will generate the Snakefile you have named `{output_file_name}` that we will run in the next step.
+
+2. **Download SLURM Configuration Files**
+
+Navigate to the [SLURM Directory](https://github.com/vhaghani26/rocketchip/tree/main/slurm) and download `config.yaml` and `slurm-status.py`. Store them in a directory called `slurm/`. 
+
+3. **Run Snakemake**
+
+Snakemake manages the submission of jobs to SLURM, so wherever you run it, it will need to stay open. As such, I recommend running it in [screen](https://github.com/vhaghani26/python_focus_group/blob/main/Session_14/session_14.md) or something similar, like [tmux](https://github.com/tmux/tmux). Activate your conda environment. When you are ready, run Snakemake:
+
+```
+snakemake -s {output_file_name} --profile slurm/
+```
+
+This assumes you stored `slurm/` in the current working directory. Just make sure you put the proper path, whether absolute or relative, to the `slurm/` directory that contains `config.yaml` and `slurm-status.py`. `config.yaml` handles resource allocations and job submission details, while `slurm-status.py` is simply to check on the status of the jobs submitted to SLURM in order to track if jobs are running, completed, or failed.
+
+#### Advanced Configuration
+
+If you are interested in digging more deeply into optimizing your workflow for your samples, including changing resource allocations, configuring your SLURM profile submission differently, etc., refer to the [Snakemake SLURM Documentation](https://snakemake.readthedocs.io/en/v7.19.1/executing/cluster.html) or feel free to reach out to me if the documentation does not answer the questions you have.
 
 ## Interpretting Outputs
 
@@ -279,4 +346,4 @@ This will display the options available for use, indicating that you are able to
 
 ## Questions, Comments, or Concerns?
 
-Feel free to contact me at [vhaghani@ucdavis.edu](vhaghani@ucdavis.edu), and I will get back to you as soon as possible.
+Feel free to contact me at [vhaghani@health.ucdavis.edu](vhaghani@health.ucdavis.edu), and I will get back to you as soon as possible.

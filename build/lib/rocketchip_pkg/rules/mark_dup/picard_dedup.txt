@@ -2,6 +2,11 @@ rule markdup:
 	input: "04_bam_files/{sample}.sorted.fixmate.bam"
 	output: "04_bam_files/{sample}.sorted.dedup.bam"
 	log: "00_logs/{sample}_sam_markdup.log"
+	resources:
+		mem_mb = 1024 * 25, # Last number is memory in GB
+		time = 60 * 24 * 3, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	shell:
 		"""
 		picard MarkDuplicates -REMOVE_DUPLICATES true -I '{input}' -M '{wildcards.sample}.dup_metrics' -O '{output}' 2> '{log}'

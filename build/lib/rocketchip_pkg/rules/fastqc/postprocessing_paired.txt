@@ -6,5 +6,10 @@ rule fastqc_postprocessing:
 		"02_fastqc_analysis/{sample}.sorted.dedup_fastqc.zip"
 	log:
 		"00_logs/{sample}_fastqc_postprocessing.log"
+	resources:
+		mem_mb = 1024 * 16, # Last number is memory in GB
+		time = 60 * 24 * 1, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	shell:
 		"fastqc '{input}' --outdir 02_fastqc_analysis/ 2> '{log}'"
