@@ -5,5 +5,10 @@ rule link_reads:
 	input: get_path
 	output: "01_raw_data/{sample}.fastq.gz"
 	log: "00_logs/{sample}_link_reads.log"
+	resources:
+		mem_mb = 1024 * 5, # Last number is memory in GB
+		time = 60 * 24 * 1, # Last number is days
+		#account = "publicgrp", # Placeholder for SLURM submission
+		#partition = "high", # Placeholder for SLURM submission
 	shell:
 		"ln -sf '{input}' '{output}' 2> '{log}'"
