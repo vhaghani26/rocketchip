@@ -35,7 +35,6 @@ parser.add_argument('--version', action='version', version=f'%(prog)s {get_versi
 # Fix SSL Certificate bug (https://stackoverflow.com/questions/27835619/urllib-and-ssl-certificate-verify-failed-error, https://stackoverflow.com/questions/35569042/ssl-certificate-verify-failed-with-python3)
 context = ssl._create_unverified_context()
 
-
 ###############
 ## Functions ##
 ###############
@@ -239,7 +238,7 @@ def main():
     config = None
     with open(arg.configfile, 'r') as yamlfile: config = yaml.safe_load(yamlfile)
     (GENOME_NAME, GENOME_LOCATION, READTYPE, PEAKTYPE,
-    ALIGNER, DEDUPLICATOR, PEAKCALLER, CONTROL, THREADS) = read_config(config)
+    ALIGNER, DEDUPLICATOR, PEAKCALLER, CONTROL, THREADS, molecule) = read_config(config)
 
     #######################
     ## Genome Management ##
@@ -287,6 +286,13 @@ def main():
                     if readtype != READTYPE:
                         sys.exit(f'Inconsistent read type...\n{read_name} has type: {readtype} while config file input is Readtype: {READTYPE}')
                     sys.stderr.write(f'{read_name} has read type: {readtype}\n')
+                    
+                    if group not in sample_reads:
+                        sample_reads[group] = {}
+                    sample_reads[group][read_name] = {
+                        'forward': f'SRA: {read_name}',
+                        'reverse': f'SRA: {read_name}' if readtype == 'paired' else None}
+                    
                     sra.append(read_name)
                     continue
                     
@@ -382,6 +388,21 @@ def main():
                 sys.exit(f'Error: pepr must read in at least 2 sample replicates per experiment group and at least 1 control sample; {num_samples} sample(s) provided in experiment group \'{spl_group}\'')
         if config['Reads']['Controls'] is None:
             sys.exit(f'Error: pepr must read in at least 2 expriment replicates per experiment group and at least 1 control sample; 0 control provided')
+
+    #########################################
+    ## Check for molecule/aligner mismatch ##
+    #########################################
+    
+    if molecule == 'RNA' and ALIGNER != 'STAR':
+        print("\n" + "!"*80)
+        print("WARNING: You've specified Molecule: RNA but selected", ALIGNER, "as your aligner.")
+        print("For RNA, it's strongly recommended to use the STAR aligner.")
+        print("!"*80 + "\n")
+        
+        proceed = input("Do you want to continue with the current aligner? (y/n) ").lower()
+        if proceed not in ('y', 'yes'):
+            print("Exiting as requested. Please update your config file to use STAR for RNA data.")
+            sys.exit(1)
 
     ######################
     ## Make Snake Rules ##
